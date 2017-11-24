@@ -103,29 +103,30 @@ git remote show origin          show repo’s url
 ```
 
 ### QUICK GUIDE
-* make a new repo:
+make a new repo:
+
 ```
-    git init
-    git remote add origin https://github.com/adnammit/yourRepo.git
-    git add .
-    git commit -m "initialized repo"
-    git push origin master
+git init
+git remote add origin https://github.com/adnammit/yourRepo.git
+git add .
+git commit -m "initialized repo"
+git push origin master
 ```
 
-* working with an existing repo:
+working with an existing repo:
 ```
-    git pull origin master
-    git add .
-    git commit -m "updates foo"
-    git push origin master
+git pull origin master
+git add .
+git commit -m "updates foo"
+git push origin master
 ```
 
 ### STASHING
 ```
-	git stash list
-	git stash pop <name>
-    git stash show <stashname>    show stash <name> w/out popping
-	git stash show -p             show most recent stash
+git stash list
+git stash pop <name>
+git stash show <stashname>    show stash <name> w/out popping
+git stash show -p             show most recent stash
 ```
 
 ## PL GIT
