@@ -67,6 +67,21 @@ $ history           spits out the contents of .bash_history in a nice, legible f
 
 
 ## GENERAL COMMANDS:
+
+|command|notes|
+|:--|:--|
+|`cd`|use '$ cd -' to cd into the previous directory|
+|`!!`|repeat the last command|
+|`!xyz`|repeat the last command that started with 'xyz'|
+|`!xyz:p`|print the last command that started with 'xyz' (then do !! to execute)|
+|`bg/fg`|bring a suspended process to the background/foreground|
+|`[command] $_`|take the last arg of the last command (or the command before it if the last one had no args) and use it as the arg for the current command|
+
+
+
+
+
+
 ```
 cd                              use '$ cd -' to cd into the previous directory
 
@@ -142,8 +157,8 @@ sort -u foo.txt                 print a list of unique sorted lines in foo.txt
 ```
 
 
-SYS ADMIN-Y STUFF
-----------------------------------------------------------------------------------------------
+## SYS ADMIN-Y STUFF
+```
 env	    		set and print environment
 
 file	    	    	determine file type
@@ -181,6 +196,14 @@ which foo		displays the origin of foo (whether it is in /usr/bin, is an alias, e
 
 sudo find / -size +2000000 -print
     	    	  	find all files larger than 2 gigs
+
+```
+
+
+|command|notes|
+|:--|:--|
+|`chmod -R og+rx foo`|recursively chmod all files in dir foo|
+
 
 
 

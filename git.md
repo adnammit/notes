@@ -72,6 +72,7 @@ git clone <repository address>  fetch a repository you don’t yet have from rem
 git checkout                    switch between branches you already have
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git checkout -- foo             restore foo, which you accidentally deleted
+git checkout foo.txt            checkout foo.txt, discarding current changes
 git branch -a                   view branch info
 git branch -d foo               delete branch foo (say you’re done with foo, it’s merged back into master)
 git branch -D foo               force remove w/out merging
@@ -131,6 +132,8 @@ git stash show -p             show most recent stash
 
 ## PL GIT
 * we use many custom tools for git -- they’re located in /usr/local/lib/pl_tools/bin
+* update tools with `git tools update`
+* to roll out `__web__` use `roll_out site`
 
 ## USING GIT
 export GIT_EDITOR=vim (or whatever editor you’d like) in .bashrc
@@ -187,7 +190,7 @@ A snapshot is changes made to a file plus pointers to unchanged files
 * supposing the file has been pushed, remove from the repo with `$ git rm --cached my_file`
 * scrub the file from past commits by finding the SHA-1 for the first commit of the file and then doing:
 ```
-  $ git filter-branch -f --index-filter \ "git update-index --remove my_file" b8b53f2^..HEAD
+  $ git filter-branch -f --index-filter \ "git update-index --remove my_file" b8b53f2^..HEAD"
   $ git push --force --verbose --dry-run
   $ git push --force
 ```
