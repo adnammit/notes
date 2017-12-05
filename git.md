@@ -73,7 +73,7 @@ git checkout                    switch between branches you already have
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git checkout -- foo             restore foo, which you accidentally deleted
 git checkout foo.txt            checkout foo.txt, discarding current changes
-git branch -a                   view branch info
+git branch [-a]                 view branch info (-a: all repos, not just local)
 git branch -d foo               delete branch foo (say you’re done with foo, it’s merged back into master)
 git branch -D foo               force remove w/out merging
 git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
@@ -90,6 +90,8 @@ git rm foo                      remove local and remote
 git rm --cached foo             remove foo from remote
 git log                         see previous commits
 git log --follow foo            see history of foo
+git grep -I <pattern>           search files for pattern (-I excludes binaries)
+git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
 git diff --cached               show what is about to be committed
 git diff --name-status A..B     name and status of files that differ between branch A and head of B
@@ -113,7 +115,6 @@ git add .
 git commit -m "initialized repo"
 git push origin master
 ```
-
 working with an existing repo:
 ```
 git pull origin master
@@ -131,9 +132,13 @@ git stash show -p             show most recent stash
 ```
 
 ## PL GIT
-* we use many custom tools for git -- they’re located in /usr/local/lib/pl_tools/bin
+* we use many custom tools for git -- they’re located in `/usr/local/lib/pl_tools/bin`
 * update tools with `git tools update`
 * to roll out `__web__` use `roll_out site`
+* delete a branch with `git branch -d <name>`
+    - this has extra goodness in it to remove the repo site as well
+* view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
+
 
 ## USING GIT
 export GIT_EDITOR=vim (or whatever editor you’d like) in .bashrc

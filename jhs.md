@@ -15,10 +15,14 @@ __maint__/plscript __maint__/client/jhs/process_flow_request.pls jhs 28.25 28.26
 | CI | FILES | notes |
 |:--:|:--|:--|
 ||web/forms/jhs/opportunity_request_fields | remove business impact, add hard and soft dollars |
-||web/forms.auth|whitelist any server with 'repo' in it |
-||web/custom_org.dat|add repo to server/org parsing|
-||web/forms/jhs/opportunity_request|debugging|
+|no|web/forms/make_dollar_field.dat|new dollar field |
+|no|web/forms/html.dat|add dollar field |
+|no|web/forms/make_fields.dat|add dollar field |
+||client/jhs/opportunity_request_fields|remove business impact, add hard and soft dollars |
+|no|web/forms/jhs/opportunity_request|debugging|
 
+
+### problem: why does make_fields.dat make a field and not a dollar_field??
 
 roll_out ppm_lite process_flow db pt pm pl_pm min_site common pl_plugin bpa site site_dat
 
