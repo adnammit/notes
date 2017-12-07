@@ -9,13 +9,19 @@
     * figure out a way to give user (at least) read access the project
 * check this for a client who has permissions but doesn't have a defined Active state (Wellmont)
 
+### TO DO: change visn9 and wellmont's cust_launch files too
+
+### *** RELEASE: run jhs script for Active state
+
+### request permissions:
+* buttons are enabled/disabled via Request_dialog's check on Check_request_write
+
+
 | CI | FILES | notes |
 |:--:|:--|:--|
 ||process_flow/On_proj_launch_func | fix typo, add perms for curr user to the new project |
-||common/requests/Request_customize_launch  | source perms differently, fix perms check    |
+||common/requests/Request_customize_launch  | source perms differently, fix perms check and make sure we default to a project we actually have write access to   |
 ||wellmont/Request_customize_launch  |   ""      |
 ||visn9/Request_customize_launch  |   ""      |
 ||maint/client/jhs/gov_reqs/Active_state|I called this "Approved", not "Active" -__-|
 |n/a|common/team/project_permissions|this is how you do an add permissions thing|
-
-** RELEASE: run jhs script for Active state

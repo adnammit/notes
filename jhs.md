@@ -19,18 +19,11 @@ __maint__/plscript __maint__/client/jhs/process_flow_request.pls jhs 28.25 28.26
 |no|web/forms/html.dat|add dollar field |
 |no|web/forms/make_fields.dat|add dollar field |
 ||client/jhs/opportunity_request_fields|remove business impact, add hard and soft dollars |
+||client/jhs/opportunity_request_view|ignore project lock for permissions check, try to check for printing but it no work |
+||common/layout/make_dollar_field|vtm field doesn't have a money filter when it's on the web -- why?|
 |no|web/forms/jhs/opportunity_request|debugging|
 
 
 ### problem: why does make_fields.dat make a field and not a dollar_field??
 
 roll_out ppm_lite process_flow db pt pm pl_pm min_site common pl_plugin bpa site site_dat
-
-
-
-### visn9 transfer thing
-
-| CI | FILES | notes |
-|:--:|:--|:--|
-||clinical_cancellation_actions|add to Transfer exclude|
-|n/a|request_dialog|check for write access -- write access granted|

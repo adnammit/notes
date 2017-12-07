@@ -93,20 +93,6 @@ bg/fg                           bring a suspended process to the background/fore
 
 [command] $_                    take the last arg of the last command (or the command before it if the last one had no args) and use it as the arg for the current command
 
-exec foo                        replace the shell with the given command.
-                                use '$ exec bash' to reload your config files and replace your current instance of bash with a new one (but maybe not -- not all config files are loaded w/ exec bash)
-               close your exec command with ; or + depending on the behavior you want:
-			   \; -- execute the command once per argument
-			   \+ -- pass in all args
-
-			      $ find -name "*oo*" -exec echo {} \+
-			      > soon balloon pantaloon
-
-			      $ find -name "*oo*" -exec echo {} \;
-			      > soon
-			      > balloon
-			      > pantaloon
-
 rdiff                           diff RCS versions
 diff file1 file2
     -y                          view output in two columns
@@ -154,6 +140,23 @@ sed ‘s|night|day|’ foo.txt      can also be pipe-delimited -- other delimite
 sort -u foo.txt                 print a list of unique sorted lines in foo.txt
 
 ./                              execute
+
+
+exec foo                        replace the shell with the given command.
+                                use '$ exec bash' to reload your config files and replace your current instance of bash with a new one (but maybe not -- not all config files are loaded w/ exec bash)
+
+close your exec command with ; or + depending on the behavior you want:
+\; -- execute the command once per argument
+\+ -- pass in all args
+
+			      $ find -name "*oo*" -exec echo {} \+
+			      > soon balloon pantaloon
+
+			      $ find -name "*oo*" -exec echo {} \;
+			      > soon
+			      > balloon
+			      > pantaloon
+
 ```
 
 
@@ -200,15 +203,8 @@ sudo find / -size +2000000 -print
 ```
 
 
-|command|notes|
-|:--|:--|
-|`chmod -R og+rx foo`|recursively chmod all files in dir foo|
-
-
-
-
-SEARCHING:
-----------------------------------------------------------------------------------------------
+## SEARCHING:
+```
 find    -[i]name	by name [case insensitive]
 	-[i]regex	search using [case insensitive] regexes
 	-perm		/u+w
@@ -244,11 +240,11 @@ pgrep	    		search processes
 zgrep	    		zgrep, zegrep and zfgrep act like grep, egrep and fgrep respectively
 zegrep	    		but accept compressed input files
 zfgrep
+```
 
 
-
-READERS
-----------------------------------------------------------------------------------------------
+## READERS
+```
 
 less	       		simple text viewer
 	+F		view page dynamically
@@ -267,42 +263,44 @@ tail
 	-f		view dynamic content (less +F is probably better)
 
 bzless			view bzfiles
+```
 
 
 
 
+## CIRCUMFLEX HATS
 
-CIRCUMFLEX HATS
-----------------------------------------------------------------------------------------------
-o use circumflex hats (^) to re-execute the previous command with an alteration.
-o you might want to do this if you typed a long command with an error, or if you need to repeat self-similar
- commands
-o example:
-		$ emacs .xdefaults &		// creates a new file
-		$ ^x^X		   		// opens the correct file
-o or how about
-		$ cp foo.txt my/very/long/dir/path/
-		$ ^foo^bar				copy both foo and bar.txt to the same complex dir
-
-
-
-REGEXES
-----------------------------------------------------------------------------------------------
-Vocabulary:
-Literal: literally the string we want to find, the ‘ing’ in ‘finger’
-Metacharacter: a special character whose meaning is not taken literally (the circumflex hat ^ for example)
-Target string: the string in which we are searching for our pattern
-Search (regular) expression: combination of literals and metacharacters used to find our match
-Escape sequence: used to indicate that we want to use the literal value of one of our metacharacters. The escape metacharacter is \
-Metacharacters:
-[] 	match anything inside brackets for one character position, once and only once
--	range separator indicating a range, such as [0-9]. Can include multiple ranges, such as [0-9A-C]
-^	the circumflex inside square brackets selects the complement of its associated literal. For example, [^fF] would match with anything but f or F.
+* use circumflex hats (^) to re-execute the previous command with an alteration.
+* you might want to do this if you typed a long command with an error, or if you need to repeat self-similar commands
+* example:
+```bash
+    $ emacs .xdefaults &        // creates a new file
+	$ ^x^X                      // opens the correct file
+```
+* or how about
+```bash
+    $ cp foo.txt my/very/long/dir/path/
+    $ ^foo^bar				   // copy both foo and bar.txt to the same complex dir
+```
 
 
+## REGEXES
 
-SHORTCUTS
-----------------------------------------------------------------------------------------------
+* Vocabulary:
+    - Literal: literally the string we want to find, the ‘ing’ in ‘finger’
+    - Metacharacter: a special character whose meaning is not taken literally (the circumflex hat ^ for example)
+    - Target string: the string in which we are searching for our pattern
+    - Search (regular) expression: combination of literals and metacharacters used to find our match
+    - Escape sequence: used to indicate that we want to use the literal value of one of our metacharacters. The escape metacharacter is \
+* Metacharacters:
+    - \[\*\] 	match anything inside brackets for one character position, once and only once
+    - \- range separator indicating a range, such as [0-9]. Can include multiple ranges, such as [0-9A-C]
+    - ^	the circumflex inside square brackets selects the complement of its associated literal. For example, [^fF] would match with anything but f or F.
+
+
+
+## SHORTCUTS
+```
 ctrl+z			suspend a process with SIGSTOP which cannot be intercepted by the process
 
 ctrl+c			kill a process with SIGINT, which can be intercepted by the process (which allows it to clean
@@ -322,11 +320,11 @@ ctrl+y			yank (paste) the buffer contents at the cursor
 
 ctrl+r			search back through bash_history for a match (eg $ ^r grep)
 			hitting ^r again will cycle through the results
+```
 
 
-
-LINKS
-----------------------------------------------------------------------------------------------
+## LINKS
+```
 
 ln /dir/file link_name	creates a hard link to file. note that link_name cannot contain a dir path.
   	     		delete hard link with rm. data will still be in dir/file.
@@ -337,42 +335,44 @@ ln -s <source> <dest>	create a (soft) symbolic link. dest may contain a path.
 			deleting the source data leaves the link broken.
 
 unlink foo		like rm for symlinks, w/out the implication of deleting its 'contents'
+```
 
 
 
+## CHMODDING!
 
-CHMODDING!
-----------------------------------------------------------------------------------------------
-format:
+* format:
+```
    [d][r][w][x][r][w][x][r][w][x]
    [directory?][user: rwx][group: rwx][all: rwx]
-users:
-   u: user. owner of the file
-   g: group. users who are members of the file's group
-   o: others. users who are neither.
-   a: all. everyone.
-operators:
-   +
-   -
-   =
-modes:
-   r: read or list
-   w: write
-   x: execute or recurse a directory tree
-   X: special execute.
-   s: setuid/gid
-   t: sticky
-view permissions with ls -l filename.txt
-examples:
+```
+* users:
+    - u: user. owner of the file
+    - g: group. users who are members of the file's group
+    - o: others. users who are neither.
+    - a: all. everyone.
+* operators:
+    - +
+    - -
+    - =
+* modes:
+    - r: read or list
+    - w: write
+    - x: execute or recurse a directory tree
+    - X: special execute.
+    - s: setuid/gid
+    - t: sticky
+* view permissions with `ls -l filename.txt`
+* examples:
+```
    chmod a+w filename.txt	everyone can write
    chmod ug=rx reference.txt	user and group can read and execute only
    chmod a-w file.txt		no one can write
    chmod +x file.txt		everyone can execute
-directories:
- the group can add files:
+```   
+* directories:
+    - the group can add files:
+```    
    ls -ld shared_dir  -->   drwxr-xr-x
    chmod g+w shared_dir --> drwxrwxr-x
-
-
-
-Key-gen -rsa
+```
