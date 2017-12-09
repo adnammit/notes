@@ -72,14 +72,17 @@ git clone <repository address>  fetch a repository you don’t yet have from rem
 git checkout                    switch between branches you already have
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git checkout -- foo             restore foo, which you accidentally deleted
-git checkout foo.txt            checkout foo.txt, discarding current changes
+git checkout bar.txt            checkout file from branch remote, discarding local changes
+git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
 git branch [-a]                 view branch info (-a: all repos, not just local)
 git branch -d foo               delete branch foo (say you’re done with foo, it’s merged back into master)
 git branch -D foo               force remove w/out merging
 git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
 git init                        initialize new project
 git fetch                       get other people’s checked-in changes w/out merging into yours
-git merge                       combine one branch with another
+git merge foo                   merge foo into your current branch
+git merge --squash foo          merge foo into your current branch with one commit
+git merge --no-ff foo           merge foo into your current branch with one commit but retain entire history of the
 git pull		                fetch + merge
 git status                      show current state of your repo
 git add foo                     add foo to files to be committed
@@ -131,14 +134,57 @@ git stash show <stashname>    show stash <name> w/out popping
 git stash show -p             show most recent stash
 ```
 
-## PL GIT
+# PL GIT
 * we use many custom tools for git -- they’re located in `/usr/local/lib/pl_tools/bin`
 * update tools with `git tools update`
 * to roll out `__web__` use `roll_out site`
 * delete a branch with `git branch -d <name>`
     - this has extra goodness in it to remove the repo site as well
+
+### EMACS:
 * view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
 
+### WORKFLOW:
+```
+$ git co master
+$ git pull
+$ git co roll
+$ git rebase master
+$ git co f1
+$ git rebase roll
+
+  // do some work in f1
+
+$ git add -A
+$ git commit -m "message"
+
+  // do some more work, add/commit again
+
+$ git co roll
+$ git merge --no-ff f1              // or --squash
+$ git commit  
+
+  // do some more testing, more edits, add/commit if needed
+
+$ git co master
+$ git merge --squash roll
+$ git commit  
+
+  //reset branch for another purpose:
+
+$ git co f1
+$ git reset --hard master
+```
+
+### SET UP A WEBSITE:
+```
+$ git co -b f4                      // create a new branch
+$ roll_out site
+$ roll_out min_site                 // remember you can't have VS open to roll pl_app
+$ roll_out <whatever pkgs>
+$ roll_out min_site
+$ ./build/copy_org perflogic        // do each TWICE, one at a time
+```
 
 ## USING GIT
 export GIT_EDITOR=vim (or whatever editor you’d like) in .bashrc
