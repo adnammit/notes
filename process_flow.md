@@ -1,6 +1,7 @@
 # PROCESS FLOW
 
 ### 107: USER CAN LAUNCH PROJECT FROM REQUEST USER CAN'T OPEN
+#### --- roll
 * megan says: any user with write access to the request folder can launch a project from a request
     * shouldn't they be restricted by permission to that state?
     * if there is no Active state defined, there are probably not any permissions on them, so anyone can re-launch
@@ -9,13 +10,7 @@
     * figure out a way to give user (at least) read access the project
 * check this for a client who has permissions but doesn't have a defined Active state (Wellmont)
 
-### TO DO: WHY IS ALR-ROLL NOT ADDING USER TO OTHER PERMS?
-
-### *** RELEASE: run jhs script for Active state
-
-### request permissions:
-* buttons are enabled/disabled via Request_dialog's check on Check_request_write
-
+#### *** RELEASE: run jhs script for Active state
 
 | CI | FILES | notes |
 |:--:|:--|:--|
@@ -23,5 +18,6 @@
 ||common/requests/Request_customize_launch  | source perms differently, fix perms check and make sure we default to a project we actually have write access to   |
 |nvm|wellmont/Request_customize_launch  |   ""      |
 ||visn9/Request_customize_launch  |   ""      |
-||maint/client/jhs/gov_reqs/Active_state|I called this "Approved", not "Active" -__-|
-|n/a|common/team/project_permissions|this is how you do an add permissions thing|
+|x|maint/client/jhs/gov_reqs/Active_state|I called this "Approved", not "Active" -__-|
+|x|common/team/project_permissions|this is how you do an add permissions thing. fix whitespace and such|
+|x|common/team/project_permissions_other_columns|this is how you do an add permissions thing. fix whitespace and such|

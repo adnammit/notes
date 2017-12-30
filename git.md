@@ -168,7 +168,8 @@ $ git commit
 
 $ git co master
 $ git merge --squash roll
-$ git commit  
+$ git commit
+$ git push
 
   //reset branch for another purpose:
 
@@ -182,7 +183,6 @@ $ git co -b f4                      // create a new branch
 $ roll_out site
 $ roll_out min_site                 // remember you can't have VS open to roll pl_app
 $ roll_out <whatever pkgs>
-$ roll_out min_site
 $ ./build/copy_org perflogic        // do each TWICE, one at a time
 ```
 

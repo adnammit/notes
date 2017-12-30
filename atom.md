@@ -1,5 +1,11 @@
 # ATOM COMMANDS
 ---
+
+### TO DO:
+* kill only kills the current line, not wrapped text
+* find and replace sucks
+* autocomplete sucks
+
 ### GENERAL SHORTCUTS
 
 ```
@@ -12,7 +18,8 @@ C-shift-p       Command Palette
 C-shift-i       developer tools
 C-t             open fuzzy finder
 Alt-t           toggle tree view
-C-k <dir>       split pane up/down/right/left
+C-u <dir>       split pane up/down/right/left
+C-u C-<dir>     move focus to pane
 ```
 
 ## NAVIGATION
