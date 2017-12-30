@@ -162,9 +162,6 @@ close your exec command with ; or + depending on the behavior you want:
 
 ## SYS ADMIN-Y STUFF
 ```
-compgen -u                      display all users (-g for all groups)
-
-
 env	    		set and print environment
 
 file	    	    	determine file type
