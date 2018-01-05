@@ -90,9 +90,9 @@ git add .                       stage all files in current dir and subdirs for c
 git add -A                      add entire working branch to stage
 git reset                       clear everything you added
 git rm foo                      remove local and remote
-git rm --cached foo             remove foo from remote
+git rm --cached foo.txt         remove foo from remote
 git log                         see previous commits
-git log --follow foo            see history of foo
+git log --follow foo.txt        see history of file foo
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
