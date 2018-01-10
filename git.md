@@ -89,6 +89,7 @@ git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
 git reset                       clear everything you added
+git reset --hard master         clear everything and make the branch identical to master
 git rm foo                      remove local and remote
 git rm --cached foo.txt         remove foo from remote
 git log                         see previous commits
@@ -96,7 +97,7 @@ git log --follow foo.txt        see history of file foo
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
-git diff --cached               show what is about to be committed
+git diff --cached               show diff of staged, uncommitted changes
 git diff --name-status A..B     name and status of files that differ between branch A and head of B
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
 git commit                      prep files to be committed
@@ -129,9 +130,15 @@ git push origin master
 ### STASHING
 ```
 git stash list
-git stash pop <name>
-git stash show <stashname>    show stash <name> w/out popping
-git stash show -p             show most recent stash
+git stash                       stash all your current changes
+git stash push <file>           stash only one file
+git stash -u                    include untracked files
+git stash push -u -m "message"  manually push everything onto the stack with message
+git stash pop <file>            remove <file> from stash and apply it to the branch
+git stash pop 2                 pop the item in index 2
+git stash apply <file>          apply <file> to the branch w/out removing it from the stash
+git stash show <stashname>      show stash <stashname> w/out popping
+git stash show -p               show most recent stash
 ```
 
 # PL GIT
@@ -144,7 +151,7 @@ git stash show -p             show most recent stash
 ### EMACS:
 * view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
 
-### WORKFLOW:
+### PL WORKFLOW:
 ```
 $ git co master
 $ git pull
@@ -187,27 +194,37 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 ```
 
 ## USING GIT
-export GIT_EDITOR=vim (or whatever editor you’d like) in .bashrc
-the repository is a snapshot of your projects
-git init initializes a new project
-git show: look at a repo
-man git-<command>
-rm -rf .git -- nuke the history
-stage change: lining up changes to upload to the repository
-touch foo  -and then-  git add foo
-making a commit:
-snapshot of changes, author, date, committer, parent commit
-author and committer are differentiated
-git commit || man git-commit
-git revert <commit to revert to>
-A snapshot is changes made to a file plus pointers to unchanged files
-
+* staging: lining up changes to upload to the repository
+* making a commit: a commit is a snapshot of changes, author, date, committer, parent commit
+* author and committer are differentiated
 * remote: is a clone of more or less the same repo
     - `git remote add <name> <url>`
 * tag: marker attached to a specific
     - `git tag -l 'foo'  //list all tags with 'foo'`
 * branch: a parallel path of development starting from a commit that's in the tree
-* HEAD is the last commit in the currently checked-out branch
+* HEAD is a pointer to the last commit in the currently checked-out branch
+
+
+### HEAD VS MASTER VS ORIGIN
+* HEAD is an official notion in git, HEAD always has a well defined meaning. master and origin are common names usually used in git but they don't have to be.
+
+* **HEAD:** the current commit your repo is on.
+    - Most of the time HEAD points to the latest commit in your branch, but that doesn't have to be the case.
+    - HEAD really just means "what is my repo currently pointing at"
+    - In the event that the commit HEAD refers to is not the tip of any branch, this is called a "detached head".
+
+* **master:** The name of the default branch that git creates for you when first creating a repo.
+    - In most cases, "master" means "the main branch"
+    - Most shops have everyone pushing to master, and master is considered the definitive view of the repo. But it's also common for release branches to be made off of master for releasing.
+    - Your local repo has its own master branch, that almost always follows the master of a remote repo.
+
+* **origin:** The default name that git gives to your main remote repo
+    - Your box has its own repo, and you most likely push out to some remote repo that you and all your coworkers push to.
+    - That remote repo is almost always called origin, but it doesn't have to be.
+
+
+
+
 
 ### MERGING VS REBASING
 * merge: combining branches together

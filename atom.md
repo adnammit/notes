@@ -19,7 +19,8 @@ C-shift-i       developer tools
 C-t             open fuzzy finder
 Alt-t           toggle tree view
 C-u <dir>       split pane up/down/right/left
-C-u C-<dir>     move focus to pane
+C-u C-<dir>     move focus to <dir> pane
+alt-o           move focus to next pane
 ```
 
 ## NAVIGATION
