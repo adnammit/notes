@@ -1,6 +1,17 @@
 
 # TO DO
 
+## F1 >> EMPTY
+
+## F2 >> PF 107: LAUNCHED REQUEST PERMISSIONS
+
+## F3 >> PF 79: WEB FORM WIDTHS
+
+### NEW STUFF:
+testwc: display everything i did for test this week
+diws: diff ignoring whitespace, newlines and comments
+
+
 ### BASH STUFF
 
 * add a script to backup changes to ~/backup or dev-lnx (like denny's good_morning)
@@ -20,4 +31,6 @@
 
 ### RELEASE 1/11
 
-* common, 
+* common
+* process_flow
+* web/: lib, maint, web, app

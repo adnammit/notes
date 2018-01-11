@@ -6,7 +6,7 @@
 
 BASH COMMANDS:
 ----------------------------------------------------------------------------------------------
-.	
+.
 :
 [
 alias
@@ -62,16 +62,16 @@ BASH SCRIPTING:
       filenames, commands and args
     - redirection performed if necessary
     - commands are executed
-    - optionally the shell waits for the command to complete and collects exit 
+    - optionally the shell waits for the command to complete and collects exit
       status.
 * a simple shell command is a command followed by a line of args
-* a more complex command may consist of: 
+* a more complex command may consist of:
     - a pipeline in which the output of one becomes the input of the second
     - a loop or conditional construct
 * functions are executed in present shell context -- no new process is created
   to interpret them
 * permissions: your script must have the correct permissions to run.
-    - view perms with 
+    - view perms with
 	ls -l script.sh
     - try a line like:
 	chmod u+x script.sh
@@ -95,11 +95,11 @@ VARIABLES:
 * print the variable:
       echo $VARNAME
 * using unset will release those value names
-      unset VARNAME 
+      unset VARNAME
 * environment variables: vars which have been exported to a subshell.
     - setting and exporting usually happen together:
       export VARNAME="value"
-    - if a variable is modified in the subshell, the value is not effected in 
+    - if a variable is modified in the subshell, the value is not effected in
       the parent
 * 'export' keyword:
     - when a variable is declared, it is put into the environment of the current running script (bash session)
@@ -116,7 +116,7 @@ PARAMETERS
 o parameters that are passed into a bash script are handled in the same way as defined variables -- that is,
   they can be referenced with dollar sign notation: $2 dereferences the 2nd parameter.
 o the first parameter (0) is name of the script or program
-o parameters containing spaces or special charactes should be passed with single or double quotes
+o parameters containing spaces or special characters should be passed with single or double quotes
 o referencing parameters:
   	      0,1,2...		the nth parameter
 	      * 		positional parameters starting with 1
@@ -131,7 +131,7 @@ MATHEMATICAL EXPRESSIONS:
 * are expressed with double parens:
     $((VAR1 + 3)) will return the sum of $VAR1 and 3
     $((number%3)) will return the modulus of the number divided by 3
-* anything other than 0 is evaluated as false. 
+* anything other than 0 is evaluated as false.
 
 
 
@@ -144,19 +144,19 @@ FOR, IF THEN'S:
 * the syntax is as follows:
     for VARIABLE in RANGE; do COMMAND done
 * this prints out numbers one through one hundred:
-    for number in {1..100}; do 
-	echo $number 
+    for number in {1..100}; do
+	echo $number
     done
-* as does this one: 
+* as does this one:
     for number in {1..100}
-    do 
+    do
 	echo $number
     done
 * for/if then's could look something like:
-    for VARIABLE in RANGE; do 
-	if 
+    for VARIABLE in RANGE; do
+	if
 	then
-	    COMMAND 
+	    COMMAND
 	else
 	    COMMAND
 	fi
@@ -164,17 +164,17 @@ FOR, IF THEN'S:
 * or it could be:
     for ; do
 	if ; then
-	elif ; then 
+	elif ; then
 	else
-	fi 
+	fi
     done
 * or we could have:
     for ; do
-	if ; then 
-	fi 
-	if ; then 
-	fi 
-	if ; then 
+	if ; then
+	fi
+	if ; then
+	fi
+	if ; then
 	else
 	fi
     done
