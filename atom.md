@@ -36,6 +36,8 @@ Ctrl-e          move to end of line
 Ctrl-shift-a	select to beginning of line
 Ctrl-shift-e	select to end of line
 alt-g           go to line
+C-alt-[         fold block
+C-alt-]         unfold block
 ```
 
 ## EDITING:
