@@ -107,6 +107,8 @@ git push --force --verbose --dry-run
 git push -u origin <branch>     push your branch to remote and set tracking info for your branch to push/pull from origin
 git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
+git rev-parse HEAD              show hash of HEAD (or whatever branch)
+git merge-base foo bar          get the last common commit between two branches
 ```
 
 ### QUICK GUIDE
@@ -128,11 +130,21 @@ git push origin master
 ```
 
 ### STASHING
+* git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
+* to get around this, we use `stashing`
+```bash
+    git stash
+    git co f3
+    //do work on f3
+    git co f4
+    git stash pop
+```
+
 ```
 git stash list
 git stash                       stash all your current changes
-git stash push <file>           stash only one file
 git stash -u                    include untracked files
+git stash push <file>           stash only one file
 git stash push -u -m "message"  manually push everything onto the stack with message
 git stash pop <file>            remove <file> from stash and apply it to the branch
 git stash pop 2                 pop the item in index 2

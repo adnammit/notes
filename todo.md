@@ -2,17 +2,12 @@
 # TO DO
 
 #### F1 [data] >> PF 119: PDF LOCATION
-* last 7 commits: done
 
 #### F2 [link] >> PF 107: LAUNCHED REQUEST PERMISSIONS
-* last 7 commits: done
 
-#### F3 [link] >> PF 79: WEB FORM WIDTHS
-* last 7 commits: done
+#### F3 [data for ashland] >> PF 79: WEB FORM WIDTHS, ASHLAND FORMS
 
-#### F4 [data] >> PF 42: RESPECT REQUIRED FIELDS IN REQUEST SUBMISSION IN TOOL
-* last 7 commits: done
-
+#### F4 [data for jhs, epsg, baybluffs] >> PF 42: RESPECT REQUIRED FIELDS IN REQUEST SUBMISSION IN TOOL
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -25,6 +20,7 @@ find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
 sync_client_data: copy data for multiple clients
 roll_changed: roll what's changed between master and master's parent
+   --- check -- idk if we should use this
 `git lg4` is the nicest i think
 
 ### BASH STUFF
@@ -37,6 +33,7 @@ roll_changed: roll what's changed between master and master's parent
 ### ATOM
 * make find-replace better
 * get git-blame to work
+* use swirly font for comments
 
 
 ### GIT

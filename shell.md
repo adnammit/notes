@@ -162,43 +162,43 @@ close your exec command with ; or + depending on the behavior you want:
 
 ## SYS ADMIN-Y STUFF
 ```
-env	    		set and print environment
+env                             set and print environment
 
-file	    	    	determine file type
+file                            determine file type
 
-df	    		display free disk space
+df                              display free disk space
 
-du	    		estimate file space usage
-			for a nice, useful output try '$ du -sh * | sort -h'
+du                              estimate file space usage
+                                for a nice, useful output try '$ du -sh * | sort -h'
 
-top			view processes
+top                             view processes
 
-top -u [username]	view processes for one user
+top -u [username]               view processes for one user
 
-pgrep			find processes
+pgrep                           find processes
 
-ps aux 	    		view processes (aux == all users)
+ps aux                          view processes (aux == all users)
 
-ps -u [username]	view processes for one user
+ps -u [username]                view processes for one user
 
-ps -elf			another way
+ps -elf                         another way
 
-kill [PID]		attempt to stop process with a given PID by sending TERM signal
-       -KILL		attempt to kill process with KILL signal
-	-9		same as -KILL
-	-l		list all possible signals to send
+kill [PID]                      attempt to stop process with a given PID by sending TERM signal
+    -KILL                       attempt to kill process with KILL signal
+	-9                          same as -KILL
+	-l                          list all possible signals to send
 
-killall firefox		kill all instances of firefox
+killall firefox                 kill all instances of firefox
 
-chmod			change file modes or access control lists - see extensive instructions below
-chown			change owner and group
+chmod                           change file modes or access control lists - see extensive instructions below
+chown                           change owner and group
 
-uptime			prints how long the system has been running
+uptime                          prints how long the system has been running
 
-which foo		displays the origin of foo (whether it is in /usr/bin, is an alias, etc)
+which foo                       displays the origin of foo (whether it is in /usr/bin, is an alias, etc)
 
 sudo find / -size +2000000 -print
-    	    	  	find all files larger than 2 gigs
+                                find all files larger than 2 gigs
 
 ```
 
