@@ -93,7 +93,8 @@ git reset --hard master         clear everything and make the branch identical t
 git rm foo                      remove local and remote
 git rm --cached foo.txt         remove foo from remote
 git log                         see previous commits
-git log --follow foo.txt        see history of file foo
+git log --follow foo.txt        see commit history of file
+git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
@@ -151,6 +152,7 @@ git stash pop 2                 pop the item in index 2
 git stash apply <file>          apply <file> to the branch w/out removing it from the stash
 git stash show <stashname>      show stash <stashname> w/out popping
 git stash show -p               show most recent stash
+git stash drop <stashname>      w/out stashname, drops most recent
 ```
 
 # PL GIT
@@ -215,6 +217,10 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
     - `git tag -l 'foo'  //list all tags with 'foo'`
 * branch: a parallel path of development starting from a commit that's in the tree
 * HEAD is a pointer to the last commit in the currently checked-out branch
+
+
+### ANATOMY OF A COMMIT
+* **SHA1**: a hash standard that takes various meta data (commit message, committer, commit date, author, authoring date, entire working directory) and generates a completely unique hash string
 
 
 ### HEAD VS MASTER VS ORIGIN

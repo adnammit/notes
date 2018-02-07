@@ -63,6 +63,8 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
 * aliases:
    - aliases should be used when you need to simply modify the behavior of a command
           `alias ls="ls --color=auto"`
+   - you can call a command without it's alias by writing it in all caps:
+          `$ LS     // calls the generic 'ls' command with no arguments of the alias`
 * functions:
    - functions are a bit more complex than aliases and may take arguments, but are not things you
      would necessarily use on your own
@@ -106,8 +108,6 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
 
 
 
-
-
 ```
 cd                              use '$ cd -' to cd into the previous directory
 
@@ -133,6 +133,8 @@ rm                              remove
 	-rf                         use with discretion! forcefully (without prompting) recursively remove all
 
 cp -r foo/. bar/                copy the contents of foo (including directories and hidden files) to bar
+
+rsync -a foo dir1/dir2/dir3/    copy file foo into the path, creating folders as needed. (don't forget closing /)
 
 mkdir -p                        make a directory. -p: no error if existing
 
@@ -203,11 +205,16 @@ top -u [username]               view processes for one user
 
 pgrep                           find processes
 
-ps aux                          view processes (aux == all users)
+ps aux                          view processes on the *system* (aside from shell internal processes)
+                                (aux == all users)
+
+ps aux | less                   view in less
 
 ps -u [username]                view processes for one user
 
 ps -elf                         another way
+
+jobs                            display jobs that the *shell* is currently managing
 
 kill [PID]                      attempt to stop process with a given PID by sending TERM signal
     -KILL                       attempt to kill process with KILL signal
@@ -227,6 +234,8 @@ sudo find / -size +2000000 -print
                                 find all files larger than 2 gigs
 
 ```
+
+
 
 
 ## SEARCHING:

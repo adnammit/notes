@@ -1,11 +1,6 @@
 # ATOM COMMANDS
 ---
 
-### TO DO:
-* kill only kills the current line, not wrapped text
-* find and replace sucks
-* autocomplete sucks
-
 ### GENERAL SHORTCUTS
 
 ```

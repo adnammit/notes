@@ -1,14 +1,12 @@
 
-----------------------------------------------------------------------------------------------
- BASH SCRIPTING!
-----------------------------------------------------------------------------------------------
+# BASH SCRIPTING!
 
 
-BASH COMMANDS:
-----------------------------------------------------------------------------------------------
+### BASIC BASH COMMANDS:
+
+``` bash
 .
 :
-[
 alias
 bind
 break
@@ -48,15 +46,16 @@ unlimit
 unmask
 unset
 
+```
 
-BASH SCRIPTING:
-----------------------------------------------------------------------------------------------
+### BASH SCRIPTING:
+
 * execution occurs through forking: the parent process pauses while the child
   process runs through the script
 * steps:
     - the shell reads in from a file or from user's terminal
     - input is broken up into words and operators separated by metacharacters
-	* alias expansion takes place
+	   * alias expansion takes place
     - the shell parses (analyzes and substitutes) the tokens into simple commands
     - bash performs various expansions, breaking expanded tokens into lists of
       filenames, commands and args
@@ -76,12 +75,12 @@ BASH SCRIPTING:
     - try a line like:
 	chmod u+x script.sh
 * if you don't want the script to start in a new shell, you source it:
-    source script_name.sh'
+    `source script_name.sh` or `. script_name.sh`
 * init scripts starts system services
 
 
-VARIABLES:
-----------------------------------------------------------------------------------------------
+### VARIABLES:
+
 * global vs local
 * types:
     - integer
@@ -107,23 +106,42 @@ VARIABLES:
     - unless! you put 'export' in front of the declaration -- this allows the variable to persist across sessions
     - which means: variables declared in your bashrc are available on the command line
 * 'source' keyword:
-    - if you run a script from the command line, any variabled defined in the script are lost when the script concludes
-    - if you run '$ source myscript.sh', variables defined in the script can be referenced after the script executes.
+    - if you run a script from the command line, any variable defined in the script are lost when the script concludes
+    - if you run `$ source myscript.sh`, variables defined in the script can be referenced after the script executes
+    - if you do not want variables to persist after the script, use the `local` keyword when declaring them.
+
+### COMPARISON OPERATORS
+
+* if you declare a variable without assigning it any value (or use an unknown variable name) and then run it through a binary comparison operator, it will yell at you
+* this is true of args as well, so it's important to check that you either check that your variable has something before putting it in a binary conditional statement, OR! put your variable reference in double quotes to essentially "cast" it as an empty string if it has no assigned value already.
+
+``` bash
+local FOO
+
+#FAILS:
+if [ ${FOO} != "" ] ; then
+    echo "foo is not equal to empty str"
+
+# RETURNS WHAT YOU'D EXPECT:
+if [ "${FOO}" != "" ] ; then
+    echo "foo is not equal to empty str"    
+
+```
 
 
-PARAMETERS
-----------------------------------------------------------------------------------------------
-o parameters that are passed into a bash script are handled in the same way as defined variables -- that is,
+### PARAMETERS
+
+* parameters that are passed into a bash script are handled in the same way as defined variables -- that is,
   they can be referenced with dollar sign notation: $2 dereferences the 2nd parameter.
-o the first parameter (0) is name of the script or program
-o parameters containing spaces or special characters should be passed with single or double quotes
-o referencing parameters:
+* the first parameter (0) is name of the script or program
+* parameters containing spaces or special characters should be passed with single or double quotes
+* referencing parameters:
   	      0,1,2...		the nth parameter
 	      * 		positional parameters starting with 1
 	      @ 		positional parameters starting with 1, if your parameters are likely to contain
 	      			embedded blanks
 	      #			the number of parameters, not including 0
-o if you have more than 9, you cannot use $10 -- you'll have to process the first param and drop it 	      
+* if you have more than 9, you cannot use $10 -- you'll have to process the first param and drop it 	      
 
 
 
