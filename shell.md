@@ -203,6 +203,8 @@ top                             view processes
 
 top -u [username]               view processes for one user
 
+htop                            top with cool graphics!
+
 pgrep                           find processes
 
 ps aux                          view processes on the *system* (aside from shell internal processes)

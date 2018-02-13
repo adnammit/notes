@@ -23,13 +23,16 @@
 ```
 testwc: display everything i did for test
 diws: diff ignoring whitespace, newlines and comments
+giff: git diff ignoring whitespace, newlines and comments
+giffns: git diff ignoring whitespace, newlines and comments; show filenames only
 linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
 sync_client_data: copy data for multiple clients
-update_dev: roll what's changed between master and master's parent
-   --- check -- idk if we should use this
+update_dev: update and roll master and the curr feature
 diff_dirs: takes 2 dirs as args, diff all files between them
+rcp: roll_changed_pkgs
+grst: grep in files named *state.dat
 ```
 
 ### BASH STUFF
@@ -55,6 +58,13 @@ diff_dirs: takes 2 dirs as args, diff all files between them
 * what is up with all this git log shit -- are there helpful aliases?
 
 
+### RELEASE 2/15
+* run scripts for issue #42 (added validate params to "Submitted" states)
+* baybluffs and epsg didn't get hit last week:
+    - epsg
+    - baybluffs
+
+
 ### RELEASE 2/8
 * common
 * process_flow
@@ -62,9 +72,7 @@ diff_dirs: takes 2 dirs as args, diff all files between them
 
 * run scripts for issue #42 (added validate params to "Submitted" states) and wellmont 184
     - jhs
-    - epsg
     - wellmont
-    - baybluffs
 
 
 

@@ -88,6 +88,7 @@ git status                      show current state of your repo
 git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
+git add -p -- foo.txt           interactively add just certain lines of a filename to the stage
 git reset                       clear everything you added
 git reset --hard master         clear everything and make the branch identical to master
 git rm foo                      remove local and remote
@@ -217,7 +218,7 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
     - `git tag -l 'foo'  //list all tags with 'foo'`
 * branch: a parallel path of development starting from a commit that's in the tree
 * HEAD is a pointer to the last commit in the currently checked-out branch
-
+* many git commands can be performed on either a branch or a file or files. Using the `--` notation explicitly tells git "hey, this is a file!" in case you have a file and a repo with the same name
 
 ### ANATOMY OF A COMMIT
 * **SHA1**: a hash standard that takes various meta data (commit message, committer, commit date, author, authoring date, entire working directory) and generates a completely unique hash string
