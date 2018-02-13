@@ -2,8 +2,10 @@
 * npm (Node Package Manager) is the default package manager for NodeJS
 * some npm functionality:
 ```
-    $ which npm                 // display version
-    $ npm list -g --depth=0     // view installed packages (-g for global - omit for local)
+    which npm                   display version
+    npm list -g --depth=0       view installed packages (-g for global - omit for local)
+    npm cache clean             clear cache
+    npm prune                   remove unneeded packages
 ```
 * should I install globally or locally?
     - if you're installing something that you want to use in your program, using require('whatever'), then install it locally, at the root of your project.
@@ -12,6 +14,7 @@
     - you can also symlink to the global install (or `npm link`?) but just installing it in both places is preferable
 * notes on installing packages with npm:
     - is npm installing in `..` rather than your `pwd`? you might need to `$ mkdir node_modules` first so npm doesn't get distracted and try to walk up the folder structure
+
 
 ### USING PACKAGE.JSON
 * why use `package.json`?

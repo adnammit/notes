@@ -129,7 +129,7 @@ this allows you to drop react components into the tree
     - Minification: removal of whitespace and comments to shrink the size of the code
 * installation and setup:
     - install `webpack-dev-server` globally
-    - install `webpack-dev-server webpack babel-core babel-loader babel-preset-es2015 babel-polyfill` locally.
+    - install `webpack-dev-server webpack babel-core babel-loader babel-preset-env babel-polyfill` locally.
     - put all your source files in a source dir (like `src`), set up your config file (below) and then run this from inside the project directory to kick it off:
         `webpack-dev-server --content-base src src/main.js`
 * webpack.config.js:

@@ -54,7 +54,11 @@ grst: grep in files named *state.dat
 * what is all this `revs` shit?
 * what is up with all this git diff shit -- are there helpful aliases?
 * what is up with all this git log shit -- are there helpful aliases?
+* set up key on github so you don't have to sign in for pushes
 
+### NODE/REACT
+* figure out how to stop `webpack-dev-server` gracefully
+* babel presets are all over the place (.babelrc, package.json, webpack config) -- where should they actually go?
 
 ### RELEASE 2/15
 * run scripts for issue #42 (added validate params to "Submitted" states)

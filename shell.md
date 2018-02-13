@@ -24,6 +24,12 @@ $ history           spits out the contents of .bash_history in a nice, legible f
 ## CYGWIN
 ```
 apt-cyg install foo         install package foo
+apt-cyg show bar            display info about a package
+apt-cyg download foo        download but do not install foo
+apt-cyg update              get a fresh copy of the master package list
+apt-cyg list                list all installed packages
+apt-cyg list baz            list all installed packages with names that match 'baz'
+apt-cyg listall baz         find all packages in the master list with names that match 'baz'
 ```
 
 ## LINUX-SPECIFIC
