@@ -100,6 +100,7 @@ git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
 git diff --cached               show diff of staged, uncommitted changes
+git diff master -- foo.txt      diff between your file (staged or not) and the version in master
 git diff --name-status A..B     name and status of files that differ between branch A and head of B
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
 git commit                      prep files to be committed
@@ -199,6 +200,7 @@ $ git co f1
 $ git reset --hard master
 ```
 
+
 ### SET UP A WEBSITE:
 ```
 $ git co -b f4                      // create a new branch
@@ -207,6 +209,7 @@ $ roll_out min_site                 // remember you can't have VS open to roll p
 $ roll_out <whatever pkgs>
 $ ./build/copy_org perflogic        // do each TWICE, one at a time
 ```
+
 
 ## USING GIT
 * staging: lining up changes to upload to the repository
@@ -219,6 +222,7 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 * branch: a parallel path of development starting from a commit that's in the tree
 * HEAD is a pointer to the last commit in the currently checked-out branch
 * many git commands can be performed on either a branch or a file or files. Using the `--` notation explicitly tells git "hey, this is a file!" in case you have a file and a repo with the same name
+
 
 ### ANATOMY OF A COMMIT
 * **SHA1**: a hash standard that takes various meta data (commit message, committer, commit date, author, authoring date, entire working directory) and generates a completely unique hash string
@@ -253,11 +257,13 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 * rebase: changing history
     - this is mostly troublesome when you're rebasing something already pushed to others
 
+
 ### .GITIGNORE
 * frequently there will be files in your git folder that you don’t want on the interweb, or that are unnecessary/inapplicable to the repo.
 * use .gitignore to tell git which files to leave alone
 * don’t gitignore .gitignore -- it will automatically prevent other contributors to the repo from polluting the repo with the same files you’re omitting
 * Note that ignores that you don't want to share, e.g. specific configuration files for an IDE that only you use, can be ignored using .git/info/exclude. The format of this file is the same as .gitignore, but this file will never be committed
+
 
 ### REMOVING FILES FROM GIT
 * remove a local file from the directory
@@ -271,6 +277,7 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
     $ git commit -m "removed foo"   //only need to do this if the file was pushed
 ```
 
+
 ### CLEANSING SENSITIVE INFORMATION
 * if you remove a file from the repo itself, sensitive info may still appear in the commit history
 * add your files to .gitignore
@@ -281,7 +288,6 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
   $ git push --force --verbose --dry-run
   $ git push --force
 ```
-
 
 
 ## GITHUB

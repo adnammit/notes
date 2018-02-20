@@ -91,6 +91,9 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
    - scripts may be invoked in more ways: they may be passed as an argument to the interpreter or invoked directly as an executable
    - scripts run as their own process, with their own environment that will not effect the shell's
        * however if the script is sourced with "." or "source" it will use the shell's env and can modify it
+* if you get an error like `-bash: '\r': command not found` try running the affected file through `dos2unix`:
+        $ dos2unix foo.sh
+    - caution: this will alter your file, so make sure there's a backup
 
 
 
@@ -160,6 +163,7 @@ tar cvf all.tar somedir/*       zips the contents of somedir into all.tar
 tar tvf all.tar                 view the contents of all.tar
 tar xvf all.tar                 unzips the contents of all.tar into dir all/
                                 !!! this will overwrite anything in an existing all/ dir
+tar xvf all.tar -C my_dir/      extract all.tar into directory                                
 
 sed                             stream editor for filtering and transforming text
 sed ‘s/night/day/’ foo.txt      replace instances of ‘night’ with ‘day’

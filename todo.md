@@ -1,17 +1,14 @@
 
 # TO DO
 
-#### F1 [ data ] >> merged to master
-\>> PF 119: PDF LOCATION
+#### F1 >> clean
 
-#### F2 [ data for jhs ] >>
-\>> WM 183, 184: REQUEST LAUNCH PERMISSIONS, ADD ACTIVE STATUS
+#### F2 >> clean
 
-#### F3 [data for ashland]
-\>> PF 79: WEB FORM WIDTHS, ASHLAND FORMS
+#### F3 >> TESTING
+\>> PF 79: WEB FORM WIDTHS, ASHLAND FORMS 49-50
 
-#### F4 [data for jhs, epsg, baybluffs, wellmont] >> merged to master
-\>> PF 42: RESPECT REQUIRED FIELDS IN REQUEST SUBMISSION IN TOOL
+#### F4 >> clean
 
 #### opp-req [data for jhs, epsg, baybluffs, wellmont]
 \>> JHS 464: CONVERT OPPORTUNITY REQUEST TO PROCESS FLOW
@@ -29,6 +26,7 @@ linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
 sync_client_data: copy data for multiple clients
+    $ sync_client_data jhs epsg wellmont --link alr
 update_dev: update and roll master and the curr feature
 diff_dirs: takes 2 dirs as args, diff all files between them
 rcp: roll_changed_pkgs
