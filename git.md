@@ -67,8 +67,12 @@
 
 ### CHEAT SHEET
 ```
+# Repos and Branching
 man git-<command>               man for command
+git init                        initialize new repository
 git clone <repository address>  fetch a repository you don’t yet have from remote
+git remote -v                   lists remote origins your repo knows about
+git remote show origin          show repo’s url
 git checkout                    switch between branches you already have
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git checkout -- foo             restore foo, which you accidentally deleted
@@ -77,23 +81,38 @@ git checkout master bar.txt     checkout file from another branch, overwriting c
 git branch [-a]                 view branch info (-a: all repos, not just local)
 git branch -d foo               delete branch foo (say you’re done with foo, it’s merged back into master)
 git branch -D foo               force remove w/out merging
-git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
-git init                        initialize new project
+git status                      show current state of your repo
+git rev-parse HEAD              show hash of HEAD (or whatever branch)
+git merge-base foo bar          get the last common commit between two branches
+
+# Working With an Existing Repo
 git fetch                       get other people’s checked-in changes w/out merging into yours
+git pull		                fetch + merge
+git push                        push all committed files to the remote repository
+git push -u origin master       push and set tracking info for your branch to push/pull from origin
+git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
+git push --force --verbose --dry-run
+
+# Merging & Rebasing
 git merge foo                   merge foo into your current branch
 git merge --squash foo          merge foo into your current branch with one commit
-git merge --no-ff foo           merge foo into your current branch with one commit but retain entire history of the
-git pull		                fetch + merge
-git status                      show current state of your repo
+git merge --no-ff foo           merge foo into your current branch with one commit but retain history
+git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
+                                generates a new commit for the current branch
+
+# Working with Files
 git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
 git add -p -- foo.txt           interactively add just certain lines of a filename to the stage
-git reset                       clear everything you added
-git reset --hard master         clear everything and make the branch identical to master
+git reset                       reset HEAD to specified state (unstage changes). does not alter files
+git reset --hard master         reset HEAD and make files identical to master
+git clean                       remove untracked files from the working tree
 git rm foo                      remove local and remote
 git rm --cached foo.txt         remove foo from remote
 git log                         see previous commits
+
+# Viewing history
 git log --follow foo.txt        see commit history of file
 git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
@@ -105,13 +124,9 @@ git diff --name-status A..B     name and status of files that differ between bra
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
 git commit                      prep files to be committed
 git commit foo                  revert to commit foo
-git push                        push all committed files to the repository
-git push --force --verbose --dry-run
-git push -u origin <branch>     push your branch to remote and set tracking info for your branch to push/pull from origin
-git remote -v                   lists remote origins your repo knows about
-git remote show origin          show repo’s url
-git rev-parse HEAD              show hash of HEAD (or whatever branch)
-git merge-base foo bar          get the last common commit between two branches
+
+
+
 ```
 
 ### QUICK GUIDE
@@ -164,6 +179,7 @@ git stash drop <stashname>      w/out stashname, drops most recent
 * delete a branch with `git branch -d <name>`
     - this has extra goodness in it to remove the repo site as well
 
+
 ### EMACS:
 * view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
 
@@ -194,10 +210,15 @@ $ git merge --squash roll
 $ git commit
 $ git push
 
-  //reset branch for another purpose:
+  //reset branch for another purpose and roll out packages:
 
 $ git co f1
 $ git reset --hard master
+  // get the last commit hash prior to the most recent reset:
+LAST_COMMIT_BEFORE_RESET=git reflog show --pretty='format:%H %gs' | awk '/.* reset: moving to .*/{getline; print $1; exit;}'
+roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
+
+
 ```
 
 

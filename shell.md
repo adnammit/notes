@@ -156,6 +156,10 @@ type [command]                  display the exact command being executed
 
 alias [alias]                   arg is optional -- with no args, displays all aliases and their commands
 
+[LS]                            windows: type command in all caps to override whatever you aliased it to
+
+\ls                             linux: escape your command to override whatever you aliased it to
+
 which [executable]              displays the full path of shell command
 
 [command] > foo.txt             write the output of command to a file. create file if it doesn't exist. Overwrites previous content of file.
@@ -203,6 +207,8 @@ close your exec command with ; or + depending on the behavior you want:
 env                             set and print environment
 
 file                            determine file type
+
+mount                           with no args, view information about the filesystem hierarchy
 
 df                              display free disk space
 
