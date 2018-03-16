@@ -1,7 +1,7 @@
 
 # TO DO
 
-#### F1 >> testing
+#### F1 >> checked in
 \>> JHS 385: BLANK USER NAMES IN ACCOUNT MGR
 
 #### F2 >> dev
@@ -62,6 +62,7 @@ grst: grep in files named *state.dat
 
 ### NEXT ROLL:
 * ashland hasn't been rolled to -- do release procedure for #49
+* blank users issue: script needs to be run on jhs & ahi
 
 ### RELEASE 2/22
 * **RELEASE PROCESS FOR JHS:**
