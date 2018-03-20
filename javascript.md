@@ -105,6 +105,32 @@
         console.log(arr); // [1,2,3,4,5]
         console.log(obj); // {name: 'Tony', food: 'apple pie'}
     ```
+* passing by reference is nice b/c you can manipulate multiple objects without returning multiple objects, however this is not cohesive with the "no-side effect" way of functional programming in which a function should not manipulate the external state (by changing values outside of itself)
+* passing by reference can be broken if a whole new value is assigned to the variable
+    - when this happens, the original pointer points to the old value and a new pointer points to the new data location, so when you return out of your function, the original pointer is still pointing to the old value
+    - if you want to keep your reference to the original object, you must manipulate individual elements of that object rather than replacing it entirely
+    - for arrays, using methods which manipulate the array in-place (`push`, `push`, `splice`) will preserve your original reference, while methods like `concat`, `slice`, `map` and `filter` will return a new array 
+    ```javascript
+        function changeStuff(arr, obj) {
+            arr = [4,5,6];
+            obj = {name: "Charlie"};
+        }
+        var arr = [1,2,3];
+        var obj = {name: "Julie", age: "12"};
+        changeStuff(arr, obj);
+        console.log(arr); // [1,2,3]
+        console.log(obj); // {name: "Julie", age: "12"};
+
+        function reallyChangeStuff(arr, obj) {
+            arr[0] = 4;
+            arr[1] = 5;
+            arr[2] = 6;
+            obj[name] = "Charlie";
+        }
+        reallyChangeStuff(arr, obj);
+        console.log(arr); // [4,5,6]
+        console.log(obj); // {name: "Charlie", age: "12"};
+    ```
 
 
 ## STRING METHODS
@@ -182,7 +208,6 @@
 
 
 
-
 ## MATHS
 * be careful with prefix/postfix!
     - using postfix returns the value *before* incrementing -- prefix probably does what you want.
@@ -193,4 +218,42 @@
     // versus:
         var a = 6;
         var b = ++a; //a = 7. b = 7
+    ```
+
+
+
+## DOM MANIPULATION
+### ACCESS EXISTING ELEMENTS
+* `document` is your keyword to accessing the DOM
+* get elements by id or class:
+    ```javascript
+        var footer_elem = document.getElementById("footer");
+        ////add class
+    ```
+### ADDING ELEMENTS
+* create an element, select something to add the element to, and then add it
+    ```javascript
+        // append a new item:
+        var content = document.getElementById("content");
+        var para = document.createElement("p"); // creates an unattached <p>
+        var node = document.createTextNode("The quick fox jumped over the lazy dog.");
+        para.appendChild(node);
+        content.appendChild(para);
+        // insert an item:
+        var footer_elem = document.getElementById("footer");
+        var hr_elem = document.createElement("hr");
+        footer_elem.parentNode.insertBefore(hr_elem, footer_elem);
+    ```
+### REMOVING/REPLACING ELEMENTS
+* in js you need the parent of the element to be able to remove its child
+    ```javascript
+        // remove:
+        var child = document.getElementById("remove_me");
+        child.parentNode.removeChild(child);
+        // replace:
+        var para = document.createElement("p");
+        var node = document.createTextNode("Hi hello!");
+        para.appendChild(node);
+        var child = document.getElementById("replace_me");
+        child.parentNode.replaceChild(para, child); // args: (new_elem, discarded_elem)
     ```

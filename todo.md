@@ -1,20 +1,24 @@
 
 # TO DO
 
-#### F1 >> checked in
-\>> JHS 385: BLANK USER NAMES IN ACCOUNT MGR
+#### F1 >> testing/dev
+\>> JHS 535: REQUESTOR MAPPING
+\>> PPMLITE 416: APPROVAL TABLE
 
-#### F2 >> dev
+#### F2 >> testing
 \>> PF 121: STATUS LIGHT ON WEBFORMS
 
 #### F3 >> testing [epsg]
 \>> PF 79: WEB FORM WIDTHS
 
-#### F4 >> clean up process flow stuff from ashland, sheridan and jhs
+#### F4 >> dev
+\>> PPMLITE 415: OTHER OPTION DOES NOT SAVE FOR CHECKLISTS
 
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
+#### file-cleanup
+\>> remove old maint files for ashland, sheridan and jhs gov req -- check in next week
 
 
 
