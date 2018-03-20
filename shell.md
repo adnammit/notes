@@ -251,6 +251,9 @@ which foo                       displays the origin of foo (whether it is in /us
 sudo find / -size +2000000 -print
                                 find all files larger than 2 gigs
 
+find . -user ryman.amanda       find all files owned by user
+                                
+
 ```
 
 

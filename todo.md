@@ -1,9 +1,8 @@
 
 # TO DO
 
-#### F1 >> testing/dev
-\>> JHS 535: REQUESTOR MAPPING
-\>> PPMLITE 416: APPROVAL TABLE
+#### F1 >> dev
+\>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER
 
 #### F2 >> testing
 \>> PF 121: STATUS LIGHT ON WEBFORMS
@@ -14,6 +13,8 @@
 #### F4 >> dev
 \>> PPMLITE 415: OTHER OPTION DOES NOT SAVE FOR CHECKLISTS
 
+#### F5 >> checked in
+\>> healthquest validation thing
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -31,13 +32,16 @@ giffns: git diff ignoring whitespace, newlines and comments; show filenames only
 linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
-sync_client_data: copy data for multiple clients
+scd [sync_client_data]: copy data for multiple clients
     $ sync_client_data jhs epsg wellmont --link alr
 update_dev: update and roll master and the curr feature
 diff_dirs: takes 2 dirs as args, diff all files between them
 rcp: roll_changed_pkgs
 grst: grep in files named *state.dat
 ```
+
+### GENERAL STUFF
+* continue to decouple git-controlled repos from Dropbox
 
 ### BASH STUFF
 * get git completion to work
@@ -60,7 +64,7 @@ grst: grep in files named *state.dat
 * set up key on github so you don't have to sign in for pushes
 
 ### NODE/REACT
-* figure out how to stop `webpack-dev-server` gracefully
+* figure out how to stop `webpack-dev-server` gracefully ('stop' script in webpack config?)
 * babel presets are all over the place (.babelrc, package.json, webpack config) -- where should they actually go?
 
 
