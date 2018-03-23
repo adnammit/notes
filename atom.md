@@ -61,7 +61,6 @@ alt-shift-c		clear breakpoints
 ```
 C-shift-m       open markup preview
 C-shift-c       print to pdf
-
 ```
 
 ## LOOK AND THEMES

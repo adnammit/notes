@@ -109,7 +109,7 @@
 * passing by reference can be broken if a whole new value is assigned to the variable
     - when this happens, the original pointer points to the old value and a new pointer points to the new data location, so when you return out of your function, the original pointer is still pointing to the old value
     - if you want to keep your reference to the original object, you must manipulate individual elements of that object rather than replacing it entirely
-    - for arrays, using methods which manipulate the array in-place (`push`, `push`, `splice`) will preserve your original reference, while methods like `concat`, `slice`, `map` and `filter` will return a new array 
+    - for arrays, using methods which manipulate the array in-place (`push`, `push`, `splice`) will preserve your original reference, while methods like `concat`, `slice`, `map` and `filter` will return a new array
     ```javascript
         function changeStuff(arr, obj) {
             arr = [4,5,6];
@@ -184,14 +184,14 @@
     ```    
 
 * substring
-    - the two args sent to `substr()` are the index where the substr starts and how many chars long it is
+    - the two args sent to `substr()` are the index where the substring starts and the length of the substring
     ```javascript
     var str = "Hello planet Earth";
 
     var part1 = str.substr(6,6); // "planet"
     str.substr(6,6).toUpperCase(); // "Hello PLANET Earth"
     ```    
-
+    - you can also use the `substring()` method which takes two args for the start of the substring and the ending index of the substring
 ## REGULAR EXPRESSIONS
 * a regex pattern has the following structure:
         `var pattern = /(a|b|c)/gi`

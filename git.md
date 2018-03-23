@@ -99,6 +99,7 @@ git merge --squash foo          merge foo into your current branch with one comm
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
 git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
                                 generates a new commit for the current branch
+git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
 
 # Working with Files
 git add foo                     add foo to files to be committed

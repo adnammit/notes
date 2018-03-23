@@ -13,8 +13,8 @@
 #### F4 >> dev
 \>> PPMLITE 415: OTHER OPTION DOES NOT SAVE FOR CHECKLISTS
 
-#### F5 >> checked in
-\>> healthquest validation thing
+#### F5 >> dev
+\>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -39,6 +39,12 @@ diff_dirs: takes 2 dirs as args, diff all files between them
 rcp: roll_changed_pkgs
 grst: grep in files named *state.dat
 ```
+### ATOM NEW STUFF:
+```
+ctrl + m            jump to matching bracket/tag
+ctrl + shift + f    find in project
+ctrl + shift + t    show in tree view
+```
 
 ### GENERAL STUFF
 * continue to decouple git-controlled repos from Dropbox
@@ -47,10 +53,11 @@ grst: grep in files named *state.dat
 * get git completion to work
 * make the git equivalent of `sall` (grep for multiple expressions)
 * script to roll all packages for orgs in a repo?
+* learn parsing bash opts more betterly
 
 ### ATOM TO DO:
-* kill only kills the current line, not wrapped text
-* find and replace sucks
+* kill only kills the current line, not wrapped text -- try native ctrl-x
+* find and replace sucks -- try multiple cursor selection
 * autocomplete sucks
 * use swirly font for comments
 * pirtle says: use apm to install packages through DOS (command prompt) rather than cygwin

@@ -121,28 +121,62 @@ local FOO
 #FAILS:
 if [ ${FOO} != "" ] ; then
     echo "foo is not equal to empty str"
+fi    
 
 # RETURNS WHAT YOU'D EXPECT:
 if [ "${FOO}" != "" ] ; then
     echo "foo is not equal to empty str"    
-
+fi
 ```
 
 
 ### PARAMETERS
 
-* parameters that are passed into a bash script are handled in the same way as defined variables -- that is,
-  they can be referenced with dollar sign notation: $2 dereferences the 2nd parameter.
+* parameters that are passed into a bash script are handled in the same way as defined variables -- that is they can be referenced with dollar sign notation:
+    - $2 dereferences the 2nd arg that was passed in
 * the first parameter (0) is name of the script or program
 * parameters containing spaces or special characters should be passed with single or double quotes
 * referencing parameters:
-  	      0,1,2...		the nth parameter
-	      * 		positional parameters starting with 1
-	      @ 		positional parameters starting with 1, if your parameters are likely to contain
-	      			embedded blanks
-	      #			the number of parameters, not including 0
+      0,1,2...		 the nth parameter
+      * 		     positional parameters starting with 1
+      @ 		     positional parameters starting with 1, if your parameters are
+                     likely to contain embedded blanks
+      #              the number of parameters, not including 0
 * if you have more than 9, you cannot use $10 -- you'll have to process the first param and drop it 	      
 
+
+#### PARSING ARGUMENTS
+
+```bash
+    #!/bin/bash
+
+    PARAMS=""
+
+    while (( "$#" )); do
+      case "$1" in
+        -f|--flag-with-argument)
+          FARG=$2
+          shift 2
+          ;;
+        --) # end argument parsing
+          shift
+          break
+          ;;
+        -*|--*=) # unsupported flags
+          echo "Error: Unsupported flag $1" >&2
+          exit 1
+          ;;
+        *) # preserve positional arguments
+          PARAM="$PARAMS $1"
+          shift
+          ;;
+      esac
+    done
+
+    # set positional arguments in their proper place
+    eval set -- "$PARAMS"
+
+```
 
 
 MATHEMATICAL EXPRESSIONS:
@@ -158,41 +192,61 @@ FORMATTING:
 * semicolons are used to separate two commands on the same line
 
 
-FOR, IF THEN'S:
+### CONDITIONAL BLOCKS AND LOOPS
 * the syntax is as follows:
     for VARIABLE in RANGE; do COMMAND done
 * this prints out numbers one through one hundred:
-    for number in {1..100}; do
-	echo $number
+    ```bash
+    for number in {1..100} ; do
+    	echo $number
     done
+    ```
+
 * as does this one:
+    ```bash
     for number in {1..100}
     do
-	echo $number
+    	echo "$number"
     done
+    ```
+
 * for/if then's could look something like:
+    ```bash
     for VARIABLE in RANGE; do
-	if
-	then
-	    COMMAND
-	else
-	    COMMAND
-	fi
+    	if ; then
+    	    # COMMAND
+    	else
+    	    # COMMAND
+    	fi
     done
+    ```
+
 * or it could be:
+    ```bash
     for ; do
-	if ; then
-	elif ; then
-	else
-	fi
+    	if ; then
+            # COMMAND
+    	elif ; then
+            # COMMAND
+    	else
+            # COMMAND
+    	fi
     done
+    ```
+
 * or we could have:
+    ```bash
     for ; do
-	if ; then
-	fi
-	if ; then
-	fi
-	if ; then
-	else
-	fi
+    	if [ <some condition> ] ; then
+            echo "first"
+    	fi
+    	if [ <some condition> ] ; then
+            echo "second"
+    	fi
+    	if [ <some condition> ] ; then
+            echo "third"
+    	else
+            echo "fourth"
+    	fi
     done
+    ```

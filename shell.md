@@ -252,7 +252,7 @@ sudo find / -size +2000000 -print
                                 find all files larger than 2 gigs
 
 find . -user ryman.amanda       find all files owned by user
-                                
+
 
 ```
 
@@ -262,13 +262,13 @@ find . -user ryman.amanda       find all files owned by user
 ## SEARCHING:
 ```
 find    -[i]name	by name [case insensitive]
-	-[i]regex	search using [case insensitive] regexes
-	-perm		/u+w
-	-type		f=files; d=dirs; l=symlinks
-	-size
-	-user		files belonging to a particular user
-	-group		files belonging to a particular group
- 	-maxdepth n	limit search to depth of n. n=1: search this dir only
+    	-[i]regex	search using [case insensitive] regexes
+    	-perm		/u+w
+    	-type		f=files; d=dirs; l=symlinks
+    	-size
+    	-user		files belonging to a particular user
+    	-group		files belonging to a particular group
+     	-maxdepth n	limit search to depth of n. n=1: search this dir only
 
 grep
 	-l		show only files containing matches (not the matching text)
@@ -281,9 +281,10 @@ grep
 	-B6		display the 6 lines before the expression is found
 	-C6		display the 6 lines before and after the expression is found
 
-			Example: find log files that contain 'error' and 'project_propagate' in the same line
-				   $ find -name '*log*' | xargs grep -i error | grep -i project_propagate
-
+	Example: find log files that contain 'error' and 'project_propagate' in the same line
+		   $ find -name '*log*' | xargs grep -i error | grep -i project_propagate
+    OR: (find 'document' followed by 'content' on the same line)
+           $ find -name '*.js' | xargs grep -E 'document.*content' --color
 
 bzgrep
 	-e [pattern]	protect patterns beginning with -
