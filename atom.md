@@ -13,6 +13,7 @@ C-shift-p       Command Palette
 C-shift-i       developer tools
 C-t             open fuzzy finder
 Alt-t           toggle tree view
+C-shift-t       show current file in tree view
 C-u <dir>       split pane up/down/right/left
 C-u C-<dir>     move focus to <dir> pane
 alt-o           move focus to next pane
@@ -30,6 +31,7 @@ Ctrl-a          move to beginning of line
 Ctrl-e          move to end of line
 Ctrl-shift-a	select to beginning of line
 Ctrl-shift-e	select to end of line
+C-m             jump to matching bracket/tag
 alt-g           go to line
 C-alt-[         fold block
 C-alt-]         unfold block
@@ -48,6 +50,12 @@ C-i	            auto-indent selected text
 C-’	            fold selection
 C-”	            unfold row
 C-k	            delete line
+```
+
+## FIND/REPLACE
+```
+C-f             find in file
+C-shift-f       find within entire project
 ```
 
 ## PLSCRIPT

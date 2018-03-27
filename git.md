@@ -127,6 +127,9 @@ git commit                      prep files to be committed
 git commit foo                  revert to commit foo
 
 
+# reset renameLimit:
+git config merge.renameLimit 999999
+git config --unset merge.renameLimit
 
 ```
 
@@ -186,28 +189,17 @@ git stash drop <stashname>      w/out stashname, drops most recent
 
 ### PL WORKFLOW:
 ```
-$ git co master
-$ git pull
-$ git co roll
-$ git rebase master
 $ git co f1
-$ git rebase roll
 
   // do some work in f1
 
 $ git add -A
 $ git commit -m "message"
 
-  // do some more work, add/commit again
-
-$ git co roll
-$ git merge --no-ff f1              // or --squash
-$ git commit  
-
-  // do some more testing, more edits, add/commit if needed
+  // do some more work, add/commit again as needed
 
 $ git co master
-$ git merge --squash roll
+$ git merge --squash f1   // or --no-ff
 $ git commit
 $ git push
 
@@ -218,10 +210,7 @@ $ git reset --hard master
   // get the last commit hash prior to the most recent reset:
 LAST_COMMIT_BEFORE_RESET=git reflog show --pretty='format:%H %gs' | awk '/.* reset: moving to .*/{getline; print $1; exit;}'
 roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
-
-
 ```
-
 
 ### SET UP A WEBSITE:
 ```

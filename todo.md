@@ -4,17 +4,19 @@
 #### F1 >> dev
 \>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER
 
-#### F2 >> testing
+#### F2 >> checked in
 \>> PF 121: STATUS LIGHT ON WEBFORMS
 
 #### F3 >> testing [epsg]
 \>> PF 79: WEB FORM WIDTHS
 
-#### F4 >> dev
-\>> PPMLITE 415: OTHER OPTION DOES NOT SAVE FOR CHECKLISTS
+#### F4 >> clean
+\>>
 
 #### F5 >> dev
 \>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
+\>> JHS 539: ADD EXECUTIVE SPONSOR ALERT TO GOV REQ
+\>> PPM_LITE ???: FIX DEFAULT OPTION FOR CHECKLISTS
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -39,8 +41,14 @@ diff_dirs: takes 2 dirs as args, diff all files between them
 rcp: roll_changed_pkgs
 grst: grep in files named *state.dat
 ```
+
 ### ATOM NEW STUFF:
 ```
+ctrl-x, ctrl-w      kill entire line or selection
+ctrl-k              kill to end of line
+ctrl-shift-e        select to end of line
+ctrl-shift-a        select to beginning of line
+ctrl + h            select all
 ctrl + m            jump to matching bracket/tag
 ctrl + shift + f    find in project
 ctrl + shift + t    show in tree view
@@ -50,6 +58,7 @@ ctrl + shift + t    show in tree view
 * continue to decouple git-controlled repos from Dropbox
 
 ### BASH STUFF
+* for update_pl func: return fail status to the caller
 * get git completion to work
 * make the git equivalent of `sall` (grep for multiple expressions)
 * script to roll all packages for orgs in a repo?
@@ -75,9 +84,10 @@ ctrl + shift + t    show in tree view
 * babel presets are all over the place (.babelrc, package.json, webpack config) -- where should they actually go?
 
 
-### NEXT ROLL:
+### RELEASE 3/29
 * ashland hasn't been rolled to -- do release procedure for #49
-* blank users issue: script needs to be run on jhs & ahi
+* jhs 535: requester config, run gov req script
+
 
 ### RELEASE 2/22
 * **RELEASE PROCESS FOR JHS:**
