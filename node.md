@@ -2,11 +2,22 @@
 * npm (Node Package Manager) is the default package manager for NodeJS
 * some npm functionality:
 ```
-    which npm                   display version
-    npm list -g --depth=0       view installed packages (-g for global - omit for local)
-    npm cache clean             clear cache
-    npm prune                   remove unneeded packages
+    which npm                       display version
+    npm list -g --depth=0           view installed packages (-g for global - omit for local)
+    npm cache clean                 clear cache
+    npm prune                       remove unneeded packages
+    npm install <foo> --save-dev    use when you want this to be available to be downloaded by other developers (say, grunt or gulp)
+    npm install <foo> --save        use when you have a dependency which needs to be available for distribution (say, angularjs or express)
 ```
+
+STOP WITH:
+taskkill /F /IM node.exe
+
+"server": "babel-node server/index.js",
+"server": "nodemon --watch server --exec babel-node -- server/index.js",
+
+
+
 * should I install globally or locally?
     - if you're installing something that you want to use in your program, using require('whatever'), then install it locally, at the root of your project.
     - if you're installing something that you want to use in your shell, on the command line or something, install it globally, so that its binaries end up in your PATH environment variable.
@@ -14,7 +25,7 @@
     - you can also symlink to the global install (or `npm link`?) but just installing it in both places is preferable
 * notes on installing packages with npm:
     - is npm installing in `..` rather than your `pwd`? you might need to `$ mkdir node_modules` first so npm doesn't get distracted and try to walk up the folder structure
-
+* installing with `--save` or `--save-dev` will install the necessary dependencies for distribution. Forgoing both will strip away those dependencies leaving others clueless to what is needed to run your dang thing, so try to use one or the other
 
 ### USING PACKAGE.JSON
 * why use `package.json`?

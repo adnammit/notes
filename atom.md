@@ -10,6 +10,7 @@ M-n             jump to tab n
 C-`             close tab
 C-f             find [enter > move forward; shift-enter > move backward]
 C-shift-p       Command Palette
+C-shift-p [type: "add..."] add new file to current folder
 C-shift-i       developer tools
 C-t             open fuzzy finder
 Alt-t           toggle tree view
@@ -17,6 +18,7 @@ C-shift-t       show current file in tree view
 C-u <dir>       split pane up/down/right/left
 C-u C-<dir>     move focus to <dir> pane
 alt-o           move focus to next pane
+
 ```
 
 ## NAVIGATION

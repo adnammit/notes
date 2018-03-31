@@ -54,6 +54,7 @@ ctrl + h            select all
 ctrl + m            jump to matching bracket/tag
 ctrl + shift + f    find in project
 ctrl + shift + t    show in tree view
+C-shift-p [type: "add..."] add new file to current folder
 ```
 
 ### GENERAL STUFF

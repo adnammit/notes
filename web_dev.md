@@ -49,8 +49,8 @@ o there will be several pre-loaded dirs within your server
 
 ## THE FRONT END
 * its job is to be friendly and pretty
-* there are three pillars of the front end:
-    - HTML: create structure
+* there are three pillars of the front end: content, presentation, behavior
+    - HTML: create structure/content
     ```html
         <!doctype html> “hey web browser! this is html”
         <html> opening tag
