@@ -16,7 +16,8 @@
 #### F5 >> dev
 \>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
 \>> JHS 539: ADD EXECUTIVE SPONSOR ALERT TO GOV REQ
-\>> PPM_LITE ???: FIX DEFAULT OPTION FOR CHECKLISTS
+\>> PPM_LITE 537: FIX DEFAULT OPTION FOR CHECKLISTS
+\>> Fix for JHS User Selector
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -31,6 +32,7 @@ testwc: display everything i did for test
 diws: diff ignoring whitespace, newlines and comments
 giff: git diff ignoring whitespace, newlines and comments
 giffns: git diff ignoring whitespace, newlines and comments; show filenames only
+giffm: giff between master and current changes (committed or no), file or whole repo
 linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
@@ -59,12 +61,14 @@ ctrl + shift + t    show in tree view
 
 ### BASH STUFF
 * for update_pl func: return fail status to the caller
+* script to reset branch and rcp
 * get git completion to work
 * make the git equivalent of `sall` (grep for multiple expressions)
 * script to roll all packages for orgs in a repo?
 * learn parsing bash opts more betterly
 
 ### ATOM TO DO:
+* write a thing to `git lock` from atom
 * kill only kills the current line, not wrapped text -- try native ctrl-x
 * find and replace sucks -- try multiple cursor selection
 * autocomplete sucks
@@ -72,19 +76,17 @@ ctrl + shift + t    show in tree view
 * pirtle says: use apm to install packages through DOS (command prompt) rather than cygwin
 * is there a right-click "buffer manager" like with emacs?
 
-
 ### GIT
 * what is all this `revs` shit?
 * what is up with all this git diff shit -- are there helpful aliases?
 * what is up with all this git log shit -- are there helpful aliases?
-* set up key on github so you don't have to sign in for pushes
 
 ### NODE/REACT
 * figure out how to stop `webpack-dev-server` gracefully ('stop' script in webpack config?)
 * babel presets are all over the place (.babelrc, package.json, webpack config) -- where should they actually go?
 
 
-### RELEASE 3/29
+### RELEASE 4/5
 * ashland hasn't been rolled to -- do release procedure for #49
 * jhs 535: requester config, run gov req script
 

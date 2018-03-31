@@ -116,6 +116,8 @@ git log                         see previous commits
 # Viewing history
 git log --follow foo.txt        see commit history of file
 git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
+git log --first-parent master   see commits made to master
+git log --author="Alex"         see commits made by Alex (regex can be used for the name)
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
@@ -130,6 +132,12 @@ git commit foo                  revert to commit foo
 # reset renameLimit:
 git config merge.renameLimit 999999
 git config --unset merge.renameLimit
+
+# PL Locking
+## locks can only be deleted if your branch is merge-aligned with master
+git locks -u                    show your locks
+git locks -b                    view locks in this branch
+git locks --update              force remote update of locks
 
 ```
 
@@ -188,26 +196,30 @@ git stash drop <stashname>      w/out stashname, drops most recent
 * view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
 
 ### PL WORKFLOW:
-```
+```bash
 $ git co f1
 
-  // do some work in f1
+# do some work in f1
 
 $ git add -A
 $ git commit -m "message"
 
-  // do some more work, add/commit again as needed
+# do some more work, add/commit again as needed
 
 $ git co master
 $ git merge --squash f1   // or --no-ff
 $ git commit
 $ git push
 
-  //reset branch for another purpose and roll out packages:
+# RESET BRANCH
 
 $ git co f1
 $ git reset --hard master
-  // get the last commit hash prior to the most recent reset:
+
+# now is a great time to dump those locks you don't need:
+$ git locks --update -b
+
+# get the last commit hash prior to the most recent reset and rcp:
 LAST_COMMIT_BEFORE_RESET=git reflog show --pretty='format:%H %gs' | awk '/.* reset: moving to .*/{getline; print $1; exit;}'
 roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
 ```
