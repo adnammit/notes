@@ -63,29 +63,30 @@
 * once something makes it to the repository, it's pretty much immutable
 
 
-## SO YOU'VE DECIDED TO USE GIT:
+# SO YOU'VE DECIDED TO USE GIT:
 
 ### CHEAT SHEET
-```
-# Repos and Branching
+```bash
+# REPOS AND BRANCHING
 man git-<command>               man for command
 git init                        initialize new repository
-git clone <repository address>  fetch a repository you don’t yet have from remote
+git clone <repo address>        fetch a repository you don’t yet have from remote
 git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
-git checkout                    switch between branches you already have
-git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
-git checkout -- foo             restore foo, which you accidentally deleted
-git checkout bar.txt            checkout file from branch remote, discarding local changes
-git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
+git checkout <br>               switch between branches you already have
+git checkout -b foo <br>        make a new branch called foo <from branch> and switch to it
 git branch [-a]                 view branch info (-a: all repos, not just local)
-git branch -d foo               delete branch foo (say you’re done with foo, it’s merged back into master)
+git branch -d foo               delete branch that you’re done with
 git branch -D foo               force remove w/out merging
 git status                      show current state of your repo
+git log                         see previous commits
+
+# COMMITS
 git rev-parse HEAD              show hash of HEAD (or whatever branch)
 git merge-base foo bar          get the last common commit between two branches
+git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
 
-# Working With an Existing Repo
+# WORKING WITH AN EXISTING REPO
 git fetch                       get other people’s checked-in changes w/out merging into yours
 git pull		                fetch + merge
 git push                        push all committed files to the remote repository
@@ -93,27 +94,27 @@ git push -u origin master       push and set tracking info for your branch to pu
 git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
 git push --force --verbose --dry-run
 
-# Merging & Rebasing
+# MERGING & REBASING
 git merge foo                   merge foo into your current branch
 git merge --squash foo          merge foo into your current branch with one commit
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
 git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
                                 generates a new commit for the current branch
-git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
 
-# Working with Files
+# WORKING WITH FILES
 git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
 git add -p -- foo.txt           interactively add just certain lines of a filename to the stage
+git checkout bar.txt            checkout file from HEAD, discarding changes
+git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
 git reset                       reset HEAD to specified state (unstage changes). does not alter files
 git reset --hard master         reset HEAD and make files identical to master
 git clean                       remove untracked files from the working tree
-git rm foo                      remove local and remote
-git rm --cached foo.txt         remove foo from remote
-git log                         see previous commits
+git rm foo                      remove local and remove remote on next push
+git rm --cached foo.txt         retain local and remove remote on next push
 
-# Viewing history
+# VIEWING HISTORY
 git log --follow foo.txt        see commit history of file
 git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
 git log --first-parent master   see commits made to master
@@ -129,11 +130,11 @@ git commit                      prep files to be committed
 git commit foo                  revert to commit foo
 
 
-# reset renameLimit:
+# RESET RENAMELIMIT:
 git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
-# PL Locking
+# PL LOCKING
 ## locks can only be deleted if your branch is merge-aligned with master
 git locks -u                    show your locks
 git locks -b                    view locks in this branch
@@ -142,16 +143,18 @@ git locks --update              force remote update of locks
 ```
 
 ### QUICK GUIDE
-make a new repo:
 
-```
+* make a new repo:
+
+```bash
 git init
 git remote add origin https://github.com/adnammit/yourRepo.git
 git add .
 git commit -m "initialized repo"
 git push origin master
 ```
-working with an existing repo:
+
+* working with an existing repo:
 ```
 git pull origin master
 git add .
@@ -160,17 +163,18 @@ git push origin master
 ```
 
 ### STASHING
+
 * git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
 * to get around this, we use `stashing`
 ```bash
-    git stash
-    git co f3
-    //do work on f3
-    git co f4
-    git stash pop
+git stash
+git co f3
+//do work on f3
+git co f4
+git stash pop
 ```
 
-```
+```bash
 git stash list
 git stash                       stash all your current changes
 git stash -u                    include untracked files
@@ -286,6 +290,19 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 * use .gitignore to tell git which files to leave alone
 * don’t gitignore .gitignore -- it will automatically prevent other contributors to the repo from polluting the repo with the same files you’re omitting
 * Note that ignores that you don't want to share, e.g. specific configuration files for an IDE that only you use, can be ignored using .git/info/exclude. The format of this file is the same as .gitignore, but this file will never be committed
+* to exclude everything in a directory *except* some file or files:
+    ```
+    # in .gitignore, excludes everything in my_secret_directory except public files
+        my_secret_directory/
+        !my_secret_directory/publicfile.html
+    ```
+* git will not commit empty directories, so if the directories need to be there for some reason, put an empty file or something so they can be committed    
+* stuff you should gitignore:
+    - sensitive information
+    - node_modules/
+* don't gitignore:
+    - gitignore
+    - package.json-lock
 
 
 ### REMOVING FILES FROM GIT
@@ -303,11 +320,11 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 
 ### CLEANSING SENSITIVE INFORMATION
 * if you remove a file from the repo itself, sensitive info may still appear in the commit history
-* add your files to .gitignore
-* supposing the file has been pushed, remove from the repo with `$ git rm --cached my_file`
-* scrub the file from past commits by finding the SHA-1 for the first commit of the file and then doing:
+    - add your files to .gitignore
+    - supposing the file has been pushed, remove from the repo with `$ git rm --cached my_file`
+    - scrub the file from past commits by finding the SHA-1 for the first commit of the file and then doing:
 ```
-  $ git filter-branch -f --index-filter \ "git update-index --remove my_file" b8b53f2^..HEAD"
+  $ git filter-branch -f --index-filter \ 'git update-index --remove my_file' [SHA-1]..HEAD
   $ git push --force --verbose --dry-run
   $ git push --force
 ```

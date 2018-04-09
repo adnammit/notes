@@ -352,8 +352,23 @@ bzless			view bzfiles
 * Metacharacters:
     - \[\*\] 	match anything inside brackets for one character position, once and only once
     - \- range separator indicating a range, such as [0-9]. Can include multiple ranges, such as [0-9A-C]
-    - ^	the circumflex inside square brackets selects the complement of its associated literal. For example, [^fF] would match with anything but f or F.
-
+    - ^	the circumflex inside square brackets selects the complement of its associated literal
+        ```
+            [^fF]       not f or F
+            [abc]       only a, b or c
+            (abc|xyz)   abc or xyz   
+        ```
+* Special characters:
+    - `\s` any whitespace
+    - `\S` any non-whitespace
+    - `\d` any digit
+    - `\D` any non-digit
+    - `\w` any alphanumeric char
+    - `\W` any non-alphanumeric char
+    - `.`  any character
+        ```
+            ^\s*Foo     lines that start with 'Foo', ignoring any amount of whitespace
+        ```
 
 
 ## SHORTCUTS

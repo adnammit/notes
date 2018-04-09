@@ -130,3 +130,17 @@
     	* "this algorithm takes at most x amount of time"
     - Big Omega: the lower boundary of growth of our search algorithm
     	* "this algorithm takes at least x amount of time"
+
+
+## ELI5: RECURSION:
+* matryoshka doll:
+    - self-similar, nested layers that repeat until the problem has been 'solved' (you reach the innermost doll)
+* researching something on the internet:
+    - you open a tab and it tells you something, but now you have a question about something else so you pause what you're learning about and open a new tab, etc until you don't have any more questions and you work your way back through the tabs until you have a full understanding of what you wanted to know
+* the bedtime story:
+    - "the little girl couldn't sleep, so her mother told her about a little frog who couldn't sleep, so her mother told her a story about a little mouse who couldn't sleep, so her mother told her a story about a bear who fell asleep, and then the mouse fell asleep, then the frog fell asleep, then the girl fell asleep."
+* Droste effect:
+    - in art, a pattern that appears recursively within itself
+    - a hand drawing a hand drawing a hand...
+* tree branches:
+    - each branch is self-similar to it's 'parent' branch

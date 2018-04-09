@@ -4,14 +4,14 @@
 #### F1 >> dev
 \>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER
 
-#### F2 >> checked in
-\>> PF 121: STATUS LIGHT ON WEBFORMS
+#### F2 >> dev
+\>> PPM_LITE 427: COMBINED STATUS REPORT IS BLANK IF 'EXCLUDE FROM PORTFOLIOS'
 
 #### F3 >> testing [epsg]
 \>> PF 79: WEB FORM WIDTHS
 
-#### F4 >> clean
-\>>
+#### F4 >> dev
+\>> R 105: RSOLUTIONS REQUST PROCESS
 
 #### F5 >> dev
 \>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
@@ -30,8 +30,8 @@
 ```
 testwc: display everything i did for test
 diws: diff ignoring whitespace, newlines and comments
-giff: git diff ignoring whitespace, newlines and comments
-giffns: git diff ignoring whitespace, newlines and comments; show filenames only
+giff <mh>: git diff <from master to HEAD>
+giffns <mh>: git namestatus diff <from master to HEAD>
 giffm: giff between master and current changes (committed or no), file or whole repo
 linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
@@ -46,12 +46,10 @@ grst: grep in files named *state.dat
 
 ### ATOM NEW STUFF:
 ```
-ctrl-x, ctrl-w      kill entire line or selection
-ctrl-k              kill to end of line
+C-l                 select the current line
+C-j                 join next line to end of current line
 ctrl-shift-e        select to end of line
 ctrl-shift-a        select to beginning of line
-ctrl + h            select all
-ctrl + m            jump to matching bracket/tag
 ctrl + shift + f    find in project
 ctrl + shift + t    show in tree view
 C-shift-p [type: "add..."] add new file to current folder
@@ -70,12 +68,12 @@ C-shift-p [type: "add..."] add new file to current folder
 
 ### ATOM TO DO:
 * write a thing to `git lock` from atom
-* kill only kills the current line, not wrapped text -- try native ctrl-x
 * find and replace sucks -- try multiple cursor selection
 * autocomplete sucks
 * use swirly font for comments
 * pirtle says: use apm to install packages through DOS (command prompt) rather than cygwin
-* is there a right-click "buffer manager" like with emacs?
+* is there a right-click "buffer manager" like with emacs? or a faster way to navigate through open files?
+* check out atom tags and bookmarks
 
 ### GIT
 * what is all this `revs` shit?

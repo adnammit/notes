@@ -6,19 +6,21 @@
 ```
 C-,             open settings
 C-.             display keybindings resolver
-M-n             jump to tab n
-C-`             close tab
-C-f             find [enter > move forward; shift-enter > move backward]
-C-shift-p       Command Palette
-C-shift-p [type: "add..."] add new file to current folder
-C-shift-i       developer tools
+C-P             Command Palette
+C-I             developer tools
 C-t             open fuzzy finder
 Alt-t           toggle tree view
-C-shift-t       show current file in tree view
+```
+
+## FILES AND TABS
+```
+M-n             jump to tab n
+C-`             close current tab
+C-T             show current file in tree view
+C-P [trad]     start typing 'tree add' to add a new file in the current dir
 C-u <dir>       split pane up/down/right/left
 C-u C-<dir>     move focus to <dir> pane
 alt-o           move focus to next pane
-
 ```
 
 ## NAVIGATION
@@ -29,29 +31,40 @@ M-up            move to top of paragraph
 M-down          move to bottom of paragraph
 alt-<           move to top of document
 alt->           move to bottom of document
-Ctrl-a          move to beginning of line
-Ctrl-e          move to end of line
-Ctrl-shift-a	select to beginning of line
-Ctrl-shift-e	select to end of line
+C-a             move to beginning of line
+C-e             move to end of line
 C-m             jump to matching bracket/tag
-alt-g           go to line
-C-alt-[         fold block
-C-alt-]         unfold block
+alt-g           go to line and optionally column (row:col)
+```
+
+
+## SELECTION
+```
+C-h             select all
+C-A	            select to beginning of line
+C-E	            select to end of line
+C-l             select the current line
+M-shift-up/down	mark and select up or down
 ```
 
 ## EDITING:
 ```
 C-z			    undo
 C-Z			    redo
-C-w	            cut
+C-x             core cut
+C-w	            core cut
+C-k             kill to end of line
 M-w	            copy
 C-y	            paste
-M-shift-up/down	mark and select up or down
-C-/	            toggle comment selected text
+C-j             join next line to end of current line
+
+
+C-/	            toggle comment selected text or current line
 C-i	            auto-indent selected text
 C-’	            fold selection
 C-”	            unfold row
-C-k	            delete line
+C-alt-[         fold block
+C-alt-]         unfold block
 ```
 
 ## FIND/REPLACE
