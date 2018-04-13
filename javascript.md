@@ -11,7 +11,30 @@
         * methods: write(), getElementById()
     - window
         * properties: location (url)
-* objects can be declared using bracket notation:
+
+* an **object literal** is a comma-separated list of name-value pairs wrapped in curly braces
+    - may be on one line or multiple
+    - property values can be of any type including arrays and functions
+    - there is no comma after the last item
+    - curly braces are terminated with a semi colon
+    ```javascript
+        var Swapper = {
+            images: ["smile.gif", "grim.gif", "frown.gif", "bomb.gif"],
+            pos: {
+                x: 40,
+                y: 300
+            },
+            onSwap: function() {
+                // do stuff
+            }
+        };
+    ```
+    - why use an object literal?
+        * useful for unobtrusive event handling
+    - why not use them?
+        * it's a bit easier to introduce syntax errors -- complex ones can be difficult to navigate
+
+* objects can be declared using brace notation:
     ```javascript
         var person = {
             'firstname': "Jennifer",

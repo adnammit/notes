@@ -17,11 +17,12 @@ Alt-t           toggle tree view
 M-n             jump to tab n
 C-`             close current tab
 C-T             show current file in tree view
-C-P [trad]     start typing 'tree add' to add a new file in the current dir
+C-P [trad]      start typing 'tree add' to add a new file in the current dir
 C-u <dir>       split pane up/down/right/left
 C-u C-<dir>     move focus to <dir> pane
 alt-o           move focus to next pane
 ```
+
 
 ## NAVIGATION
 ```
@@ -45,7 +46,10 @@ C-A	            select to beginning of line
 C-E	            select to end of line
 C-l             select the current line
 M-shift-up/down	mark and select up or down
+C-click         duplicate cursor at click point
+
 ```
+
 
 ## EDITING:
 ```
@@ -57,7 +61,7 @@ C-k             kill to end of line
 M-w	            copy
 C-y	            paste
 C-j             join next line to end of current line
-
+C-D             duplicate current line
 
 C-/	            toggle comment selected text or current line
 C-i	            auto-indent selected text

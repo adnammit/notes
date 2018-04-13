@@ -1,8 +1,8 @@
 
-# BASH SCRIPTING!
+# BASH SCRIPTING AND FUNCTIONS!
 
 
-### BASIC BASH COMMANDS:
+## BASIC BASH COMMANDS:
 
 ``` bash
 .
@@ -48,38 +48,30 @@ unset
 
 ```
 
-### BASH SCRIPTING:
+## BASH SCRIPTING:
 
-* execution occurs through forking: the parent process pauses while the child
-  process runs through the script
+* execution occurs through forking: the parent process pauses while the child process runs through the script
 * steps:
     - the shell reads in from a file or from user's terminal
     - input is broken up into words and operators separated by metacharacters
 	   * alias expansion takes place
     - the shell parses (analyzes and substitutes) the tokens into simple commands
-    - bash performs various expansions, breaking expanded tokens into lists of
-      filenames, commands and args
+    - bash performs various expansions, breaking expanded tokens into lists of filenames, commands and args
     - redirection performed if necessary
     - commands are executed
-    - optionally the shell waits for the command to complete and collects exit
-      status.
+    - optionally the shell waits for the command to complete and collects exit status.
 * a simple shell command is a command followed by a line of args
 * a more complex command may consist of:
     - a pipeline in which the output of one becomes the input of the second
     - a loop or conditional construct
-* functions are executed in present shell context -- no new process is created
-  to interpret them
-* permissions: your script must have the correct permissions to run.
-    - view perms with
-	ls -l script.sh
-    - try a line like:
-	chmod u+x script.sh
+* functions are executed in present shell context -- no new process is created to interpret them
+* permissions: your script must have the correct permissions to run: `chmod u+x script.sh`
 * if you don't want the script to start in a new shell, you source it:
-    `source script_name.sh` or `. script_name.sh`
+    - `source script_name.sh` or `. script_name.sh`
 * init scripts starts system services
 
 
-### VARIABLES:
+## VARIABLES:
 
 * global vs local
 * types:
@@ -110,7 +102,7 @@ unset
     - if you run `$ source myscript.sh`, variables defined in the script can be referenced after the script executes
     - if you do not want variables to persist after the script, use the `local` keyword when declaring them.
 
-### COMPARISON OPERATORS
+## COMPARISON OPERATORS
 
 * if you declare a variable without assigning it any value (or use an unknown variable name) and then run it through a binary comparison operator, it will yell at you
 * this is true of args as well, so it's important to check that you either check that your variable has something before putting it in a binary conditional statement, OR! put your variable reference in double quotes to essentially "cast" it as an empty string if it has no assigned value already.
@@ -130,7 +122,7 @@ fi
 ```
 
 
-### PARAMETERS
+## PARAMETERS
 
 * parameters that are passed into a bash script are handled in the same way as defined variables -- that is they can be referenced with dollar sign notation:
     - $2 dereferences the 2nd arg that was passed in
@@ -138,14 +130,13 @@ fi
 * parameters containing spaces or special characters should be passed with single or double quotes
 * referencing parameters:
       0,1,2...		 the nth parameter
-      * 		     positional parameters starting with 1
-      @ 		     positional parameters starting with 1, if your parameters are
-                     likely to contain embedded blanks
+      * 		     positional parameters starting with 1 (diff between * and @?)
+      @ 		     all of your positional parameters (not including 0)
       #              the number of parameters, not including 0
-* if you have more than 9, you cannot use $10 -- you'll have to process the first param and drop it 	      
+* if you have more than 9, you must use braces: `${12}`    
 
 
-#### PARSING ARGUMENTS
+### PARSING ARGUMENTS
 
 ```bash
     #!/bin/bash
@@ -167,7 +158,7 @@ fi
           exit 1
           ;;
         *) # preserve positional arguments
-          PARAM="$PARAMS $1"
+          PARAMS="$PARAMS $1"
           shift
           ;;
       esac
@@ -178,8 +169,42 @@ fi
 
 ```
 
+## RETURNING A VALUE
+* every command in bash returns a value
+    - that value can only be a number in the range of 0-255
+    - if you need to return a string, that can be done with an `echo` statement and `$()`
+* the return value can be captured with `$?`
 
-MATHEMATICAL EXPRESSIONS:
+```bash
+    function greater_than_five()
+    {
+        if [[ $1 -gt 5 ]] ; then
+            return 1
+        else
+            return 0
+        fi
+
+    }
+    greater_than_five 8
+    local my_result=$?
+
+    # or capture a string:
+
+    function equal_to_five()
+    {
+        if [[ $1 -eq 5 ]] ; then
+            echo "Your number is equal to five. Huzzah!"
+        else
+            echo "Whomp whomp, your number is not equal to five. Better luck next time."
+        fi
+
+    }
+    local my_result=$(equal_to_five 3)
+```
+* note that the value of `$?` must be captured right after the command, otherwise you will get the result of another command
+
+
+## MATHEMATICS:
 * are expressed with double parens:
     $((VAR1 + 3)) will return the sum of $VAR1 and 3
     $((number%3)) will return the modulus of the number divided by 3
@@ -188,8 +213,27 @@ MATHEMATICAL EXPRESSIONS:
 
 
 
-FORMATTING:
+## FORMATTING AND SYNTAX
 * semicolons are used to separate two commands on the same line
+
+
+#### WHEN TO USE "" AND {}
+
+* braces are used for variable expansion
+    - they are required when referencing an element in an array
+    - they are necessary for expansion operations
+    - used in expanding positional parameters past 9
+
+```bash
+    local ITEM=${array[2]}
+    ${filename%.*}              # remove extension
+    ...$8 $9 ${10} ${11}...
+```
+* quotation marks can be used to preserve a string containing whitespace
+* quotes are also used to prevent errors in the case of evaluating a variable that is null
+
+
+
 
 
 ### CONDITIONAL BLOCKS AND LOOPS
@@ -237,16 +281,15 @@ FORMATTING:
 * or we could have:
     ```bash
     for ; do
-    	if [ <some condition> ] ; then
-            echo "first"
+    	if ; then
+            # COMMAND
     	fi
-    	if [ <some condition> ] ; then
-            echo "second"
-    	fi
-    	if [ <some condition> ] ; then
-            echo "third"
+    	if ; then
+            # COMMAND
+    	if ; then
+            # COMMAND
     	else
-            echo "fourth"
+            # COMMAND
     	fi
     done
     ```

@@ -2,7 +2,7 @@
 # TO DO
 
 #### F1 >> dev
-\>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER
+\>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER -- APPROVAL TABLE ALSO?
 
 #### F2 >> dev
 \>> PPM_LITE 427: COMBINED STATUS REPORT IS BLANK IF 'EXCLUDE FROM PORTFOLIOS'
@@ -11,9 +11,11 @@
 \>> PF 79: WEB FORM WIDTHS
 
 #### F4 >> dev
-\>> R 105: RSOLUTIONS REQUST PROCESS
+\>> R 234: NOT LOADING CUSTOM AND COMMON REQUEST COLUMNS
+\>> JHS 550: ADD ADDITIONAL SUBMISSION FORM AND ALERT FOR DATA SUBMISSIONS -- HOLD
+\>> R 105: RSOLUTIONS REQUEST PROCESS -- HOLD
 
-#### F5 >> dev
+#### F5 >> merged
 \>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
 \>> JHS 539: ADD EXECUTIVE SPONSOR ALERT TO GOV REQ
 \>> PPM_LITE 537: FIX DEFAULT OPTION FOR CHECKLISTS
@@ -48,10 +50,12 @@ grst: grep in files named *state.dat
 ```
 C-l                 select the current line
 C-j                 join next line to end of current line
-ctrl-shift-e        select to end of line
-ctrl-shift-a        select to beginning of line
-ctrl + shift + f    find in project
-ctrl + shift + t    show in tree view
+C-E                 select to end of line
+C-A                 select to beginning of line
+C-F                 find in project
+C-T                 show in tree view
+C-D                 duplicate current line
+C-click             duplicate cursor at click point
 C-shift-p [type: "add..."] add new file to current folder
 ```
 
@@ -80,14 +84,12 @@ C-shift-p [type: "add..."] add new file to current folder
 * what is up with all this git diff shit -- are there helpful aliases?
 * what is up with all this git log shit -- are there helpful aliases?
 
-### NODE/REACT
+### WEB DEV STUFF
 * figure out how to stop `webpack-dev-server` gracefully ('stop' script in webpack config?)
 * babel presets are all over the place (.babelrc, package.json, webpack config) -- where should they actually go?
-
-
-### RELEASE 4/5
-* ashland hasn't been rolled to -- do release procedure for #49
-* jhs 535: requester config, run gov req script
+* check out react spring for animation
+* check out react routing
+* check out enhanced object literals
 
 
 ### RELEASE 2/22

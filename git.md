@@ -100,6 +100,8 @@ git merge --squash foo          merge foo into your current branch with one comm
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
 git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
                                 generates a new commit for the current branch
+git cherry-pick A^..B           cherry pick a range of commits from and including A to B
+
 
 # WORKING WITH FILES
 git add foo                     add foo to files to be committed
@@ -144,9 +146,10 @@ git locks --update              force remote update of locks
 
 ### QUICK GUIDE
 
+
 * make a new repo:
 
-```bash
+```
 git init
 git remote add origin https://github.com/adnammit/yourRepo.git
 git add .
@@ -155,6 +158,7 @@ git push origin master
 ```
 
 * working with an existing repo:
+
 ```
 git pull origin master
 git add .
@@ -166,16 +170,17 @@ git push origin master
 
 * git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
 * to get around this, we use `stashing`
+
 ```bash
 git stash
 git co f3
-//do work on f3
+# do work on f3
 git co f4
 git stash pop
 ```
 
-```bash
-git stash list
+```
+git stash list                  view all items in the stash
 git stash                       stash all your current changes
 git stash -u                    include untracked files
 git stash push <file>           stash only one file
@@ -232,7 +237,7 @@ roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
 ```
 $ git co -b f4                      // create a new branch
 $ roll_out site
-$ roll_out min_site                 // remember you can't have VS open to roll pl_app
+$ roll_out min_site                 // remember you can\'t have VS open to roll pl_app
 $ roll_out <whatever pkgs>
 $ ./build/copy_org perflogic        // do each TWICE, one at a time
 ```
@@ -273,16 +278,35 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
     - That remote repo is almost always called origin, but it doesn't have to be.
 
 
-
-
-
 ### MERGING VS REBASING
+
 * merge: combining branches together
     - git checkout mywork : get the branch you want
     - git merge master : merge in 'master'
     - there should rarely be conflicts -- maybe only if two people are adding at the same time
 * rebase: changing history
     - this is mostly troublesome when you're rebasing something already pushed to others
+
+### SELECTIVE MERGING
+
+* say you have a bunch of commits on a feature branch (`f3`) that are for three different issues. You want to group these changes into three commits when you merge into `master` so you can properly document them. how to do?
+
+```bash
+git co f3
+git rebase master               # make sure feature is up to date - useful for diffing later
+git co hotfix                   # check out some intermediary branch
+git reset --hard master         # make sure it's the same as master
+git cherry-pick <SHA1>          # cherry pick all your commits for one issue onto hotfix from f3
+                                #   in the order you want to apply them
+git reset HEAD~n                # where n is the # of commits, unstages all those cherrypicks
+git add -A                      # you may need to do this if there is a new file
+git commit -a                   # write your lovely message for the one commit
+git co master
+git merge hotfix
+# repeat for all issues until all commits in f3 have been merged into master
+git diff f3..hotfix             # make sure you didn't forget anything
+git push
+```
 
 
 ### .GITIGNORE
