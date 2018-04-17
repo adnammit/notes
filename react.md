@@ -1,3 +1,14 @@
+# REACT
+
+## NEW CONCEPTS:
+* (Context)[https://reactjs.org/docs/context.html#when-to-use-context]
+    - use Context to pass data that could be considered 'global' through multiple levels of components
+        * theme, authenticated user or preferred language could be examples
+    - don't do this just to avoid passing props down -- stick to cases where the data is used on multiple levels
+* Routes
+* Express integration
+
+
 ## KEY CONCEPTS
 * JSX: allows us to write JS in html-like script which gets transformed
   into lightweight JS objects

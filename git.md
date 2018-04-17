@@ -1,4 +1,4 @@
-# VERSION CONTROL
+-# VERSION CONTROL
 
 ## WHY USE IT?
 
@@ -73,8 +73,12 @@ git init                        initialize new repository
 git clone <repo address>        fetch a repository you don’t yet have from remote
 git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
-git checkout <br>               switch between branches you already have
-git checkout -b foo <br>        make a new branch called foo <from branch> and switch to it
+git remote set-url origin <url> set url (esp if switching between ssh and https)
+git checkout                    switch between branches you already have
+git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
+git checkout -- foo             restore foo, which you accidentally deleted
+git checkout bar.txt            checkout file from branch remote, discarding local changes
+git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
 git branch [-a]                 view branch info (-a: all repos, not just local)
 git branch -d foo               delete branch that you’re done with
 git branch -D foo               force remove w/out merging
@@ -136,7 +140,14 @@ git commit foo                  revert to commit foo
 git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
-# PL LOCKING
+
+# BUNDLE BUNDLE WHO'S YOUR BUNDLE?
+# create:
+git bundle create my-repo.bundle HEAD master
+# extract:
+git clone my-repo.bundle <optional dir>
+
+# PL Locking
 ## locks can only be deleted if your branch is merge-aligned with master
 git locks -u                    show your locks
 git locks -b                    view locks in this branch

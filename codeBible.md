@@ -23,12 +23,14 @@
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **authentication**: is this person who they say they are?
 * **authorization**: does this person have permission to access this?
-* **Big O**: worst case effort: "this program takes at most x amount of time"
+* **Big O**: how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
+* **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St". see imperative programming.
 * **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
 * **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
-* **interface**: contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
+* **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
+* **interface**: a way of specifying a "contract" that other (people's) code must meet. contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
 * **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
 * **isomorphic application**: app whose code can run on server or client (ex: JS)
 * **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
@@ -37,14 +39,15 @@
 * **node migrations**:
 
 * **object literal**: in JS, a list of property-value pairs in a comma separated list
+* **open-closed principle**: classes should be open for extension and closed for modification
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
 
+* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Truck` are descended.
 * **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
 
 
 * **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
 * **SQLI**: SQL injection
-
 * **XSS**: cross-site scripting, injecting client-side script in a webpage
 
 ## INTERVIEW TIPS

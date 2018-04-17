@@ -377,6 +377,7 @@
     str.substr(6,6).toUpperCase(); // "Hello PLANET Earth"
     ```    
     - you can also use the `substring()` method which takes two args for the start of the substring and the ending index of the substring
+    
 ## REGULAR EXPRESSIONS
 * you can do simple tests of regexes in the console with:
     `console.log(/cde/.test("abcdef"))`
