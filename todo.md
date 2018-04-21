@@ -9,6 +9,7 @@
 
 #### F3 >> testing [epsg]
 \>> PF 79: WEB FORM WIDTHS
+\>> PPM_LITE 395: EDITABLE FORMS WITH MULTIPLE PAGES EXPORTED TO DOCX CANNOT BE OPENED
 
 #### F4 >> dev
 \>> R 234: NOT LOADING CUSTOM AND COMMON REQUEST COLUMNS
@@ -48,15 +49,17 @@ grst: grep in files named *state.dat
 
 ### ATOM NEW STUFF:
 ```
-C-l                 select the current line
-C-j                 join next line to end of current line
-C-E                 select to end of line
-C-A                 select to beginning of line
-C-F                 find in project
-C-T                 show in tree view
-C-D                 duplicate current line
-C-click             duplicate cursor at click point
-C-shift-p [type: "add..."] add new file to current folder
+C-l                         select the current line
+C-j                         join next line to end of current line
+C-E                         select to end of line
+C-A                         select to beginning of line
+C-F                         find in project
+C-T                         show in tree view
+C-D                         duplicate current line
+C-click                     duplicate cursor at click point
+C-shift-p ["add..."]        add new file to current folder
+C-u C-0                     unfold all
+C-u C-n                     fold all at indent level n
 ```
 
 ### GENERAL STUFF

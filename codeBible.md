@@ -21,10 +21,12 @@
 
 ## GENERAL TERMS AND CONCEPTS
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
+* **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
 * **authentication**: is this person who they say they are?
 * **authorization**: does this person have permission to access this?
 * **Big O**: how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
+* **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
 * **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St". see imperative programming.
 * **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
@@ -34,6 +36,7 @@
 * **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
 * **isomorphic application**: app whose code can run on server or client (ex: JS)
 * **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
+* **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
 * **MITM**: man in the middle: interception of communication between two parties
 
 * **node migrations**:
@@ -43,6 +46,8 @@
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
 
 * **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Truck` are descended.
+* **promise**: an object which represents the completion (success or failure) of an asychronous operation
+
 * **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
 
 

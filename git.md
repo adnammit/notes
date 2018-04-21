@@ -118,7 +118,8 @@ git reset                       reset HEAD to specified state (unstage changes).
 git reset --hard master         reset HEAD and make files identical to master
 git clean                       remove untracked files from the working tree
 git rm foo                      remove local and remove remote on next push
-git rm --cached foo.txt         retain local and remove remote on next push
+git rm --cached foo.txt         retain local and remove remote on next push, but this will delete foo.txt for others who pull -- instead use:
+git update-index --assume-unchanged foo.txt
 
 # VIEWING HISTORY
 git log --follow foo.txt        see commit history of file
@@ -141,13 +142,19 @@ git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
 
+# CLEAN UP FILES
+git clean -n -d                 see which files would be removed
+git clean -f -d                 remove all untracked files that are not in .gitignore
+
+
 # BUNDLE BUNDLE WHO'S YOUR BUNDLE?
 # create:
 git bundle create my-repo.bundle HEAD master
 # extract:
 git clone my-repo.bundle <optional dir>
 
-# PL Locking
+
+# PL LOCKING
 ## locks can only be deleted if your branch is merge-aligned with master
 git locks -u                    show your locks
 git locks -b                    view locks in this branch

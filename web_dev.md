@@ -33,16 +33,16 @@
     - whois: public registry of who owns what
 
 ## SERVERS
-o also called 'web host'
-o shared servers are just fine for a personal website that's small,
+* also called 'web host'
+* shared servers are just fine for a personal website that's small,
   simple and low-traffic
-o host examples:
+* host examples:
     - mediatemple
     - dreamhost
     - webhostingforstudents
-o uploading your website to the server:
+* uploading your website to the server:
     - use SFTP (secure file transfer protocol using ssh)
-o there will be several pre-loaded dirs within your server
+* there will be several pre-loaded dirs within your server
     - www is where your site will live
     - within www there's a cgi-bin folder that you can delete
 
@@ -113,24 +113,24 @@ o there will be several pre-loaded dirs within your server
 
 
 ## BACK END/SERVERS:
-o there are two aspects to the server: the script that serves up code and the physical hardware that it runs on
-o there are different types of server services you can pay for/work with
+* there are two aspects to the server: the script that serves up code and the physical hardware that it runs on
+* there are different types of server services you can pay for/work with
     - CMS: content management system, written with PHP
         * Drupal
         * wordpress
     - app hosting
     - static hosting
     - the kind where you're paying for a 'blank' computer that you totally 'own' and do whatever you want with
-o you can use pretty much any language on a server. some common server platforms are:
+* you can use pretty much any language on a server. some common server platforms are:
     - Ruby on Rails: ruby
     - Django: python
     - Express: Node.js
     - PHP: meh. not used for large sites
     - CGI, JSP, ASP, Node.js, Apache, Nginx, MySQL, PostgreSQL, .net(C#)
-o caching
+* caching
     - Squid, Varnish, Memcached
-o DevOps: server management (huge sites, i have 20 servers i need to manage)
-o databases:
+* DevOps: server management (huge sites, i have 20 servers i need to manage)
+* databases:
     - MySql
     - MongoDB
     - Redis
@@ -193,68 +193,61 @@ o databases:
 
 
 ## JAVASCRIPT DEVELOPMENT ENVIRONMENT
-o react
+* react
     - JS library for creating dynamic visual components
-o gulp
+* gulp
     - toolkit for automating time-consuming, repetitive tasks:
         * CSS preprocessing
         * JS transpiling
         * minification
         * live reloading
-o node.js
+* node.js
     - open source, cross platform environment for developing server-side applications
-o sass/LESS
+* sass/LESS
     - CSS language extension
-o bower
+* bower
     - package manager
 * webpack    
-o AJAX
+* AJAX
     - client-side script that communicates with the server
     - exchanges data and updates webpage content without reloading the entire page
 
 
-RUNNING A LOCAL SERVER
-o instead of MAMP you can moderate Apache and php yourself
-o start, stop and restart apache from the command line:
-    apachectl start, stop, restart, graceful
-o the computer comes with a shitty version of php so download a fresh one with homebrew    
-o php.ini is located in root: /etc/php.ini
-o run a local php server by calling the following command from your
+## RUNNING A LOCAL PHP SERVER
+* instead of MAMP you can moderate Apache and php yourself
+* start, stop and restart apache from the command line:
+    - apachectl start, stop, restart, graceful
+* the computer comes with a shitty version of php so download a fresh one with homebrew    
+* php.ini is located in root: /etc/php.ini
+* run a local php server by calling the following command from your
   directory:
-    $ php -S localhost:8000
+        `$ php -S localhost:8000`
     - then navigate to 'http://localhost:8000/' in your browser
     - managing php processes:
-    * to pause use ctrl+c
-    * to kill use ctrl+z
-    * to view processes use $jobs
-        o this is an alias of ps that's a litte more manageable
-        o to kill a job from jobs use $kill %1 %2 %3 to kill jobs
-          1,2 and 3.
-        o use $kill -9 %1 when you are real, real serious
-o running postgres:
-    - we created a /bin/ in ~
+        * to pause use ctrl+c
+        * to kill use ctrl+z
+        * to view processes use $jobs
+            * this is an alias of ps that's a litte more manageable
+            * to kill a job from jobs use $kill %1 %2 %3 to kill jobs
+              1,2 and 3.
+            * use $kill -9 %1 when you are real, real serious
+* running postgres:
+    - we created directory ~/bin/
     - then we created a file called startpostgres which contains:
-    postgres -D /usr/local/var/postgres
-    - in .bash_rc we added:
-    export PATH="~/bin:/usr/local/bin":$PATH
-    - these together allow us to type 'startpostgres' from any directory
-      in bash and the postgres command will be called
+        `postgres -D /usr/local/var/postgres`
+    - in `.bash_rc` we added:
+        `export PATH="~/bin:/usr/local/bin":$PATH`
+    - these together allow us to type 'startpostgres' from any directory in bash and the postgres command will be called
 
 
-FRAMEWORKS AND LIBRARIES AND SERVERS -- OH MY!
-o angularJS is a front-end framework which allows webpages to behave more
-  like applications and communicates asynchronously with the server
-    - using the angular resource factory, you create an abstraction of
-      the server side RESTful API to make server side calls
-o the server, in turn, is set up with REST services to respond to these
-  calls
-    - for the server-side, you could use a nodeJS framework such as
-      ExpressJS
-o however you implement your website, making sure that there is a clear
-  distinction between the client and server will make it easier to test
-  and maintain
+## FRAMEWORKS AND LIBRARIES AND SERVERS -- OH MY!
+* **angularJS** is a front-end framework which allows webpages to behave more like applications and communicates asynchronously with the server
+    - using the angular resource factory, you create an abstraction of the server side RESTful API to make server side calls
+* the server, in turn, is set up with REST services to respond to these calls
+    - for the server-side, you could use a nodeJS framework such as **ExpressJS**
+* however you implement your website, making sure that there is a clear distinction between the client and server will make it easier to test and maintain
 
 
-TOOLS
-Linter: analyzes code for potential errors
-Beautifier: restructures the source code to make indentations and whitespace consistent throughout
+## TOOLS
+* **Linter**: analyzes code for potential errors
+* **Beautifier**: restructures the source code to make indentations and whitespace consistent throughout
