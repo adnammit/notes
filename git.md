@@ -1,7 +1,6 @@
--# VERSION CONTROL
+# VERSION CONTROL
 
 ## WHY USE IT?
-
 * allows you to back up, modify and revert changes without manually making and managing
   backup files
 
@@ -15,7 +14,6 @@
 
 
 ## DISTRIBUTED VS CENTRALIZED
-
 * centralized advantages:
   - it is simple -- everyone puts their code in the same place
   - works well for backup, undo and synchronization
@@ -39,7 +37,6 @@
     * however you can create a central location to clarify this
   - there aren't really revision numbers, though changes have guid's
     * you can tag releases with names though
-
 
 
 ## DISTRIBUTED VERSION CONTROL
@@ -66,8 +63,8 @@
 # SO YOU'VE DECIDED TO USE GIT:
 
 ### CHEAT SHEET
-```bash
-# REPOS AND BRANCHING
+```c
+// REPOS AND BRANCHING
 man git-<command>               man for command
 git init                        initialize new repository
 git clone <repo address>        fetch a repository you don’t yet have from remote
@@ -80,17 +77,17 @@ git checkout -- foo             restore foo, which you accidentally deleted
 git checkout bar.txt            checkout file from branch remote, discarding local changes
 git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
 git branch [-a]                 view branch info (-a: all repos, not just local)
+git branch -r                   view remote branches
 git branch -d foo               delete branch that you’re done with
 git branch -D foo               force remove w/out merging
 git status                      show current state of your repo
-git log                         see previous commits
 
-# COMMITS
+// COMMITS
 git rev-parse HEAD              show hash of HEAD (or whatever branch)
 git merge-base foo bar          get the last common commit between two branches
 git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
 
-# WORKING WITH AN EXISTING REPO
+// WORKING WITH AN EXISTING REPO
 git fetch                       get other people’s checked-in changes w/out merging into yours
 git pull		                fetch + merge
 git push                        push all committed files to the remote repository
@@ -98,7 +95,7 @@ git push -u origin master       push and set tracking info for your branch to pu
 git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
 git push --force --verbose --dry-run
 
-# MERGING & REBASING
+// MERGING & REBASING
 git merge foo                   merge foo into your current branch
 git merge --squash foo          merge foo into your current branch with one commit
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
@@ -106,8 +103,7 @@ git cherry-pick <hash>          take changes in the hash commit and apply to the
                                 generates a new commit for the current branch
 git cherry-pick A^..B           cherry pick a range of commits from and including A to B
 
-
-# WORKING WITH FILES
+// WORKING WITH FILES
 git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
@@ -121,7 +117,9 @@ git rm foo                      remove local and remove remote on next push
 git rm --cached foo.txt         retain local and remove remote on next push, but this will delete foo.txt for others who pull -- instead use:
 git update-index --assume-unchanged foo.txt
 
-# VIEWING HISTORY
+// VIEWING HISTORY
+git show -B -w <hash>           show changes that were made for a commit, ignoring whitespace
+git show HEAD~:./dir/file       show output of the file in dir/ as of last commit before HEAD
 git log --follow foo.txt        see commit history of file
 git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
 git log --first-parent master   see commits made to master
@@ -133,37 +131,38 @@ git diff --cached               show diff of staged, uncommitted changes
 git diff master -- foo.txt      diff between your file (staged or not) and the version in master
 git diff --name-status A..B     name and status of files that differ between branch A and head of B
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
+git diff -B -w --shortstat A..B just list num of files changed, insertions and deletions between commits
+
 git commit                      prep files to be committed
 git commit foo                  revert to commit foo
 
 
-# RESET RENAMELIMIT:
+// RESET RENAMELIMIT:
 git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
 
-# CLEAN UP FILES
+// CLEAN UP FILES
 git clean -n -d                 see which files would be removed
 git clean -f -d                 remove all untracked files that are not in .gitignore
 
 
-# BUNDLE BUNDLE WHO'S YOUR BUNDLE?
-# create:
+// BUNDLE BUNDLE WHO'S YOUR BUNDLE?
+// create:
 git bundle create my-repo.bundle HEAD master
-# extract:
+// extract:
 git clone my-repo.bundle <optional dir>
 
 
-# PL LOCKING
-## locks can only be deleted if your branch is merge-aligned with master
+// PL LOCKING
+// locks can only be deleted if your branch is merge-aligned with master
 git locks -u                    show your locks
 git locks -b                    view locks in this branch
 git locks --update              force remote update of locks
-
 ```
 
-### QUICK GUIDE
 
+### QUICK GUIDE
 
 * make a new repo:
 
@@ -203,12 +202,14 @@ git stash                       stash all your current changes
 git stash -u                    include untracked files
 git stash push <file>           stash only one file
 git stash push -u -m "message"  manually push everything onto the stack with message
+git stash pop                   remove most recent stash item and apply it to the branch
 git stash pop <file>            remove <file> from stash and apply it to the branch
 git stash pop 2                 pop the item in index 2
 git stash apply <file>          apply <file> to the branch w/out removing it from the stash
-git stash show <stashname>      show stash <stashname> w/out popping
-git stash show -p               show most recent stash
+git stash show <stashname>      show summary of stash w/out popping
+git stash show -p               show full patch diff of most recent stash
 git stash drop <stashname>      w/out stashname, drops most recent
+git stash clear                 CAREFUL! this will delete your reflog as well
 ```
 
 # PL GIT
@@ -252,12 +253,42 @@ roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
 ```
 
 ### SET UP A WEBSITE:
-```
+```c
 $ git co -b f4                      // create a new branch
 $ roll_out site
-$ roll_out min_site                 // remember you can\'t have VS open to roll pl_app
+$ roll_out min_site                 // remember you can't have VS open to roll pl_app
 $ roll_out <whatever pkgs>
-$ ./build/copy_org perflogic        // do each TWICE, one at a time
+$ ./build/copy_org perflogic        // copy each org TWICE, one at a time
+```
+
+### REVIEWING CODE
+Pushing your branch up for review:
+```c
+// create new review branch from f2
+git checkout -b my_review_branch_jhs_321 f2
+git push origin
+```
+
+Fetching someone else's code for review:
+```c
+git fetch
+git co <branch>
+```
+
+Deleting branches when you're done:
+```c
+// force delete local branch to avoid a warning that branch has not been merged
+git branch -D <branch>              
+
+// remove branch from remote that has been pushed to origin
+git push origin --delete <branch>   
+//or
+git push origin :<branch>
+
+git remote prune origin             // remove from your local list of remote branches
+// or
+git fetch origin --prune
+
 ```
 
 
@@ -297,7 +328,6 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 
 
 ### MERGING VS REBASING
-
 * merge: combining branches together
     - git checkout mywork : get the branch you want
     - git merge master : merge in 'master'
@@ -305,8 +335,8 @@ $ ./build/copy_org perflogic        // do each TWICE, one at a time
 * rebase: changing history
     - this is mostly troublesome when you're rebasing something already pushed to others
 
-### SELECTIVE MERGING
 
+### SELECTIVE MERGING
 * say you have a bunch of commits on a feature branch (`f3`) that are for three different issues. You want to group these changes into three commits when you merge into `master` so you can properly document them. how to do?
 
 ```bash
@@ -390,8 +420,8 @@ git push
 * rules to play well with others:
     - change history locally, never globally
     - never force push unless you have to
-	 * if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
+        * if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
     - if you are asked to force pull, there could be something malicious going on.
- 	 * communicating pushes/pulls is necessary
+        * communicating pushes/pulls is necessary
     - focused commits with clear messages
     - follow project standards for branching, tagging, etc

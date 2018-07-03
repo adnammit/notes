@@ -155,6 +155,7 @@
 * some can be accessed directly using JS/AJAX so you don't need any server-side programming
 * you can use JS, ruby, python or php to talk to third-party APIs
 
+
 ### RESTFUL APIs
 * what is REST?
    - Representational State Transfer via HTTP transfer protocols

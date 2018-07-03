@@ -47,7 +47,7 @@ C-E	            select to end of line
 C-l             select the current line
 M-shift-up/down	mark and select up or down
 C-click         duplicate cursor at click point
-
+C-alt-m         select to matching tag
 ```
 
 

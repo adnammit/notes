@@ -162,7 +162,8 @@ alias [alias]                   arg is optional -- with no args, displays all al
 
 which [executable]              displays the full path of shell command
 
-[command] > foo.txt             write the output of command to a file. create file if it doesn't exist. Overwrites previous content of file.
+[command] > foo.txt             write the output of command to a file. create file if it doesn't exist.
+                                Overwrites previous content of file.
 
 echo foo >> test.txt            append 'foo' to test.txt. create test.txt if it doesn't already exist.
 
@@ -253,6 +254,7 @@ sudo find / -size +2000000 -print
 
 find . -user ryman.amanda       find all files owned by user
 
+traceroute google.com           show an IP network's route packet trace to the network host
 
 ```
 
@@ -276,7 +278,7 @@ grep
 	-n 	       	display line number of match
 	-q		quiet
 	-r		recursive. follows sym links
-	--color=auto	the colors, duke!
+	--color	the colors, duke!
 	-A6		display the 6 lines after the expression is found
 	-B6		display the 6 lines before the expression is found
 	-C6		display the 6 lines before and after the expression is found

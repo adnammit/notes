@@ -2,25 +2,20 @@
 # TO DO
 
 #### F1 >> dev
-\>> PF 75: ADD CHAR/SIZE LIMIT TO FREE TEXT/NUMBER -- APPROVAL TABLE ALSO?
+\>> PROJECT AND REQUEST LAUNCH STUFF
 
-#### F2 >> dev
-\>> PPM_LITE 427: COMBINED STATUS REPORT IS BLANK IF 'EXCLUDE FROM PORTFOLIOS'
+#### F2 >> test
+\>> PF 77: MAKE DATED NOTES TOP POSTING IN WEB AND IN TOOL >> hold
+\>> PF 71: CREATE ACTION TO COPY FIELD FROM FORM TO FORM >> test
 
-#### F3 >> testing [epsg]
-\>> PF 79: WEB FORM WIDTHS
-\>> PPM_LITE 395: EDITABLE FORMS WITH MULTIPLE PAGES EXPORTED TO DOCX CANNOT BE OPENED
+#### F3 >> reset
+\>> JHS ERROR DEBUGGING
 
 #### F4 >> dev
-\>> R 234: NOT LOADING CUSTOM AND COMMON REQUEST COLUMNS
-\>> JHS 550: ADD ADDITIONAL SUBMISSION FORM AND ALERT FOR DATA SUBMISSIONS -- HOLD
-\>> R 105: RSOLUTIONS REQUEST PROCESS -- HOLD
+\>> 599: CHANGE BIRT FORM NAME TO DATA
 
-#### F5 >> merged
-\>> JHS 541: CHANGE LOG ASSIGNED TO STOPPED POPULATING CHANGE LOG
-\>> JHS 539: ADD EXECUTIVE SPONSOR ALERT TO GOV REQ
-\>> PPM_LITE 537: FIX DEFAULT OPTION FOR CHECKLISTS
-\>> Fix for JHS User Selector
+#### F5 >> test
+\>> RESPECT REQUIRED FIELDS IN TOOL
 
 #### visn-perms >> that visn transfer thing -- does megan want this?
 
@@ -36,12 +31,12 @@ diws: diff ignoring whitespace, newlines and comments
 giff <mh>: git diff <from master to HEAD>
 giffns <mh>: git namestatus diff <from master to HEAD>
 giffm: giff between master and current changes (committed or no), file or whole repo
+gish: git show <commit> <filepath>, ignoring ws
 linkorg [org]: alias for copy_org, links org's data to alr repo site
 find_pf_clients: list all process flow clients
 sync_pf_clients: copy the data for all pf clients
 scd [sync_client_data]: copy data for multiple clients
     $ sync_client_data jhs epsg wellmont --link alr
-update_dev: update and roll master and the curr feature
 diff_dirs: takes 2 dirs as args, diff all files between them
 rcp: roll_changed_pkgs
 grst: grep in files named *state.dat
@@ -60,6 +55,7 @@ C-click                     duplicate cursor at click point
 C-shift-p ["add..."]        add new file to current folder
 C-u C-0                     unfold all
 C-u C-n                     fold all at indent level n
+C-alt-m                     select to matching tag
 ```
 
 ### GENERAL STUFF
@@ -93,35 +89,6 @@ C-u C-n                     fold all at indent level n
 * check out react spring for animation
 * check out react routing
 * check out enhanced object literals
-
-
-### RELEASE 2/22
-* **RELEASE PROCESS FOR JHS:**
-    - upload new form
-    - remove macro replace flag
-    - run pf scripts
-    - run script to copy 'date' over to 'request_date'
-
-
-### RELEASE 2/15
-* run scripts for issue #42 (added validate params to "Submitted" states)
-* baybluffs and epsg didn't get hit last week:
-    - epsg
-    - baybluffs
-
-
-### RELEASE 2/8
-* common
-* process_flow
-* web/maint
-
-* run scripts for issue #42 (added validate params to "Submitted" states) and wellmont 184
-    - jhs
-    - wellmont
-
-
-### CODE REVIEW IDEAS
-* patch script for jhs `__maint__/client/jhs/`
 
 
 ssh://dev-src.portland.perflogic.com:20022/src/git/main.git

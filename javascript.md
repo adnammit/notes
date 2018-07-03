@@ -11,6 +11,18 @@
         * methods: write(), getElementById()
     - window
         * properties: location (url)
+* properties of an object can be accessed using dot or bracket notation
+    - dot notation is generally easier to read, but using bracket notation allows us to use variable to access properties
+    ```javascript
+        let obj = {
+            cat: 'meow',
+            dog: 'woof'
+        };
+
+        let sound = obj.dog; // 'woof'
+        let animal = 'cat';
+        sound = obj[animal]; // 'meow'
+    ```
 
 * an **object literal** is a comma-separated list of name-value pairs wrapped in curly braces
     - may be on one line or multiple
@@ -78,9 +90,17 @@
 * `document` is your keyword to accessing the DOM
 * get elements by id or class:
     ```javascript
+        // returns a single element
         var footer_elem = document.getElementById("footer");
-        ////add class
+
+        // returns a collection, so do some processing:
+        var elems = document.getElementsByClassName("foo");
+        var i;
+        for(i = 0; i < elems.length; i++) {
+            elems[i].style.backgroundColor = "red";
+        }
     ```
+
 ### ADDING ELEMENTS
 * create an element, select something to add the element to, and then add it
     ```javascript
@@ -95,6 +115,7 @@
         var hr_elem = document.createElement("hr");
         footer_elem.parentNode.insertBefore(hr_elem, footer_elem);
     ```
+
 ### REMOVING/REPLACING ELEMENTS
 * in js you need the parent of the element to be able to remove its child
     ```javascript
@@ -119,15 +140,16 @@
         multiple line comment */ `
 
 #### COMPARISONS AND FALSY VALUES        
-* "Falsy" values: value/type combos that evaluate to false via type coercion:
+* "Falsy" and "truthy" values: value/type combos that evaluate to true or false via type coercion in JS's internal `ToBoolean` function which underlies statements like `!value`, `value ? ... : ... ;` and `if(value)`
+* falsy values include:
     - `false` - the true boolean 'false'
-    - `0` - numerical zero
-    - `""` - empty string
-    - `null`
+    - `0`, `0.0`, `-0`, `0x0` - numerical zeroes
+    - `""`, `''` - empty strings
+    - `null` - fun fact: `typeof null` returns `'object'`
     - `undefined`
     - `NaN` - not a number
 * Falsy values do not all necessarily compare to each other via loose comparison `==`
-    - `false`, `0` and `""` are equal under loose comparison
+    - `false`, numerical zeroes and empty strings are equal under loose comparison
     - `null` will not compare to any other value but `null` and `undefined`
     - `NaN` does not compare to any other value, *not even itself*
     ```javascript
@@ -137,6 +159,19 @@
         null == undefined;  // true
         NaN == NaN;         // false...... wtf
     ```
+* "Truthy" values that are actually false via loose comparison: there are some values that will evaluate true in an `if(value)` statement but `value != true`
+    - `"0"`, `'0'` - non-empty strings are truthy, but evaluate to false when using the comparison operator
+    - `new Number(0)` and `new Boolean(false)` are objects which are truthy, but the comparison operator sees their values, which are false
+    - `0 .toExponential();` an object with a numerical value equivalent to `0`
+    - `[]`, `[[]]` and `[0]`
+* other Truthy values you might expect to be falsey:
+    - `-1` and other negative non-zero negative numbers
+    - `" "`, `' '`, `"false"`, `'null'` and all other non-empty strings
+    - anything from `typeof` which always returns a non-empty string
+    - any object (aside from fake object `null`) including:
+        * `{}`, `[]`, `function(){}` or `() => {}`
+    - any regex
+    - any symbol
 * for objects, the rules relate to reference i think...
     - for two identical objects, they will fail comparison of either type.
     - if two objects share the same reference (they point to the same object) then they are equivalent via both loose and strict comparison
@@ -229,6 +264,7 @@
     // make the string uppercase or lowercase depending on the flag
     var str = caseFlag ? str.toUpperCase() : str.toLowerCase();
     ```
+
 #### COMPARISONS
 * js has two ways of testing **equality**: `==` and `===`
 * **strict equality** `===` means both type and value must be the same
@@ -238,11 +274,12 @@
         7 === '7';              // false
         false === 0;            // false
     ```
-* **loose equality** `==` performs **type coercion** first and then attempts comparision
+* **loose equality** `==` performs **type coercion** first and then attempts comparison
     ```javascript
         7 == '7';               // true -- '7' converts to integer 7
         false == 0;             // true -- 0 converts to false, they are both 'falsy' values
     ```
+
 #### FOR LOOPS
 * using a `for` loop to iterate through items in an array:
     ```javascript
@@ -377,7 +414,7 @@
     str.substr(6,6).toUpperCase(); // "Hello PLANET Earth"
     ```    
     - you can also use the `substring()` method which takes two args for the start of the substring and the ending index of the substring
-    
+
 ## REGULAR EXPRESSIONS
 * you can do simple tests of regexes in the console with:
     `console.log(/cde/.test("abcdef"))`

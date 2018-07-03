@@ -1,6 +1,8 @@
 # THE BIBLE OF CODING PRACTICES
 
+
 ## FUN THINGS TO DO AND KNOW:
+* check out fastcomet for webhosting
 * make an agent-based model to graphically display the growth of a search tree
 * probabilistic data structures
 * learn what the hell sed is
@@ -22,18 +24,20 @@
 ## GENERAL TERMS AND CONCEPTS
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
+* **arity**: the number of args that a function takes
 * **authentication**: is this person who they say they are?
 * **authorization**: does this person have permission to access this?
 * **Big O**: how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
 * **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
-* **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St". see imperative programming.
+* **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
 * **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
 * **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
 * **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
 * **interface**: a way of specifying a "contract" that other (people's) code must meet. contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
 * **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
+* **IoT (Internet of Things)**: system of Things which all have unique identifiers and the ability to transfer info over the internet w/out human-to-human or human-to-computer interaction. Things include computing devices, mechanical systems (like a car with a tire pressure reader), people (someone with a heart monitor implant), and animals (a cow with a biochip transponder) -- anything that can be assigned an IP address and transfer data over a network
 * **isomorphic application**: app whose code can run on server or client (ex: JS)
 * **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
 * **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
@@ -44,7 +48,6 @@
 * **object literal**: in JS, a list of property-value pairs in a comma separated list
 * **open-closed principle**: classes should be open for extension and closed for modification
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
-
 * **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Truck` are descended.
 * **promise**: an object which represents the completion (success or failure) of an asychronous operation
 
@@ -54,6 +57,7 @@
 * **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
 * **SQLI**: SQL injection
 * **XSS**: cross-site scripting, injecting client-side script in a webpage
+
 
 ## INTERVIEW TIPS
 * whiteboard: talk through thought process as you assess:
@@ -81,7 +85,6 @@
     - databases:
         * SQL query refresh
         * ORM libraries/APIs: Object Relational Mapping - manipulating the data that you get from a DB
-    - types vs unit testing
 * where do you see yourself in five years?
     - mentoring
     - mastery
@@ -98,7 +101,7 @@
     - doubly linked lists [lists]
     - BST, red-black tree [table]
     - array of linked lists [hash table]
-* **inversion of control**: allowing other code to call you rathrer    
+* **inversion of control**: allowing other code to call you rather    
 * **dependency injection**: providing an object with its dependencies rather than having it source them itself. Dependency injection is one technique in the broader concept of Inversion of Control
     - dependencies are passed in to a constructor/class definition rather than being instantiated within
     - helpful in that it allows dependencies to be run at runtime - more dynamic
