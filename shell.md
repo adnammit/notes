@@ -274,8 +274,9 @@ find    -[i]name	by name [case insensitive]
 
 grep
 	-l		show only files containing matches (not the matching text)
-	-i	     	ignore case
-	-n 	       	display line number of match
+	-i	    ignore case
+	-n 	    display line number of match
+    -m1     only display the first match in each file
 	-q		quiet
 	-r		recursive. follows sym links
 	--color	the colors, duke!
@@ -395,7 +396,6 @@ ctrl+y			yank (paste) the buffer contents at the cursor
 ctrl+r			search back through bash_history for a match (eg $ ^r grep)
 			hitting ^r again will cycle through the results
 ```
-
 
 ## LINKS
 ```

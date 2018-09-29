@@ -21,7 +21,7 @@
 * heroku for fast back-end prototyping
 
 
-## GENERAL TERMS AND CONCEPTS
+## QUICK GUIDE OF TERMS AND CONCEPTS
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
 * **arity**: the number of args that a function takes
@@ -61,10 +61,15 @@
 
 ## INTERVIEW TIPS
 * whiteboard: talk through thought process as you assess:
-    - syntax, idioms (nuances of the language)
+    - syntax, idioms (nuances of the language), proficiency
     - algorithms and data structures
-    - analytical skills
+    - analytical skills: logic and process to get to the solution
     - sound design
+        * define interfaces
+        * identify bugs and efficiency concerns
+        * discuss tradeoffs for potential solutions
+    - correctness: does it compile and run?
+    - quality: clean, testable, well-named vars and funcs
 * questions/topics:
     - reading/refactoring code
     - what makes for maintainable code?
@@ -190,7 +195,7 @@
 * researching something on the internet:
     - you open a tab and it tells you something, but now you have a question about something else so you pause what you're learning about and open a new tab, etc until you don't have any more questions and you work your way back through the tabs until you have a full understanding of what you wanted to know
 * the bedtime story:
-    - "the little girl couldn't sleep, so her mother told her about a little frog who couldn't sleep, so her mother told her a story about a little mouse who couldn't sleep, so her mother told her a story about a bear who fell asleep, and then the mouse fell asleep, then the frog fell asleep, then the girl fell asleep."
+    - "the little girl couldn't sleep, so her mother told her about a little frog who couldn't sleep, so her mother told her a story about a little mouse who couldn't sleep, so her mother told her a story about a little bear who fell asleep, and then the mouse fell asleep, then the frog fell asleep, then the girl fell asleep."
 * Droste effect:
     - in art, a pattern that appears recursively within itself
     - a hand drawing a hand drawing a hand...

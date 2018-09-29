@@ -102,6 +102,7 @@ unset
     - if you run `$ source myscript.sh`, variables defined in the script can be referenced after the script executes
     - if you do not want variables to persist after the script, use the `local` keyword when declaring them.
 
+
 ## COMPARISON OPERATORS
 
 * if you declare a variable without assigning it any value (or use an unknown variable name) and then run it through a binary comparison operator, it will yell at you
@@ -169,6 +170,7 @@ fi
 
 ```
 
+
 ## RETURNING A VALUE
 * every command in bash returns a value
     - that value can only be a number in the range of 0-255
@@ -211,14 +213,11 @@ fi
 * anything other than 0 is evaluated as false.
 
 
-
-
 ## FORMATTING AND SYNTAX
 * semicolons are used to separate two commands on the same line
 
 
 #### WHEN TO USE "" AND {}
-
 * braces are used for variable expansion
     - they are required when referencing an element in an array
     - they are necessary for expansion operations
@@ -233,8 +232,20 @@ fi
 * quotes are also used to prevent errors in the case of evaluating a variable that is null
 
 
-
-
+#### WHICH TEST BRACKETS TO USE
+* single brackets `[ ]` are used when your script needs to be POSIX compatible
+    - the opening bracket is a synonym for `test`
+    - use `-a` and `-o` rather than `&&` and `||`
+* double brackets `[[ ]]` are a bit more powerful
+    - allows use of `&&` and `||` operators
+    - allows pattern (`=` or `==`) and regex (`=~`) matching  
+    - parens do not need to be escaped
+    - variables containing whitespace do not need to be quoted
+    ```bash
+    # this works even when 'file' containes space:
+    file="File Name"
+    [[ -f $file ]] && echo "$file is a regular file"
+    ```
 
 ### CONDITIONAL BLOCKS AND LOOPS
 * the syntax is as follows:

@@ -72,6 +72,7 @@ git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
 git remote set-url origin <url> set url (esp if switching between ssh and https)
 git checkout                    switch between branches you already have
+git checkout -                  check out the last branch you were on
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git checkout -- foo             restore foo, which you accidentally deleted
 git checkout bar.txt            checkout file from branch remote, discarding local changes
@@ -131,6 +132,7 @@ git diff --cached               show diff of staged, uncommitted changes
 git diff master -- foo.txt      diff between your file (staged or not) and the version in master
 git diff --name-status A..B     name and status of files that differ between branch A and head of B
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
+git diff master..               view diff between master and current unstaged changes
 git diff -B -w --shortstat A..B just list num of files changed, insertions and deletions between commits
 
 git commit                      prep files to be committed
@@ -381,7 +383,7 @@ git push
 * remove a local file from the directory
  ```
     $ git rm foo		
-    $ git commit -m “removed foo"
+    $ git commit -m "removed foo"
 ```
 * remove the file only from the Git repository and not remove it from the filesystem:
 ```

@@ -2,25 +2,27 @@
 # TO DO
 
 #### F1 >> dev
-\>> PROJECT AND REQUEST LAUNCH STUFF
+\>> PROJECT AND REQUEST LAUNCH STUFF -- initial
 
-#### F2 >> test
-\>> PF 77: MAKE DATED NOTES TOP POSTING IN WEB AND IN TOOL >> hold
-\>> PF 71: CREATE ACTION TO COPY FIELD FROM FORM TO FORM >> test
+#### F2 >> dev
+\>> PROJECT AND REQUEST LAUNCH STUFF -- recent
 
-#### F3 >> reset
-\>> JHS ERROR DEBUGGING
+#### F3 >> dev -- merged?
+\>> JHS 642 EMAILS
 
 #### F4 >> dev
-\>> 599: CHANGE BIRT FORM NAME TO DATA
+\>> JHS 587: ASYNC EMAIL
 
-#### F5 >> test
-\>> RESPECT REQUIRED FIELDS IN TOOL
+#### F5 >> reset -- no repo site
+\>>
 
-#### visn-perms >> that visn transfer thing -- does megan want this?
+
 
 #### file-cleanup
-\>> remove old maint files for ashland, sheridan and jhs gov req -- check in next week
+\>> remove old maint files for ashland, sheridan and jhs gov req
+\>> do another lf cleanse
+
+**run email repair script on jhs (and anyone else?)**
 
 
 
@@ -56,18 +58,27 @@ C-shift-p ["add..."]        add new file to current folder
 C-u C-0                     unfold all
 C-u C-n                     fold all at indent level n
 C-alt-m                     select to matching tag
+C-pageup                    move to previous pane
+C-pagedown                  move to next pane
 ```
 
 ### GENERAL STUFF
 * continue to decouple git-controlled repos from Dropbox
 
 ### BASH STUFF
-* for update_pl func: return fail status to the caller
-* script to reset branch and rcp
+* for update_pl func: we check for success but what happens when git pull/merge fails?
 * get git completion to work
 * make the git equivalent of `sall` (grep for multiple expressions)
-* script to roll all packages for orgs in a repo?
 * learn parsing bash opts more betterly
+* go through scripts and clean up the following:
+    * braces are used for variable expansion
+        - they are required when referencing an element in an array
+        - they are necessary for expansion operations
+        - used in expanding positional parameters past 9
+    * quotation marks
+        - can be used to preserve a string containing whitespace
+        - quotes are also used to prevent errors in the case of evaluating a variable that is null
+        - to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
 
 ### ATOM TO DO:
 * write a thing to `git lock` from atom
@@ -82,6 +93,10 @@ C-alt-m                     select to matching tag
 * what is all this `revs` shit?
 * what is up with all this git diff shit -- are there helpful aliases?
 * what is up with all this git log shit -- are there helpful aliases?
+* new stuff:
+    ```
+    git co -        checkout last branch
+    ```
 
 ### WEB DEV STUFF
 * figure out how to stop `webpack-dev-server` gracefully ('stop' script in webpack config?)
