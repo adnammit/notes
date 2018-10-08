@@ -7,8 +7,8 @@
 #### F2 >> dev
 \>> PROJECT AND REQUEST LAUNCH STUFF -- recent
 
-#### F3 >> dev -- merged?
-\>> JHS 642 EMAILS
+#### F3 >> dev -- BRANCHED OFF F2
+\>> PROJECT AND REQUEST LAUNCH STUFF + editable forms
 
 #### F4 >> dev
 \>> JHS 587: ASYNC EMAIL

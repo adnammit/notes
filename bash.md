@@ -242,7 +242,7 @@ fi
     - parens do not need to be escaped
     - variables containing whitespace do not need to be quoted
     ```bash
-    # this works even when 'file' containes space:
+    # this works even when 'file' contains space:
     file="File Name"
     [[ -f $file ]] && echo "$file is a regular file"
     ```
