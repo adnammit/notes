@@ -214,6 +214,20 @@ git stash drop <stashname>      w/out stashname, drops most recent
 git stash clear                 CAREFUL! this will delete your reflog as well
 ```
 
+### FORMATTING
+* you can use various options to format data about commits and files
+
+#### DATES
+* format options include:
+    %cd: committer date (format respects --date= option)
+    %cD: committer date, RFC2822 style
+    %cr: committer date, relative
+    %ct: committer date, UNIX timestamp
+    %ci: committer date, ISO 8601-like format
+    %cI: committer date, strict ISO 8601 format
+* use `--format="%cd" --date=short` to easily get YYYY-MM-DD
+
+
 # PL GIT
 * we use many custom tools for git -- they’re located in `/usr/local/lib/pl_tools/bin`
 * update tools with `git tools update`
