@@ -104,6 +104,6 @@ C-pagedown                  move to next pane
 * check out react spring for animation
 * check out react routing
 * check out enhanced object literals
-
+* check out browserless.io, use for debugging, testing, snapshots, etc
 
 ssh://dev-src.portland.perflogic.com:20022/src/git/main.git

@@ -74,9 +74,13 @@
     - reading/refactoring code
     - what makes for maintainable code?
     - types vs unit testing
-    - recursion
-    - powers of 2 ?
-    - low coupling/high cohesion
+    - singleton: class which only allows one instance of itself to be created
+    - interface vs abstract class
+    - Big O notation: "this algorithm takes at most x amount of time"
+     - recursion
+     - powers of 2 ?
+    - low coupling: keep components of coding separate so a fault in one does not break them all
+    - high cohesion
     - design patterns: book by Martin Fowler
     - algorithms
     - use node in MVC schema
@@ -87,6 +91,7 @@
     - what is routing?
     - node migrations
     - dependency injection
+    - types vs unit testing
     - databases:
         * SQL query refresh
         * ORM libraries/APIs: Object Relational Mapping - manipulating the data that you get from a DB
