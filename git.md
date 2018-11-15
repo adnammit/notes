@@ -4,14 +4,12 @@
 * allows you to back up, modify and revert changes without manually making and managing
   backup files
 
-
 ## TYPES OF VERSION CONTROL
 * formal vs impromptu
 * scalable vs too much work
 * centralized vs decentralized
 * concurrent vs locking
 * diffs/patches vs snapshots
-
 
 ## DISTRIBUTED VS CENTRALIZED
 * centralized advantages:
@@ -37,7 +35,6 @@
     * however you can create a central location to clarify this
   - there aren't really revision numbers, though changes have guid's
     * you can tag releases with names though
-
 
 ## DISTRIBUTED VERSION CONTROL
 * goals
@@ -103,6 +100,8 @@ git merge --no-ff foo           merge foo into your current branch with one comm
 git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
                                 generates a new commit for the current branch
 git cherry-pick A^..B           cherry pick a range of commits from and including A to B
+git rebase master               pull changes from master into current branch and replay branch commits on top
+git rebase --skip master        avoid conflicts between your own commits as they are being applied
 
 // WORKING WITH FILES
 git add foo                     add foo to files to be committed
@@ -113,7 +112,9 @@ git checkout bar.txt            checkout file from HEAD, discarding changes
 git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
 git reset                       reset HEAD to specified state (unstage changes). does not alter files
 git reset --hard master         reset HEAD and make files identical to master
-git clean                       remove untracked files from the working tree
+git clean                       remove untracked files from the current working dir
+git clean -n                    show which files would be removed
+git clean -f                    remove untracked files (not dirs)
 git rm foo                      remove local and remove remote on next push
 git rm --cached foo.txt         retain local and remove remote on next push, but this will delete foo.txt for others who pull -- instead use:
 git update-index --assume-unchanged foo.txt
@@ -185,129 +186,6 @@ git commit -m "updates foo"
 git push origin master
 ```
 
-### STASHING
-
-* git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
-* to get around this, we use `stashing`
-
-```bash
-git stash
-git co f3
-# do work on f3
-git co f4
-git stash pop
-```
-
-```
-git stash list                  view all items in the stash
-git stash                       stash all your current changes
-git stash -u                    include untracked files
-git stash push <file>           stash only one file
-git stash push -u -m "message"  manually push everything onto the stack with message
-git stash pop                   remove most recent stash item and apply it to the branch
-git stash pop <file>            remove <file> from stash and apply it to the branch
-git stash pop 2                 pop the item in index 2
-git stash apply <file>          apply <file> to the branch w/out removing it from the stash
-git stash show <stashname>      show summary of stash w/out popping
-git stash show -p               show full patch diff of most recent stash
-git stash drop <stashname>      w/out stashname, drops most recent
-git stash clear                 CAREFUL! this will delete your reflog as well
-```
-
-### FORMATTING
-* you can use various options to format data about commits and files
-
-#### DATES
-* format options include:
-    %cd: committer date (format respects --date= option)
-    %cD: committer date, RFC2822 style
-    %cr: committer date, relative
-    %ct: committer date, UNIX timestamp
-    %ci: committer date, ISO 8601-like format
-    %cI: committer date, strict ISO 8601 format
-* use `--format="%cd" --date=short` to easily get YYYY-MM-DD
-
-
-# PL GIT
-* we use many custom tools for git -- they’re located in `/usr/local/lib/pl_tools/bin`
-* update tools with `git tools update`
-* to roll out `__web__` use `roll_out site`
-* delete a branch with `git branch -d <name>`
-    - this has extra goodness in it to remove the repo site as well
-
-
-### EMACS:
-* view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
-
-### PL WORKFLOW:
-```bash
-$ git co f1
-
-# do some work in f1
-
-$ git add -A
-$ git commit -m "message"
-
-# do some more work, add/commit again as needed
-
-$ git co master
-$ git merge --squash f1   // or --no-ff
-$ git commit
-$ git push
-
-# RESET BRANCH
-
-$ git co f1
-$ git reset --hard master
-
-# now is a great time to dump those locks you don't need:
-$ git locks --update -b
-
-# get the last commit hash prior to the most recent reset and rcp:
-LAST_COMMIT_BEFORE_RESET=git reflog show --pretty='format:%H %gs' | awk '/.* reset: moving to .*/{getline; print $1; exit;}'
-roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
-```
-
-### SET UP A WEBSITE:
-```c
-$ git co -b f4                      // create a new branch
-$ roll_out site
-$ roll_out min_site                 // remember you can't have VS open to roll pl_app
-$ roll_out <whatever pkgs>
-$ ./build/copy_org perflogic        // copy each org TWICE, one at a time
-```
-
-### REVIEWING CODE
-Pushing your branch up for review:
-```c
-// create new review branch from f2
-git checkout -b my_review_branch_jhs_321 f2
-git push origin
-```
-
-Fetching someone else's code for review:
-```c
-git fetch
-git co <branch>
-```
-
-Deleting branches when you're done:
-```c
-// force delete local branch to avoid a warning that branch has not been merged
-git branch -D <branch>              
-
-// remove branch from remote that has been pushed to origin
-git push origin --delete <branch>   
-//or
-git push origin :<branch>
-
-git remote prune origin             // remove from your local list of remote branches
-// or
-git fetch origin --prune
-
-```
-
-
 ## USING GIT
 * staging: lining up changes to upload to the repository
 * making a commit: a commit is a snapshot of changes, author, date, committer, parent commit
@@ -373,6 +251,95 @@ git push
 ```
 
 
+### STASHING
+
+* git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
+* to get around this, we use `stashing`
+
+```bash
+git stash
+git co f3
+# do work on f3
+git co f4
+git stash pop
+```
+
+```
+git stash list                  view all items in the stash
+git stash                       stash all your current changes
+git stash -u                    include untracked files
+git stash push <file>           stash only one file
+git stash push -u -m "message"  manually push everything onto the stack with message
+git stash pop                   remove most recent stash item and apply it to the branch
+git stash pop <file>            remove <file> from stash and apply it to the branch
+git stash pop 2                 pop the item in index 2
+git stash apply <file>          apply <file> to the branch w/out removing it from the stash
+git stash show <stashname>      show summary of stash w/out popping
+git stash show -p               show full patch diff of most recent stash
+git stash drop <stashname>      w/out stashname, drops most recent
+git stash clear                 CAREFUL! this will delete your reflog as well
+```
+
+### FIXUP
+* sometimes you may need to fix an old commit. `fixup` followed by `autosquash` can help (you can also use `--squash` which will allow you to edit the commit message)
+* note that this should **not** be performed on commits that have already been merged/pushed for other devs to modify. this should only be performed on code strictly under your own control
+* say you have a commit for feature A and then make a commit for feature B, but then you find another modification you need to make for feature A:
+```bash
+    # Make commits for features A and B:
+    $ git add featureA
+    $ git commit -m "Feature A is done"
+    [dev fb2f677] Feature A is done
+    $ git add featureB
+    $ git commit -m "Feature B is done"
+    [dev 733e2ff] Feature B is done
+    # oops, not here's your shameful commit to fix A:
+    $ git add featureA
+    $ git commit --fixup fb2f677
+    [dev c5069d5] fixup! Feature A is done
+    # now the log shows three commits:
+    c5069d5 fixup! Feature A is done
+    733e2ff Feature B is done
+    fb2f677 Feature A is done
+    ac5db87 Previous commit
+    # When you're done making fixups:
+    $ git rebase -i --autosquash ac5db87
+    pick fb2f677 Feature A is done
+    fixup c5069d5 fixup! Feature A is done
+    pick 733e2ff Feature B is done
+    # That ^ will have opened up your editor. Just save and close and now:
+    $ git log --oneline
+    ff4de2a Feature B is done
+    5478cee Feature A is done       # contains fixup
+    ac5db87 Previous commit
+```
+* [read more info about fixup](https://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html)
+
+
+### RECOVERING LOST WORK WITH REFLOG
+* the reflog contains a history of all recent changes
+* say you did a `git reset --hard` but now you need those changes -- `reflog` has your back
+* using `reflog` you can view commits that are not visible with `git log`
+* suppose you were doing some work on `f1`, switched to master but then for some reason your commits on `f1` are gone!
+    ```bash
+        # viewing the reflog, we can see missing commits foo, bar and baz
+        $ git reflog
+        cf42fa2... HEAD@{84}: checkout: moving to master
+        73b9363... HEAD@{85}: commit: baz
+        547cc1b... HEAD@{86}: commit: bar
+        1dc3298... HEAD@{87}: commit: foo
+        26fbb9c... HEAD@{89}: checkout: moving to f1
+        # reset your f1 branch to the state of the most recent commit, baz:
+        $ git co f1
+        $ git reset --hard 73b9363
+        # or you can grab a specific file from a commit in the reflog:
+        $ git co f1
+        $ git co 73b9363 -- <filename>
+    ```
+* caveats:
+    - `reflog` won't save your work forever -- eventually "unreachable" work gets cleaned up
+    - `reflog` only works with changes that were committed
+    - `reflog` is yours and yours alone -- it can't help you with another person's uncommitted, unpushed work
+
 ### .GITIGNORE
 * frequently there will be files in your git folder that you don’t want on the interweb, or that are unnecessary/inapplicable to the repo.
 * use .gitignore to tell git which files to leave alone
@@ -417,6 +384,21 @@ git push
   $ git push --force
 ```
 
+### FORMATTING
+* you can use various options to format data about commits and files
+
+#### DATES
+* format options include:
+    %cd: committer date (format respects --date= option)
+    %cD: committer date, RFC2822 style
+    %cr: committer date, relative
+    %ct: committer date, UNIX timestamp
+    %ci: committer date, ISO 8601-like format
+    %cI: committer date, strict ISO 8601 format
+* use `--format="%cd" --date=short` to easily get YYYY-MM-DD
+
+
+
 
 ## GITHUB
 * github is a less distributed paradigm of git
@@ -441,3 +423,101 @@ git push
         * communicating pushes/pulls is necessary
     - focused commits with clear messages
     - follow project standards for branching, tagging, etc
+
+
+## PL GIT
+* we use many custom tools for git -- they’re located in `/usr/local/lib/pl_tools/bin`
+* update tools with `git tools update`
+* to roll out `__web__` use `roll_out site`
+* delete a branch with `git branch -d <name>`
+    - this has extra goodness in it to remove the repo site as well
+
+
+### EMACS:
+* view a file from another git branch in emacs with `C-x v ~`, then give br name or SHA
+
+### PL WORKFLOW:
+```bash
+$ git co f1
+
+# do some work in f1
+
+$ git add -A
+$ git commit -m "message"
+
+# update branch with recent commits to master:
+$ git rebase master
+
+# do some more work, add/commit again as needed
+
+$ git co master
+$ git merge --squash f1   // or --no-ff
+$ git commit
+$ git push
+
+# RESET BRANCH
+
+$ git co f1
+$ git reset --hard master
+
+# now is a great time to dump those locks you don't need:
+$ git locks --update -b
+
+# remove locks from a branch you've deleted
+$ git locks --remove --branch <branch name>
+
+# get the last commit hash prior to the most recent reset and rcp:
+LAST_COMMIT_BEFORE_RESET=git reflog show --pretty='format:%H %gs' | awk '/.* reset: moving to .*/{getline; print $1; exit;}'
+roll_changes_pkgs --revs ${LAST_COMMIT_BEFORE_RESET} HEAD
+```
+
+### SET UP A WEBSITE:
+```c
+$ git co -b f4                      // create a new branch
+$ roll_out site
+$ roll_out min_site                 // remember you can't have VS open to roll pl_app
+$ roll_out <whatever pkgs>
+$ ./build/copy_org perflogic        // copy each org TWICE, one at a time
+```
+
+### REVIEWING CODE
+Pushing your branch up for review:
+```c
+git checkout -b my_review_branch_jhs_321 f2 // create new branch w/ review name
+git review submit                   // submits CURRENT branch for review
+```
+
+Fetching someone else's code for review:
+```c
+git fetch
+git review show                     // view codes for review
+git review diff <branch_name|#>     // see what's in there
+git review init <branch_name|#>     // start review
+```
+
+Completing review:
+```c
+git review complete <branch_name|#> // if you're the reviewer
+git review cleanup <branch_name>    // if you're the reviewee
+```
+
+
+Stuff that's outdated probably:
+```c
+// create new review branch from f2
+git checkout -b my_review_branch_jhs_321 f2
+git push origin
+
+// force delete local branch to avoid a warning that branch has not been merged
+git branch -D <branch>              
+
+// remove branch from remote that has been pushed to origin
+git push origin --delete <branch>   
+//or
+git push origin :<branch>
+
+git remote prune origin             // remove from your local list of remote branches
+// or
+git fetch origin --prune
+
+```

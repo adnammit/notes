@@ -279,6 +279,7 @@ grep
     -m1     only display the first match in each file
 	-q		quiet
 	-r		recursive. follows sym links
+    -F      literal. helpful when searching for expressions containing '.'
 	--color	the colors, duke!
 	-A6		display the 6 lines after the expression is found
 	-B6		display the 6 lines before the expression is found

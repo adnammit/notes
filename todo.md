@@ -2,10 +2,10 @@
 # TO DO
 
 #### F1 >> dev
-\>> PROJECT AND REQUEST LAUNCH STUFF -- initial
+\>> f3 + editable form data and docs
 
-#### F2 >> dev
-\>> PROJECT AND REQUEST LAUNCH STUFF -- recent
+#### F2 >> reset
+\>> reset from master
 
 #### F3 >> dev -- BRANCHED OFF F2
 \>> PROJECT AND REQUEST LAUNCH STUFF + editable forms
@@ -16,14 +16,13 @@
 #### F5 >> reset -- no repo site
 \>>
 
-
-
+#### CHECKLAUNCH -- contains the unsquashed commits that f1 is based off of (e3d8678434) 
 #### file-cleanup
 \>> remove old maint files for ashland, sheridan and jhs gov req
+\>> add skip_logging_emails to org_settings
 \>> do another lf cleanse
 
 **run email repair script on jhs (and anyone else?)**
-
 
 
 ### NEW STUFF:
@@ -45,21 +44,35 @@ grst: grep in files named *state.dat
 ```
 
 ### ATOM NEW STUFF:
-```
-C-l                         select the current line
-C-j                         join next line to end of current line
-C-E                         select to end of line
-C-A                         select to beginning of line
-C-F                         find in project
-C-T                         show in tree view
-C-D                         duplicate current line
-C-click                     duplicate cursor at click point
-C-shift-p ["add..."]        add new file to current folder
-C-u C-0                     unfold all
-C-u C-n                     fold all at indent level n
-C-alt-m                     select to matching tag
-C-pageup                    move to previous pane
-C-pagedown                  move to next pane
+```c
+// EDIT
+C-l                                 select the current line
+C-j                                 join next line to end of current line
+C-E                                 select to end of line
+C-A                                 select to beginning of line
+C-d                                 select current word
+C-D                                 duplicate current line
+
+// NAVIGATE
+C-m                                 jump to matching tag
+C-alt-m                             select to matching tag
+C-pageup                            move to previous pane
+C-pagedown                          move to next pane
+alt-left/right                      jump to beginning/end of the line
+C-click                             duplicate cursor at click point
+alt-up/down                         create new cursor up or down
+c-a-shift-up/down/left/right        move last cursor up/down/left/right
+
+// ETC
+C-F                                 find in project
+C-T                                 show in tree view
+C-shift-p ["add..."]                add new file to current folder
+C-alt-{                             fold all
+C-alt-}                             unfold all
+C-u C-0                             also unfold all
+C-u C-n                             fold all at indent level n
+alt-C                               plscript: clean-file
+find -name 'foo.js' | xargs atom    open all files called 'foo.js' in atom
 ```
 
 ### GENERAL STUFF
@@ -81,12 +94,8 @@ C-pagedown                  move to next pane
         - to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
 
 ### ATOM TO DO:
-* write a thing to `git lock` from atom
-* find and replace sucks -- try multiple cursor selection
-* autocomplete sucks
 * use swirly font for comments
 * pirtle says: use apm to install packages through DOS (command prompt) rather than cygwin
-* is there a right-click "buffer manager" like with emacs? or a faster way to navigate through open files?
 * check out atom tags and bookmarks
 
 ### GIT

@@ -139,7 +139,22 @@
     /* versus this
         multiple line comment */ `
 
-#### COMPARISONS AND FALSY VALUES        
+
+### VAR VS LET VS CONST
+* `const` says "we won't be changing the value of this variable" -- use it as default if that condition applies
+    - note that the `const` declaration means that the identifier can't be reassigned
+    - a `const` object can have properties mutated
+            ```javascript
+            const foo = bar;
+            foo.name = "qux";   // legit
+            foo = cor;          // illegit
+            ```
+* `let` means "we may reassign this variable", as for a loop variable
+    - `let` will only be used in the block it's defined in -- it falls out of scope once the block is cleared
+* `var` is the most ambiguous. in ES6, it shouldn't really be used because its meaning is so weak
+
+
+### COMPARISONS AND FALSY VALUES        
 * "Falsy" and "truthy" values: value/type combos that evaluate to true or false via type coercion in JS's internal `ToBoolean` function which underlies statements like `!value`, `value ? ... : ... ;` and `if(value)`
 * falsy values include:
     - `false` - the true boolean 'false'
@@ -303,6 +318,18 @@
             }
         }
     ```
+* `forEach` is very popular as it typically is more readable than `for` and decently performant for most applications
+    ```javascript
+        const map = [
+            {name: "Sally", age: 32},
+            {name: "Edgar", age: 12},
+            {name: "Josephine", age: 39},
+            {name: "Mark", age: 20},
+        ];
+
+        map.forEach( item => (console.log(item.name + " is " + item.age + " years old.")));
+    ```
+
 
 ## MEMORY
 ### pass by reference vs pass by value
@@ -453,7 +480,7 @@
         ```
     - **repeating expressions** can be used to match zero or more expressions.
         * `+` matches one or more occurrences of the regex
-        * `*` matches zero or more occurences
+        * `*` matches zero or more occurrences
         * `?` matches zero or one time
         ```javascript
         /boo+(hoo+)+/i.test("Boohooohoohooo"); //true
