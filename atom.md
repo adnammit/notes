@@ -9,7 +9,15 @@ C-.             display keybindings resolver
 C-P             Command Palette
 C-I             developer tools
 C-t             open fuzzy finder
-Alt-t           toggle tree view
+alt-t           toggle tree view
+C-L             toggle grammar
+C-pageup        move to previous pane
+C-pagedown      move to next pane
+C-alt-{         fold all
+C-alt-}         unfold all
+C-u C-0         also unfold all
+C-u C-n         fold all at indent level n
+find -name 'foo.js' | xargs atom    open all files called 'foo.js' in atom
 ```
 
 ## FILES AND TABS
@@ -32,6 +40,8 @@ M-up            move to top of paragraph
 M-down          move to bottom of paragraph
 alt-<           move to top of document
 alt->           move to bottom of document
+alt-left        jump to beginning of the line
+alt-right       jump to end of the line
 C-a             move to beginning of line
 C-e             move to end of line
 C-m             jump to matching bracket/tag
@@ -45,9 +55,12 @@ C-h             select all
 C-A	            select to beginning of line
 C-E	            select to end of line
 C-l             select the current line
+C-d             select current word
+C-alt-m         select to matching tag
 M-shift-up/down	mark and select up or down
 C-click         duplicate cursor at click point
-C-alt-m         select to matching tag
+alt-up/down     create a new cursor above/below [multi-cursor]
+C-alt-shift-dir move last cursor up/down/left/right [multi-cursor]
 ```
 
 
@@ -75,13 +88,6 @@ C-alt-]         unfold block
 ```
 C-f             find in file
 C-shift-f       find within entire project
-```
-
-## PLSCRIPT
-```
-alt-shift-p		toggle plscript mode on
-C-b			    set breakpoint
-alt-shift-c		clear breakpoints
 ```
 
 ## MARKUP

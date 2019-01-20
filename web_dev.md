@@ -6,11 +6,8 @@
     - Back end/Server: convert data from the database to html, etc to be passed to the front end
     - Database: where bare, naked data is stored
 * your domain is the entry point for the user -- it is actually just a key which allows a user to access data via an IP address -- so www.mysite.com connects the client through to the server
-* after you've purchased a domain and web server, you'll need to go to
-  your registrar and transfer the DNS (domain name server) to your web
-  host
-    - this might take a minute -- all DNS's need to be redirected to your
-      site
+* after you've purchased a domain and web server, you'll need to go to your registrar and transfer the DNS (domain name server) to your web host
+    - this might take a minute -- all DNS's need to be redirected to your site
 * security
     - OAUTH: logging into pages with facebook/google
     - authorization
@@ -18,12 +15,10 @@
     - authentication
     - how to make a username/password
 
-
 ## DOMAINS:
 * consider: http://www.example.com
     - 'http://' is the PROTOCOL
-    - 'www' is the SUBDOMAIN. unnecessary, but it's a way of partitioning
-      a website
+    - 'www' is the SUBDOMAIN. unnecessary, but it's a way of partitioning a website
     - '.example.com' is the DOMAIN
     - '.com' is the TLD (top level domain)
         * TLDs are increasingly varied these days. they all work just as well.
@@ -34,8 +29,7 @@
 
 ## SERVERS
 * also called 'web host'
-* shared servers are just fine for a personal website that's small,
-  simple and low-traffic
+* shared servers are just fine for a personal website that's small, simple and low-traffic
 * host examples:
     - mediatemple
     - dreamhost
@@ -44,30 +38,31 @@
     - use SFTP (secure file transfer protocol using ssh)
 * there will be several pre-loaded dirs within your server
     - www is where your site will live
-    - within www there's a cgi-bin folder that you can delete
+    - within www there's a cgi-bin folder that you can delete (it's for storing cgi scripts -- previously the only place to store executables. it's now a relic)
 
 
 ## THE FRONT END
 * its job is to be friendly and pretty
-* there are three pillars of the front end: content, presentation, behavior
-    - HTML: create structure/content
+* there are three pillars of the front end: content, presentation, behavior (or `noun`, `adjective` and `verb`)
+    - HTML: create structure/content (`noun`)
     ```html
         <!doctype html> “hey web browser! this is html”
-        <html> opening tag
+        <html>
+            <!-- content goes here -->
         </html>
     ```
-    - CSS: make it pretty
+    - CSS: make it pretty (`adjective`)
         * tools:
             - SASS/LESS: almost exactly the same
         * frameworks:
             - bootstrap/foundation: lets you write a responsive web app with very little effort
             - bootstrap/foundation are both responsive
-    - Javascript: add behaviors; interplay between design and back end
+    - Javascript: add behaviors; interplay between design and back end (`verb`)
         * Frameworks: allow html pages to behave more like applications
             - Backbone.js
             - angular.js (google)
         * bonus points: learn unit testing (Jasmine/Karma) to test your own code
-        * jquery/ajax: use web services
+        * jquery/ajax: use web services (jquery is a js library that wraps AJAX functionality amongst many other things)
     - flash used to be useful but is dying out
 * more front end build tools:
     - using build tools allows you to minify, transpile and build
@@ -77,39 +72,6 @@
     - bower: package management (rather than sending jquery files)
     - requireJS:
     - browserfly: learn this.
-
-
-### LESS
-* language extension for CSS
-* variables:
-    - instead of typing `#5B83AD` over and over again, assign it to a nice variable name.
-    ```css
-        @nice-blue: #5B83AD;
-        @light-blue: @nice-blue + #111;
-
-        #header {
-          color: @light-blue;
-        }
-    ```
-* Mixins: way of "mixing in" a bunch of properties from one rule set to another
-    ```css
-        .bordered {
-          border-top: dotted 1px black;
-          border-bottom: solid 2px black;
-        }
-
-        #menu a {
-          color: #111;
-          .bordered; /* contains all properties of .bordered */
-        }
-
-        .post a {
-          color: red;
-          .bordered;
-        }
-    ```
-    - you can also use `#ids` as mixins.
-* nesting
 
 
 ## BACK END/SERVERS:
@@ -144,8 +106,6 @@
     - yeng says centOS redhat is best server OS
 
 
-
-
 ## APIS: APPLICATION PROGRAMMING INTERFACE
 * sets of requirements that govern how one app talks to another
     - they share some of the program's code
@@ -178,16 +138,13 @@
     - displays the DOM
     - displays any errors while executing your page
     - element inspection
-    - you can even alter code within the developer pane to explore changes
-      to your website, but if you refresh the page (and the original code)
-      will be reloaded
-    - by clicking on the 'network' pane you can see how long it took for
-      each element to load
+    - you can even alter code within the developer pane to explore changes to your website, but if you refresh, the page (and the original code) will be reloaded
+    - by clicking on the 'network' pane you can see how long it took for each element to load
 * common problems:
     - syntax: missing semicolon, parens, etc
     - confusing classes and IDs between html and css files
     - selector specificity:
-        * do i want to select .menu a or just .menu?
+        * do i want to select `.menu a` or just `.menu`?
     - css formattion    
         * W3.org/TR/css2/visualformattingmodel
 
@@ -208,7 +165,7 @@
     - CSS language extension
 * bower
     - package manager
-* webpack    
+* webpack
 * AJAX
     - client-side script that communicates with the server
     - exchanges data and updates webpage content without reloading the entire page
@@ -218,7 +175,7 @@
 * instead of MAMP you can moderate Apache and php yourself
 * start, stop and restart apache from the command line:
     - apachectl start, stop, restart, graceful
-* the computer comes with a shitty version of php so download a fresh one with homebrew    
+* the computer comes with a shitty version of php so download a fresh one with homebrew
 * php.ini is located in root: /etc/php.ini
 * run a local php server by calling the following command from your
   directory:

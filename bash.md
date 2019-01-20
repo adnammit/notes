@@ -230,6 +230,12 @@ fi
 ```
 * quotation marks can be used to preserve a string containing whitespace
 * quotes are also used to prevent errors in the case of evaluating a variable that is null
+* so basically:
+    - use braces when referencing an element in an array or a param higher than 9
+    - use braces to expand text manipulation (`${STRING%/*}`)
+    - use braces if you need your script to be POSIX portable
+    - use quotations if your variable could contain whitespace and it should be treated as one unit
+    - do not use quotations if your variable could contain whitespace and should be treated as separate units
 
 
 #### WHICH TEST BRACKETS TO USE

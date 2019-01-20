@@ -6,7 +6,8 @@
 .bashrc             for interactive, non-login shells
 .bash_profile       for login shells
 .bash_history       list of your bash commands
-$ history           spits out the contents of .bash_history in a nice, legible format
+history             spits out the contents of .bash_history in a nice, legible format
+history | grep foo  search manually for 'foo' (see also ^+R)
 ```
 
 
@@ -152,7 +153,8 @@ man pages:
         n/N                     move forward/back through search results
         man -K "foo"            search across all man pages
 
-type [command]                  display the exact command being executed
+type [command]                  display the exact command being executed. helpful if you're trying to verify what
+                                user-defined function is being called
 
 alias [alias]                   arg is optional -- with no args, displays all aliases and their commands
 
@@ -272,7 +274,7 @@ find    -[i]name	by name [case insensitive]
     	-group		files belonging to a particular group
      	-maxdepth n	limit search to depth of n. n=1: search this dir only
 
-grep
+
 	-l		show only files containing matches (not the matching text)
 	-i	    ignore case
 	-n 	    display line number of match
@@ -440,10 +442,12 @@ unlink foo		like rm for symlinks, w/out the implication of deleting its 'content
 * view permissions with `ls -l filename.txt`
 * examples:
 ```
-   chmod a+w filename.txt	everyone can write
+   chmod a+w filename.txt	    everyone can write
    chmod ug=rx reference.txt	user and group can read and execute only
-   chmod a-w file.txt		no one can write
-   chmod +x file.txt		everyone can execute
+   chmod a-w file.txt		    no one can write
+   chmod +x file.txt		    everyone can execute
+   chmod -R a+wrx foo           recursively chmod directory 'foo' so everyone can read, write & execute
+   chmod -R u+X foo.txt         recursively add executable flag for user in 'foo' but only for dirs, not files
 ```   
 * directories:
     - the group can add files:

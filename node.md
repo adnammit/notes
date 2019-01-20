@@ -1,22 +1,28 @@
-## NPM:
+## NPM
+
+### NVM
+* first let's talk about `nvm`, the package manager for your package manager
+* download and install nvm  -- then you can install, uninstall and use different versions of npm more flexibly
+    ```
+        nvm ls/list                 view downloaded versions
+        nvm ls-remote               view versions available to download
+        nvm install 10.5.0          install a specific version
+        nvm install latest          install the latest version
+        nvm use 10.5.0              you gotta say "use" if you actually want to use it -- just installing won't work
+        nvm alias default 10.5.0    set as default
+    ```
+
 * npm (Node Package Manager) is the default package manager for NodeJS
 * some npm functionality:
 ```
     which npm                       display version
+    npm search foo                  search for packages like 'foo'
     npm list -g --depth=0           view installed packages (-g for global - omit for local)
     npm cache clean                 clear cache
     npm prune                       remove unneeded packages
     npm install <foo> --save-dev    use when you want this to be available to be downloaded by other developers (say, grunt or gulp)
     npm install <foo> --save        use when you have a dependency which needs to be available for distribution (say, angularjs or express)
 ```
-
-STOP WITH:
-taskkill /F /IM node.exe
-
-"server": "babel-node server/index.js",
-"server": "nodemon --watch server --exec babel-node -- server/index.js",
-
-
 
 * should I install globally or locally?
     - if you're installing something that you want to use in your program, using require('whatever'), then install it locally, at the root of your project.
@@ -26,6 +32,7 @@ taskkill /F /IM node.exe
 * notes on installing packages with npm:
     - is npm installing in `..` rather than your `pwd`? you might need to `$ mkdir node_modules` first so npm doesn't get distracted and try to walk up the folder structure
 * installing with `--save` or `--save-dev` will install the necessary dependencies for distribution. Forgoing both will strip away those dependencies leaving others clueless to what is needed to run your dang thing, so try to use one or the other
+
 
 ### USING PACKAGE.JSON
 * why use `package.json`?
@@ -82,13 +89,23 @@ taskkill /F /IM node.exe
     3
 ```
 
+* STOP WITH:
+    ```
+    taskkill /F /IM node.exe
+    ```
+
+"server": "babel-node server/index.js",
+"server": "nodemon --watch server --exec babel-node -- server/index.js",
+
+
+
 ### NODEJS OBJECTS
 * what can we do with node? let's look at the docs:
     - some host objects of note: http, https, fs
 * you may see the .on method come up a lot -- this means that the callback
   is responding to an event
-  ```javascript
+    ```javascript
     req.on('error', function(e) {
-        console.log("problem with request: " + e);    
+    console.log("problem with request: " + e);    
     });
-```
+    ```

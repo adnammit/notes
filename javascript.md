@@ -1,3 +1,186 @@
+## BACKGROUND
+* ECMA2015 == ES6
+* js ecosystem: javascript is most commonly run in browsers, but it can also be used in native apps
+    - Electron: framework for building native apps using js, html, css etc
+    - Cordova
+    - NodeJS: serverside js
+
+
+
+
+## LANGUAGE FEATURES
+### BASICS    
+* statements are semicolon-terminated
+* comments
+    ```javascript
+    // single line comment
+    console.log(content);
+    /* versus this
+        multiple line comment */
+    ```
+
+
+### DATA TYPES
+* Numeric
+* String
+* Boolean
+
+### VARIABLES
+* always declare your variables, but we'll talk about undeclared variables anyway.
+* variables can be declared and assigned on the same line
+    ```javascript
+        var price, quantity, total;
+        price = 10.99;
+        quantity = 291;
+        total = price * quantity;
+
+        var price = 5, quantity = 291;
+        var total = price * quantity;
+    ```
+* undeclared variables do not use the `var`, `const` or `let` keyword. undeclared variables are always global
+    ```javascript
+        function foo() {
+            y = 1;      // throws an error in strict mode
+            var z = 2;
+        }
+        foo();
+        console.log(y); // 1
+        console.log(z); // throws reference error
+    ```
+* differences between variable types:
+    - declared variables are created before any code is executed
+    - undeclared variables do not exist until the code assigning them is executed
+    - declared variables are non-configurable properties of their execution context and thus, cannot be deleted
+    - undeclared variables are configurable and can be deleted
+* variable hoisting:
+    - this really only has to do with `var` variables because `const` variables need to be initialized when they are declared, and you'd get an error trying to reference a `let` variable before it's declared.
+    - because declared variables are processed before any code is executed, declaring them anywhere in code is equivalent to declaring them at the top of the function or script.
+    - hoisting only affects the variable's instantiation, not its value assignment, which will occur when the line of code where value assignment takes place is reached.
+    - to be as clear as possible about the scope of variables, you should declare all variables at the top of the code block.
+    ```javascript
+        function do_the_thing() {
+            console.log(bar); // undefined (not an error)
+            var bar = 12;
+            console.log(bar); // 12
+        }
+        // this is understood as:
+        function do_the_thing() {
+            var bar;
+            console.log(bar); // undefined
+            bar = 12;
+            console.log(bar); // 12
+        }
+        // however this doesn't work with `let`
+        function uh_oh() {
+            console.log(bar); // error!
+            let bar = 12;
+        }
+    ```    
+
+#### DECLARING VARIABLES WITH KEYWORDS
+* `const` says "we won't be changing the value of this variable" -- use it as default if that condition applies
+    - the `const` keyword declares a constant variable and it must be initialized upon declaration
+    - the `const` declaration means that the identifier can't be reassigned, but its properties can be mutated
+    ```javascript
+        const foo = bar;
+        foo.name = "qux";  // legit
+        foo = 12;          // illegit
+        const cor;         // nope
+    ```
+* `let` means "we may reassign this variable", as for a loop variable
+    - the `let` keyword declares a block-scope variable, optionally assigning it to a value
+    - `let` will only be used in the block it's defined in -- it falls out of scope once the block is cleared
+    ```javascript
+        let x;
+        x = 10;
+        if(true) {
+            let x = 20;
+            console.log(x);     //20
+        }
+        console.log(x);         //10
+        if(true) {
+            let y = 5;
+        }
+        console.log(y);         // error!
+    ```
+    - does not create a property on the global object
+    ```javascript
+        var x = 'hello';
+        let y = 'world';
+        console.log(this.x); //'global'
+        console.log(this.y); //undefined
+    ```
+* `var` is the most ambiguous. in ES6, it shouldn't really be used because its meaning is so weak
+    - the `var` keyword declares a variable, optionally assigning it to a value
+    - default value is `undefined`
+    - re-declaring a variable does not cause it to lose its value (unless you also assign it a value)
+    - scope is set to "execution context"
+        * if a var is declared within a function, its scope is that function
+        * if a var is declared outside of a function, its scope is global
+
+### REST PARAMETERS AND SPREAD SYNTAX
+* `rest parameters` allow functions to store multiple arguments in a single array
+* you can use rest parameters in tandem with normal parameters, but the rest param must come last.
+    - this is how "rest parameters" got their name -- they're the "rest" of the parameters
+    - as such, you can only have one rest param per function
+    ```javascript
+        function sendCars(day, ...allCarids) {
+            console.log('Today is ' + day);
+            allCarids.forEach( id => console.log(id) );
+        }
+        sendCars('Monday', 100, 200, 555);
+    ```
+* `spread syntax` looks a lot like `rest parameter` syntax, but it works in the opposite direction. spread syntax works great with `iterables`
+    ```javascript
+        function startCars(car1, car2, car3) {
+            console.log(car1, car2, car3);
+        }
+        let carIds = [100, 300, 500];
+        startCars(...carIds);       // 100 300 500
+        // since strings are "iterables" it works for strings as well:
+        let carCodes = 'abc';
+        startCars(...carCodes);     // breaks up the string 'abc' and logs each char separately as 'a' 'b' 'c'
+        // using rest and spread at the same time:
+        function startCars(car1, car2, car3, ...rest) {
+            console.log(rest);      // [4, 5, 6]
+        }
+        let carIds = [1, 2, 3, 4, 5, 6];
+        startCars(...carIds);
+    ```
+
+### DESTRUCTURING
+* allow us to easily assign variables to an array
+* we can use rest parameter syntax when we destructure
+* destructuring arrays:
+    ```javascript
+        let carIds = [1, 2, 5];
+        let [car1, car2, car3] = carIds;    // this is the destructuring of the array
+        console.log(car1, car2, car3);      // 1 2 5
+        // with rest parameter syntax
+        let fruits = ["apple", "pear", "orange", "kiwi"];
+        let snack, remSnacks;
+        [snack, ...remSnacks] = fruits;
+        console.log('I ate my ' + snack + ' and I have '+ remSnacks + ' left.');
+        // skip the first elem
+        let carIds = [1, 2, 5];
+        let remainingCars;
+        let [, ...remainingCars] = carIds;  // skips the first elem and assigns the rest to remainingCars
+        console.log(remainingCars);         // [2, 5]
+    ```
+* destructuring objects has a different syntax than destructuring arrays:
+    ```javascript
+        let car = { id: 500, style: 'convertible' };
+        let { id, style } = car;
+        console.log(id, style);             // 500, 'convertible'
+    ```
+
+### DESTRUCTURING OBJECTS
+
+
+### SPREAD SYNTAX
+
+
+
 
 ### OBJECTS AND PROPERTIES
 * objects may have:
@@ -14,14 +197,16 @@
 * properties of an object can be accessed using dot or bracket notation
     - dot notation is generally easier to read, but using bracket notation allows us to use variable to access properties
     ```javascript
-        let obj = {
+        let farm = {
             cat: 'meow',
-            dog: 'woof'
+            dog: 'woof',
+            cow: 'moo',
+            chicken: 'cluck'
         };
 
-        let sound = obj.dog; // 'woof'
-        let animal = 'cat';
-        sound = obj[animal]; // 'meow'
+        let sound = farm.dog; // 'woof'
+        let animal = 'cow';
+        sound = farm[animal]; // 'moo'
     ```
 
 * an **object literal** is a comma-separated list of name-value pairs wrapped in curly braces
@@ -76,7 +261,7 @@
     - the rendering engine processes any supplied CSS rules
 * when is JS loaded?
     - as the browser loads the document, when it finds a `script` tag it stops and loads it, and does whatever it needs to do
-    - if you have in-line script and put it halfway through your document, `document.write('Good afternoon!')` will be inserted at that halfway point in the document.
+    - if you have in-line script (`document.write('Good afternoon!')`, say) and put it halfway through your document, 'Good afternoon!' will be inserted at that halfway point in the document.
 
 ### NODES
 * below the parent `document` object, the DOM consists of a tree of objects called nodes
@@ -85,7 +270,6 @@
     - text ("Hello, welcome to Earth!")
     - attribute (css style)
 
-## DOM MANIPULATION
 ### ACCESS EXISTING ELEMENTS
 * `document` is your keyword to accessing the DOM
 * get elements by id or class:
@@ -131,27 +315,10 @@
     ```
 
 
-## SYNTAX
-### BASICS    
-* statements are semicolon-terminated
-* comments
-    `// single line comment
-    /* versus this
-        multiple line comment */ `
 
 
-### VAR VS LET VS CONST
-* `const` says "we won't be changing the value of this variable" -- use it as default if that condition applies
-    - note that the `const` declaration means that the identifier can't be reassigned
-    - a `const` object can have properties mutated
-            ```javascript
-            const foo = bar;
-            foo.name = "qux";   // legit
-            foo = cor;          // illegit
-            ```
-* `let` means "we may reassign this variable", as for a loop variable
-    - `let` will only be used in the block it's defined in -- it falls out of scope once the block is cleared
-* `var` is the most ambiguous. in ES6, it shouldn't really be used because its meaning is so weak
+
+# OTHER STUFF
 
 
 ### COMPARISONS AND FALSY VALUES        
@@ -191,81 +358,7 @@
     - for two identical objects, they will fail comparison of either type.
     - if two objects share the same reference (they point to the same object) then they are equivalent via both loose and strict comparison
 
-### DATA TYPES
-* Numeric
-* String
-* Boolean
 
-### VARIABLES
-* always declare your variables, but we'll talk about undeclared variables anyway.
-* variables can be declared and assigned on the same line
-    ```javascript
-        var price, quantity, total;
-        price = 10.99;
-        quantity = 291;
-        total = price * quantity;
-
-        var price = 5, quantity = 291;
-        var total = price * quantity;
-    ```
-* undeclared variables do not use the `var` or `let` keyword
-    - undeclared variables are always global
-    ```javascript
-        function foo() {
-            y = 1; // throws an error in strict mode
-            var z = 2;
-        }
-        foo();
-        console.log(y); // 1
-        console.log(z); // throws reference error
-    ```
-* variables declared with `var` keyword:
-    - `var` declares a variable, optionally assigning it to a value
-    - default value is `undefined`
-    - re-declaring a variable does not cause it to lose its value (unless you also assign it a value)
-    - scope is set to "execution context"
-        * if a var is declared within a function, its scope is that function
-        * if a var is declared outside of a function, its scope is global
-* `let` keyword:
-    - declares a block-scope variable, optionally assigning it to a value
-    ```javascript
-        let x = 10;
-        if(true) {
-            let x = 20;
-            console.log(x); //20
-        }
-        console.log(x); //10
-    ```
-    - does not create a property on the global object
-    ```javascript
-        var x = 'hello';
-        let y = 'world';
-        console.log(this.x); //'global'
-        console.log(this.y); //undefined
-    ```
-* differences between variable types:
-    - declared variables are created before any code is executed
-    - undeclared variables do not exist until the code assigning them is executed
-    - declared variables are non-configurable properties of their execution context and thus, cannot be deleted
-    - undeclared variables are configurable and can be deleted
-* variable hoisting:
-    - because declared variables are processed before any code is executed, declaring them anywhere in code is equivalent to declaring them at the top of the function or script.
-    - hoisting only affects the variable's instantiation, not its value assignment, which will occur when the line of code where value assignment takes place is reached.
-    - to be as clear as possible about the scope of variables, you should declare all variables at the top of the code block.
-    ```javascript
-        function do_the_thing() {
-            console.log(bar); // undefined
-            var bar = 12;
-            console.log(bar); // 12
-        }
-        // this is understood as:
-        function do_the_thing() {
-            var bar;
-            console.log(bar); // undefined
-            bar = 12;
-            console.log(bar); // 12
-        }
-    ```
 
 ## CONDITIONS AND LOOPS
 #### CONDITIONS
@@ -489,27 +582,27 @@
         /neighbou?r/.test("neighbor"); //true
         /neighbou?r/.test("neighbour"); //true
         ```
-    ```javascript
-        a+b     // match one or more occurrences of 'a' followed by one occurrence of 'b'
-                // matches ab, aaab, abb         does not match b, baa
+        ```javascript
+            a+b     // match one or more occurrences of 'a' followed by one occurrence of 'b'
+                    // matches ab, aaab, abb         does not match b, baa
 
-    ```
+        ```
     - **word boundaries**:
         * `\b` denotes the beginning of a word
-    ```javascript
-        var str = "the very voracious vulture vaulted upwards into the sky";
-        var vstrs = str.match(/\bv+/gi);
-    ```
-    <!-- - **line boundaries**:
+        ```javascript
+            var str = "the very voracious vulture vaulted upwards into the sky";
+            var vstrs = str.match(/\bv+/gi);
+        ```
+    - **line boundaries**:
         * `^` denotes beginning of a line
         * `$` denotes end of a line
-    ```javascript
-        ^(the cat).+    // 'the cat' must be at the start of the line.
-                        // matches 'the cat runs' but not 'see the cat run'
-        .+(the cat)$    // 'the cat' must be at the end of the line.
-                        // matches 'watch the cat' but not 'the cat eats'
-        ^.$             // matches all strings containing just one character
-    ``` -->
+        ```javascript
+            ^(the cat).+    // 'the cat' must be at the start of the line.
+                            // matches 'the cat runs' but not 'see the cat run'
+            .+(the cat)$    // 'the cat' must be at the end of the line.
+                            // matches 'watch the cat' but not 'the cat eats'
+            ^.$             // matches all strings containing just one character
+        ```
 
 ## MATHS
 * be careful with prefix/postfix!
