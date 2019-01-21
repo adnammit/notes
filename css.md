@@ -134,6 +134,124 @@ https://app.pluralsight.com/player?course=css-intro&author=scott-allen&name=css-
 
 
 
+
+# old notes to add:
+
+IMAGES:
+o some devices have screens with double-pixel density and should be
+  created at twice the size to show up sharply on such screens
+    - not super common, but becoming moreso
+
+
+UNITS:
+o pixels
+o ems: ems are a relative unit. for example, if our font is set to 1.75
+  ems, it will be displayed at 1.75 times the size of the default font
+  size.
+    - one em is equivalent to the height of the default font which is set
+      to 16px in most browsers by default
+    - ems are better suited to the cascading style of css.
+
+FONT:
+o heading fonts are automatically set to bold but can be overridden
+o some basic properties of fonts;
+    - font-family: <specific font>, <backup font family(sans-serif, etc)
+    - margin: space around the block of text
+    - font-size: given in px or em's
+    - font-weight: normal, bold, italic, etc
+    - line-height: space between text, given in em's usually
+
+
+
+
+CODING STYLE
+o "normalize.css": in the treehouse example, normalize.css is used to
+  create a baseline display so that the html will display the same in all
+  browsers. we will then add our own custom css on top of this baseline.
+o you may select elements multiple times within the same body of code
+    - e.g.: rather than doing one selection for 'body', one for 'h1', etc
+      you may choose to have a 'colorschemes' section, a 'position'
+      section, a 'font' section, etc
+
+
+
+
+**PROPERTIES**
+
+MARGIN AND PADDING:
+o using the line "padding: 0 auto;" sets top and bottom margins to zero
+  and balances the margin right and left -- a sneaky, effective way of
+  centering your work
+o you can assign negative values.
+    - for example: the following code moves the element up (-5px) from the
+      place it normally would have sat with 0 margin, placed 0px left
+      and right, and 0px on the bottom
+	margin: -5px 0 0;
+o what's the difference between using one, two, three and four values
+  for margin/padding?
+    - margin: 10px;    
+	* sets all margins to 10px
+    - margin: 5px 0;
+	* sets top and bottom margins to 5px, left and right
+	  margins to 0
+    - margin: 5px 20px 10px;
+	* top is 5, right and left are 20, bottom is 10
+    - margin: 5px 20px 10px 12px;
+	* top is 5, right is 20, bottom is 10, left is 12
+o you can also use the following properties to specify margin and
+  padding:
+    - margin-top, margin-left, etc
+    - padding-bottom, padding-right, etc.
+
+WIDTH:
+o given as a percentage or px
+o 'max-width':
+    - set to 100%, it will fill the volume of the parent container
+o width: 45%;   
+    - the element will take up 45% of the width of its parent element
+    - this example allows for up to 2 such elements to be displayed
+      side-by-side with 10% of the page width left over
+    - this "extra space" can be used to pad the elements nicely with:
+	padding: 2.5%;
+
+
+FLOAT:
+o allows elements to appear side-by-side, rather than being displayed
+  consecutively down in a single column
+o floated elements don't have an explicit width, so make sure to set it
+  to 100% unless you mean something else
+
+CLEAR:
+o helpful companion to 'float'
+o if an element follows a floated element or elements, it may push up into
+  the element in ways it's not supposed to. it must be "cleared" of the
+  floated element(s)
+o allows elements to be "cleared" of other elements, both top/bottom,
+  and left/right
+
+DISPLAY
+o without specifying this property, an element's display is either 'block'
+  or 'inline'
+o block elements seem to push other elements out of the way
+    - sections, divs, etc that have a specific width and height
+o inline elements
+    - mostly just text -- fluid, follows lines
+o display can be set to 'inline-block' which gives inline character to
+  block elements
+    - ex: displaying images in a row
+o using "display: block;" in conjuction with "margin: 0 auto 0;" gives us
+  more flexibility than using the text property "center"
+    - better for formatting to variable screen sizes
+
+
+BORDER:
+o using radius gives you a circular border on your images. WHOA!
+    - using "border-radius: 100%;" gives you a perfect circle
+    - using "border-radius: 20px" will give you subtly rounded corners
+
+
+
+
 ### LESS
 * language extension for CSS
 * variables:
@@ -165,3 +283,9 @@ https://app.pluralsight.com/player?course=css-intro&author=scott-allen&name=css-
     ```
     - you can also use `#ids` as mixins.
 * nesting
+
+SASS: SYNTACTICALLY AWESOME STYLE SHEETS
+o from the dir you're working in, type:
+    $ sass --watch inputFile.sass:outputFile.css
+o sass will then automatically refresh the css file every time you save
+  the sass file

@@ -47,47 +47,38 @@
 
 
 ## NODEJS
-* Node allows you to run applications on the server that are written in
-  javascript
-* node is built on google's V8 JS runtime engine and written in C++ so
-  it's fast
+* Node allows you to run applications on the server that are written in javascript
+* node is built on google's V8 JS runtime engine and written in C++ so it's fast
 * used to write developer tools like Grunt and Gulp
 
 ### HOW DOES NODE FIT INTO THE LARGER JS ECOSYSTEM?
-* when we use JS in a browser, it's interpreted against the browser's
-  engine and is run against browser-specific APIs like the DOM
+* when we use JS in a browser, it's interpreted against the browser's engine and is run against browser-specific APIs like the DOM
     * (yes, the DOM is an API)
-* when we're thinking about javascript in a browser we can divide it
-  into two distinct parts:
+* when we're thinking about javascript in a browser we can divide it into two distinct parts:
     - native objects
         * strings, arrays, dates, math
         * these can be used in any JS environment
     - host objects
         * in the browser, these include: window, document, history, xml, httprequest, etc
-* when google introduced the open-source v8 js engine, it opened the door
-  for js to do more than just make web pages
-* with the off-browser v8 engine, we have the same native objects with a
-  new cast of host objects:
+* when google introduced the open-source v8 js engine, it opened the door for js to do more than just make web pages
+* with the off-browser v8 engine, we have the same native objects with a new cast of host objects:
     - http, https, fs (filesystem), url, etc
 * the coupling of the v8 engine with apis create the nodejs platform
 * aside from being fast, why is nodejs so badass?
-    - it's non-blocking -- we can do a bunch of different tasks at once,
-      without blocking other requests
-    - other platforms use 'workers' -- multiple instances of the same
-      process which all work on different tasks
-    - but nodejs is just one super-efficient worker that does what it can
-      do as soon as it can
+    - it's non-blocking -- we can do a bunch of different tasks at once, without blocking other requests
+    - other platforms use 'workers' -- multiple instances of the same process which all work on different tasks
+    - but nodejs is just one super-efficient worker that does what it can do as soon as it can
 
 ### GETTING STARTED
 * you can run node code that's saved as a .js file by typing:
     `$ node app.js`
 * you can also enter a Read-Evaluate-Print loop (REPL) and play with
   node on the command line:
-  ```bash
-    $ node
-    > 1+2
-    3
-```
+    ```bash
+        $ node
+        > 1+2
+        3
+    ```
 
 * STOP WITH:
     ```

@@ -159,6 +159,12 @@
         * JS transpiling
         * minification
         * live reloading
+    - installation:
+        * install globally in your development environment
+        * for each project, install gulp and gulp utils into dev dependencies
+    - getting started:
+        * all activity is monitored from one gulpfile.js which tells gulp all
+          its tasks, what they are and when to do them
 * node.js
     - open source, cross platform environment for developing server-side applications
 * sass/LESS
@@ -177,8 +183,7 @@
     - apachectl start, stop, restart, graceful
 * the computer comes with a shitty version of php so download a fresh one with homebrew
 * php.ini is located in root: /etc/php.ini
-* run a local php server by calling the following command from your
-  directory:
+* run a local php server by calling the following command from your directory:
         `$ php -S localhost:8000`
     - then navigate to 'http://localhost:8000/' in your browser
     - managing php processes:
@@ -199,8 +204,28 @@
 
 
 ## FRAMEWORKS AND LIBRARIES AND SERVERS -- OH MY!
-* **angularJS** is a front-end framework which allows webpages to behave more like applications and communicates asynchronously with the server
+* **angularJS**
+    - a front-end framework which allows webpages to behave more like applications and communicates asynchronously with the server
     - using the angular resource factory, you create an abstraction of the server side RESTful API to make server side calls
+    - lets you use html as your template language
+    - angular manages all the ajax and dom manipulation glue code within a
+      well-defined structure
+    - angular teaches the browser new syntax through a construct we call
+      directives:
+    - the CRUD application (Create, Read, Update and Delete)
+        - data binding
+        - DOM control structures for showing, hiding and repeating DOM
+          fragments
+        - support for forms and form validation
+        - attaching new behavior to DOM elements, like DOM event handling
+        - grouping of html elements into reusable components
+        - routing
+        - deep linking
+        - dependency injection
+        - testability: unit testing, end-to-end testing, mocks and test
+          harnesses
+
+
 * the server, in turn, is set up with REST services to respond to these calls
     - for the server-side, you could use a nodeJS framework such as **ExpressJS**
 * however you implement your website, making sure that there is a clear distinction between the client and server will make it easier to test and maintain

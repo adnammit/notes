@@ -6,6 +6,31 @@
     - NodeJS: serverside js
 
 
+o javascript has myriad applications
+    - building front end for responsive web pages
+    - used as server-side scripting
+    - building web apps
+o javascript as it applies to front end dev:
+    - websites are built through three aspects:
+	* content (HTML)
+	* style (CSS)
+	* interactivity (JS)
+    - each browser reads and interprets html, css and js
+    - though js is often embedded in an html document, it is good to keep
+      js code in a separate .js document
+    - this separate file can be reference by embedding the following code
+      in the head tag:
+	    <script src="myscript.js"></script>
+	* this tag cannot contain other js code
+	* more than one file can be linked to a single html doc
+    - you can also insert js into an html doc by putting code inside
+      script tags, wherever you need to put it
+	    <script>
+		alert("Here's an important message");
+	    </script>
+    - js code is usually inserted just before the close of the head tag
+      and just before the close of the body tag. this allows the html to
+      be interpreted and displayed before we execute our js
 
 
 ## LANGUAGE FEATURES
@@ -21,12 +46,23 @@
 
 
 ### DATA TYPES
-* Numeric
+* Numeric: always 64-bit floating point
 * String
 * Boolean
+* infinity!
+    - division by zero will also generate infinity
+* Array
+* Hex: `var myVar = 0xFF;`
+* NaN
+    - generated when trying to do arithmetic with non-numbers
+* objects
+* undefined
+
+
 
 ### VARIABLES
 * always declare your variables, but we'll talk about undeclared variables anyway.
+* variables are typically camelCase or snake-case and cannot start with a number
 * variables can be declared and assigned on the same line
     ```javascript
         var price, quantity, total;
@@ -196,36 +232,42 @@
         * properties: location (url)
 * properties of an object can be accessed using dot or bracket notation
     - dot notation is generally easier to read, but using bracket notation allows us to use variable to access properties
-    ```javascript
-        let farm = {
-            cat: 'meow',
-            dog: 'woof',
-            cow: 'moo',
-            chicken: 'cluck'
-        };
+        ```javascript
+            let farm = {
+                cat: 'meow',
+                dog: 'woof',
+                cow: 'moo',
+                chicken: 'cluck'
+            };
 
-        let sound = farm.dog; // 'woof'
-        let animal = 'cow';
-        sound = farm[animal]; // 'moo'
-    ```
-
+            let sound = farm.dog; // 'woof'
+            let animal = 'cow';
+            sound = farm[animal]; // 'moo'
+        ```
+    - `for` can be used to iterate through the properties of an object
+        ```javascript
+            for ( var propName in student) {
+                console.log(propName); // lists the properties
+                console.log(student[propName]); // lists the value of prop
+            }
+        ```
 * an **object literal** is a comma-separated list of name-value pairs wrapped in curly braces
     - may be on one line or multiple
     - property values can be of any type including arrays and functions
     - there is no comma after the last item
     - curly braces are terminated with a semi colon
-    ```javascript
-        var Swapper = {
-            images: ["smile.gif", "grim.gif", "frown.gif", "bomb.gif"],
-            pos: {
-                x: 40,
-                y: 300
-            },
-            onSwap: function() {
-                // do stuff
-            }
-        };
-    ```
+        ```javascript
+            var Swapper = {
+                images: ["smile.gif", "grim.gif", "frown.gif", "bomb.gif"],
+                pos: {
+                    x: 40,
+                    y: 300
+                },
+                onSwap: function() {
+                    // do stuff
+                }
+            };
+        ```
     - why use an object literal?
         * useful for unobtrusive event handling
     - why not use them?
@@ -364,7 +406,13 @@
 #### CONDITIONS
 * there is a ternary shorthand for an `if-then-else` statement. It can be used in places where a regular if-else block cannot (inside a condition or method parameter)
     ```javascript
-    // return a priced depending on whether someone is a member or not
+    // standard 'if' block:
+    if (name === "Dave") {
+        alert("Hey, I know you!");
+    } else
+        alert("I don't know you, man");
+    }
+    // or use ternary:
     function getFee(isMember) {
         return (isMember ? "$2.00" : "$4.00");
     }
@@ -422,7 +470,13 @@
 
         map.forEach( item => (console.log(item.name + " is " + item.age + " years old.")));
     ```
-
+* `while`
+    ```javascript
+        let counter = 0;
+    	while (counter < 10) {
+    	    counter++;
+    	}
+    ```
 
 ## MEMORY
 ### pass by reference vs pass by value
@@ -473,7 +527,20 @@
     ```
 
 
-## STRING METHODS
+## STRINGS AND STRING METHODS
+o can be demarcated with '' or ""
+o you can use an escape character to express ' within a '' block or to
+  express " within a "" block.
+      var quotation = "\"Elementary, my dear Watson.\" --Sherlock Holmes";
+o whitespace
+o concatenation: + symbol
+	var name = prompt("What is your name?");
+	alert("Hello, " + name);
+o you can use += to concatenate strings
+	message += " Thanks for stopping by!";
+    - this technique can be used to build up large blocks of text in a
+      more readable way than using a million concatenation operators
+
 * none of these things seem to actually alter the value of `str` -- they just return values which you could of course store as variables or use to alter the value of `str`
 * str length is just a prop of a string object:
     ` var len = str.length;`
@@ -615,3 +682,21 @@
         var a = 6;
         var b = ++a; //a = 7. b = 7
     ```
+
+
+JAVASCRIPT CONSOLE:
+o chrome has a js console built in. just type command+alt+j to open it
+o this displays errors
+o sometimes it's buggy and doesn't display the line number. refreshing
+  should fix it.
+o use 'console.log' to print messages in the console when you execute your
+  page in the browser
+	in myscript.js:
+	    console.log("program has finished running");
+    - this is really awesome for tracking variable content, debugging, etc
+    - try wrapping your .js code with console log calls:
+	    console.log("begin program");
+	    .... some code ....
+	    console.log("end program");
+o use clear() to clear it out
+o press up to scroll through the history
