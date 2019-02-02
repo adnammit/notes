@@ -46,7 +46,7 @@
 * there are three pillars of the front end: content, presentation, behavior (or `noun`, `adjective` and `verb`)
     - HTML: create structure/content (`noun`)
     ```html
-        <!doctype html> “hey web browser! this is html”
+        <!doctype html> <!--“hey web browser! this is html” -->
         <html>
             <!-- content goes here -->
         </html>

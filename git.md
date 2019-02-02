@@ -71,6 +71,7 @@ git remote set-url origin <url> set url (esp if switching between ssh and https)
 git checkout                    switch between branches you already have
 git checkout -                  check out the last branch you were on
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
+git co --track origin/foo       check out remote branch foo and set your local to track to it
 git checkout -- foo             restore foo, which you accidentally deleted
 git checkout bar.txt            checkout file from branch remote, discarding local changes
 git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes

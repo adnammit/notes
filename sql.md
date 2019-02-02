@@ -16,6 +16,16 @@
 * you can view dependencies of views and sprocs by right clicking and selecting "View Dependencies"
 
 
+## OPTIMIZATION
+* if you have the options of using a vw or a sproc, sprocs provide more ways to optimize
+* use dynamic joins wherever possible (only join if you have to)
+* inner joins are faster than outer joins
+* use more `WHERE` conditions to narrow down your pool (such as only recent data, etc)
+* enums take longer than bools
+* use temporary tables rather than iterating over the same beastly table
+* query plans are cached -- if the query parameters are exactly the same, it pulls the existing query out of the cache and uses that one. "optimized" queries sometimes waste time -- the cache may need to be cleared
+* don't put `CONST`s at the beginning of a sproc
+
 ## QUERY FEATURES
 * **LIKE**
     ```sql
