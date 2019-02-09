@@ -46,12 +46,143 @@
     ```
 
 
-### C# NOTES
-* access rights:
-    - private: only accessible by the class itself
-    - protected: accessible by a class and its children
-    - public: accessible by anyone
-    - internal/protected internal: accessible only by methods within the same assembly or by derived classes from other assemblies
+## C# OBJECT ORIENTED PROGRAMMING
+* using OOP helps us to accomplish and conform to the following:
+    - clean code
+    - defensive coding
+    - domain driven design
+    - design patterns
+    - iterative agile
+
+
+### CLASS STRUCTURE
+* **classes** define the structure of **objects** which are instances of the class
+* class **members** consist of
+    - **methods**
+    - **properties**
+* an instance of a class is often called an **object variable**
+    `Customer customer = new Customer();``
+    - objects are transitory -- they do not exists when the code is not running
+* **business object** often refers to a class that solves a particular problem (in this case, object == class)
+* an **entity** is something from the real world that is being represented by a class
+* putting it all together:
+    - a _customer_ is something that's important to business, so it is an **entity**
+    - we create a `Customer` class to represent our real-life customers
+    - we create instances (or **objects**) of the `Customer` class which contain all the class properties
+
+### DATA ACCESS
+* a class encapsulates its data and access to that data is controlled via `getters` and `setters`
+* `getters` and `setters` map to **backing fields** -- the actual data
+* you could manually create a property that returns or sets the value of the backing field, as in the first example below. but you only want to do this if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
+    ```csharp
+        // full property syntax with a backing field:
+        public class Customer
+        {
+            private string _lastName;
+            public string LastName
+            {
+                get {
+                    // some code
+                    return _lastName;
+                }
+                set {
+                    // some code
+                    _lastName = value;
+                }
+            }
+            // or more simply
+            public string FirstName { get; set; }
+        }
+
+        // or more simply, using auto-implemented properties:
+        public class Customer
+        {
+            // this implements the backing field as well
+            public string FirstName { get; set; }
+        }
+    ````
+* example of class creation:
+    - note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
+    - `FullName` is calcualted from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
+
+    ```csharp
+        public class Customer {
+            public string FirstName { get; set; }
+            public string EmailAddress { get; set; }
+            public int CustomerId { get; private set; }
+            public string FullName {
+                get {
+                    return LastName + ", " + FirstName;
+                }
+            }
+        }
+
+    ```
+
+#### ACCESS MODIFIERS
+* **private**: only accessible by the class itself
+* **protected**: accessible by a class and its children
+* **public**: accessible by anyone
+* **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
+
+
+### LAYERING
+* in addition to breaking the code down into classes, it also makes sense to break the application itself into portable units or **layers**
+* layering makes it easier to extend the application
+* layers include:
+    - **user interface**: forms or pages displayed to the user; logic to control the UI elements (`exe`)
+    - **business logic**: logic to perform business operations (`dll`)
+    - **data access**: logic to retrieve and save data to and from the database (`dll`)
+    - **common**: code that is applicable to many layers and perhaps multiple applications (`dll`)
+        - ex: logging, sending an email
+* each layer is encapsulated into a separate project
+
+
+### CREATING A BUSINESS LAYER
+* in VB select `New Project > Visual C# > Class Library`
+
+
+
+## TESTING
+* if we're working with layered design, how do we test a dll?
+* we write an **automated** code test -- a separate body of code that's sole purpose is to test another piece of code
+* tests usually have the same name as the code it's testing with the `Test` suffix
+* create the test through VS by creating a new project of type test and
+* steps for building an automated test:
+    - **arrange**:  any preparations such as creating an instance of the subject class, and defining the **expected** result
+    - **act**: perform an action that returns an **actual** value
+    - **assert**: evaluate the actual value as compared to the expected value
+    ```csharp
+    Using Customer.BLL
+        [TestClass]
+        public class CustomerTest
+        {
+            [TestMethod]
+            public void FullNameTestValid()
+            {
+                // --- arrange
+                Customer customer = new Customer();
+                customer.FirstName = "Bilbo";
+                customer.LastName = "Baggins";
+                string expected = "Baggins, Bilbo";
+
+                // --- act
+                string actual = customer.FullName;
+
+                // --- assert
+                Assert.AreEqual(expected, actual);
+
+            }
+        }
+    ```
+* pinning Test Explorer might be useful
+    - you can "Run All"
+    - or right-click and "run test" or "debug run"
+
+## LIBRARIES
+* **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
+    - when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
+
 
 
 

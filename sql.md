@@ -1,7 +1,7 @@
 # SQL
 
 ## OVERVIEW
-* you can view and query databases by opening the Microsoft SQL Server Management Studio program
+* you can view and query databases by opening the Microsoft SQL Server Management Studio (SSMS)
     - expand `Databases` -- there you can see all the databases used by various apps and teams
     - each project folder contains a `Tables` folder (where the actual data lives) and Stored Procedures (under `Programmability`)
 
@@ -13,6 +13,9 @@
 ## GOTCHAS AND TIPS
 * using `NOLOCK` for a query seems like a good idea if you don't want to change any data, so why might that be a bad idea?
     - using `NOLOCK` means another query won't block your access to that data, but if you read that data while the query is changing it, you might get a **dirty read** where your data is suddenly no longer current
+* consider `NOLOCK` vs `SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`
+    - `NOLOCK` sets just one table to read w/out locking
+    - the latter sets the state of the entire transaction
 * you can view dependencies of views and sprocs by right clicking and selecting "View Dependencies"
 
 
@@ -54,3 +57,47 @@
         FROM trips
         GROUP BY boatName
     ```
+
+
+
+## EXAMINE QUERIES USING EXTENDED EVENTS
+
+* check to see if you have perms to alter event data:
+    ```sql
+        SELECT HAS_PERMS_BY_NAME(null, null, 'ALTER ANY EVENT SESSION');
+    ```
+
+
+
+
+```sql
+
+IF EXISTS (SELECT *
+    FROM sys.server_event_sessions    -- If Microsoft SQL Server.
+    WHERE name = 'testSession')
+BEGIN
+DROP EVENT SESSION testSession
+      ON SERVER;
+END
+go
+
+CREATE EVENT SESSION [testSession]
+    ON SERVER
+    ADD EVENT sqlserver.sql_statement_completed(
+        WHERE ([sqlserver].[like_i_sql_unicode_string]([sqlserver].[sql_text],N'%SELECT%HAVING%')))
+    ADD TARGET package0.event_file(
+        SET filename=N'C:\Temp\testSession.xel') -- change to corresponding output file
+        WITH (
+            MAX_MEMORY=4096 KB
+            ,EVENT_RETENTION_MODE=ALLOW_MULTIPLE_EVENT_LOSS
+            ,MAX_DISPATCH_LATENCY=3 SECONDS
+            ,MAX_EVENT_SIZE=0 KB
+            ,MEMORY_PARTITION_MODE=NONE
+            ,TRACK_CAUSALITY=OFF
+            ,STARTUP_STATE=OFF
+        )
+GO
+
+
+
+```

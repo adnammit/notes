@@ -18,6 +18,7 @@ C-alt-}         unfold all
 C-u C-0         also unfold all
 C-u C-n         fold all at indent level n
 find -name 'foo.js' | xargs atom    open all files called 'foo.js' in atom
+C-shift-P 'spell...' toggle spellcheck on/off
 ```
 
 ## FILES AND TABS

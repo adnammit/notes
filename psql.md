@@ -1,6 +1,6 @@
 # PSQL
 
-##RUNNING PSQL LOCALLY:
+## RUNNING PSQL LOCALLY:
 * from your local CLI type:
     ```
         psql -d <dbname>
@@ -21,9 +21,7 @@ postgres -D /usr/local/var/postgres
 
 
 
-
-
-## COMMANDS
+## PSQL COMMANDS
 ```
 * \? - full list of commands
 * \h - help
@@ -38,9 +36,9 @@ postgres -D /usr/local/var/postgres
 * \e - open query in vim, nano, or other environment editor
 ```
 
-## CREATING A TABLE:
-* create table
-    ```
+## CREATE AND DESIGN A TABLE:
+* **CREATE** table
+    ```sql
     create table faculty(
         fid int primary key,
         fname char(15),
@@ -48,23 +46,101 @@ postgres -D /usr/local/var/postgres
         did int references department(did) deferrable
     );
     ```
-* alter a table:
-    alter table department add foreign key (dhead) references
-        faculty(fid) deferrable;
-    alter table faculty drop age;
-* insert values:
-    insert into faculty values(124, 'Jean-Luc', 45, 1005);
-* delete a row which satisfies a condition:
-    delete from faculty where fname = 'Jean-Luc';
-    delete from faculty;    // empties the table
-* copy data from a .csv or .txt to your table:
-    copy zip_codes from '/path/to/csv/ZIP_CODES.txt' DELIMITERS ',' CSV;
+* **ALTER** a table:
+    ```sql
+        -- create fk
+        alter table department add foreign key (dhead) references
+            faculty(fid) deferrable;
+        -- remove column?
+        alter table faculty drop age;
+        -- add a column
+        alter table students add column major char(15);
+    ```
+* **INSERT** values:
+    ```sql
+        insert into faculty values(124, 'Jean-Luc', 45, 1005);
+        -- insert multiple values
+        insert into pirates values
+            ('Black Beard', 42),
+            ('Anne Bonny', 28),
+            ('Calico Jack', 32)
+    ```
+* **DELETE** a row which satisfies a condition:
+    ```sql
+        delete from faculty where fname = 'Jean-Luc';
+        delete from faculty;    -- empties the table :(
+        delete from students where gpa < 2;
+        delete from students where name = 'Daniel';
+    ```        
+* **UPDATE** a row:
+    ```sql
+        update students set gpa = 4 where name = 'Daniel';
+    ```
+* **NOT NULL**: if you add a not-null column to a table, you can't just add it -- that column will be null for all existing rows which is not permitted
+    - to get around this, create the column as null, add values for existing columns and then make the column not null:
+    ```sql
+        -- conditionally add a column if it doesn't exist to avoid errors
+        if (not exists(select 1 from information_schema.columns where table_schema = 'HighSeas' and table_name = 'Pirates' and column_name = 'Age'))
+        begin
+            alter table HighSeas.Pirates add Age int null;
+        end
+        update HighSeas.Pirates
+        set
+        	Age = 32
+        where Name = 'Anne Bonny';
+        alter table attendance.eventreason alter column displayorder int not null;
+    ```
 
-## ORDERING:
-* if an order is not specified, the output is in the order it was inserted
-  onto the drive, unless some kind of processing like 'distinct' occurs
+
+### PRIMARY KEY:
+* **primary key** is a distinct value which distinguishes one row of data in a table from all the rest
+* you can change the column of data which is the pkey but psql won't let you if each row doesn't have a distinct value.
+* change pkey with:
+    ```sql
+        alter table students add constraint pkey_type primary key (lastname);
+    ```
+* a pkey can be more than one attribute:
+    ```sql
+        alter table enrolled add constraint enrolled_pkey
+        primary key (sid, cid);
+    ```
+* psql always creates a b tree for the pkey
+* a pkey may consist of two values combined together
+* remove a pkey:
+    ```sql
+        alter table foo drop constraint foo_pkey;
+    ```
+
+### FOREIGN KEY:
+* adding two foreign keys to the table 'enrolled':
+    ```sql
+        alter table enrolled add foreign key (sid) references student(sid);
+        alter table enrolled add foreign key (cid) references class(cid);
+    ```
+
+### POPULATE A TABLE BY UPLOADING A FILE
+* populate the table by copying data from a .csv or .txt:
+    ```sql
+        copy zip_codes from '/path/to/csv/ZIP_CODES.txt' DELIMITERS ',' CSV;
+    ```
+
+
+
+## SQL BASICS
+
+### DISPLAY ORDERING:
+* if an order is not specified, the output is in the order it was inserted onto the drive, unless some kind of processing like 'distinct' occurs
 * psql is perfectly happy to have duplicate rows unless you use 'distinct'
     - recall that this is a 'bag' -- a set of data with duplicate members
+
+### CORRELATION NAMES:
+* **correlation names** allow you to reference the same table twice, and create more complex statements
+    ```sql
+        select s.sname from sailors s;
+    ```
+
+
+
 
 ## RELATIONSHIPS BETWEEN TABLES:
 * some tables share the same attributes:
@@ -79,44 +155,53 @@ postgres -D /usr/local/var/postgres
 * add an index based on a column in the table:
     create index width_idx on rocks(width);
 
-## CORRELATION NAMES:
-* "correlation name" -- allows you to reference the same table twice, and
-  create more complex statements
-    select s.sname from sailors s;
+
+
+
 
 ## VIEWS
-* create a 'view'
-    create view youngSailors as
-    select * from sailors where age < 27;
-* view your view with \dv
-aniel', 41823472, 3.12);
-* delete a row:
-    delete from students where gpa < 2;
-    delete from students where name = 'Daniel';
-* update a row:
-    update students set gpa = 4 where name = 'Daniel';
-* add a column:
-    alter table students add column major char(15);
+* create a view
+    ```sql
+        create view youngSailors as
+        select * from sailors where age < 27;
+    ```
 
-PRIMARY KEY:
-* primary key is a distinct value which distinguishes one row of data in
-  a table from all the rest
-* you can change the column of data which is the pkey but psql won't let
-  you if each row doesn't have a distinct value.
-* change pkey with:
-    alter table students add constraint pkey_type primary key (lastname);
-* a pkey can be more than one attribute:
-    alter table enrolled add constraint enrolled_pkey
-    primary key (sid, cid);
-* psql always creates a b tree for the pkey
-* a pkey may consist of two values combined together
-* remove a pkey:
-    alter table foo drop constraint foo_pkey;
+## STORED PROCEDURES
+* create a new sproc:
+    ```sql
+        if not exists(
+            select
+                *
+            from information_schema.routines as r
+            where r.routine_name = 'GetPirateyInfo'
+                and r.routine_schema = 'HighSeas'
+                and r.routine_type = 'procedure'
+        )
+        begin
+            exec sp_executesql
+                n'create procedure HighSeas.GetPirateyInfo as select null;';
+        end;
+        go
 
-FOREIGN KEY:
-* adding two foreign keys to the table 'enrolled':
-    alter table enrolled add foreign key (sid) references student(sid);
-    alter table enrolled add foreign key (cid) references class(cid);
+        alter procedure HighSeas.GetPirateyInfo
+        as
+        begin
+            set nocount on;
+            set transaction isolation level read uncommitted;
+            select
+                 t.TripDate
+                 ,p.Name
+                 ,b.BoatName
+            from HighSeas.Pirates p
+                inner join HighSeas.Trips t on t.SailorId = s.SailorId
+                inner join HighSeas.Boats b on b.BoatId = t.BoatId
+            order by t.TripDate desc
+        end
+        go
+    ```
+
+
+
 
 
 AGGREGATE OPERATORS:
@@ -590,15 +675,15 @@ SUBQUERIES
         where color = (select color from boats)
     * this works if the query returns one result; otherwise it barfs
 * scalar subqueries with constants
-    - we can use subqueris to insert constants into our query results
+    - we can use subqueries to insert constants into our query results
 * how to use nonscalar subqueries
     - predicates that work with nonscalar queries
-    * exists: returns boolean
-    * not exists: return boolean
-    * some/any: does any result in the query match to the subquery
-    * all
-    * in/=some
-    * not in
+        * exists: returns boolean
+        * not exists: return boolean
+        * some/any: does any result in the query match to the subquery
+        * all
+        * in/=some
+        * not in
 * correlated queries: subqueries can reference tables outside, in another
   query
     select s.sid, s.sname
