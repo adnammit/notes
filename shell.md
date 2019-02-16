@@ -291,6 +291,8 @@ find    -[i]name	by name [case insensitive]
 		   $ find -name '*log*' | xargs grep -i error | grep -i project_propagate
     OR: (find 'document' followed by 'content' on the same line)
            $ find -name '*.js' | xargs grep -E 'document.*content' --color
+# or use grep:
+grep -r --include "*.config" app        recursively grep through config files for 'app' 
 
 bzgrep
 	-e [pattern]	protect patterns beginning with -

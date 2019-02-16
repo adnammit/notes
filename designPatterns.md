@@ -26,7 +26,17 @@
             - allows use of objects in their partial state
             - however it is more complicated to implement
         * Value Holder: a value holder is a generic object that handles the lazy load behavior and appears in place of an object's data fields
-* **decorator**:
-* **proxy**:
-* **prototype**:         
+* **decorator**: inheritance pattern in which a subclass implements characteristics that can be added to an individual object dynamically without affecting the behavior of other objects from the same class.
+    - for example, you might have a `visualComponent` class that implements method `draw()`
+    - other decorator classes inherit from this class, like `ScrollDecorator` and `BorderDecorator` that implement other attributes (like `borderWidth` and `scrollPosition`).
+    - decorators might inherit from a shared `Decorator` mid-level class that inherits directly from the base component class
+* **proxy**: provides a surrogate or placeholder for another object to control access to it
+    - related to lazy loading
+    - defer the full cost of an object's creation until we actually need to use it
+    - example: on loading a document, `ImageProxy` objects may be used in place of the actual images until (and if) the page is scrolled down far enough that they're visible
+* **prototype**: specify the kinds of objects to create using a prototypical instance and then create new objects by copying this prototype
+    - example: we have a graphic editor that can be used to draw out sheet music
+    - the editor framework doesn't know anything about notes and clefs etc so how can it be expected to draw them?
+    - we create a class named `Graphic` (with methods `Draw(position)` and `Clone()`) and the editor will be able to manipulate, clone and insert instances of `Graphic`
+    - classes like `Staff` and `MusicalNote` inherit from the prototype `Graphic` 
 * **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)

@@ -45,6 +45,33 @@
         dotnet install package foo  // install package foo and make it available to your code
     ```
 
+# Language Basics
+
+## OBJECTS
+* an object is a complex reference type
+* objects are transitory -- they do not exists when the code is not running
+    ```csharp
+        // "Object variable customer is a reference pointing to a new instance of the Customer class"
+        Customer customer = new Customer();
+    ```
+* we can use the **var** keyword when declaring an implicitly typed local variable
+    * using `var` doesn't mean that it's not strongly typed -- its type is just as defined as if you had used the class name. we can use `var` because the type is obvious
+
+
+
+
+## DATA
+* objects are **reference types**: variables that store references to their properties
+    - this means that:
+        ```csharp
+            var customer1 = new Customer();
+            customer.FirstName = "Bilbo";
+            var customer2 = customer1;
+            customer.2.FirstName = "Frodo";
+            Console.log(customer1.FirstName); // "Frodo"
+        ```
+* ints and other primative types are **value types** store their values directly
+
 
 ## C# OBJECT ORIENTED PROGRAMMING
 * using OOP helps us to accomplish and conform to the following:
@@ -55,20 +82,31 @@
     - iterative agile
 
 
-### CLASS STRUCTURE
+### CLASSES
 * **classes** define the structure of **objects** which are instances of the class
 * class **members** consist of
     - **methods**
     - **properties**
 * an instance of a class is often called an **object variable**
-    `Customer customer = new Customer();``
-    - objects are transitory -- they do not exists when the code is not running
 * **business object** often refers to a class that solves a particular problem (in this case, object == class)
 * an **entity** is something from the real world that is being represented by a class
 * putting it all together:
     - a _customer_ is something that's important to business, so it is an **entity**
     - we create a `Customer` class to represent our real-life customers
     - we create instances (or **objects**) of the `Customer` class which contain all the class properties
+
+#### STATIC MODIFIER    
+* the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
+    - it is accessed using the class name
+    - it is not an object variable
+    ```csharp
+        public static int InstanceCount { get; set; }
+        // later, in code:
+        Customer.InstanceCount += 1;
+        // not this:
+        var customer = new Customer();
+        customer.InstanceCount = count; // nope
+    ```
 
 ### DATA ACCESS
 * a class encapsulates its data and access to that data is controlled via `getters` and `setters`
@@ -104,6 +142,7 @@
 * example of class creation:
     - note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
     - `FullName` is calcualted from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
+    - you can create a **"read only"** property by only defining the `getter` (as with `FullName`)
 
     ```csharp
         public class Customer {
@@ -138,9 +177,11 @@
 * each layer is encapsulated into a separate project
 
 
-### CREATING A BUSINESS LAYER
+#### CREATING A BUSINESS LAYER
 * in VB select `New Project > Visual C# > Class Library`
-
+    - name it something like solution: "ACM", project name: "ACM.BL"
+    - Application -> Visual Studio Solution
+    - Layer Component -> Visual Studio Project
 
 
 ## TESTING
@@ -153,7 +194,7 @@
     - **act**: perform an action that returns an **actual** value
     - **assert**: evaluate the actual value as compared to the expected value
     ```csharp
-    Using Customer.BLL
+    Using Customer.BLL // reference the class you're testing
         [TestClass]
         public class CustomerTest
         {
@@ -178,6 +219,10 @@
 * pinning Test Explorer might be useful
     - you can "Run All"
     - or right-click and "run test" or "debug run"
+
+
+
+
 
 ## LIBRARIES
 * **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code

@@ -71,7 +71,9 @@ git remote set-url origin <url> set url (esp if switching between ssh and https)
 git checkout                    switch between branches you already have
 git checkout -                  check out the last branch you were on
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
-git co --track origin/foo       check out remote branch foo and set your local to track to it
+git co <branch>                 when there exists a remote `origin/<branch>`, check out a local copy and set to track.
+git co --track origin/<branch>  check out remote branch foo and set your local to track to it
+                                alternative to just `git co <branch>` if you have multiple remotes of the same name
 git checkout -- foo             restore foo, which you accidentally deleted
 git checkout bar.txt            checkout file from branch remote, discarding local changes
 git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
@@ -136,6 +138,7 @@ git diff --name-status A..B     name and status of files that differ between bra
 git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
 git diff master..               view diff between master and current unstaged changes
 git diff -B -w --shortstat A..B just list num of files changed, insertions and deletions between commits
+git rev-list --all | xargs git grep <expression>    search history for an expression
 
 git commit                      prep files to be committed
 git commit foo                  revert to commit foo
@@ -271,6 +274,7 @@ git stash                       stash all your current changes
 git stash -u                    include untracked files
 git stash push <file>           stash only one file
 git stash push -u -m "message"  manually push everything onto the stack with message
+git stash push -m "cool!" ./Program.cs  stash just one file
 git stash pop                   remove most recent stash item and apply it to the branch
 git stash pop <file>            remove <file> from stash and apply it to the branch
 git stash pop 2                 pop the item in index 2
