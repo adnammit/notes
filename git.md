@@ -64,7 +64,7 @@
 // REPOS AND BRANCHING
 man git-<command>               man for command
 git init                        initialize new repository
-git clone <repo address>        fetch a repository you don’t yet have from remote
+git clone <repo address>        fetch a repository you don’t yet have from remote   
 git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
 git remote set-url origin <url> set url (esp if switching between ssh and https)
@@ -77,6 +77,7 @@ git co --track origin/<branch>  check out remote branch foo and set your local t
 git checkout -- foo             restore foo, which you accidentally deleted
 git checkout bar.txt            checkout file from branch remote, discarding local changes
 git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
+git co HEAD -- */*.config       check out everything matching filename foo from HEAD
 git branch [-a]                 view branch info (-a: all repos, not just local)
 git branch -r                   view remote branches
 git branch -d foo               delete branch that you’re done with
@@ -256,7 +257,6 @@ git push
 
 
 ### STASHING
-
 * git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
 * to get around this, we use `stashing`
 
@@ -320,6 +320,36 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * [read more info about fixup](https://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html)
 
 
+
+### GOTCHAS
+* git might not see casing changes on files as an actual change, so you might need to explicitly "move" the file
+    ```bash
+        git mv duck.ts Duck.ts
+    ```
+
+### AMEND A COMMIT
+* so say you're doing some work and you realize that you need to make a change to your last commit (make a small change to a file, say)
+    ```c
+        //you can reset and re-commit:
+        git reset HEAD~
+        git aa
+        git cm
+        //or you can alter the commit:
+        git aa
+        git commit --amend
+        <alter commit message if needed, save quit>
+    ```
+
+### OMIT A FILE FROM A COMMIT
+* use `update-index` to preserve local changes to something like a config file that points to your sandbox db -- you have changes that are just for you that you don't want to push
+    ```c
+        // ignore changes to this file for now:
+        git update-index --assume-unchanged foo.ts
+        // once you're done with the file and want to reassimilate it into version control:
+        git update-index --no-assume-unchanged foo.ts
+    ```
+
+
 ### RECOVERING LOST WORK WITH REFLOG
 * the reflog contains a history of all recent changes
 * say you did a `git reset --hard` but now you need those changes -- `reflog` has your back
@@ -364,6 +394,18 @@ git stash clear                 CAREFUL! this will delete your reflog as well
     - gitignore
     - package.json-lock
 
+
+### .GITATTRIBUTES
+* `.gitattributes` can be configured to contain some useful instructions about how to treat your version-controlled content
+* `export-ignore` tells git to ignore certain files/folders when someone downloads your repository
+* `text-auto` normalizes line-endings to use LF
+* `eol` specify line ending (say, for just one file or filename pattern)
+* `binary`
+* `merge` strategy: specify default merge strategies for different files
+    ```
+        src/foo.php text eol=crlf        # make sure foo.php has 'crlf' line endings
+        package-lock.json merge=ours
+    ```
 
 ### REMOVING FILES FROM GIT
 * remove a local file from the directory
