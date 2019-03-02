@@ -74,11 +74,8 @@ git checkout -b foo <branch>    make a new branch called foo <from branch> and s
 git co <branch>                 when there exists a remote `origin/<branch>`, check out a local copy and set to track.
 git co --track origin/<branch>  check out remote branch foo and set your local to track to it
                                 alternative to just `git co <branch>` if you have multiple remotes of the same name
-git checkout -- foo             restore foo, which you accidentally deleted
-git checkout bar.txt            checkout file from branch remote, discarding local changes
-git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
-git co HEAD -- */*.config       check out everything matching filename foo from HEAD
 git branch [-a]                 view branch info (-a: all repos, not just local)
+git br -avv                     view all branches and the remote they are tracking to
 git branch -r                   view remote branches
 git branch -d foo               delete branch that you’re done with
 git branch -D foo               force remove w/out merging
@@ -112,16 +109,16 @@ git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
 git add -p -- foo.txt           interactively add just certain lines of a filename to the stage
-git checkout bar.txt            checkout file from HEAD, discarding changes
-git checkout master bar.txt     checkout file from another branch, overwriting curr branch changes
+git co bar.txt                  checkout file from HEAD, discarding changes
+git co master bar.txt           checkout file from another branch, overwriting curr branch changes
+git co HEAD -- */*.config       check out everything matching filename foo from HEAD
 git reset                       reset HEAD to specified state (unstage changes). does not alter files
 git reset --hard master         reset HEAD and make files identical to master
 git clean                       remove untracked files from the current working dir
 git clean -n                    show which files would be removed
 git clean -f                    remove untracked files (not dirs)
 git rm foo                      remove local and remove remote on next push
-git rm --cached foo.txt         retain local and remove remote on next push, but this will delete foo.txt for others who pull -- instead use:
-git update-index --assume-unchanged foo.txt
+git rm --cached foo.txt         retain local and remove remote on next push - this will delete foo.txt for others who pull
 
 // VIEWING HISTORY
 git show -B -w <hash>           show changes that were made for a commit, ignoring whitespace
@@ -400,11 +397,19 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * `export-ignore` tells git to ignore certain files/folders when someone downloads your repository
 * `text-auto` normalizes line-endings to use LF
 * `eol` specify line ending (say, for just one file or filename pattern)
-* `binary`
+* `binary`/`text` specifies how to treat files when commands like `git co`, `git add`, `git commit` and `git merge` are run
+    - `text` enables end-of-line normalization
 * `merge` strategy: specify default merge strategies for different files
-    ```
-        src/foo.php text eol=crlf        # make sure foo.php has 'crlf' line endings
-        package-lock.json merge=ours
+* `-diff` do not merge these files
+    ```shell
+        # put it all together:
+        src/foo.php text eol=crlf       # treat foo.php as text and make sure it has 'crlf' line endings
+        *.jpg binary                    # always treat jpg files as binary
+        package-lock.json merge=ours    # use ours when merge conflicts arrive
+        # do not try to merge these files:
+        yarn.lock -diff
+        public/build/js/*.js -diff
+        public/build/css/*.css -diff
     ```
 
 ### REMOVING FILES FROM GIT
