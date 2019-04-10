@@ -5,6 +5,9 @@
 * it is tech-agnostic
 * the OWASP Top 10 (Security Risks) is used as a reference for developing and choosing apps
 
+## FURTHER READING
+* [.NET Security Cheat Sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/DotNet_Security_Cheat_Sheet.md)
+
 ## RISK ASSESSMENT
 * risk assessment has several components:
     - overview of the risk
@@ -20,11 +23,12 @@
 * types of attacks:
 - **DDoS**: Distributed Denial of Service (DDoS)
     * an attempt to make an online service unavailable by overwhelming it with traffic from multiple sources
-
+       
 
 ## OWASP'S TOP TEN
 
 ### INJECTION
+* untrusted data is sent to an interpreter as a part of a command or query in order to trick the interpreter into executing unintended commands
 * most commonly we're talking about SQL injection, but there is also LDAP injection
 * the stats:
     - attack vector: it can be fairly easy
@@ -46,7 +50,6 @@
             // for example, here the attacker can get all records (not just where "Id = 1")
             http://www.mysite.com/Widget?Id=1OR1=1
             // This is the basic principle behind attacks to steal CC info and personal information
-
         ```
 * using SQLI, an attacker can:
     - bypass authentication
@@ -58,12 +61,13 @@
     - Whitelist:
         * what input do we trust?
         * does it adhere to expected patterns?
-    - **Parameterize** SQL statements
+    - use strongly-typed, **parameterized** SQL queries and sprocs
         * separate the query from the input data
         * type cast each parameter
     - fine tune DB permissions
         * segment sql accounts for admin and public so a query for information does not have the permissions to delete anything
         * apply the "principle of least privilege"
+    - don't disable [asp.net request validation](https://docs.microsoft.com/en-us/previous-versions/aspnet/hh882339(v=vs.110) unless you specifically need dangerous input and then ensure that input remains untrusted throughout the stack
 
 ### BROKEN AUTHENTICATION AND SESSION MANAGEMENT
 * in this attack, an attacker can log in and impersonate the victim
@@ -81,7 +85,7 @@
         * every time the user comes back to the website to make additional requests, they send the cookie with them
         * if an attacker can intercept the cookie they can use it to impersonate the user
         * they can do this through
-            - exploiting XXS risks
+            - exploiting XSS risks
             - by "sniffing" it over an insecure connection (`http` rather than `https`)
             - by physically taking it from the user's machine
     - **session id theft**:
@@ -100,7 +104,7 @@
         * weak credentials (allowing a 4-number pin as a password)
 * common defenses against broken authentication
     - protect cookies
-        * cookies should only use the `HttpOnly` flag which makes it immune to XXS exploitation
+        * ASP.NET: cookies should only use the `HttpOnly` flag which makes it immune to XSS exploitation
         * make sure cookies are flagged as `Secure` -- it cannot be sent over an insecure (`http`) request
     - decrease window of risk
         * expire sessions quickly (balance with UX)
@@ -109,8 +113,17 @@
         * allow and encourage strong passwords
         * implement login rate limiting and lockouts to protect against brute force logins
 
+### XML EXTERNAL ENTITIES (XXE)
+* attackers upload XML containing hostile content to vulnerable XML processors
+    - Older XML processors allow specification of an external entity (a URI) that is dereferenced and evaluated during XML processing
+    - This can be used to extract data, execute a remote request from the server
+* prevention:
+    - use less complex data formats like JSON when possible
+    - upgrade XML processors
+    - verify that XML/XSL file upload functionality validates incoming XML
+    - disable XML external entity processing in all XML parsers
 
-### XXS: CROSS SITE SCRIPTING
+### XSS: CROSS SITE SCRIPTING
 * cross site scripting, injecting client-side script into a web-page
 * the stats:
     - attack vector: average
@@ -118,13 +131,13 @@
     - detectability: easy
     - impact: moderate
 * how does it work?
-* reflected XXS
-    - an attacker gives a user a URL with an XXS payload
+* reflected XSS
+    - an attacker gives a user a URL with an XSS payload
         * a payload might be included in a URL query string
         * the url can be distributed via social media or posting it publically (it can be obscured with a bit.ly etc
-    - the user clicks through the link to the website using the URL with the XXS payload
-        * the XXS is then "reflected" back to the user
-        * the XXS can access the data in the user's cookies (auth cookies, say) and exfiltrate that data back to the attacker
+    - the user clicks through the link to the website using the URL with the XSS payload
+        * the XSS is then "reflected" back to the user
+        * the XSS can access the data in the user's cookies (auth cookies, say) and exfiltrate that data back to the attacker
     - the attacker can then hijack the session
 * XSS injection
     - if an attacker can inject XSS into the site's database, the XSS payload will persist, resulting in the same effect as above
@@ -139,7 +152,7 @@
         <script>alert(document.cookies)</script>
     ```
 * common defenses:
-    - validate input against a white list
+    - validate input against a white list (white list preferred to black list)
     - always encode output
         * never reflect untrusted data
             - escape things like the `<` symbol with `&lt;` so that script tag cannot be injected
@@ -148,6 +161,7 @@
     - encode for context
         * encode differently for HTML/JS/attributes/CSS
         * the wrong encoding in the wrong context is useless
+    - request validation in .NET protects us against most XSS attacks
 
 ### INSECURE DIRECT OBJECT REFERENCES
 * an attacker changes the data that's sent to a site (such as an account number that maps directly to data in the db), resulting in them gaining access to data they're not supposed to have access to
@@ -170,7 +184,7 @@
     - implement access controls: _who_ can access to _what_ no matter what the URL is -- **this is most important**
         * be explicit about who can access resources
         * expect the rules to be tested
-    - use **indirect reference maps**
+    - use **indirect reference maps** (like GUIDs)
         * don't expose keys externally (like an account id)
         * map the key to temporary ones -- the temporary key is only used once
         * this is really only for sensitive data, not things like pulling product info from a database
@@ -201,11 +215,13 @@
     - tune the app security config
         * make sure your prod app is set up correctly compared to dev
         * defaults for config are often not right
+        * use custom logging error messages so your errors cannot be searched
     - ensure packages are up to date
         * be conscious of 3rd party tools
         * have a strategy to monitor and update 3rd party packages
 
 ### SENSITIVE DATA EXPOSURE
+* when data is not properly protected in transit or at rest
 * the stats:
     - attack vector: difficult exploitability
     - prevalence: uncommon
@@ -230,13 +246,15 @@
         * disclosed via URL (accidental sharing of URL by user over social media)
         * leaked via logs
 * common defenses
-    - minimise sensitive data collection
+    - minimize sensitive data collection
         * "if you don't have it, you can't lose it"
         * reduce the window of storage -- get rid of it when you no longer need it
     - apply `https` everywhere
         * it's too easy to insufficiently implement
         * start with it everywhere -- it's not that hard!
     - use strong crypto
+        * salted hashing - SHA-256
+        * encryption for cardholder data: AES-256 (CDS at rest), SQL Server EKM + Townsend Alliance Key Manager
         * use hashing algorithms designed for passwords
         * be very careful with key management
 
@@ -261,12 +279,14 @@
     - define a clear authorization model
         * define centrally and consistently
         * use roles and apply membership
+        * function-level access checks
     - check for forced browsing
         * check for default framework resources (tracing for debugging, admin, etc)
         * automated scanners are excellent for this
     - always test unprivileged roles
         * capture and replay privileged requests from a user with elevated permissions as a user with lesser permissions
         * include POST requests and async calls
+    - ASP.NET membership provider / IIS Integrated Pipeline
 
 ### CROSS SITE REQUEST FORGERY (CSRF)
 * the stats:
@@ -296,6 +316,18 @@
     - other:
         * native browser defenses (CORS)
         * fraud detection patterns (no activity all day and then all of a sudden the user is transferring $1000000?)
+
+### INSECURE DESERIALIZATION
+* Applications and APIs may be vulnerable if they deserialize hostile or tampered objects supplied by an attacker
+    - this can lead to remote code execution attacks
+* prevention:
+    - do not accept serialized objects from untrusted sources
+    - enforce strict type constraints during deserialization
+    - isolate and run code in low privilege environments
+    - log deserialization failures and exceptions to detect attempts; monitor deserialization and detect if a particular user does it constantly
+    - implement integrity checks (like digital signatures)
+    - restrict/monitor network connectivity with servers/containers that deserialize
+
 
 ### USING COMPONENTS WITH KNOWN VULNERABILITIES
 * the stats:

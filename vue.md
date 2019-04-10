@@ -1,11 +1,12 @@
 # VUE
 
-**start with: vueforms**https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-model?action=resume_content_item
+**start with: vueforms**
+https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-model?action=resume_content_item
 
 ### CREATING A VUE APP
 * Vue is a js library that makes building complex, responsive websites simpler, faster and easier
 * a Vue app essentially needs two things to work:
-    - a place to store the data we'll be working with (the `data` property of the **optons object**)
+    - a place to store the data we'll be working with (the `data` property of the **options object**)
     - a syntax for displaying the information (templating)
 * there are several ways to source Vue:
     - import it from CDN directly into your html file. Any other scripts that use Vue should be loaded after the Vue script so it's there when it tries to use it.
@@ -221,4 +222,77 @@
             el: '#app',
             data: { experienceReview: '' }
         });
+    ```
+
+
+
+
+
+
+## VUEX
+
+### OVERVIEW
+* the **vuex store** provide an interface for storing, mutating data, and managing complex computed values with getters
+* at the heart of the store concept is **state**
+    - the state tree is a single object that contains all the state information
+    - there is one state object per store
+    - state data can be used throughout the app
+    - this is used for vue's change detection
+* vue state consists of **mutations**, **actions**, and **getters**    
+* **actions** and **mutations** work hand-in-hand to modify state data
+* once the store is created, changes to the data are made via **mutations**
+    - all modifications to state data must be done through mutations
+    - mutations are **synchronous** -- this keeps the state up-to-date, which helps with change detection
+* **actions** are used to make **asynchronous** modifications to the data (or other async operations)
+    - actions use async `await` and `promises` to commit mutations to the store
+* **getters** are used to retrieve complex, computed data from the store
+    - this allows you to put filtering/computing logic in once place, rather than in all the places that use the data
+
+### MUTATIONS
+* mutations take two args: the state, and optionally any other args you want to pass
+    ```typescript
+        state: {
+            cart: [],
+        },
+        mutations: {
+            addToCart(state, items) {
+                state.cart.push(items);
+            },
+        },
+    ```
+
+### ACTIONS
+* the first param to an action function is a **context** item. context exposes several items for working with the state
+    - it provides state, getters, commit, and dispatch functions
+    - you can pass in the context or deconstruct it to immediately have what you need
+    ```typescript
+        // whole context item:
+        actions: {
+            getParts(context) {
+            },
+        },
+        // versus:
+        actions: {
+            getParts({ state, commit }) {
+            },
+        },
+    ```
+
+### MODULES
+* you might have code for different components in your app that have their own getters, actions and mutations, so if you call a getter, how does vuex know what to call?
+    - it doesn't -- it will call any or all getters/actions/mutation that have that name
+    - not great if you accidentally have two things that have the same name
+* solution: use namespacing
+    ```javascript
+        // in component:
+        this.$store.dispatch('users/addToCart', items);
+        // in users/index.js:
+        export default {
+            namespaced: true,
+            actions: {
+                addToCart({ state, commit }, items){
+                    // do stuff
+                },
+            },
+        }
     ```

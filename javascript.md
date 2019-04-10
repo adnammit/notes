@@ -178,10 +178,10 @@ o javascript as it applies to front end dev:
         startCars(...carCodes);     // breaks up the string 'abc' and logs each char separately as 'a' 'b' 'c'
         // using rest and spread at the same time:
         function startCars(car1, car2, car3, ...rest) {
-            console.log(rest);      // [4, 5, 6]
+            console.log(rest);
         }
         let carIds = [1, 2, 3, 4, 5, 6];
-        startCars(...carIds);
+        startCars(...carIds);       // [4, 5, 6]
     ```
 
 ### DESTRUCTURING
