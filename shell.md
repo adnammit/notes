@@ -258,6 +258,10 @@ find . -user ryman.amanda       find all files owned by user
 
 traceroute google.com           show an IP network's route packet trace to the network host
 
+netstat -ano | findstr :3000    find processes using port 3000
+
+tskill <PID>                    kill the task using the port (or any task really)
+
 ```
 
 

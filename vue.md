@@ -296,3 +296,26 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
             },
         }
     ```
+
+
+## VUETIFY
+
+### HELPER CLASSES
+* vuetify has some shorthand to help you control the layout of elements in-place without using inline css
+
+
+## GRID SYSTEM
+* any grid system you create will usually be placed inside a container, using `<v-container>` tags
+    - the container will automatically center itself on the page and you may use the `fluid` prop to fully extend its width.
+* Vuetify’s grid system is made up of a 12 point system, meaning that each row in your grid is split equally into a *maximum* of 12 columns
+    - so what happens if you have more than 12 column's worth of stuff?
+    - weird shit. use `<v-layout row wrap>` to force content that is wider than 12 rows of content onto a second row.
+* **rows** are delineated with `<v-layout>` which contain a `row` prop
+* **v-flex** units are "boxes" that go inside of rows -- they can occupy at least 1 column in the row and may span more columns depending on what you specify using media size (breakpoints)[https://vuetifyjs.com/en/framework/breakpoints]
+* use the **d-{type}** directive to specify display (`d-flex`, `d-block`, etc)
+
+
+## BREAKPOINTS
+* breakpoints are an integral part of the `flex-box` system
+* when you specify a break point (say, `xs6`) what that is saying is that "for screens of size extra-small and larger, this element will span 6 columns"
+

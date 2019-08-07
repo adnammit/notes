@@ -87,3 +87,9 @@
 
 
 **START HERE** https://vimeo.com/113604459 12:42
+
+
+* client_id is for the app, not user
+* adfs.altsrc.net should be whitelisted
+* access to Auth anywhere in app
+    - set axios default header to include header w/ token in every post
