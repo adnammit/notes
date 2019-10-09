@@ -43,6 +43,7 @@
         dotnet build                // builds a project and all its dependencies
         dotnet run                  // first builds and then runs the application
         dotnet install package foo  // install package foo and make it available to your code
+        dotnet add package CCI.Communications.Client -s https://nuget.altsrc.net/api/v2/ // specify package source
     ```
 
 # Language Basics
@@ -57,8 +58,24 @@
 * we can use the **var** keyword when declaring an implicitly typed local variable
     * using `var` doesn't mean that it's not strongly typed -- its type is just as defined as if you had used the class name. we can use `var` because the type is obvious
 
-
-
+### OBJECT INITIALIZER SYNTAX
+* for a class with no constructor, you can create a `new` object by using the following curly-brace syntax:
+    ```csharp
+        public class Student
+        {
+            public int StudentID { get; set; }
+            public string StudentName { get; set; }
+            public int Age { get; set; }
+            public string Address { get; set; }
+        }
+        
+        // create an instance of Student without invoking a constructor:
+        Student std = new Student() { StudentID = 1, 
+                                    StudentName = "Bill", 
+                                    Age = 20, 
+                                    Address = "New York"   
+                                    };
+    ```
 
 ## DATA
 * objects are **reference types**: variables that store references to their properties
@@ -107,6 +124,37 @@
         var customer = new Customer();
         customer.InstanceCount = count; // nope
     ```
+
+### GENERICS
+* csharp 2.0 and up, you can create a class with a placeholder type that is assigned at compile time
+```csharp
+    // class definition:
+    class MyGenericClass<T>
+    {
+        private T genericMemberVariable;
+
+        public MyGenericClass(T value)
+        {
+            genericMemberVariable = value;
+        }
+
+        public T genericMethod(T genericParameter)
+        {
+            Console.WriteLine("Parameter type: {0}, value: {1}", typeof(T).ToString(),genericParameter);
+            Console.WriteLine("Return type: {0}, value: {1}", typeof(T).ToString(), genericMemberVariable);
+                
+            return genericMemberVariable;
+        }
+
+        public T genericProperty { get; set; }
+    }
+
+    // instantiate the generic class: 
+    MyGenericClass<int> intGenericClass = new MyGenericClass<int>(10);
+
+    int val = intGenericClass.genericMethod(200);
+
+```
 
 ### DATA ACCESS
 * a class encapsulates its data and access to that data is controlled via `getters` and `setters`
@@ -229,6 +277,12 @@
     - when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
 
 
+## MISC TRICKS AND THINGS
+* **string interpolation** provides a more readable and convenient syntax to include formatted expression results in a result string
+    ```csharp
+        Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
+    ```
+* **implicit types** just use `var` -- the compiler knows what to do    
 
 
 ### RESOURCES

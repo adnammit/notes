@@ -282,6 +282,9 @@ git stash drop <stashname>      w/out stashname, drops most recent
 git stash clear                 CAREFUL! this will delete your reflog as well
 ```
 
+* you might have changes in your stash that would overwrite your uncommitted work, but maybe that's what you want. to apply the stash and overwrite any merge conflicts with what is in the stash, try: 
+    `git checkout stash -- .`
+
 ### FIXUP
 * sometimes you may need to fix an old commit. `fixup` followed by `autosquash` can help (you can also use `--squash` which will allow you to edit the commit message)
 * note that this should **not** be performed on commits that have already been merged/pushed for other devs to modify. this should only be performed on code strictly under your own control

@@ -17,6 +17,8 @@ F12                 go to definition
 
 C-d                 highlight current word
 
+$ReturnValue        enter in the Immediate window to see the return value
+
 ```
 
 
