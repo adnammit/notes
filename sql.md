@@ -6,9 +6,24 @@
     - each project folder contains a `Tables` folder (where the actual data lives) and Stored Procedures (under `Programmability`)
 
 
+## SSMS
+* script a sproc without going through the tree
+    - `sp_helptext <sprocname>`
+    - this will print to grid, so click the Text column to highlight the script, copy/paste to a new window
+* view table columns w/out clickity clicking
+    - `exec sp_columns varchar50list`
+* toggle the results window - `Ctrl-R` 
+* curious what queries are being run? Use the XEvent Profiler (Standard) and add some handy filters
+    - `database_name Like EmployeeManagement`
+    - `statement <> exec sp_reset_connection`
+
+### EM DATABASE PROJECT
+* look in the `PostDeployment` scripts to see what the new db is being populated with, or to add new data
+
 ## STORED PROCEDURES
 * view the contents of a stored procedure by right-clicking on the procedure and going to `Script stored procedure as -> CREATE to -> New Query Editor Window`
     - here you can view the procedure without saving
+
 
 ## GOTCHAS AND TIPS
 * using `NOLOCK` for a query seems like a good idea if you don't want to change any data, so why might that be a bad idea?

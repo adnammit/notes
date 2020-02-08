@@ -89,8 +89,18 @@
         ```
 * ints and other primative types are **value types** store their values directly
 
+## TYPES AND CASTING
+* the `is` operator can used to test if an expression result or variable is compatible with a given type. the evaluation of `is` returns a boolean.
+* the `as` operator explicitly converts the result of an expression to a given reference or nullable type. the `as` operator never throws an exception (as compared to the **cast operator**)
+    - comparing `as` to type casting: `as` is equivalent to `E is T ? (T)(E) : (T)null;` except the value of `E` is only read once
+* a `cast expression` takes the format `(T)E` and performs an explicit conversion of the expression `E` to type `T`. If no explicit conversion can be made, it will not compile. At run time, an exception might be thrown.
+* the `typeof` operator returns the `System.Type` instance for a type
+    - arguments must be the name of a type or a type parameter
+    - arguments cannot be an expression. to get the `System.Type` of an expression, use `Object.GetType()`
 
-## C# OBJECT ORIENTED PROGRAMMING
+
+
+# C# OBJECT ORIENTED PROGRAMMING
 * using OOP helps us to accomplish and conform to the following:
     - clean code
     - defensive coding
@@ -99,7 +109,7 @@
     - iterative agile
 
 
-### CLASSES
+## CLASSES
 * **classes** define the structure of **objects** which are instances of the class
 * class **members** consist of
     - **methods**
@@ -112,7 +122,8 @@
     - we create a `Customer` class to represent our real-life customers
     - we create instances (or **objects**) of the `Customer` class which contain all the class properties
 
-#### STATIC MODIFIER    
+
+### STATIC MODIFIER    
 * the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
     - it is accessed using the class name
     - it is not an object variable
@@ -125,7 +136,70 @@
         customer.InstanceCount = count; // nope
     ```
 
-### GENERICS
+### FIELDS AND PROPERTIES AND AUTOPROPERTIES, OH MY!
+* a **field** is a private (or protected) class member that stores the actual data
+* a **property** allows the field to be accessed, but only exposes the contract 
+* an **autoproperty** automatically generates a backing field when you define the property
+
+### DATA ACCESS
+* a class encapsulates its data and access to that data is controlled via `getters` and `setters`
+* `getters` and `setters` map to **backing fields** -- the actual data
+* you could manually create a property that returns or sets the value of the backing field, as in the first example below. but you only want to do this if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
+    ```csharp
+        // full property syntax with a backing field:
+        public class Customer
+        {
+            private string _lastName;
+            public string LastName
+            {
+                get {
+                    // some code
+                    return _lastName;
+                }
+                set {
+                    // some code
+                    _lastName = value;
+                }
+            }
+        }
+
+        // or more simply, using auto-implemented properties:
+        public class Customer
+        {
+            // this implements the backing field as well
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+        }
+    ````
+* example of class creation:
+    - note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
+    - `FullName` is calcualted from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
+    - you can create a **"read only"** property by only defining the `getter` (as with `FullName`)
+
+    ```csharp
+        public class Customer {
+            public string FirstName { get; set; }
+            public string EmailAddress { get; set; }
+            public int CustomerId { get; private set; }
+            public string FullName {
+                get {
+                    return LastName + ", " + FirstName;
+                }
+            }
+        }
+
+    ```
+
+#### ACCESS MODIFIERS
+* **private**: only accessible by the class itself
+* **protected**: accessible by a class and its children
+* **public**: accessible by anyone
+* **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
+
+
+
+
+## GENERICS
 * csharp 2.0 and up, you can create a class with a placeholder type that is assigned at compile time
 ```csharp
     // class definition:
@@ -156,64 +230,78 @@
 
 ```
 
-### DATA ACCESS
-* a class encapsulates its data and access to that data is controlled via `getters` and `setters`
-* `getters` and `setters` map to **backing fields** -- the actual data
-* you could manually create a property that returns or sets the value of the backing field, as in the first example below. but you only want to do this if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
+### GENERIC TYPE PARAMETERS
+* a type parameter is a placeholder for a specific type that a client specifies when they create an instance of the generic type
+* A generic class, such as GenericList<T> listed in Introduction to Generics, cannot be used as-is because it is not really a type; it is more like a blueprint for a type
+* To use GenericList<T>, client code must declare and instantiate a constructed type by specifying a type argument inside the angle brackets
+* The type argument for this particular class can be any type recognized by the compiler
+```csharp
+T GetDefault<T>()
+{
+    return default(T);
+}
+```
+Note that the return type is T. With this method you can get the default value of any type by calling the method as:
     ```csharp
-        // full property syntax with a backing field:
-        public class Customer
-        {
-            private string _lastName;
-            public string LastName
-            {
-                get {
-                    // some code
-                    return _lastName;
-                }
-                set {
-                    // some code
-                    _lastName = value;
-                }
-            }
-            // or more simply
-            public string FirstName { get; set; }
-        }
-
-        // or more simply, using auto-implemented properties:
-        public class Customer
-        {
-            // this implements the backing field as well
-            public string FirstName { get; set; }
-        }
-    ````
-* example of class creation:
-    - note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
-    - `FullName` is calcualted from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
-    - you can create a **"read only"** property by only defining the `getter` (as with `FullName`)
-
-    ```csharp
-        public class Customer {
-            public string FirstName { get; set; }
-            public string EmailAddress { get; set; }
-            public int CustomerId { get; private set; }
-            public string FullName {
-                get {
-                    return LastName + ", " + FirstName;
-                }
-            }
-        }
-
+    GetDefault<int>(); // 0
+    GetDefault<string>(); // null
+    GetDefault<DateTime>(); // 01/01/0001 00:00:00
+    GetDefault<TimeSpan>(); // 00:00:00
     ```
+.NET uses generics in collections, ... example:
+```csharp
+List<int> integerList = new List<int>();
+```
+This way you will have a list that only accepts integers, because the class is instancited with the type T, in this case int, and the method that add elements is written as:
+```csharp
+public class List<T> : ...
+{
+    public void Add(T item);
+}
+```
+Some more information about generics.
 
-#### ACCESS MODIFIERS
-* **private**: only accessible by the class itself
-* **protected**: accessible by a class and its children
-* **public**: accessible by anyone
-* **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
+You can limit the scope of the type T.
+
+The following example only allows you to invoke the method with types that are classes:
+
+    ```csharp
+    void Foo<T>(T item) where T: class
+    {
+    }
+    ```
+The following example only allows you to invoke the method with types that are Circle or inherit from it.
+
+    ```csharp
+    void Foo<T>(T item) where T: Circle
+    {
+    }
+    ```
+And there is new() that says you can create an instance of T if it has a parameterless constructor. In the following example T will be treated as Circle, you get intellisense...
+
+    ```csharp
+    void Foo<T>(T item) where T: Circle, new()
+    {
+        T newCircle = new T();
+    }
+    ```
+As T is a type parameter, you can get the object Type from it. With the Type you can use reflection...
+
+    ```csharp
+    void Foo<T>(T item) where T: class
+    {
+        Type type = typeof(T);
+    }
+    ```
+As a more complex example, check the signature of ToDictionary or any other Linq method.
+
+    ```csharp
+    public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
+    ```
+There isn't a T, however there is TKey and TSource. It is recommended that you always name type parameters with the prefix T as shown above.
 
 
-### LAYERING
+## LAYERING
 * in addition to breaking the code down into classes, it also makes sense to break the application itself into portable units or **layers**
 * layering makes it easier to extend the application
 * layers include:
@@ -225,14 +313,20 @@
 * each layer is encapsulated into a separate project
 
 
-#### CREATING A BUSINESS LAYER
+### CREATING A BUSINESS LAYER
 * in VB select `New Project > Visual C# > Class Library`
     - name it something like solution: "ACM", project name: "ACM.BL"
     - Application -> Visual Studio Solution
     - Layer Component -> Visual Studio Project
 
 
-## TESTING
+
+# EXCEPTION HANDLING
+
+
+
+
+# TESTING
 * if we're working with layered design, how do we test a dll?
 * we write an **automated** code test -- a separate body of code that's sole purpose is to test another piece of code
 * tests usually have the same name as the code it's testing with the `Test` suffix
@@ -270,21 +364,87 @@
 
 
 
+# EXTENSIONS
+
+## WHAT ARE THEY?
+* extensions are: 
+    - additional methods that allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface
+    - extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces
+    - static
+    - available throughout the application by including the namespace in which it has been defined
+* The only difference between a regular static method and an extension method is that the first parameter of the extension method specifies the type that it is going to operate on, preceded by the this keyword
+* The first parameter of the extension method must be of the type for which the extension method is applicable, preceded by the this keyword
+
+## EXAMPLE
+```csharp
+// Extensions.cs
+namespace ExtensionMethods
+{
+    public static class IntExtensions
+     {
+        public static bool IsGreaterThan(this int i, int value)
+        {
+            return i > value;
+        }
+    }
+}
+
+// Program.cs
+using ExtensionMethods;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int i = 10;
+        bool result = i.IsGreaterThan(100); 
+        Console.WriteLine(result);
+    }
+}
+```
 
 
-## LIBRARIES
+# LIBRARIES
 * **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
     - when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
 
 
-## MISC TRICKS AND THINGS
+# MISC TRICKS AND THINGS
 * **string interpolation** provides a more readable and convenient syntax to include formatted expression results in a result string
     ```csharp
         Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
     ```
 * **implicit types** just use `var` -- the compiler knows what to do    
 
+### LOCKING
+* the `lock` statement is an integrated shorthand for restricting access to a block of code to only one thread at a time
+* the `lock` construct very simply requires that a `reference_type` object be instantiated as the lock (i.e., you cannot use a `value_type` such as an int as a lock)
+* For example, if you have an `Account` class with `Debit` and `Credit` methods, you can lock the balance to make sure a deposit is not being made at the same time as a withdrawal:
+```csharp
+public decimal Debit(decimal amount)
+{
+    lock (balanceLock)
+    {
+        if (balance >= amount)
+        {
+            Console.WriteLine($"Balance before debit :{balance, 5}");
+            Console.WriteLine($"Amount to remove     :{amount, 5}");
+            balance = balance - amount;
+            Console.WriteLine($"Balance after debit  :{balance, 5}");
+            return amount;
+        }
+        else
+        {
+            // note: this is kind of stupid imho -- should probably throw an error
+            return 0;
+        }
+    }
+}
 
-### RESOURCES
+
+```
+
+
+# RESOURCES
 * Check [msdocs coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
 * [Json.NET Samples](https://www.newtonsoft.com/json/help/html/Samples.htm)
