@@ -4,6 +4,7 @@
 ```
 C-p                 fuzzy finder
 C-shift-p           command palette
+C-,                 open settings
 alt-t               show file explorer
 alt-x               view extensions
 alt-shift-t         toggle terminal

@@ -1,6 +1,13 @@
 # THE BIBLE OF CODING PRACTICES
 
 
+## TO DO
+* try WSL again (esp when WSL2 drops)
+* update git
+* overhaul config (esp after migrating to WSL)
+* keep on doing MovieTime - Vue3
+
+
 ## FUN THINGS TO DO AND KNOW:
 * check out fastcomet for webhosting
 * make an agent-based model to graphically display the growth of a search tree

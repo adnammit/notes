@@ -8,7 +8,7 @@
 
 ## SSMS
 * script a sproc without going through the tree
-    - `sp_helptext <sprocname>`
+    - `exec sp_helptext 'Attendance.GetDisciplinaryAction'`
     - this will print to grid, so click the Text column to highlight the script, copy/paste to a new window
 * view table columns w/out clickity clicking
     - `exec sp_columns varchar50list`
