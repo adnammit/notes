@@ -75,7 +75,7 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
         </div>
     ```
 
-### COMPONENTS
+### GLOBAL COMPONENTS
 * it's very common to reuse components throughout a front-end web application
 * when you create a component using Vue, you provide a template that should be rendered whenever the component is used in html. you also specify which pieces of dynamic information (**props**) the component uses to fill in the template
 * **props** look like normal html attributes
@@ -93,6 +93,18 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
                  v-bind:author="username"></tweet>
         </div>
     ```
+
+### SINGLE FILE COMPONENTS
+* single file components accomplish the same thing as the above, have a different structure and have a few advantages.
+* [Single File Components](https://vuejs.org/v2/guide/single-file-components.html) are components that are defined individually in files ending with a `.vue` extension as opposed to a `.js` file using the `new Vue({ el: '#container' })` syntax.
+* SFCs are made possible by using a build tool like Browserify or Webpack
+* advantages:
+    - names do not need to be unique
+    - syntax highlighting: string templates are ugly -- `.vue` templates are easier to read
+    - global components modularize html and js, but css is not. with SFCs, css can be **scoped**
+    - commonJS modules: global components restrict us to using HTML and ES5. with SFCs we can use preprocessors like Babel
+
+
 
 ### VIRTUAL DOM
 * DOM review:
