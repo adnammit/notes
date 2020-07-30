@@ -21,7 +21,7 @@ C-m-a                       collapse even more all
 C-m-l                       expand all code blocks
 C-'                         collapse/expand current selection               *
 
-==MOVEMENT==
+==EDITING==
 C-a                         Edit.LineStart                                  *
 C-e                         Edit.LineEnd                                    *
 C-h                         Edit.SelectAll                                  *
@@ -32,6 +32,9 @@ C-shift-up                  Edit.JumpSelectUp                               * [e
 C-shift-down                Edit.JumpSelectDown                             * [extension]
 C-/                         Edit.CommentSelection                           *
 C-?                         Edit.UncommentSelection                         *
+C-d                         Edit.SelectCurrentWord
+C-alt-click                 insert cursor
+
 
 ==DEBUG==
 C-shift-B                   build
@@ -45,6 +48,9 @@ C-alt-p                     attach to process
 ==FORMATTING==
 C-k C-f                     fix indentation in selection
 C-k C-d                     fix indentation in entire document
+
+==EDITING==
+
 
 ```
 

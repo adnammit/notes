@@ -12,6 +12,7 @@
         nvm alias default 10.5.0    set as default
     ```
 
+### NPM USAGE
 * npm (Node Package Manager) is the default package manager for NodeJS
 * some npm functionality:
 ```
@@ -33,6 +34,17 @@
     - is npm installing in `..` rather than your `pwd`? you might need to `$ mkdir node_modules` first so npm doesn't get distracted and try to walk up the folder structure
 * installing with `--save` or `--save-dev` will install the necessary dependencies for distribution. Forgoing both will strip away those dependencies leaving others clueless to what is needed to run your dang thing, so try to use one or the other
 
+### NPM CONFIGURATION
+* view your configuration with
+    `npm config list`
+* npm uses a default public registry for its packages but you can specify other private registries
+* use an `.npmrc` file (either globally in your user's home dir or in the install location) to specify what registry to use for a given domain:
+    ```
+        @turtle:registry=http://proget.turtle.net/
+        @walrus:registry=http://proget.walrus.net/
+    ```
+* you can also specify registry on a command-level basis
+    `npm install --registry=https://some.registry.url`
 
 ### USING PACKAGE.JSON
 * why use `package.json`?
@@ -97,6 +109,6 @@
   is responding to an event
     ```javascript
     req.on('error', function(e) {
-    console.log("problem with request: " + e);    
+    console.log("problem with request: " + e);
     });
     ```

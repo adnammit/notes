@@ -119,7 +119,7 @@
 ### RESTFUL APIs
 * what is REST?
    - Representational State Transfer via HTTP transfer protocols
-    	* GET, POST, PUT, etc   
+    	* GET, POST, PUT, etc
    - by its nature, the internet is stateless -- every time you make a request to a website, it's like you're meeting it for the very first time
     - we're not passing the resources, we're passing representations of them
     - rest is an architectural style, as opposed to SOAP
@@ -130,6 +130,50 @@
     4). the system is layered
     5). a restful API must provide further code on demand, so it must be stateless and be able to extend logic
     6). uniform interface between the client and the server
+* REST supports MVC features like controllers, routing, filter, action results, IOC container, model binders, DI
+
+
+### WCF
+* WCF (Windows Communication Foundation) is used for developing SOAP-based services
+* uses XML schemas rather than HTTP
+* testing is a little trickier
+    - use WcfTestClient: a SOAP xml web-based service
+    - or you can use Postman apparently
+
+### REST VS SOAP
+* SOAP: XML schemas vs REST's HTTP
+* SOAP is ideal for message queues, duplex communication, generally regarded as being more reliable and more secure
+* since it uses HTTP, REST can interface with a wide variety of clients including browsers, mobile phones, tablets, etc
+* REST gets all kinds of fancy stuff like MVC, routing etc
+* REST can leverage caching, URLS, headers, content formats
+* WFC can be a bit slower b/c of XML
+* REST can use many formats including XML and is preferred for lightweight services
+* [rest vs wcf](https://rapidapi.com/blog/wcf-vs-web-api/)
+    ```
+        When you want to create a service that can use expedite transport channels when available such as Named Pipes, TCP, and even UDP, WCF is the ideal choice. Web API can be used when you want to expose an expansive range of clients including, mobile phones, iPhone, tablets, and browsers.
+    ```
+
+## WCF HOSTING
+* WCFs can be served via IIS, be self-hosted, or they can be managed through a Windows service
+* [read more about WCF hosting](https://docs.microsoft.com/en-us/dotnet/framework/wcf/hosting-services?redirectedfrom=MSDN)
+
+### IIS
+* integrated with ASP.NET and uses the offered technology, such as process recycling, idle shut down, process health monitoring, message-based activation
+* preferred for services that must be highly available and highly scaleable
+* IIS services can only use HTTP transport (IIS 6 and below)
+
+### SELF-HOSTED
+* requires the least amount of infrastructure to deploy
+* the WCF service is hosted inside a console application
+* this is a useful way to host a service in the development stages
+
+### MANAGED WINDOWS SERVICE
+* long-running WCF services can be hosted outside of IIS in a Windows Service
+* managed by the OS
+
+### WINDOWS PROCESS ACTIVATION SERVICE (WAS)
+* new process activation mechanism
+* retains familiar IIS features (app pools, health monitoring, recycling) but removes dependency on HTTP
 
 
 ## OPTIMIZATION
@@ -145,7 +189,7 @@
     - confusing classes and IDs between html and css files
     - selector specificity:
         * do i want to select `.menu a` or just `.menu`?
-    - css formattion    
+    - css formattion
         * W3.org/TR/css2/visualformattingmodel
 
 

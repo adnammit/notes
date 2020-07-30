@@ -28,7 +28,7 @@
     - in your code include the `using System` directive at the beginning of the program and then you will be able to write `Console.WriteLine` instead of `System.Console.WriteLine`
 
 
-## C# ON THE COMMAND LINE   
+## C# ON THE COMMAND LINE
 * to compile a project, run `$ csc Hello.cs`. this will generate an executable of the same name as your file with the `.exe` extension
 * then run `$ Hello.exe` to run the program
 
@@ -68,12 +68,12 @@
             public int Age { get; set; }
             public string Address { get; set; }
         }
-        
+
         // create an instance of Student without invoking a constructor:
-        Student std = new Student() { StudentID = 1, 
-                                    StudentName = "Bill", 
-                                    Age = 20, 
-                                    Address = "New York"   
+        Student std = new Student() { StudentID = 1,
+                                    StudentName = "Bill",
+                                    Age = 20,
+                                    Address = "New York"
                                     };
     ```
 
@@ -123,7 +123,7 @@
     - we create instances (or **objects**) of the `Customer` class which contain all the class properties
 
 
-### STATIC MODIFIER    
+### STATIC MODIFIER
 * the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
     - it is accessed using the class name
     - it is not an object variable
@@ -138,7 +138,7 @@
 
 ### FIELDS AND PROPERTIES AND AUTOPROPERTIES, OH MY!
 * a **field** is a private (or protected) class member that stores the actual data
-* a **property** allows the field to be accessed, but only exposes the contract 
+* a **property** allows the field to be accessed, but only exposes the contract
 * an **autoproperty** automatically generates a backing field when you define the property
 
 ### DATA ACCESS
@@ -216,14 +216,14 @@
         {
             Console.WriteLine("Parameter type: {0}, value: {1}", typeof(T).ToString(),genericParameter);
             Console.WriteLine("Return type: {0}, value: {1}", typeof(T).ToString(), genericMemberVariable);
-                
+
             return genericMemberVariable;
         }
 
         public T genericProperty { get; set; }
     }
 
-    // instantiate the generic class: 
+    // instantiate the generic class:
     MyGenericClass<int> intGenericClass = new MyGenericClass<int>(10);
 
     int val = intGenericClass.genericMethod(200);
@@ -265,39 +265,39 @@ You can limit the scope of the type T.
 
 The following example only allows you to invoke the method with types that are classes:
 
-    ```csharp
-    void Foo<T>(T item) where T: class
-    {
-    }
-    ```
+```csharp
+void Foo<T>(T item) where T: class
+{
+}
+```
 The following example only allows you to invoke the method with types that are Circle or inherit from it.
 
-    ```csharp
-    void Foo<T>(T item) where T: Circle
-    {
-    }
-    ```
+```csharp
+void Foo<T>(T item) where T: Circle
+{
+}
+```
 And there is new() that says you can create an instance of T if it has a parameterless constructor. In the following example T will be treated as Circle, you get intellisense...
 
-    ```csharp
-    void Foo<T>(T item) where T: Circle, new()
-    {
-        T newCircle = new T();
-    }
-    ```
+```csharp
+void Foo<T>(T item) where T: Circle, new()
+{
+    T newCircle = new T();
+}
+```
 As T is a type parameter, you can get the object Type from it. With the Type you can use reflection...
 
-    ```csharp
-    void Foo<T>(T item) where T: class
-    {
-        Type type = typeof(T);
-    }
-    ```
+```csharp
+void Foo<T>(T item) where T: class
+{
+    Type type = typeof(T);
+}
+```
 As a more complex example, check the signature of ToDictionary or any other Linq method.
 
-    ```csharp
-    public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
-    ```
+```csharp
+public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
+```
 There isn't a T, however there is TKey and TSource. It is recommended that you always name type parameters with the prefix T as shown above.
 
 
@@ -324,6 +324,14 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 # EXCEPTION HANDLING
 
 
+
+# LIBRARIES
+* a library is code that compiles to a DLL (rather than `exe`) and is used by other projects
+* DLLs therefore do not have entry points and cannot be run on their own -- if needed, a console app with an entry point must be created to run the DLL
+
+## DEBUGGING DLLs
+* [debugging DLLs](https://docs.microsoft.com/en-us/visualstudio/debugger/debugging-dll-projects?view=vs-2019)
+* debugging a class library (or anything that compiles to a DLL) is different than debugging something that compiles to an `exe`
 
 
 # TESTING
@@ -367,7 +375,7 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 # EXTENSIONS
 
 ## WHAT ARE THEY?
-* extensions are: 
+* extensions are really cool! they are:
     - additional methods that allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface
     - extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces
     - static
@@ -397,16 +405,11 @@ class Program
     static void Main(string[] args)
     {
         int i = 10;
-        bool result = i.IsGreaterThan(100); 
+        bool result = i.IsGreaterThan(100);
         Console.WriteLine(result);
     }
 }
 ```
-
-
-# LIBRARIES
-* **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
-    - when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
 
 
 # MISC TRICKS AND THINGS
@@ -414,7 +417,10 @@ class Program
     ```csharp
         Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
     ```
-* **implicit types** just use `var` -- the compiler knows what to do    
+* **implicit types** just use `var` -- the compiler knows what to do
+* **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
+    - when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
+
 
 ### LOCKING
 * the `lock` statement is an integrated shorthand for restricting access to a block of code to only one thread at a time
