@@ -44,3 +44,12 @@ $ReturnValue        enter in the Immediate window to see the return value
     // To remove the second rule, for example, add in keybindings.json:
     { "key": "tab", "command": "-jumpToNextSnippetPlaceholder" }
     ```
+
+## DEBUGGING
+* [instructions on how to set up debugging in VSCode](https://vuejs.org/v2/cookbook/debugging-in-vscode.html#Launching-the-Application-from-VS-Code)
+* [more instructions](https://medium.com/idomongodb/visual-studio-code-debugging-vue-js-d3bf5bcc6656)
+* essentially what you need to do is:
+    - update `vue.config.json` so that webpack will build sourcemaps
+    - configure a launch profile in `launch.json` (idk if attach works for vuejs, or if it does, idk what the config looks like)
+    - `npm run serve` and then begin debugging using the launch profile
+* once you've done that, you should just be able to F5/green play button with your launch configuration selected in the debug screen
