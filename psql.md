@@ -71,7 +71,7 @@ postgres -D /usr/local/var/postgres
         delete from faculty;    -- empties the table :(
         delete from students where gpa < 2;
         delete from students where name = 'Daniel';
-    ```        
+    ```
 * **UPDATE** a row:
     ```sql
         update students set gpa = 4 where name = 'Daniel';
@@ -700,7 +700,7 @@ CORRELATED VS NON-CORRELATED SUBQUERIES
   query
 * you cannot use a correlated subquery in the 'from' clause
 
-CONSTRAINTS IN SQL
+## CONSTRAINTS IN SQL
 * examples of constraints: primary keys, foreign keys
 * 'unique' allows null values for more than one row -- null is a non-value
     - unique implicity creates an index (makes sense -- easier sorting)

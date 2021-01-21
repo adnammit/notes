@@ -176,7 +176,7 @@ tar cvf all.tar somedir/*       zips the contents of somedir into all.tar
 tar tvf all.tar                 view the contents of all.tar
 tar xvf all.tar                 unzips the contents of all.tar into dir all/
                                 !!! this will overwrite anything in an existing all/ dir
-tar xvf all.tar -C my_dir/      extract all.tar into directory                                
+tar xvf all.tar -C my_dir/      extract all.tar into directory
 
 sed                             stream editor for filtering and transforming text
 sed ‘s/night/day/’ foo.txt      replace instances of ‘night’ with ‘day’
@@ -296,7 +296,7 @@ find    -[i]name	by name [case insensitive]
     OR: (find 'document' followed by 'content' on the same line)
            $ find -name '*.js' | xargs grep -E 'document.*content' --color
 # or use grep:
-grep -r --include "*.config" app        recursively grep through config files for 'app' 
+grep -r --include "*.config" app        recursively grep through config files for 'app'
 
 bzgrep
 	-e [pattern]	protect patterns beginning with -
@@ -368,7 +368,7 @@ bzless			view bzfiles
         ```
             [^fF]       not f or F
             [abc]       only a, b or c
-            (abc|xyz)   abc or xyz   
+            (abc|xyz)   abc or xyz
         ```
 * Special characters:
     - `\s` any whitespace
@@ -414,8 +414,9 @@ ln /dir/file link_name	creates a hard link to file. note that link_name cannot c
 			data will still be accessible through link_name after deleting dir/file.
 
 ln -s <source> <dest>	create a (soft) symbolic link. dest may contain a path.
-     	       		edeleting the link will leave the source data intact.
+            deleting the link will leave the source data intact.
 			deleting the source data leaves the link broken.
+            *look out for ending /* -- it will cause bash to think it's a dir instead of a symlink
 
 unlink foo		like rm for symlinks, w/out the implication of deleting its 'contents'
 ```
@@ -454,10 +455,10 @@ unlink foo		like rm for symlinks, w/out the implication of deleting its 'content
    chmod +x file.txt		    everyone can execute
    chmod -R a+wrx foo           recursively chmod directory 'foo' so everyone can read, write & execute
    chmod -R u+X foo.txt         recursively add executable flag for user in 'foo' but only for dirs, not files
-```   
+```
 * directories:
     - the group can add files:
-```    
+```
    ls -ld shared_dir  -->   drwxr-xr-x
    chmod g+w shared_dir --> drwxrwxr-x
 ```

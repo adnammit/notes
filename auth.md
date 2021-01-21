@@ -1,4 +1,22 @@
-## AUTHENTICATION
+# AUTHENTICATION
+
+## OVERVIEW
+* in ye olden days (and for some applications presently) [**Windows Authentication**](https://docs.microsoft.com/en-us/windows-server/security/windows-authentication/windows-authentication-overview) (aka NTLM or kerberos) is used
+    - the client browser displays a login dialog box to capture username and password
+    - the client sends the encoded (note: *not* encrypted) credentials back to the server where IIS directly handles authentication
+    - Windows Auth is well-suited to intranet environments:
+        * client and server are in teh same domain
+        * http proxy connections are not required
+    - [more info here](https://www.c-sharpcorner.com/UploadFile/84c85b/understanding-windows-authentication-in-detail/)
+* modern authentication tends to be handled with some flavor of **OIDC**
+
+### TROUBLESHOOTING WINDOWS AUTH
+* you can view the logs generated from login attempts:
+    - event viewer -> windows logs -> security
+    - there you can search by name of the user
+    - look for event ids: 4625 error message
+
+## OAUTH
 * **security tokens**
     - **access token**
     - **identity token**
@@ -50,7 +68,7 @@
         * incapable of maintaining confidentiality
 
 ### HOW IS THIS SECURE?
-* all of this transfer of sensitive data is handled over **TLS (SSL)**             
+* all of this transfer of sensitive data is handled over **TLS (SSL)**
 * the redirect to the provider should take place in a new window (rather than being embedded in the web app) so the app cannot snoop on the user's credentials
 
 

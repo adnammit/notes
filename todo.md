@@ -1,8 +1,21 @@
 
 # TO DO
 
+
 ### NEW STUFF:
+* vs theme
+* custom bash icon?
+* get WSL2 some day
 * write a script to create a new branch, run monsterbuilder and switcher
+
+vue cli
+webpack cli -- install --save-dev, not globally
+stackify prefix
+winpty
+resharper
+vnc viewer
+
+
 
 ### GENERAL STUFF
 * continue to decouple git-controlled repos from Dropbox

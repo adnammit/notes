@@ -1,24 +1,21 @@
 # SQL
 
-## OVERVIEW
-* you can view and query databases by opening the Microsoft SQL Server Management Studio (SSMS)
-    - expand `Databases` -- there you can see all the databases used by various apps and teams
-    - each project folder contains a `Tables` folder (where the actual data lives) and Stored Procedures (under `Programmability`)
-
-
 ## SSMS
 * script a sproc without going through the tree
     - `exec sp_helptext 'Attendance.GetDisciplinaryAction'`
     - this will print to grid, so click the Text column to highlight the script, copy/paste to a new window
 * view table columns w/out clickity clicking
     - `exec sp_columns varchar50list`
-* toggle the results window - `Ctrl-R` 
+* shortcuts
+    ```sql
+        Ctrl-R      -- show/hide the results window
+        Ctrl-t      -- results to text
+        Ctrl-d      -- results to grid
+    ```
 * curious what queries are being run? Use the XEvent Profiler (Standard) and add some handy filters
     - `database_name Like EmployeeManagement`
     - `statement <> exec sp_reset_connection`
 
-### EM DATABASE PROJECT
-* look in the `PostDeployment` scripts to see what the new db is being populated with, or to add new data
 
 ## STORED PROCEDURES
 * view the contents of a stored procedure by right-clicking on the procedure and going to `Script stored procedure as -> CREATE to -> New Query Editor Window`
@@ -82,9 +79,6 @@
         SELECT HAS_PERMS_BY_NAME(null, null, 'ALTER ANY EVENT SESSION');
     ```
 
-
-
-
 ```sql
 
 IF EXISTS (SELECT *
@@ -99,7 +93,7 @@ go
 CREATE EVENT SESSION [testSession]
     ON SERVER
     ADD EVENT sqlserver.sql_statement_completed(
-        WHERE ([sqlserver].[like_i_sql_unicode_string]([sqlserver].[sql_text],N'%SELECT%HAVING%')))
+        WHERE ([sqlserver].[i_like_sql_unicode_string]([sqlserver].[sql_text],N'%SELECT%HAVING%')))
     ADD TARGET package0.event_file(
         SET filename=N'C:\Temp\testSession.xel') -- change to corresponding output file
         WITH (

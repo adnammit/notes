@@ -16,7 +16,7 @@
   - it is simple -- everyone puts their code in the same place
   - works well for backup, undo and synchronization
   - backups are clear -- if you lose your data, all revisions are on the master server
-* centralized disadvantages:    
+* centralized disadvantages:
   - does not support merging and branching
   - check ins are slow
   - requires an 'always running' server to control and manage the master
@@ -64,7 +64,7 @@
 // REPOS AND BRANCHING
 man git-<command>               man for command
 git init                        initialize new repository
-git clone <repo address>        fetch a repository you don’t yet have from remote   
+git clone <repo address>        fetch a repository you don’t yet have from remote
 git remote -v                   lists remote origins your repo knows about
 git remote show origin          show repo’s url
 git remote set-url origin <url> set url (esp if switching between ssh and https)
@@ -127,6 +127,7 @@ git log --follow foo.txt        see commit history of file
 git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
 git log --first-parent master   see commits made to master
 git log --author="Alex"         see commits made by Alex (regex can be used for the name)
+git log --first-parent          see commits for current branch and then parent and its commits
 git grep -I <pattern>           search files for pattern (-I excludes binaries)
 git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
 git diff                        show all changes made (but not necessarily added)
@@ -277,12 +278,13 @@ git stash pop <file>            remove <file> from stash and apply it to the bra
 git stash pop 2                 pop the item in index 2
 git stash apply <file>          apply <file> to the branch w/out removing it from the stash
 git stash show <stashname>      show summary of stash w/out popping
+git stash show stash@{1} -p     show patch of second item in stash
 git stash show -p               show full patch diff of most recent stash
 git stash drop <stashname>      w/out stashname, drops most recent
 git stash clear                 CAREFUL! this will delete your reflog as well
 ```
 
-* you might have changes in your stash that would overwrite your uncommitted work, but maybe that's what you want. to apply the stash and overwrite any merge conflicts with what is in the stash, try: 
+* you might have changes in your stash that would overwrite your uncommitted work, but maybe that's what you want. to apply the stash and overwrite any merge conflicts with what is in the stash, try:
     `git checkout stash -- .`
 
 ### FIXUP
@@ -386,7 +388,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
         my_secret_directory/
         !my_secret_directory/publicfile.html
     ```
-* git will not commit empty directories, so if the directories need to be there for some reason, put an empty file or something so they can be committed    
+* git will not commit empty directories, so if the directories need to be there for some reason, put an empty file or something so they can be committed
 * stuff you should gitignore:
     - sensitive information
     - node_modules/
@@ -418,7 +420,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 ### REMOVING FILES FROM GIT
 * remove a local file from the directory
  ```
-    $ git rm foo		
+    $ git rm foo
     $ git commit -m "removed foo"
 ```
 * remove the file only from the Git repository and not remove it from the filesystem:
@@ -564,10 +566,10 @@ git checkout -b my_review_branch_jhs_321 f2
 git push origin
 
 // force delete local branch to avoid a warning that branch has not been merged
-git branch -D <branch>              
+git branch -D <branch>
 
 // remove branch from remote that has been pushed to origin
-git push origin --delete <branch>   
+git push origin --delete <branch>
 //or
 git push origin :<branch>
 
