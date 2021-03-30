@@ -320,6 +320,23 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
     - Application -> Visual Studio Solution
     - Layer Component -> Visual Studio Project
 
+## DOMAIN DRIVEN DESIGN
+* programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up encorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
+* DDD still depends on SRP (Single Responsibility Principal)
+* Anti-Corruption Layers (ACL) are another key DDD pattern
+    - ACLs are essentially seams that prevent non-domain concepts from leaking into your model
+    - repos are another kind of seam
+* **entities** are "things" in your system: person, place, thing
+    - entities have an identity and a lifecycle -- when the process is complete, the entity is dead as far as the system is concerned and goes back to long-term storage
+    - an entity is a unit of behavior: when you invoke a command on an entity, it is responsible for changing its internal state
+    - use **read-only** to enforce immutability of entities
+* core behavior should be owned by the entity but you might need to provide it with additional data, or provide dependencies which will be responsible for imposing side effects on the outside world
+    ```csharp
+        public class Policy { public void Renew(IAuditNotifier notifier) { // do a bunch of internal state-related things, // some validation, etc. ... // now notify the audit system that there's // a new policy period that needs auditing notifier.ScheduleAuditFor(this); } }
+    ```
+
+
+
 
 
 # EXCEPTION HANDLING

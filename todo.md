@@ -1,5 +1,13 @@
 
 # TO DO
+* make vscode sql better
+    - configure connection
+    - something like redgate search?
+
+
+
+
+
 
 
 ### NEW STUFF:

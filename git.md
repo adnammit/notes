@@ -63,6 +63,7 @@
 ```c
 // REPOS AND BRANCHING
 man git-<command>               man for command
+git help foo                    get help for git command foo
 git init                        initialize new repository
 git clone <repo address>        fetch a repository you don’t yet have from remote
 git remote -v                   lists remote origins your repo knows about
@@ -148,6 +149,11 @@ git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
 
+// git pull is unable to resolve references?
+git gc --prune=now              clean up and optimize local repo, removing loose objects of any age (now)
+git remote prune origin         delete all stale remote tracking branches under origin (remove local branches that are no longer in remote origin)
+
+
 // CLEAN UP FILES
 git clean -n -d                 see which files would be removed
 git clean -f -d                 remove all untracked files that are not in .gitignore
@@ -158,14 +164,6 @@ git clean -f -d                 remove all untracked files that are not in .giti
 git bundle create my-repo.bundle HEAD master
 // extract:
 git clone my-repo.bundle <optional dir>
-
-
-// PL LOCKING
-// locks can only be deleted if your branch is merge-aligned with master
-git locks -u                    show your locks
-git locks -b                    view locks in this branch
-git locks --update              force remote update of locks
-```
 
 
 ### QUICK GUIDE
