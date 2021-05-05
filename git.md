@@ -149,9 +149,11 @@ git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
 
-// git pull is unable to resolve references?
+// git pull is unable to resolve references: error: Ref refs/remotes/origin/{branch} is at <hash1> but expected <hash2>
 git gc --prune=now              clean up and optimize local repo, removing loose objects of any age (now)
 git remote prune origin         delete all stale remote tracking branches under origin (remove local branches that are no longer in remote origin)
+// actually try this:
+git update-ref -d refs/remotes/origin/<branch_thats_barfing>
 
 
 // CLEAN UP FILES
