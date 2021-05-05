@@ -1,5 +1,21 @@
 # PSQL
 
+## PSQL WINDOWS - SQL SHELL
+* SQL shell is a special shell that will make your life easier. run psql within this shell
+* when you start, you'll enter:
+  - Server: localhost by default. just click enter
+  - Database: there is a database called "postgres" that's created with install
+  - Port: enter for default
+  - Username: postgres by default
+  - if you have a pw stored in pgpass.conf, it'll use that (so make sure it's right)
+* remember that you might have to restart the pg server with pg_ctl and that sucks and might not work and you'll have to restart your computer...
+
+## DATA TYPES
+* use text over varchar (they're all dynamic arrays so it doesn't matter)
+* for primary keys use `serial` over `int` (`id serial primary key not null`)
+* for datetimes use `timezonetz` (`datecreated timezonetz not null default NOW()`)
+
+
 ## RUNNING PSQL LOCALLY:
 * from your local CLI type:
     ```
@@ -17,19 +33,22 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 Or, if you don't want/need launchctl, you can just run:
 postgres -D /usr/local/var/postgres
 ```
-* `pg_config --includedir` tells you where the pg_config is
+* `pg_config --includedir` tells you where the pg_dtconfig is
 
 
 
 ## PSQL COMMANDS
+**remember you have to put a ; after everything**
 ```
 * \? - full list of commands
 * \h - help
 * \l - list databases
+* \c - connect - switch from one db to another
 * \d - describe all relations
 * \d+ foo - describe relation foo in detail
 * \dn - view all schemas
 * \dt - describe tables
+* \dt+ - with size and description
 * explain: defines the query plan for the following command
     explain select * from boats;
 * \pset null <null> - displays null as <null>

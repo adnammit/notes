@@ -107,7 +107,52 @@
     ```
 * `any` is the base type in typescript -- the default type of a `var` when the type is ambiguous
 
-## CLASSES AND INTERFACES
+## CLASSES AND INHERITANCE
+* base and derived classes are often called super and sub classes in ts
+* use the `extends` keyword to derive a subclass from a base class
+* use the `super` keyword to call the base method
+    - note that all subclass constructors *must* call `super()`
+* make the constructor of the base class protected if you want to restrict instantiation of this class -- only instances of its extended classes can be created
+* use the `instanceof` keyword to determine if an object is an instance of a given class
+    ```csharp
+        class Animal {
+            name: string;
+            constructor(theName: string) {
+                this.name = theName;
+            }
+            move(distanceInMeters: number = 0) {
+                console.log(`${this.name} moved ${distanceInMeters}m.`);
+            }
+        }
+
+        class Snake extends Animal {
+            constructor(name: string) {
+                super(name);
+            }
+            move(distanceInMeters = 5) {
+                console.log("Slithering...");
+                super.move(distanceInMeters);
+            }
+        }
+
+        let animal: Animal;
+        animal = new Snake('Jerry');
+        animal instanceof Snake; //true
+    ```
+
+### ABSTRACT
+* `abstract` classes can be created that other sub classes are derived from
+* abstract classes cannot be directly instantiated
+* abstract classes can be references
+    ```typescript
+        let myClass: AbstractClass;
+        myClass = new DerivedClass();
+    ```
+* abstract classes can contain concrete methods and/or abstract methods
+* abstract methods *must* be implemented in derived classes
+* access modifiers for abstract classes and methods are optional
+*
+
 
 ## MODULES
 
