@@ -108,6 +108,14 @@
 
 
 ## GENERAL TOPICS:
+* **architecture**: according to [Martin Fowler](https://www.youtube.com/watch?v=DngAZyWMGR0), architecture is the "important stuff": the shared understanding between developers, and the things that are hard to change:
+    - architecture is the common understanding of the system design that is shared between expert developers of the system.
+        * software development is a social thing -- we have to understand what each other are doing
+        * diagrams, design, technical documents are all well and good,but they are just representations of the ideas shared between people writing the software
+    - architecture's primary concerns are decisions that are hard to change
+    - why good architecture?
+        * good design takes more time/money, so how can you argue for it?
+        * it's not just about avoiding expense/problems down the line: a well-designed system will allow features to be created more and more rapidly -- saving time/money in the future
 * **authentication**: verify the identity of the user
 * **authorization**: restrict access to allow only the correct people
 * **abstract data type**: a logical, conceptual description of an interface (what it does)
@@ -118,7 +126,7 @@
     - doubly linked lists [lists]
     - BST, red-black tree [table]
     - array of linked lists [hash table]
-* **inversion of control**: allowing other code to call you rather    
+* **inversion of control**: allowing other code to call you rather
 * **dependency injection**: providing an object with its dependencies rather than having it source them itself. Dependency injection is one technique in the broader concept of Inversion of Control
     - dependencies are passed in to a constructor/class definition rather than being instantiated within
     - helpful in that it allows dependencies to be run at runtime - more dynamic
@@ -139,7 +147,7 @@
         * the ability to create stubs and mock objects makes for easier unit testing
         * since client has no concept or control over changes in dependencies, it is isolated from changes in design or defects elsewhere, thus promoting reusability, testability and maintainability. Coupling is decreased between the client and its services
         * allows for concurrent development: one dev can work on the client, another on the injector, as long as the interface is already agreed upon
-    - cons:     
+    - cons:
         * can be more difficult to read, trace and debug -- more files must be read
         * demands more upfront development effort (maintaining two things is harder than maintaining one)
 
