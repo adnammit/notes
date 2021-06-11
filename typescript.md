@@ -2,12 +2,11 @@
 
 ## WHAT THE HEY IS IT
 * ts is a superset of js that compiles to js
-* it is cross-brower and cross-platform compatible
+* it is cross-browser and cross-platform compatible
 * it's open source
 * tooling and support
     - can be used directly with node.js ( )
         * `npm install -g typescript` will allow you to run `tsc foo.ts`
-
     - VS
         * autocompiles on save
         * adding a new ts file generates a new module with a sample class and interface
