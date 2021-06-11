@@ -435,16 +435,18 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 
 
 ### CLEANSING SENSITIVE INFORMATION
-* if you remove a file from the repo itself, sensitive info may still appear in the commit history
-    - add your files to .gitignore
-    - supposing the file has been pushed, remove from the repo with `$ git rm --cached my_file`
-    - scrub the file from past commits by finding the SHA-1 for the first commit of the file and then doing:
-```
-  $ git filter-branch -f --index-filter \ 'git update-index --remove my_file' [SHA-1]..HEAD
-  $ git push --force --verbose --dry-run
-  $ git push --force
-```
-
+* use bfg repo cleaner: https://rtyley.github.io/bfg-repo-cleaner/
+* steps:
+    - clone repo using `--mirror`:
+    - make changes to the repo
+    - cd into repo, call reflog, gc and push
+    ```
+        $ git clone --mirror git://example.com/my-repo.git
+        $ java -jar bfg.jar --delete-folders .git --delete-files .git  --no-blob-protection  my-repo.git
+        $ cd my-repo.git
+        $ git reflog expire --expire=now --all && git gc --prune=now --aggressive
+        $ git push
+    ```
 ### FORMATTING
 * you can use various options to format data about commits and files
 
