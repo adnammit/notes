@@ -139,7 +139,7 @@ git diff --name-status A...B    name and status of files that differ between bra
 git diff master..               view diff between master and current unstaged changes
 git diff -B -w --shortstat A..B just list num of files changed, insertions and deletions between commits
 git rev-list --all | xargs git grep <expression>    search history for an expression
-git log -S 'Needle'                                 another way to search history to see when a string was added or removed
+git log -S 'Needle' -p                              another way to search history to see when a string was added or removed, with patch
 git log -S 'Needle' --source --all                  search all branches
                                                     or search with regex:
 git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all
