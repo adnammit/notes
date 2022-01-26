@@ -63,44 +63,44 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
   - However, if you add the following to your .bash_profile, you can then move everything into your .bashrc file so as to consolidate everything into one place instead of two:
   ```bash
   if [ -f $HOME/.bashrc ]; then
-      source $HOME/.bashrc
+	  source $HOME/.bashrc
   fi
   ```
 * .profile should contain all your PATH variables and friends, and should be sh-friendly only (no bash)
 * aliases:
-   - aliases should be used when you need to simply modify the behavior of a command
-          `alias ls="ls --color=auto"`
-   - you can call a command without it's alias by writing it in all caps:
-          `$ LS     // calls the generic 'ls' command with no arguments of the alias`
+	- aliases should be used when you need to simply modify the behavior of a command
+		  `alias ls="ls --color=auto"`
+	- you can call a command without it's alias by writing it in all caps:
+		  `$ LS     // calls the generic 'ls' command with no arguments of the alias`
 * functions:
-   - functions are a bit more complex than aliases and may take arguments, but are not things you
-     would necessarily use on your own
-   - if you get a lot of functions or want to modularize them (use the same functions with different
-     .bashrc configurations, etc) you can put them in their own hidden dir:
-     ```bash
-     if [ -d ~/.bash_functions ]; then
-         for file in ~/.bash_functions/*; do
-             . "$file"
-         done
-     fi
-     ```
-   - can change the shell's environment
+	- functions are a bit more complex than aliases and may take arguments, but are not things you
+	 would necessarily use on your own
+	- if you get a lot of functions or want to modularize them (use the same functions with different
+	 .bashrc configurations, etc) you can put them in their own hidden dir:
+	 ```bash
+	 if [ -d ~/.bash_functions ]; then
+		 for file in ~/.bash_functions/*; do
+			 . "$file"
+		 done
+	 fi
+	 ```
+	- can change the shell's environment
 * aliases and functions stored in .bashrc:
-   - if you only want the interactive shell to use your code, putting an alias or function in
-     the .bashrc is a good bet
-   - they can only be used by the current shell and are kept in the shell's memory
-       * if it's something you use frequently, it may be more efficient to keep it here - scripts are re-read from the disk every time they're invoked
-	   * on the other hand, if you don't use it frequently and it's large, no need to have it hogging your memory
-   - no separate process is needed to run them
+	- if you only want the interactive shell to use your code, putting an alias or function in
+	 the .bashrc is a good bet
+	- they can only be used by the current shell and are kept in the shell's memory
+		* if it's something you use frequently, it may be more efficient to keep it here - scripts are re-read from the disk every time they're invoked
+		* on the other hand, if you don't use it frequently and it's large, no need to have it hogging your memory
+	- no separate process is needed to run them
 * scripts:
-   - scripts should stand on their own. they may be re-used, or be broadly applicable
-   - necessary if other programs beside your shell need to use it
-   - scripts may be invoked in more ways: they may be passed as an argument to the interpreter or invoked directly as an executable
-   - scripts run as their own process, with their own environment that will not effect the shell's
-       * however if the script is sourced with "." or "source" it will use the shell's env and can modify it
+	- scripts should stand on their own. they may be re-used, or be broadly applicable
+	- necessary if other programs beside your shell need to use it
+	- scripts may be invoked in more ways: they may be passed as an argument to the interpreter or invoked directly as an executable
+	- scripts run as their own process, with their own environment that will not effect the shell's
+		* however if the script is sourced with "." or "source" it will use the shell's env and can modify it
 * if you get an error like `-bash: '\r': command not found` try running the affected file through `dos2unix`:
-        $ dos2unix foo.sh
-    - caution: this will alter your file, so make sure there's a backup
+		$ dos2unix foo.sh
+	- caution: this will alter your file, so make sure there's a backup
 
 
 
@@ -131,11 +131,11 @@ bg/fg                           bring a suspended process to the background/fore
 
 rdiff                           diff RCS versions
 diff file1 file2
-    -y                          view output in two columns
-    -y -W 200                   view side-by-side and make the columns 200 chars wide
-    -Nr dir1/ dir2/             diff entire directory: displays diffs in individual files and what files are only in one dir or the other
-    -rq dir1/ dir2/             only view differences in what files are in each dir, not file contents
-    -Bw                         ignore all (w)hitespace and (B)lank lines
+	-y                          view output in two columns
+	-y -W 200                   view side-by-side and make the columns 200 chars wide
+	-Nr dir1/ dir2/             diff entire directory: displays diffs in individual files and what files are only in one dir or the other
+	-rq dir1/ dir2/             only view differences in what files are in each dir, not file contents
+	-Bw                         ignore all (w)hitespace and (B)lank lines
 
 rm                              remove
 	-i                          confirm deletion of each file individually
@@ -149,12 +149,12 @@ rsync -a foo dir1/dir2/dir3/    copy file foo into the path, creating folders as
 mkdir -p                        make a directory. -p: no error if existing
 
 man pages:
-        / ?                     search forward/backward within an open man page
-        n/N                     move forward/back through search results
-        man -K "foo"            search across all man pages
+		/ ?                     search forward/backward within an open man page
+		n/N                     move forward/back through search results
+		man -K "foo"            search across all man pages
 
 type [command]                  display the exact command being executed. helpful if you're trying to verify what
-                                user-defined function is being called
+								user-defined function is being called
 
 alias [alias]                   arg is optional -- with no args, displays all aliases and their commands
 
@@ -165,7 +165,7 @@ alias [alias]                   arg is optional -- with no args, displays all al
 which [executable]              displays the full path of shell command
 
 [command] > foo.txt             write the output of command to a file. create file if it doesn't exist.
-                                Overwrites previous content of file.
+								Overwrites previous content of file.
 
 echo foo >> test.txt            append 'foo' to test.txt. create test.txt if it doesn't already exist.
 
@@ -175,7 +175,7 @@ tar                             make or unzip a zip file
 tar cvf all.tar somedir/*       zips the contents of somedir into all.tar
 tar tvf all.tar                 view the contents of all.tar
 tar xvf all.tar                 unzips the contents of all.tar into dir all/
-                                !!! this will overwrite anything in an existing all/ dir
+								!!! this will overwrite anything in an existing all/ dir
 tar xvf all.tar -C my_dir/      extract all.tar into directory
 
 sed                             stream editor for filtering and transforming text
@@ -188,19 +188,19 @@ sort -u foo.txt                 print a list of unique sorted lines in foo.txt
 
 
 exec foo                        replace the shell with the given command.
-                                use '$ exec bash' to reload your config files and replace your current instance of bash with a new one (but maybe not -- not all config files are loaded w/ exec bash)
+								use '$ exec bash' to reload your config files and replace your current instance of bash with a new one (but maybe not -- not all config files are loaded w/ exec bash)
 
 close your exec command with ; or + depending on the behavior you want:
 \; -- execute the command once per argument
 \+ -- pass in all args
 
-			      $ find -name "*oo*" -exec echo {} \+
-			      > soon balloon pantaloon
+				  $ find -name "*oo*" -exec echo {} \+
+				  > soon balloon pantaloon
 
-			      $ find -name "*oo*" -exec echo {} \;
-			      > soon
-			      > balloon
-			      > pantaloon
+				  $ find -name "*oo*" -exec echo {} \;
+				  > soon
+				  > balloon
+				  > pantaloon
 
 ```
 
@@ -216,7 +216,7 @@ mount                           with no args, view information about the filesys
 df                              display free disk space
 
 du                              estimate file space usage
-                                for a nice, useful output try '$ du -sh * | sort -h'
+								for a nice, useful output try '$ du -sh * | sort -h'
 
 top                             view processes
 
@@ -227,7 +227,7 @@ htop                            top with cool graphics!
 pgrep                           find processes
 
 ps aux                          view processes on the *system* (aside from shell internal processes)
-                                (aux == all users)
+								(aux == all users)
 
 ps aux | less                   view in less
 
@@ -238,7 +238,7 @@ ps -elf                         another way
 jobs                            display jobs that the *shell* is currently managing
 
 kill [PID]                      attempt to stop process with a given PID by sending TERM signal
-    -KILL                       attempt to kill process with KILL signal
+	-KILL                       attempt to kill process with KILL signal
 	-9                          same as -KILL
 	-l                          list all possible signals to send
 
@@ -252,7 +252,7 @@ uptime                          prints how long the system has been running
 which foo                       displays the origin of foo (whether it is in /usr/bin, is an alias, etc)
 
 sudo find / -size +2000000 -print
-                                find all files larger than 2 gigs
+								find all files larger than 2 gigs
 
 find . -user ryman.amanda       find all files owned by user
 
@@ -265,27 +265,25 @@ tskill <PID>                    kill the task using the port (or any task really
 ```
 
 
-
-
 ## SEARCHING:
 ```
 find    -[i]name	by name [case insensitive]
-    	-[i]regex	search using [case insensitive] regexes
-    	-perm		/u+w
-    	-type		f=files; d=dirs; l=symlinks
-    	-size
-    	-user		files belonging to a particular user
-    	-group		files belonging to a particular group
-     	-maxdepth n	limit search to depth of n. n=1: search this dir only
+		-[i]regex	search using [case insensitive] regexes
+		-perm		/u+w
+		-type		f=files; d=dirs; l=symlinks
+		-size
+		-user		files belonging to a particular user
+		-group		files belonging to a particular group
+	 	-maxdepth n	limit search to depth of n. n=1: search this dir only
 
 
 	-l		show only files containing matches (not the matching text)
 	-i	    ignore case
 	-n 	    display line number of match
-    -m1     only display the first match in each file
+	-m1     only display the first match in each file
 	-q		quiet
 	-r		recursive. follows sym links
-    -F      literal. helpful when searching for expressions containing '.'
+	-F      literal. helpful when searching for expressions containing '.'
 	--color	the colors, duke!
 	-A6		display the 6 lines after the expression is found
 	-B6		display the 6 lines before the expression is found
@@ -293,8 +291,8 @@ find    -[i]name	by name [case insensitive]
 
 	Example: find log files that contain 'error' and 'project_propagate' in the same line
 		   $ find -name '*log*' | xargs grep -i error | grep -i project_propagate
-    OR: (find 'document' followed by 'content' on the same line)
-           $ find -name '*.js' | xargs grep -E 'document.*content' --color
+	OR: (find 'document' followed by 'content' on the same line)
+		   $ find -name '*.js' | xargs grep -E 'document.*content' --color
 # or use grep:
 grep -r --include "*.config" app        recursively grep through config files for 'app'
 
@@ -315,10 +313,10 @@ zfgrep
 ## READERS
 ```
 
-less	       		simple text viewer
+less		simple text viewer
 	+F		view page dynamically
 
-more			view text one page at a time (pretty primitive)
+more		view text one page at a time (pretty primitive)
 
 cat			concatenate file to stdout
 
@@ -331,56 +329,55 @@ tail
 	-30		view last 30 lines of the file
 	-f		view dynamic content (less +F is probably better)
 
-bzless			view bzfiles
+bzless		view bzfiles
 ```
 
 
 
 
 ## CIRCUMFLEX HATS
-
 * use circumflex hats (^) to re-execute the previous command with an alteration.
 * you might want to do this if you typed a long command with an error, or if you need to repeat self-similar commands
 * example:
 ```bash
-    $ emacs .xdefaults &        // creates a new file
+	$ emacs .xdefaults &        // creates a new file
 	$ ^x^X                      // opens the correct file
 ```
 * or how about
 ```bash
-    $ cp foo.txt my/very/long/dir/path/
-    $ ^foo^bar				   // copy both foo and bar.txt to the same complex dir
+	$ cp foo.txt my/very/long/dir/path/
+	$ ^foo^bar				   // copy both foo and bar.txt to the same complex dir
 ```
 
 
-## REGEXES
-
+## REGEX
 * Vocabulary:
-    - Literal: literally the string we want to find, the ‘ing’ in ‘finger’
-    - Metacharacter: a special character whose meaning is not taken literally (the circumflex hat ^ for example)
-    - Target string: the string in which we are searching for our pattern
-    - Search (regular) expression: combination of literals and metacharacters used to find our match
-    - Escape sequence: used to indicate that we want to use the literal value of one of our metacharacters. The escape metacharacter is \
+	- Literal: literally the string we want to find, the ‘ing’ in ‘finger’
+	- Metacharacter: a special character whose meaning is not taken literally (the circumflex hat ^ for example)
+	- Target string: the string in which we are searching for our pattern
+	- Search (regular) expression: combination of literals and metacharacters used to find our match
+	- Escape sequence: used to indicate that we want to use the literal value of one of our metacharacters. The escape metacharacter is \
 * Metacharacters:
-    - \[\*\] 	match anything inside brackets for one character position, once and only once
-    - \- range separator indicating a range, such as [0-9]. Can include multiple ranges, such as [0-9A-C]
-    - ^	the circumflex inside square brackets selects the complement of its associated literal
-        ```
-            [^fF]       not f or F
-            [abc]       only a, b or c
-            (abc|xyz)   abc or xyz
-        ```
+	- \[\*\] 	match anything inside brackets for one character position, once and only once
+	- \- range separator indicating a range, such as [0-9]. Can include multiple ranges, such as [0-9A-C]
+	- ^	the circumflex inside square brackets selects the complement of its associated literal
+		```
+			[^fF]       not f or F
+			[abc]       only a, b or c
+			(abc|xyz)   abc or xyz
+		```
 * Special characters:
-    - `\s` any whitespace
-    - `\S` any non-whitespace
-    - `\d` any digit
-    - `\D` any non-digit
-    - `\w` any alphanumeric char
-    - `\W` any non-alphanumeric char
-    - `.`  any character
-        ```
-            ^\s*Foo     lines that start with 'Foo', ignoring any amount of whitespace
-        ```
+	- `\s` any whitespace
+	- `\S` any non-whitespace
+	- `\d` any digit
+	- `\D` any non-digit
+	- `\w` any alphanumeric char
+	- `\W` any non-alphanumeric char
+	- `.`  any character
+		```
+			^\s*Foo     lines that start with 'Foo', ignoring any amount of whitespace
+		```
+	- `\b` word boundary
 
 
 ## SHORTCUTS
@@ -410,13 +407,13 @@ ctrl+r			search back through bash_history for a match (eg $ ^r grep)
 ```
 
 ln /dir/file link_name	creates a hard link to file. note that link_name cannot contain a dir path.
-  	     		delete hard link with rm. data will still be in dir/file.
+  		 		delete hard link with rm. data will still be in dir/file.
 			data will still be accessible through link_name after deleting dir/file.
 
 ln -s <source> <dest>	create a (soft) symbolic link. dest may contain a path.
-            deleting the link will leave the source data intact.
+			deleting the link will leave the source data intact.
 			deleting the source data leaves the link broken.
-            *look out for ending /* -- it will cause bash to think it's a dir instead of a symlink
+			*look out for ending /* -- it will cause bash to think it's a dir instead of a symlink
 
 unlink foo		like rm for symlinks, w/out the implication of deleting its 'contents'
 ```
@@ -427,38 +424,38 @@ unlink foo		like rm for symlinks, w/out the implication of deleting its 'content
 
 * format:
 ```
-   [d][r][w][x][r][w][x][r][w][x]
-   [directory?][user: rwx][group: rwx][all: rwx]
+	[d][r][w][x][r][w][x][r][w][x]
+	[directory?][user: rwx][group: rwx][all: rwx]
 ```
 * users:
-    - u: user. owner of the file
-    - g: group. users who are members of the file's group
-    - o: others. users who are neither.
-    - a: all. everyone.
+	- u: user. owner of the file
+	- g: group. users who are members of the file's group
+	- o: others. users who are neither.
+	- a: all. everyone.
 * operators:
-    - +
-    - -
-    - =
+	- +
+	- -
+	- =
 * modes:
-    - r: read or list
-    - w: write
-    - x: execute or recurse a directory tree
-    - X: special execute.
-    - s: setuid/gid
-    - t: sticky
+	- r: read or list
+	- w: write
+	- x: execute or recurse a directory tree
+	- X: special execute.
+	- s: setuid/gid
+	- t: sticky
 * view permissions with `ls -l filename.txt`
 * examples:
 ```
-   chmod a+w filename.txt	    everyone can write
-   chmod ug=rx reference.txt	user and group can read and execute only
-   chmod a-w file.txt		    no one can write
-   chmod +x file.txt		    everyone can execute
-   chmod -R a+wrx foo           recursively chmod directory 'foo' so everyone can read, write & execute
-   chmod -R u+X foo.txt         recursively add executable flag for user in 'foo' but only for dirs, not files
+	chmod a+w filename.txt	    everyone can write
+	chmod ug=rx reference.txt	user and group can read and execute only
+	chmod a-w file.txt		    no one can write
+	chmod +x file.txt		    everyone can execute
+	chmod -R a+wrx foo           recursively chmod directory 'foo' so everyone can read, write & execute
+	chmod -R u+X foo.txt         recursively add executable flag for user in 'foo' but only for dirs, not files
 ```
 * directories:
-    - the group can add files:
+	- the group can add files:
 ```
-   ls -ld shared_dir  -->   drwxr-xr-x
-   chmod g+w shared_dir --> drwxrwxr-x
+	ls -ld shared_dir  -->   drwxr-xr-x
+	chmod g+w shared_dir --> drwxrwxr-x
 ```

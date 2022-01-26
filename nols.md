@@ -20,19 +20,19 @@
 ## Patient Assessment System PAS
 ### Size-up the scene
 * Don't create more patients. Priorities are:
-    1. yourself
-    2. bystanders and rescuers
-    3. the patient
+	1. yourself
+	2. bystanders and rescuers
+	3. the patient
 * situational triage:
-    1. Survey the scene for hazards: "My safety is number one"
-        - Immediate danger to rescuers
-        - Immediate danger to bystanders
-        - Immediate danger to patients
-    2. Determine what might have caused the accident or injury "What happened to you?"
-        - Mechanism of Injury (MOI)
-    3. Protect yourself from bodily substances (Body Substance Isolation or BSI) "Don't get that on me"
-    4. Determine the number of patients "How Many more?"
-    5. Form a general impression of the patient. Hurt or not hurt? Sick or not sick? "How alive?"
+	1. Survey the scene for hazards: "My safety is number one"
+		- Immediate danger to rescuers
+		- Immediate danger to bystanders
+		- Immediate danger to patients
+	2. Determine what might have caused the accident or injury "What happened to you?"
+		- Mechanism of Injury (MOI)
+	3. Protect yourself from bodily substances (Body Substance Isolation or BSI) "Don't get that on me"
+	4. Determine the number of patients "How Many more?"
+	5. Form a general impression of the patient. Hurt or not hurt? Sick or not sick? "How alive?"
 
 
 ### Initial Assessment: Survey the patient for immediate threats to life
@@ -41,89 +41,89 @@
 * Ask patient's name and what happened. If the pt is unconscious, cannot remember or if they fell, immediately stabilize the head.
 * Establish responsiveness. Attempt to wake the patient. If there is an obvious mechanism for spine injury, protect the spine.
 * ABCDE:
-    - Airway management: Look in the patient's mouth. Clear any obstructions
-    - Breathing adequacy: Look, listen, and feel. Expose and look for chest injuries.
-    - Circulation: Assess for presence of pulse and signs of circulation. Control life-threatening bleeding.
-    - Decision on Disability: If there is any chance that the patient has a spine injury, maintain protection of the spine.
-    - Expose any serious injuries. Examine the injured site, their "Chief Complaint"
+	- Airway management: Look in the patient's mouth. Clear any obstructions
+	- Breathing adequacy: Look, listen, and feel. Expose and look for chest injuries.
+	- Circulation: Assess for presence of pulse and signs of circulation. Control life-threatening bleeding.
+	- Decision on Disability: If there is any chance that the patient has a spine injury, maintain protection of the spine.
+	- Expose any serious injuries. Examine the injured site, their "Chief Complaint"
 
 
 ### Complete physical exam, vital signs and history
 #### Head to Toe (Physical Exam)
 * Complete a head to toe assessment:
-    - "LAF" at your patient: Look, ask, feel, and listen
-    - tell them what you're doing as you're doing it, **even if they're unconscious** (they may be able to hear you but can't respond)
-    - Check circulation, sensation and motion (CSM) in all four extremities
-    - Head to Toe, Step by Step:
-        * Head:
-            - with fingertips, examine all the way around the cranium
-            - palpate optical orbit, cheekbones and jaw
-            - check inside ears for anything that is not earwax (blood, brain fluid)
-            - have pt clench jaw, move side to side -- "does it hurt?"
-        * Neck
-            - expose the neck - any protrusions?
-            - ask if they wear medical tags (or have any on their phone)
-            - walk fingers along the clavicals to expose injury
-        * Shoulders
-            - hands on either side of the shoulder joint, one anterior (front), one posterior (back), compress
-        * Rib Cage
-            - hand on the upper part of the rib cage, towards pt's back. "take a big breath, any pain?"
-            - repeat with hands on the bottom of the rib cage
-        * Stomach
-            - have pt locate their belly button. centering your hand over it, roll your hand across the belly
-        * Pelvis
-            - place hands on outside of pelvis at the tops of the hip bones and compress
-        * Arms and Legs
-            - use both hands to compress with opposing force the upper and lower arm/leg
-            - ask pt to bend arm/leg
-            - Feet:
-                * "Step on the gas"
-                * "Pull your toes towards your nose"
-                * take note of the pt's temperature inside their shoes
-            - Hands:
-                * "Squeeze my fingers"
-                * "Roll your wrists around"
-                * take note of the skin - is it dry? hot? cold? clammy?
-            - direct the pt's gaze away. ask which finger/side of foot you're touching
-            - "any tingling, numb sensation?"
-        * Back
-            - if the pt is inert, roll them onto their back
-            - starting at the place where the skull meets the vertebrae, walk fingers down the spine to the tailbone
-            - using a broad hand, press kidneys
+	- "LAF" at your patient: Look, ask, feel, and listen
+	- tell them what you're doing as you're doing it, **even if they're unconscious** (they may be able to hear you but can't respond)
+	- Check circulation, sensation and motion (CSM) in all four extremities
+	- Head to Toe, Step by Step:
+		* Head:
+			- with fingertips, examine all the way around the cranium
+			- palpate optical orbit, cheekbones and jaw
+			- check inside ears for anything that is not earwax (blood, brain fluid)
+			- have pt clench jaw, move side to side -- "does it hurt?"
+		* Neck
+			- expose the neck - any protrusions?
+			- ask if they wear medical tags (or have any on their phone)
+			- walk fingers along the clavicals to expose injury
+		* Shoulders
+			- hands on either side of the shoulder joint, one anterior (front), one posterior (back), compress
+		* Rib Cage
+			- hand on the upper part of the rib cage, towards pt's back. "take a big breath, any pain?"
+			- repeat with hands on the bottom of the rib cage
+		* Stomach
+			- have pt locate their belly button. centering your hand over it, roll your hand across the belly
+		* Pelvis
+			- place hands on outside of pelvis at the tops of the hip bones and compress
+		* Arms and Legs
+			- use both hands to compress with opposing force the upper and lower arm/leg
+			- ask pt to bend arm/leg
+			- Feet:
+				* "Step on the gas"
+				* "Pull your toes towards your nose"
+				* take note of the pt's temperature inside their shoes
+			- Hands:
+				* "Squeeze my fingers"
+				* "Roll your wrists around"
+				* take note of the skin - is it dry? hot? cold? clammy?
+			- direct the pt's gaze away. ask which finger/side of foot you're touching
+			- "any tingling, numb sensation?"
+		* Back
+			- if the pt is inert, roll them onto their back
+			- starting at the place where the skull meets the vertebrae, walk fingers down the spine to the tailbone
+			- using a broad hand, press kidneys
 
 #### Vital Signs & History
 * Note time taken: take them every 15' and then less often if the patient is stable
-    - Level of Responsiveness (LOR): tap them on the elbow to wake them up if they're sleeping
-        * awake and oriented
-        * awake and disoriented
-        * unconscious
-    - Heart Rate (HR):
-        * Beats per minute (average is 60-100)
-        * strong or weak
-        * pulse can be taken:
-            - radial: wrist, taken here if the patient is awake and consenting
-            - corotid: neck, taken here if the patient is unconscious
-    - Respiratory Rate (RR):
-        * breaths per minute (average is 12-20)
-        * easy or labored
-        * putting a hand on their shoulder can help monitor their breathing rate
-        * people will breathe differently if they know they are being monitored - for an accurate reading take it directly after taking HR while still holding their wrist
-    - Skin Color, Temperature and Moisture (SCTM)
-        * color: check inside of their lower lip -- pink to pale
-        * temp: put your hand inside their shirt collar, high on their chest
-        * moisture: sweaty, clammy or dry
+	- Level of Responsiveness (LOR): tap them on the elbow to wake them up if they're sleeping
+		* awake and oriented
+		* awake and disoriented
+		* unconscious
+	- Heart Rate (HR):
+		* Beats per minute (average is 60-100)
+		* strong or weak
+		* pulse can be taken:
+			- radial: wrist, taken here if the patient is awake and consenting
+			- corotid: neck, taken here if the patient is unconscious
+	- Respiratory Rate (RR):
+		* breaths per minute (average is 12-20)
+		* easy or labored
+		* putting a hand on their shoulder can help monitor their breathing rate
+		* people will breathe differently if they know they are being monitored - for an accurate reading take it directly after taking HR while still holding their wrist
+	- Skin Color, Temperature and Moisture (SCTM)
+		* color: check inside of their lower lip -- pink to pale
+		* temp: put your hand inside their shirt collar, high on their chest
+		* moisture: sweaty, clammy or dry
 * Patient History
-    - Name
-    - Age
-    - Chief Complaint
-    - SAMPLE:
-        * Symptoms: In addition to the chief complaint
-        * Allergies: "Are you allergic to anything?"
-        * Medications: "Do you take any medications? Do you have it with you? Did you take it today?"
-            - includes recreational drugs
-        * Pertinent medical history: "Do you see a doctor for any medical condition?"
-        * Last fluid/food intake, last urine/bowel output: "When did you last eat and drink? How much?"
-        * Events: "What have you been doing today?" "Did anything cause this event?"
+	- Name
+	- Age
+	- Chief Complaint
+	- SAMPLE:
+		* Symptoms: In addition to the chief complaint
+		* Allergies: "Are you allergic to anything?"
+		* Medications: "Do you take any medications? Do you have it with you? Did you take it today?"
+			- includes recreational drugs
+		* Pertinent medical history: "Do you see a doctor for any medical condition?"
+		* Last fluid/food intake, last urine/bowel output: "When did you last eat and drink? How much?"
+		* Events: "What have you been doing today?" "Did anything cause this event?"
 
 ### Next steps:
 - Complete patient care
@@ -132,8 +132,8 @@
 
 #### Notes about Assessment
 * Signs vs Symptoms:
-    - signs are seen, measured
-    - symptoms are felt
+	- signs are seen, measured
+	- symptoms are felt
 * for everything you are noticing, ask: "is this normal for you? Is that your usual breakfast? Does your left foot usually angle out to the side more than the right?"
 
 

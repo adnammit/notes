@@ -2,7 +2,7 @@
 
 ## WHY USE IT?
 * allows you to back up, modify and revert changes without manually making and managing
-  backup files
+	backup files
 
 ## TYPES OF VERSION CONTROL
 * formal vs impromptu
@@ -13,47 +13,47 @@
 
 ## DISTRIBUTED VS CENTRALIZED
 * centralized advantages:
-  - it is simple -- everyone puts their code in the same place
-  - works well for backup, undo and synchronization
-  - backups are clear -- if you lose your data, all revisions are on the master server
+	- it is simple -- everyone puts their code in the same place
+	- works well for backup, undo and synchronization
+	- backups are clear -- if you lose your data, all revisions are on the master server
 * centralized disadvantages:
-  - does not support merging and branching
-  - check ins are slow
-  - requires an 'always running' server to control and manage the master
+	- does not support merging and branching
+	- check ins are slow
+	- requires an 'always running' server to control and manage the master
 * distributed advantages:
-  - focus is on sharing changes (every change has a guid)
-  - design relies on merging and branching, so merging multiple users' work is easy
-  - localized:
-      * each user has their own sandbox
-	  * can work offline
-      * diffs, commits and reverts are all local and fast
-  - less management -- there's no 'always running' server software to install
+	- focus is on sharing changes (every change has a guid)
+	- design relies on merging and branching, so merging multiple users' work is easy
+	- localized:
+			* each user has their own sandbox
+		* can work offline
+			* diffs, commits and reverts are all local and fast
+	- less management -- there's no 'always running' server software to install
 * distributed disadvantages:
-  - if you lose your work, there's no guaranteed backup (unless using something like github?)
-  - there's no 'latest version' so it's not really clear which member of the team is sitting
-    on the most recent changes
-    * however you can create a central location to clarify this
-  - there aren't really revision numbers, though changes have guid's
-    * you can tag releases with names though
+	- if you lose your work, there's no guaranteed backup (unless using something like github?)
+	- there's no 'latest version' so it's not really clear which member of the team is sitting
+		on the most recent changes
+		* however you can create a central location to clarify this
+	- there aren't really revision numbers, though changes have guid's
+		* you can tag releases with names though
 
 ## DISTRIBUTED VERSION CONTROL
 * goals
-  - reliability
-  - making sure you get the most recent version
-  - eliminate network dependency
+	- reliability
+	- making sure you get the most recent version
+	- eliminate network dependency
 * what is git all about?
-  - decentralized
+	- decentralized
 	* peer share, rather than server downloadable
-  - distributed
-  - data insurance
-  - porcelain vs plumbing
+	- distributed
+	- data insurance
+	- porcelain vs plumbing
 	* porcelain: issue a command and it just works
 	* plumbing: a lot more work: the guts of it
-  - free
+	- free
 * local operations:
-    - working directory
-    - staging area
-    - git directory (repository)
+		- working directory
+		- staging area
+		- git directory (repository)
 * once something makes it to the repository, it's pretty much immutable
 
 
@@ -74,7 +74,7 @@ git checkout -                  check out the last branch you were on
 git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
 git co <branch>                 when there exists a remote `origin/<branch>`, check out a local copy and set to track.
 git co --track origin/<branch>  check out remote branch foo and set your local to track to it
-                                alternative to just `git co <branch>` if you have multiple remotes of the same name
+																alternative to just `git co <branch>` if you have multiple remotes of the same name
 git branch [-a]                 view branch info (-a: all repos, not just local)
 git br -avv                     view all branches and the remote they are tracking to
 git branch -r                   view remote branches
@@ -100,7 +100,7 @@ git merge foo                   merge foo into your current branch
 git merge --squash foo          merge foo into your current branch with one commit
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
 git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
-                                generates a new commit for the current branch
+																generates a new commit for the current branch
 git cherry-pick A^..B           cherry pick a range of commits from and including A to B
 git rebase master               pull changes from master into current branch and replay branch commits on top
 git rebase --skip master        avoid conflicts between your own commits as they are being applied
@@ -141,7 +141,7 @@ git diff -B -w --shortstat A..B just list num of files changed, insertions and d
 git rev-list --all | xargs git grep <expression>    search history for an expression
 git log -S 'Needle' -p                              another way to search history to see when a string was added or removed, with patch
 git log -S 'Needle' --source --all                  search all branches
-                                                    or search with regex:
+																										or search with regex:
 git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all
 
 git commit                      prep files to be committed
@@ -198,9 +198,9 @@ git push origin master
 * making a commit: a commit is a snapshot of changes, author, date, committer, parent commit
 * author and committer are differentiated
 * remote: is a clone of more or less the same repo
-    - `git remote add <name> <url>`
+		- `git remote add <name> <url>`
 * tag: marker attached to a specific
-    - `git tag -l 'foo'  //list all tags with 'foo'`
+		- `git tag -l 'foo'  //list all tags with 'foo'`
 * branch: a parallel path of development starting from a commit that's in the tree
 * HEAD is a pointer to the last commit in the currently checked-out branch
 * many git commands can be performed on either a branch or a file or files. Using the `--` notation explicitly tells git "hey, this is a file!" in case you have a file and a repo with the same name
@@ -214,27 +214,27 @@ git push origin master
 * HEAD is an official notion in git, HEAD always has a well defined meaning. master and origin are common names usually used in git but they don't have to be.
 
 * **HEAD:** the current commit your repo is on.
-    - Most of the time HEAD points to the latest commit in your branch, but that doesn't have to be the case.
-    - HEAD really just means "what is my repo currently pointing at"
-    - In the event that the commit HEAD refers to is not the tip of any branch, this is called a "detached head".
+		- Most of the time HEAD points to the latest commit in your branch, but that doesn't have to be the case.
+		- HEAD really just means "what is my repo currently pointing at"
+		- In the event that the commit HEAD refers to is not the tip of any branch, this is called a "detached head".
 
 * **master:** The name of the default branch that git creates for you when first creating a repo.
-    - In most cases, "master" means "the main branch"
-    - Most shops have everyone pushing to master, and master is considered the definitive view of the repo. But it's also common for release branches to be made off of master for releasing.
-    - Your local repo has its own master branch, that almost always follows the master of a remote repo.
+		- In most cases, "master" means "the main branch"
+		- Most shops have everyone pushing to master, and master is considered the definitive view of the repo. But it's also common for release branches to be made off of master for releasing.
+		- Your local repo has its own master branch, that almost always follows the master of a remote repo.
 
 * **origin:** The default name that git gives to your main remote repo
-    - Your box has its own repo, and you most likely push out to some remote repo that you and all your coworkers push to.
-    - That remote repo is almost always called origin, but it doesn't have to be.
+		- Your box has its own repo, and you most likely push out to some remote repo that you and all your coworkers push to.
+		- That remote repo is almost always called origin, but it doesn't have to be.
 
 
 ### MERGING VS REBASING
 * merge: combining branches together
-    - git checkout mywork : get the branch you want
-    - git merge master : merge in 'master'
-    - there should rarely be conflicts -- maybe only if two people are adding at the same time
+		- git checkout mywork : get the branch you want
+		- git merge master : merge in 'master'
+		- there should rarely be conflicts -- maybe only if two people are adding at the same time
 * rebase: changing history
-    - this is mostly troublesome when you're rebasing something already pushed to others
+		- this is mostly troublesome when you're rebasing something already pushed to others
 
 
 ### SELECTIVE MERGING
@@ -246,7 +246,7 @@ git rebase master               # make sure feature is up to date - useful for d
 git co hotfix                   # check out some intermediary branch
 git reset --hard master         # make sure it's the same as master
 git cherry-pick <SHA1>          # cherry pick all your commits for one issue onto hotfix from f3
-                                #   in the order you want to apply them
+																#   in the order you want to apply them
 git reset HEAD~n                # where n is the # of commits, unstages all those cherrypicks
 git add -A                      # you may need to do this if there is a new file
 git commit -a                   # write your lovely message for the one commit
@@ -289,39 +289,39 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 ```
 
 * you might have changes in your stash that would overwrite your uncommitted work, but maybe that's what you want. to apply the stash and overwrite any merge conflicts with what is in the stash, try:
-    `git checkout stash -- .`
+		`git checkout stash -- .`
 
 ### FIXUP
 * sometimes you may need to fix an old commit. `fixup` followed by `autosquash` can help (you can also use `--squash` which will allow you to edit the commit message)
 * note that this should **not** be performed on commits that have already been merged/pushed for other devs to modify. this should only be performed on code strictly under your own control
 * say you have a commit for feature A and then make a commit for feature B, but then you find another modification you need to make for feature A:
 ```bash
-    # Make commits for features A and B:
-    $ git add featureA
-    $ git commit -m "Feature A is done"
-    [dev fb2f677] Feature A is done
-    $ git add featureB
-    $ git commit -m "Feature B is done"
-    [dev 733e2ff] Feature B is done
-    # oops, not here's your shameful commit to fix A:
-    $ git add featureA
-    $ git commit --fixup fb2f677
-    [dev c5069d5] fixup! Feature A is done
-    # now the log shows three commits:
-    c5069d5 fixup! Feature A is done
-    733e2ff Feature B is done
-    fb2f677 Feature A is done
-    ac5db87 Previous commit
-    # When you're done making fixups:
-    $ git rebase -i --autosquash ac5db87
-    pick fb2f677 Feature A is done
-    fixup c5069d5 fixup! Feature A is done
-    pick 733e2ff Feature B is done
-    # That ^ will have opened up your editor. Just save and close and now:
-    $ git log --oneline
-    ff4de2a Feature B is done
-    5478cee Feature A is done       # contains fixup
-    ac5db87 Previous commit
+		# Make commits for features A and B:
+		$ git add featureA
+		$ git commit -m "Feature A is done"
+		[dev fb2f677] Feature A is done
+		$ git add featureB
+		$ git commit -m "Feature B is done"
+		[dev 733e2ff] Feature B is done
+		# oops, not here's your shameful commit to fix A:
+		$ git add featureA
+		$ git commit --fixup fb2f677
+		[dev c5069d5] fixup! Feature A is done
+		# now the log shows three commits:
+		c5069d5 fixup! Feature A is done
+		733e2ff Feature B is done
+		fb2f677 Feature A is done
+		ac5db87 Previous commit
+		# When you're done making fixups:
+		$ git rebase -i --autosquash ac5db87
+		pick fb2f677 Feature A is done
+		fixup c5069d5 fixup! Feature A is done
+		pick 733e2ff Feature B is done
+		# That ^ will have opened up your editor. Just save and close and now:
+		$ git log --oneline
+		ff4de2a Feature B is done
+		5478cee Feature A is done       # contains fixup
+		ac5db87 Previous commit
 ```
 * [read more info about fixup](https://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html)
 
@@ -329,31 +329,31 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 
 ### GOTCHAS
 * git might not see casing changes on files as an actual change, so you might need to explicitly "move" the file
-    ```bash
-        git mv duck.ts Duck.ts
-    ```
+		```bash
+				git mv duck.ts Duck.ts
+		```
 
 ### AMEND A COMMIT
 * so say you're doing some work and you realize that you need to make a change to your last commit (make a small change to a file, say)
-    ```c
-        //you can reset and re-commit:
-        git reset HEAD~
-        git aa
-        git cm
-        //or you can alter the commit:
-        git aa
-        git commit --amend
-        <alter commit message if needed, save quit>
-    ```
+		```c
+				//you can reset and re-commit:
+				git reset HEAD~
+				git aa
+				git cm
+				//or you can alter the commit:
+				git aa
+				git commit --amend
+				<alter commit message if needed, save quit>
+		```
 
 ### OMIT A FILE FROM A COMMIT
 * use `update-index` to preserve local changes to something like a config file that points to your sandbox db -- you have changes that are just for you that you don't want to push
-    ```c
-        // ignore changes to this file for now:
-        git update-index --assume-unchanged foo.ts
-        // once you're done with the file and want to reassimilate it into version control:
-        git update-index --no-assume-unchanged foo.ts
-    ```
+		```c
+				// ignore changes to this file for now:
+				git update-index --assume-unchanged foo.ts
+				// once you're done with the file and want to reassimilate it into version control:
+				git update-index --no-assume-unchanged foo.ts
+		```
 
 
 ### RECOVERING LOST WORK WITH REFLOG
@@ -361,25 +361,25 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * say you did a `git reset --hard` but now you need those changes -- `reflog` has your back
 * using `reflog` you can view commits that are not visible with `git log`
 * suppose you were doing some work on `f1`, switched to master but then for some reason your commits on `f1` are gone!
-    ```bash
-        # viewing the reflog, we can see missing commits foo, bar and baz
-        $ git reflog
-        cf42fa2... HEAD@{84}: checkout: moving to master
-        73b9363... HEAD@{85}: commit: baz
-        547cc1b... HEAD@{86}: commit: bar
-        1dc3298... HEAD@{87}: commit: foo
-        26fbb9c... HEAD@{89}: checkout: moving to f1
-        # reset your f1 branch to the state of the most recent commit, baz:
-        $ git co f1
-        $ git reset --hard 73b9363
-        # or you can grab a specific file from a commit in the reflog:
-        $ git co f1
-        $ git co 73b9363 -- <filename>
-    ```
+		```bash
+				# viewing the reflog, we can see missing commits foo, bar and baz
+				$ git reflog
+				cf42fa2... HEAD@{84}: checkout: moving to master
+				73b9363... HEAD@{85}: commit: baz
+				547cc1b... HEAD@{86}: commit: bar
+				1dc3298... HEAD@{87}: commit: foo
+				26fbb9c... HEAD@{89}: checkout: moving to f1
+				# reset your f1 branch to the state of the most recent commit, baz:
+				$ git co f1
+				$ git reset --hard 73b9363
+				# or you can grab a specific file from a commit in the reflog:
+				$ git co f1
+				$ git co 73b9363 -- <filename>
+		```
 * caveats:
-    - `reflog` won't save your work forever -- eventually "unreachable" work gets cleaned up
-    - `reflog` only works with changes that were committed
-    - `reflog` is yours and yours alone -- it can't help you with another person's uncommitted, unpushed work
+		- `reflog` won't save your work forever -- eventually "unreachable" work gets cleaned up
+		- `reflog` only works with changes that were committed
+		- `reflog` is yours and yours alone -- it can't help you with another person's uncommitted, unpushed work
 
 ### .GITIGNORE
 * frequently there will be files in your git folder that you don’t want on the interweb, or that are unnecessary/inapplicable to the repo.
@@ -387,18 +387,18 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * don’t gitignore .gitignore -- it will automatically prevent other contributors to the repo from polluting the repo with the same files you’re omitting
 * Note that ignores that you don't want to share, e.g. specific configuration files for an IDE that only you use, can be ignored using .git/info/exclude. The format of this file is the same as .gitignore, but this file will never be committed
 * to exclude everything in a directory *except* some file or files:
-    ```
-    # in .gitignore, excludes everything in my_secret_directory except public files
-        my_secret_directory/
-        !my_secret_directory/publicfile.html
-    ```
+		```
+		# in .gitignore, excludes everything in my_secret_directory except public files
+				my_secret_directory/
+				!my_secret_directory/publicfile.html
+		```
 * git will not commit empty directories, so if the directories need to be there for some reason, put an empty file or something so they can be committed
 * stuff you should gitignore:
-    - sensitive information
-    - node_modules/
+		- sensitive information
+		- node_modules/
 * don't gitignore:
-    - gitignore
-    - package.json-lock
+		- gitignore
+		- package.json-lock
 
 
 ### .GITATTRIBUTES
@@ -407,57 +407,57 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * `text-auto` normalizes line-endings to use LF
 * `eol` specify line ending (say, for just one file or filename pattern)
 * `binary`/`text` specifies how to treat files when commands like `git co`, `git add`, `git commit` and `git merge` are run
-    - `text` enables end-of-line normalization
+		- `text` enables end-of-line normalization
 * `merge` strategy: specify default merge strategies for different files
 * `-diff` do not merge these files
-    ```shell
-        # put it all together:
-        src/foo.php text eol=crlf       # treat foo.php as text and make sure it has 'crlf' line endings
-        *.jpg binary                    # always treat jpg files as binary
-        package-lock.json merge=ours    # use ours when merge conflicts arrive
-        # do not try to merge these files:
-        yarn.lock -diff
-        public/build/js/*.js -diff
-        public/build/css/*.css -diff
-    ```
+		```shell
+				# put it all together:
+				src/foo.php text eol=crlf       # treat foo.php as text and make sure it has 'crlf' line endings
+				*.jpg binary                    # always treat jpg files as binary
+				package-lock.json merge=ours    # use ours when merge conflicts arrive
+				# do not try to merge these files:
+				yarn.lock -diff
+				public/build/js/*.js -diff
+				public/build/css/*.css -diff
+		```
 
 ### REMOVING FILES FROM GIT
 * remove a local file from the directory
  ```
-    $ git rm foo
-    $ git commit -m "removed foo"
+		$ git rm foo
+		$ git commit -m "removed foo"
 ```
 * remove the file only from the Git repository and not remove it from the filesystem:
 ```
-    $ git rm --cached foo
-    $ git commit -m "removed foo"   //only need to do this if the file was pushed
+		$ git rm --cached foo
+		$ git commit -m "removed foo"   //only need to do this if the file was pushed
 ```
 
 
 ### CLEANSING SENSITIVE INFORMATION
 * use bfg repo cleaner: https://rtyley.github.io/bfg-repo-cleaner/
 * steps:
-    - clone repo using `--mirror`:
-    - make changes to the repo
-    - cd into repo, call reflog, gc and push
-    ```
-        $ git clone --mirror git://example.com/my-repo.git
-        $ java -jar bfg.jar --delete-folders .git --delete-files .git  --no-blob-protection  my-repo.git
-        $ cd my-repo.git
-        $ git reflog expire --expire=now --all && git gc --prune=now --aggressive
-        $ git push
-    ```
+		- clone repo using `--mirror`:
+		- make changes to the repo
+		- cd into repo, call reflog, gc and push
+		```
+				$ git clone --mirror git://example.com/my-repo.git
+				$ java -jar bfg.jar --delete-folders .git --delete-files .git  --no-blob-protection  my-repo.git
+				$ cd my-repo.git
+				$ git reflog expire --expire=now --all && git gc --prune=now --aggressive
+				$ git push
+		```
 ### FORMATTING
 * you can use various options to format data about commits and files
 
 #### DATES
 * format options include:
-    %cd: committer date (format respects --date= option)
-    %cD: committer date, RFC2822 style
-    %cr: committer date, relative
-    %ct: committer date, UNIX timestamp
-    %ci: committer date, ISO 8601-like format
-    %cI: committer date, strict ISO 8601 format
+		%cd: committer date (format respects --date= option)
+		%cD: committer date, RFC2822 style
+		%cr: committer date, relative
+		%ct: committer date, UNIX timestamp
+		%ci: committer date, ISO 8601-like format
+		%cI: committer date, strict ISO 8601 format
 * use `--format="%cd" --date=short` to easily get YYYY-MM-DD
 
 
@@ -466,22 +466,22 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * github has more specific parameters (forking, for example)
 * gh has more rules about who to trust
 * HTTP vs SSH clones:
-    - use ssh clone: it uses the key in your account
+		- use ssh clone: it uses the key in your account
 * forking:
-    - creating a parallel (possibly divergent) copy of a persons repo
-    - creates a 'center' of the hub, implying that the others are not the center
+		- creating a parallel (possibly divergent) copy of a persons repo
+		- creates a 'center' of the hub, implying that the others are not the center
 * other cool features:
-    - wiki
-    - gist: paste bin with a little bit of version control
-    - issue trackers
-    - cool graphs
-    - repo descriptions and automatic README display
+		- wiki
+		- gist: paste bin with a little bit of version control
+		- issue trackers
+		- cool graphs
+		- repo descriptions and automatic README display
 * rules to play well with others:
-    - change history locally, never globally
-    - never force push unless you have to
-        * if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
-    - if you are asked to force pull, there could be something malicious going on.
-        * communicating pushes/pulls is necessary
-    - focused commits with clear messages
-    - follow project standards for branching, tagging, etc
+		- change history locally, never globally
+		- never force push unless you have to
+				* if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
+		- if you are asked to force pull, there could be something malicious going on.
+				* communicating pushes/pulls is necessary
+		- focused commits with clear messages
+		- follow project standards for branching, tagging, etc
 

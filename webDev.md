@@ -118,9 +118,9 @@
 
 ### RESTFUL APIs
 * what is REST?
-   - Representational State Transfer via HTTP transfer protocols
+	- Representational State Transfer via HTTP transfer protocols
 		* GET, POST, PUT, etc
-   - by its nature, the internet is stateless -- every time you make a request to a website, it's like you're meeting it for the very first time
+	- by its nature, the internet is stateless -- every time you make a request to a website, it's like you're meeting it for the very first time
 	- we're not passing the resources, we're passing representations of them
 	- rest is an architectural style, as opposed to SOAP
 * six constraints on REST architecture style:
@@ -191,8 +191,6 @@
 		* do i want to select `.menu a` or just `.menu`?
 	- css formattion
 		* W3.org/TR/css2/visualformattingmodel
-
-
 
 ## JAVASCRIPT DEVELOPMENT ENVIRONMENT
 * react
@@ -280,12 +278,9 @@
 * media query
 * RESPONSIVE DESIGN is an approach which is addressed using 3 different techniques:
 	1) create fluid images (max-width: 100%;)
-	2) create a fluid grid: arrange elements using relations and
-	   percentages rather than pixels for scaleability
-		* a relative-sized object will scale in relation to its parent
-		  object, which is at the top-most level, the browser
-	3) media queries: allow you to change page elements based on the width
-	   of the page
+	2) create a fluid grid: arrange elements using relations and percentages rather than pixels for scaleability
+		* a relative-sized object will scale in relation to its parent object, which is at the top-most level, the browser
+	3) media queries: allow you to change page elements based on the width of the page
 * responsive design may be written inside an additional css document included in the html document right below the primary css inclusion
 	- the css inclusions in the head of the html document would go in the following order:
 		* normalize.css: create a baseline
@@ -293,31 +288,30 @@
 		* main.css
 		* responsive.css
 		* viewport metatag
-	- responsive follows main because it will build on main in response to
-	  different cases.
+	- responsive follows main because it will build on main in response to different cases.
 
 ## MEDIA QUERIES
 * before writing queries, determine what the breakpoints for your design are. that is, at what point does this not look good anymore? at what point should the layout change?
 * css rules: writing rules containing code that is executed only if the specified condition is true
 * syntax and arrangement is as follows:
 ```css
-  /* RECALL THAT THE MAIN.CSS CONTAINS STYLE FOR MOBILE;
-     HERE IS STYLE FOR SCREENS LARGER THAN MOBILE
+	/* RECALL THAT THE MAIN.CSS CONTAINS STYLE FOR MOBILE;
+		HERE IS STYLE FOR SCREENS LARGER THAN MOBILE
 
-     FOR TABLETS LARGER THAN A MOBILE:
-     apply the following code for screens where (width > 480px) == true */
-  @media screen and (min-width: 480px) {
+		FOR TABLETS LARGER THAN A MOBILE:
+		apply the following code for screens where (width > 480px) == true */
+	@media screen and (min-width: 480px) {
 		body{
 			background: teal;
+		}
 	}
-  }
 
-  /* FOR SMALL DESKTOPS AND UP: */
-  @media screen and (min-width: 660px) {
+	/* FOR SMALL DESKTOPS AND UP: */
+	@media screen and (min-width: 660px) {
 		body{
 			background: lime;
+		}
 	}
-  }
 ```
 
 * the order is important: it follows the rules of cascading style, where the last statement that is true is the one that is executed.
@@ -344,4 +338,23 @@
 * real life testing:
 	- nothing beats just seeing what it looks like on different devices
 	- browserstack.com also provides screenshots of your code -- for a price
+
+## DATA
+* choosing a database construct: relational or noSql?
+* **relational databases**
+	- store data in tables as rows and columns
+	- tables are joined across multiple relations using primary keys and foreign keys
+	- **ACID** or Atomicity, Consistency, Isolation and Durability are key features of relational databases
+* **distributed relational databases**
+	- relational databases can be distributed, making them horizontally scalable
+	- in this case, if a table has 100 records total, there might be 10 records each on 10 notes
+	- this process of dividing the data across nodes is called **partitioning** or **sharding**
+* **replicated relational databases**
+	- database replication is used for load balancing purposes and addressing network latency caused by geographic distance
+	- data is replicated on all instances and is synced up via some mechanism
+* **NoSQL database**
+	- do not support transactional processing -- hence it is not ACIDic
+	-
+
+
 

@@ -13,7 +13,7 @@ break
 builtin
 cd
 command
-continue  
+continue
 declare
 echo	    print
 enable
@@ -52,22 +52,22 @@ unset
 
 * execution occurs through forking: the parent process pauses while the child process runs through the script
 * steps:
-    - the shell reads in from a file or from user's terminal
-    - input is broken up into words and operators separated by metacharacters
-	   * alias expansion takes place
-    - the shell parses (analyzes and substitutes) the tokens into simple commands
-    - bash performs various expansions, breaking expanded tokens into lists of filenames, commands and args
-    - redirection performed if necessary
-    - commands are executed
-    - optionally the shell waits for the command to complete and collects exit status.
+	- the shell reads in from a file or from user's terminal
+	- input is broken up into words and operators separated by metacharacters
+		* alias expansion takes place
+	- the shell parses (analyzes and substitutes) the tokens into simple commands
+	- bash performs various expansions, breaking expanded tokens into lists of filenames, commands and args
+	- redirection performed if necessary
+	- commands are executed
+	- optionally the shell waits for the command to complete and collects exit status.
 * a simple shell command is a command followed by a line of args
 * a more complex command may consist of:
-    - a pipeline in which the output of one becomes the input of the second
-    - a loop or conditional construct
+	- a pipeline in which the output of one becomes the input of the second
+	- a loop or conditional construct
 * functions are executed in present shell context -- no new process is created to interpret them
 * permissions: your script must have the correct permissions to run: `chmod u+x script.sh`
 * if you don't want the script to start in a new shell, you source it:
-    - `source script_name.sh` or `. script_name.sh`
+	- `source script_name.sh` or `. script_name.sh`
 * init scripts starts system services
 
 
@@ -75,32 +75,32 @@ unset
 
 * global vs local
 * types:
-    - integer
-    - string
-    - constant
-    - array
+	- integer
+	- string
+	- constant
+	- array
 * variable names may contain digits but cannot start with one.
 * the naming convention is all caps, but do what you want.
 * in the shell, variables are set like so:
-      VARNAME="value"
+	  VARNAME="value"
 * print the variable:
-      echo $VARNAME
+	  echo $VARNAME
 * using unset will release those value names
-      unset VARNAME
+	  unset VARNAME
 * environment variables: vars which have been exported to a subshell.
-    - setting and exporting usually happen together:
-      export VARNAME="value"
-    - if a variable is modified in the subshell, the value is not effected in
-      the parent
+	- setting and exporting usually happen together:
+	  export VARNAME="value"
+	- if a variable is modified in the subshell, the value is not effected in
+	  the parent
 * 'export' keyword:
-    - when a variable is declared, it is put into the environment of the current running script (bash session)
-    - when the session closes, the variable is lost
-    - unless! you put 'export' in front of the declaration -- this allows the variable to persist across sessions
-    - which means: variables declared in your bashrc are available on the command line
+	- when a variable is declared, it is put into the environment of the current running script (bash session)
+	- when the session closes, the variable is lost
+	- unless! you put 'export' in front of the declaration -- this allows the variable to persist across sessions
+	- which means: variables declared in your bashrc are available on the command line
 * 'source' keyword:
-    - if you run a script from the command line, any variable defined in the script are lost when the script concludes
-    - if you run `$ source myscript.sh`, variables defined in the script can be referenced after the script executes
-    - if you do not want variables to persist after the script, use the `local` keyword when declaring them.
+	- if you run a script from the command line, any variable defined in the script are lost when the script concludes
+	- if you run `$ source myscript.sh`, variables defined in the script can be referenced after the script executes
+	- if you do not want variables to persist after the script, use the `local` keyword when declaring them.
 
 
 ## COMPARISON OPERATORS
@@ -113,12 +113,12 @@ local FOO
 
 #FAILS:
 if [ ${FOO} != "" ] ; then
-    echo "foo is not equal to empty str"
-fi    
+	echo "foo is not equal to empty str"
+fi
 
 # RETURNS WHAT YOU'D EXPECT:
 if [ "${FOO}" != "" ] ; then
-    echo "foo is not equal to empty str"    
+	echo "foo is not equal to empty str"
 fi
 ```
 
@@ -126,90 +126,90 @@ fi
 ## PARAMETERS
 
 * parameters that are passed into a bash script are handled in the same way as defined variables -- that is they can be referenced with dollar sign notation:
-    - $2 dereferences the 2nd arg that was passed in
+	- $2 dereferences the 2nd arg that was passed in
 * the first parameter (0) is name of the script or program
 * parameters containing spaces or special characters should be passed with single or double quotes
 * referencing parameters:
-      0,1,2...		 the nth parameter
-      * 		     positional parameters starting with 1 (diff between * and @?)
-      @ 		     all of your positional parameters (not including 0)
-      #              the number of parameters, not including 0
-* if you have more than 9, you must use braces: `${12}`    
+	  0,1,2...		 the nth parameter
+	  * 		     positional parameters starting with 1 (diff between * and @?)
+	  @ 		     all of your positional parameters (not including 0)
+	  #              the number of parameters, not including 0
+* if you have more than 9, you must use braces: `${12}`
 
 
 ### PARSING ARGUMENTS
 
 ```bash
-    #!/bin/bash
+	#!/bin/bash
 
-    PARAMS=""
+	PARAMS=""
 
-    while (( "$#" )); do
-      case "$1" in
-        -f|--flag-with-argument)
-          FARG=$2
-          shift 2
-          ;;
-        --) # end argument parsing
-          shift
-          break
-          ;;
-        -*|--*=) # unsupported flags
-          echo "Error: Unsupported flag $1" >&2
-          exit 1
-          ;;
-        *) # preserve positional arguments
-          PARAMS="$PARAMS $1"
-          shift
-          ;;
-      esac
-    done
+	while (( "$#" )); do
+	  case "$1" in
+		-f|--flag-with-argument)
+		  FARG=$2
+		  shift 2
+		  ;;
+		--) # end argument parsing
+		  shift
+		  break
+		  ;;
+		-*|--*=) # unsupported flags
+		  echo "Error: Unsupported flag $1" >&2
+		  exit 1
+		  ;;
+		*) # preserve positional arguments
+		  PARAMS="$PARAMS $1"
+		  shift
+		  ;;
+	  esac
+	done
 
-    # set positional arguments in their proper place
-    eval set -- "$PARAMS"
+	# set positional arguments in their proper place
+	eval set -- "$PARAMS"
 
 ```
 
 
 ## RETURNING A VALUE
 * every command in bash returns a value
-    - that value can only be a number in the range of 0-255
-    - if you need to return a string, that can be done with an `echo` statement and `$()`
+	- that value can only be a number in the range of 0-255
+	- if you need to return a string, that can be done with an `echo` statement and `$()`
 * the return value can be captured with `$?`
 
 ```bash
-    function greater_than_five()
-    {
-        if [[ $1 -gt 5 ]] ; then
-            return 1
-        else
-            return 0
-        fi
+	function greater_than_five()
+	{
+		if [[ $1 -gt 5 ]] ; then
+			return 1
+		else
+			return 0
+		fi
 
-    }
-    greater_than_five 8
-    local my_result=$?
+	}
+	greater_than_five 8
+	local my_result=$?
 
-    # or capture a string:
+	# or capture a string:
 
-    function equal_to_five()
-    {
-        if [[ $1 -eq 5 ]] ; then
-            echo "Your number is equal to five. Huzzah!"
-        else
-            echo "Whomp whomp, your number is not equal to five. Better luck next time."
-        fi
+	function equal_to_five()
+	{
+		if [[ $1 -eq 5 ]] ; then
+			echo "Your number is equal to five. Huzzah!"
+		else
+			echo "Whomp whomp, your number is not equal to five. Better luck next time."
+		fi
 
-    }
-    local my_result=$(equal_to_five 3)
+	}
+	local my_result=$(equal_to_five 3)
 ```
 * note that the value of `$?` must be captured right after the command, otherwise you will get the result of another command
 
 
 ## MATHEMATICS:
 * are expressed with double parens:
-    $((VAR1 + 3)) will return the sum of $VAR1 and 3
-    $((number%3)) will return the modulus of the number divided by 3
+	$((VAR1 + 3)) will return the sum of $VAR1 and 3
+	$((number%3)) will return the modulus of the number divided by 3
 * anything other than 0 is evaluated as false.
 
 
@@ -219,94 +219,94 @@ fi
 
 #### WHEN TO USE "" AND {}
 * braces are used for variable expansion
-    - they are required when referencing an element in an array
-    - they are necessary for expansion operations
-    - used in expanding positional parameters past 9
+	- they are required when referencing an element in an array
+	- they are necessary for expansion operations
+	- used in expanding positional parameters past 9
 
 ```bash
-    local ITEM=${array[2]}
-    ${filename%.*}              # remove extension
-    ...$8 $9 ${10} ${11}...
+	local ITEM=${array[2]}
+	${filename%.*}              # remove extension
+	...$8 $9 ${10} ${11}...
 ```
 * quotation marks can be used to preserve a string containing whitespace
 * quotes are also used to prevent errors in the case of evaluating a variable that is null
 * so basically:
-    - use braces when referencing an element in an array or a param higher than 9
-    - use braces to expand text manipulation (`${STRING%/*}`)
-    - use braces if you need your script to be POSIX portable
-    - use quotations if your variable could contain whitespace and it should be treated as one unit
-    - do not use quotations if your variable could contain whitespace and should be treated as separate units
+	- use braces when referencing an element in an array or a param higher than 9
+	- use braces to expand text manipulation (`${STRING%/*}`)
+	- use braces if you need your script to be POSIX portable
+	- use quotations if your variable could contain whitespace and it should be treated as one unit
+	- do not use quotations if your variable could contain whitespace and should be treated as separate units
 
 
 #### WHICH TEST BRACKETS TO USE
 * single brackets `[ ]` are used when your script needs to be POSIX compatible
-    - the opening bracket is a synonym for `test`
-    - use `-a` and `-o` rather than `&&` and `||`
+	- the opening bracket is a synonym for `test`
+	- use `-a` and `-o` rather than `&&` and `||`
 * double brackets `[[ ]]` are a bit more powerful
-    - allows use of `&&` and `||` operators
-    - allows pattern (`=` or `==`) and regex (`=~`) matching  
-    - parens do not need to be escaped
-    - variables containing whitespace do not need to be quoted
-    ```bash
-    # this works even when 'file' contains space:
-    file="File Name"
-    [[ -f $file ]] && echo "$file is a regular file"
-    ```
+	- allows use of `&&` and `||` operators
+	- allows pattern (`=` or `==`) and regex (`=~`) matching
+	- parens do not need to be escaped
+	- variables containing whitespace do not need to be quoted
+	```bash
+	# this works even when 'file' contains space:
+	file="File Name"
+	[[ -f $file ]] && echo "$file is a regular file"
+	```
 
 ### CONDITIONAL BLOCKS AND LOOPS
 * the syntax is as follows:
-    for VARIABLE in RANGE; do COMMAND done
+	for VARIABLE in RANGE; do COMMAND done
 * this prints out numbers one through one hundred:
-    ```bash
-    for number in {1..100} ; do
-    	echo $number
-    done
-    ```
+	```bash
+	for number in {1..100} ; do
+		echo $number
+	done
+	```
 
 * as does this one:
-    ```bash
-    for number in {1..100}
-    do
-    	echo "$number"
-    done
-    ```
+	```bash
+	for number in {1..100}
+	do
+		echo "$number"
+	done
+	```
 
 * for/if then's could look something like:
-    ```bash
-    for VARIABLE in RANGE; do
-    	if ; then
-    	    # COMMAND
-    	else
-    	    # COMMAND
-    	fi
-    done
-    ```
+	```bash
+	for VARIABLE in RANGE; do
+		if ; then
+			# COMMAND
+		else
+			# COMMAND
+		fi
+	done
+	```
 
 * or it could be:
-    ```bash
-    for ; do
-    	if ; then
-            # COMMAND
-    	elif ; then
-            # COMMAND
-    	else
-            # COMMAND
-    	fi
-    done
-    ```
+	```bash
+	for ; do
+		if ; then
+			# COMMAND
+		elif ; then
+			# COMMAND
+		else
+			# COMMAND
+		fi
+	done
+	```
 
 * or we could have:
-    ```bash
-    for ; do
-    	if ; then
-            # COMMAND
-    	fi
-    	if ; then
-            # COMMAND
-    	if ; then
-            # COMMAND
-    	else
-            # COMMAND
-    	fi
-    done
-    ```
+	```bash
+	for ; do
+		if ; then
+			# COMMAND
+		fi
+		if ; then
+			# COMMAND
+		if ; then
+			# COMMAND
+		else
+			# COMMAND
+		fi
+	done
+	```

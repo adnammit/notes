@@ -19,7 +19,7 @@
 ## RUNNING PSQL LOCALLY:
 * from your local CLI type:
     ```
-        psql -d <dbname>
+        psql -d <dbname> -U <username>
         \c foo;    // connect to database foo
     ```
 * data is in ~/Library/Application Support/Postgres[ver]/var by default.

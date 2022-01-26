@@ -1,8 +1,8 @@
 
 # TO DO
 * make vscode sql better
-    - configure connection
-    - something like redgate search?
+	- configure connection
+	- something like redgate search?
 
 
 
@@ -28,22 +28,22 @@ vnc viewer
 ### GENERAL STUFF
 * continue to decouple git-controlled repos from Dropbox
 * look over your env and make it less stupid/convoluted
-     - don't source more than what you need
-     - there might be build-in vars already for stuff like "program data" etc -- use those where possible
+	 - don't source more than what you need
+	 - there might be build-in vars already for stuff like "program data" etc -- use those where possible
  * get calling vsstudio from the command line to work
 
 ### BASH STUFF
 * make the git equivalent of `sall` (grep for multiple expressions)
 * learn parsing bash opts more betterly
 * go through scripts and clean up the following:
-    * braces are used for variable expansion
-        - they are required when referencing an element in an array
-        - they are necessary for expansion operations
-        - used in expanding positional parameters past 9
-    * quotation marks
-        - can be used to preserve a string containing whitespace
-        - quotes are also used to prevent errors in the case of evaluating a variable that is null
-        - to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
+	* braces are used for variable expansion
+		- they are required when referencing an element in an array
+		- they are necessary for expansion operations
+		- used in expanding positional parameters past 9
+	* quotation marks
+		- can be used to preserve a string containing whitespace
+		- quotes are also used to prevent errors in the case of evaluating a variable that is null
+		- to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
 
 ### ATOM TO DO:
 * use swirly font for comments
