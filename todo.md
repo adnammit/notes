@@ -5,11 +5,6 @@
 	- something like redgate search?
 
 
-
-
-
-
-
 ### NEW STUFF:
 * vs theme
 * custom bash icon?
@@ -44,11 +39,6 @@ vnc viewer
 		- can be used to preserve a string containing whitespace
 		- quotes are also used to prevent errors in the case of evaluating a variable that is null
 		- to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
-
-### ATOM TO DO:
-* use swirly font for comments
-* pirtle says: use apm to install packages through DOS (command prompt) rather than cygwin
-* check out atom tags and bookmarks
 
 ### GIT
 
