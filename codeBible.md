@@ -5,7 +5,18 @@
 * update git
 * overhaul config (esp after migrating to WSL)
 * keep on doing MovieTime - Vue3
-
+* learn:
+	- hangfire, rabbitmq
+	- kubernetes
+	- snap ins
+	- entity
+	- azure/t-sql
+	- sql review
+	- aws
+	- more node.js, express
+	- scala, haskell
+	- docker
+	- maths: fractions, ratio, proportions, linear equations
 
 ## FUN THINGS TO DO AND KNOW:
 * check out fastcomet for webhosting
@@ -26,14 +37,23 @@
 * use draw.io for diagramming
 * heroku for fast back-end prototyping
 
+## THINGS I KNOW AND SHOULD BRAG ABOUT
+* .NET
+* REST apis and WCF services
+* domain-driven design/object oriented programming
+* technical design
+* keen for more experience with Node.js, GraphQL, docker, AWS
+* Unit and e2e testing
+* CI/CD Pipeline: Continuous Integration: developers merge code changes in a central repository multiple times a day. Continuous Delivery: automation of software release via infrastructure provisioning and deployment, which may be manual and consist of multiple stages
+
 
 ## QUICK GUIDE OF TERMS AND CONCEPTS
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
 * **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
 * **arity**: the number of args that a function takes
-* **authentication**: is this person who they say they are?
-* **authorization**: does this person have permission to access this?
+* **authentication**: verify the identity of the user. is this person who they say they are?
+* **authorization**: restrict access to allow only the correct people. does this person have permission to access this?
 * **Big O**: how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
 * **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
@@ -56,7 +76,7 @@
 * **object literal**: in JS, a list of property-value pairs in a comma separated list
 * **open-closed principle**: classes should be open for extension and closed for modification
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
-* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Truck` are descended.
+* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
 * **promise**: an object which represents the completion (success or failure) of an asychronous operation
 * **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
 * **semaphore**: a variable or abstract data type used to control access to a common resource by multiple threads
@@ -84,29 +104,29 @@
 	- singleton: class which only allows one instance of itself to be created
 	- interface vs abstract class
 	- Big O notation: "this algorithm takes at most x amount of time"
-	 - recursion
-	 - powers of 2 ?
-	- low coupling: keep components of coding separate so a fault in one does not break them all
-	- high cohesion
+	- recursion
+	- powers of 2 ?
+	- low coupling and high cohesion
 	- design patterns: book by Martin Fowler
 	- algorithms
 	- use node in MVC schema
 	- have an example of an AJAX request
-	- 'database' for a small project
 	- react vs jsx vs javascript
 	- what is an object literal?
 	- what is routing?
 	- node migrations
 	- dependency injection
+	- avoiding sql injections and other security topics
 	- types vs unit testing
 	- databases:
 		* SQL query refresh
 		* ORM libraries/APIs: Object Relational Mapping - manipulating the data that you get from a DB
+	- how do you scale large enterprise applications and make them scale in-flight?
 * where do you see yourself in five years?
 	- mentoring
 	- mastery
 
-## GENERAL TOPICS:
+## TOPIC DEEP DIVES
 * **architecture**: according to [Martin Fowler](https://www.youtube.com/watch?v=DngAZyWMGR0), architecture is the "important stuff": the shared understanding between developers, and the things that are hard to change:
 	- architecture is the common understanding of the system design that is shared between expert developers of the system.
 		* software development is a social thing -- we have to understand what each other are doing
@@ -115,8 +135,6 @@
 	- why good architecture?
 		* good design takes more time/money, so how can you argue for it?
 		* it's not just about avoiding expense/problems down the line: a well-designed system will allow features to be created more and more rapidly -- saving time/money in the future
-* **authentication**: verify the identity of the user
-* **authorization**: restrict access to allow only the correct people
 * **abstract data type**: a logical, conceptual description of an interface (what it does)
 	- list, queue, stack, map, table, hash table
 * **data structure**: how the data is stored, the implementation of the ADT (how it does it)
@@ -217,3 +235,31 @@
 	- a hand drawing a hand drawing a hand...
 * tree branches:
 	- each branch is self-similar to it's 'parent' branch
+
+
+## RESUME TIPS
+* clean and simple
+* action words! what was your impact?
+	- created, designed, debugged
+	- focus on results and impact - list metrics rather than long descriptions
+* use bullet points
+* include github with your contact info
+* one page - eh, not so much
+* education
+	- should be first if you don't have work exp
+	- list gpa, etc, key courses completed; algorithms, etc
+	- brief description of important projects
+	- technical skills
+* experience:
+	- chronological order
+	- employer, position, dates
+	- concise descriptions
+	- showcase results for:
+		* internships
+		* interesting project work and research (robby?)
+		* open source experience
+		* mobile/web development
+		* student groups (?)
+		* hacks coding competitions
+* extracurriculars:
+	- student groups
