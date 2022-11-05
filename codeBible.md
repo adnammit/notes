@@ -37,13 +37,13 @@
 * use draw.io for diagramming
 * heroku for fast back-end prototyping
 
-## THINGS I KNOW AND SHOULD BRAG ABOUT
+## THINGS I KNOW AND SHOULD BRAG ABOUT/SHOULD KNOW
 * .NET
 * REST apis and WCF services
 * domain-driven design/object oriented programming
-* technical design
-* keen for more experience with Node.js, GraphQL, docker, AWS
-* Unit and e2e testing
+* architectural design/systems architecture (tiered systems, microservices)
+* **design patterns**
+* testing pyramid
 * CI/CD Pipeline: Continuous Integration: developers merge code changes in a central repository multiple times a day. Continuous Delivery: automation of software release via infrastructure provisioning and deployment, which may be manual and consist of multiple stages
 
 
@@ -54,9 +54,11 @@
 * **arity**: the number of args that a function takes
 * **authentication**: verify the identity of the user. is this person who they say they are?
 * **authorization**: restrict access to allow only the correct people. does this person have permission to access this?
-* **Big O**: how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
+* **Big O**: a type of Asymptotic notation that describes how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
 * **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
+* **CLR**: Common Language Runtime: the execution engine that handles running .NET applications compiled to Intermediate Language. it includes a JIT compiler to convert IL to machine/native code
+* **compiler**: takes source code written in one language and produces an output file in another language -- the output is generally a binary executable written in machine code, but transpilers (source-to-source) can be considered a subset of compiler
 * **correctness**: does the program behave as expected?
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
 * **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
@@ -68,8 +70,10 @@
 * **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
 * **IoT (Internet of Things)**: system of Things which all have unique identifiers and the ability to transfer info over the internet w/out human-to-human or human-to-computer interaction. Things include computing devices, mechanical systems (like a car with a tire pressure reader), people (someone with a heart monitor implant), and animals (a cow with a biochip transponder) -- anything that can be assigned an IP address and transfer data over a network
 * **isomorphic application**: app whose code can run on server or client (ex: JS)
+* **JIT Compiler**: just-in-time compiler is a component of the .NET CLR, turning Intermediate Language into machine code
 * **KPI**: Key performance indicator: a quantifiable measure of performance
 * **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
+* **LTS**: long term support: some versions are supported longer than others; if you're frequently updating a project and want the cutting edge, use the latest, but if you need something stable that you can set and forget (for a bit) select a LTS version
 * **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
 * **MITM**: man in the middle: interception of communication between two parties
 * **node migrations**:
@@ -79,10 +83,18 @@
 * **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
 * **promise**: an object which represents the completion (success or failure) of an asychronous operation
 * **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
+* **restful api**: Representational State Transfer: a set of standards which includes an api interface to allow other apps to interface with it, statelessness, scalability, cacheability and interface uniformity
 * **semaphore**: a variable or abstract data type used to control access to a common resource by multiple threads
 * **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
+* **SOLID**: an object-oriented programming paradigm; Single Responsibility, Open-closed, Liskov substitution, Interface segregation, Dependency inversion
 * **SQLI**: SQL injection
+* **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
+	- **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
+	- **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
+	- **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
+* **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
 * **XSS**: cross-site scripting, injecting client-side script in a webpage
+
 
 
 
@@ -118,9 +130,12 @@
 	- dependency injection
 	- avoiding sql injections and other security topics
 	- types vs unit testing
+	- OOO
+		* SOLID
 	- databases:
 		* SQL query refresh
 		* ORM libraries/APIs: Object Relational Mapping - manipulating the data that you get from a DB
+		* acidity
 	- how do you scale large enterprise applications and make them scale in-flight?
 * where do you see yourself in five years?
 	- mentoring
@@ -167,6 +182,129 @@
 	- cons:
 		* can be more difficult to read, trace and debug -- more files must be read
 		* demands more upfront development effort (maintaining two things is harder than maintaining one)
+* **SOLID** OOO design principals. it is important to use these principals so that one area of software can be modified without impacting other areas. it makes the design easier to understand, maintain and extend. it also makes for easier testing, and more agile, adaptive, bug-free software
+	- *Single-Responsibility principle*: each class should have one responsibility, one reason to change. each class should solve one problem
+	- *Open-Closed principle*: entities should be open for extension but closed to modification (via inheritance)
+	- *Liskov substitution principle*: every subclass should be substitutable for their base or parent class
+	- *Interface segregation principle*: clients should not be forced to depend on interfaces or methods that they do not use. interfaces should be fine-grained and client specific so that clients can implement only those needed
+	- *Dependency inversion principle*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling
+* **.NET ECOSYSTEM**:
+	- **.NET generally speaking**:
+		* .NET is a developer platform made up of tools, programming languages, and libraries for building many different types of applications
+		* The base platform provides components that apply to all different types of apps and multiple languages, including basic libraries (strings etc), editors, and the C#, F# and Visual Basic programming languages
+		* all .NET programs are compiled into a CIL (Common Intermediate Language) that is then translated to machine code and executed
+			- when the app is built, regardless of what language the app is written in, it all gets compiled into a common "dotnet speak" -- the IL (intermediate language) is stored in the .exe or .dll generated by the build
+			- when the app is executed, the CLR's just in time (JIT) compiler converts the intermediate language to machine code -- there is a header in the executable that loads the .NET CLR, and the .NET CLR JIT compiles the IL to native code for the CPU. the native code is cached for CPU execution
+			- this is how you're able to run programs written in many different languages without your computer "speaking" F#
+			- the CLR includes services such as thread management, garbage collection, type safety and exception handling
+	- **.NET Framework**:
+		* the original implementation of .NET
+		* supports development of websites, services, desktop apps and more
+		* only supports Windows
+		* includes the CLR and Class Library
+		* Framework is currently at 4.8 and will be supported but will not be developed further
+	- **.NET Core**:
+		* an open-source, cross-platform reimagination of the common layer below all languages -- the basis of Core is the CLR Core
+		* this strips a lot of backwards compatibility for things we don't need anymore -- this fresh start allows for much greater performance
+		* Core still uses the same abstractions, same languages as .NET Framework instances that compile to a CLR Core, it just does a lot less stuff, faster
+		* by Core 3, we have most of the functionality that we have in .NET
+		* still missing some things in Core like WCF (which is still supported in Framework)
+		* confusingly, we skipped Core 4 and what would be Core 5 is now known as just .NET 5 🙄
+		* Core can be used with Docker, and it includes command line tools for local development and continuous integration
+	- **ASP.NET**:
+		* ASP.NET extends the .NET platform with tools and libraries specifically for building web apps
+		* includes
+			- request processing framework
+			- Razor web page templating
+			- common web pattern libraries like MVC
+			- authentication system
+			- editor extensions for working with web pages
+	- **.NET Standard**:
+		* Standard is a specification of .NET, rather than an implementation -- it is a successor of the portable class library
+		* it defines the set of APIs that all .NET implementations must provide
+		* kind of like another .NET Framework, but it is only used to develop class libraries -- it is a "bridge" between these different abstraction layers
+		* example: you use Standard to write a shared library that is consumed by both Framework and Core applications (specifically you use Standard 2.0 as Standard 1.x is not supported by Core)
+		* Standard can also be used to "bridge" between things like Xamarin, Mono and Unity
+		* Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
+	- **Xamarin/Mono**: .NET implementations for mobile OS
+
+## DATABASE STUFF
+* **indexing**
+* **normalization** is the process of (1) identifying redundant data within a table and (2) enhancing data integrity. normalization also helps organize data
+	- normalization organizes the columns and tables in a db to endure constraints properly execute their dependencies
+	- normalization is based on functional dependency
+	- normalization/data redundancy reduction has these advantages:
+		* less likely for there to be inconsistency between the dupe data
+		* data maintenance is less tedious -- data is maintained in fewer places
+		* fewer anomolies caused by failing to synchronize data
+		* less disk space
+* **CRUD**: Create, Read, Update and Delete
+* **join types**
+	- **inner** most performant, common rows between both tables
+	- **left outer** contains all the data from the first table and the common rows from the second table with null values where there is no data in table 2
+	- **right outer** same as left but all data from table 2 and matching data from table 1
+	- **full join** combines and returns all data from both tables, regardless of whether there is shared information with nulls where there is no match between tables
+	- **cross join** is WILD. for each row in table 1, join it with every row in table 2. if table 1 has x rows and table 2 has y rows, the resulting set will contain x * y rows. comes in handy if you need all possible combinations of two different objects together (hopefully small sets of data)
+* **ACID**: ACID transactions are a key feature of relational databases
+	- **Atomicity**: each transaction will either succeed completely or fail completely; if any component statement fails in a transaction, the whole transaction fails (e.g.: in a bank transfer, some failure doesn't result in both accounts or neither account having the money). to an observer of the system, the transaction has not occurred one moment and has fully occurred the next moment
+	- **Consistency**: data updated via transactions will respect other constraints and rules to keep the data in a consistent state. corruption or errors in your data will not create unintended consequences for the integrity of the table
+	- **Isolation**: transactions may run concurrently. isolation of transactions ensures that concurrent transactions do not interfere with or effect one another. if you were to take the transactions and run them one-by-one, the result would be the same as though they ran concurrently
+		* this is generally achieved by locks/isolation level which varies by application
+		* the order your bank transactions post matters but your twitter feed order does not
+		* a **schedule** is an interleaving of transaction actions -- the order of operations within each transaction must be preserved
+	- **Durability**: ensure that changes made to data by successful transactions will be saved, even in the event of system failure
+	- ACID pros:
+		* data integrity
+		* simplified operational logic -- complex updates don't require advance examination of the mutual interaction mechanisms
+		* reliable storage: in-memory storage fails, durable storage is more reliable
+	- ACID cons:
+		* ACID transactions are slower because of locking
+	- Alternatives to ACID:
+		* for high-volume systems (netflix, facebook), distributed systems working in parallel perform better
+		* NoSQL and MongoDB replicate data across several nodes or servers where each node contains the same data, but don't update the data at the same time across all nodes, so data can be inconsistent
+		* high availability of distributed db systems comes with the tradeoff of lower consistency
+
+### LOCKS
+* a transaction must get a lock before it can read or update an item -- multiple transactions can operate on the same db but must lock individual items
+* **shared lock** (s) can be used for reading
+* **exclusive lock** (x) for writing. to get an x lock, there can be no locks of any type
+* locks are managed by a **lock manager**
+* if a transaction cannot get a lock, it waits in a queue
+* locking protocols:
+	- **strict 2-phase protocol**: states that locks cannot be released until the transaction ends via commit or abort
+	- **non-strict 2-phase protocol**: a transaction gets and drops locks as needed
+* **locking scopes** can help improve concurrency
+	- you can lock tables, rows, attribute values, or predicates (such as age > 25 -- this one is difficult to implement)
+	- more granular locks -> increasing concurrency
+* **deadlock**: strict 2-phase locking protocol may result in deadlock: queued transactions are waiting for an abort/commit that will never happen, e.g.:
+	- T1 wants a X lock on A and has a X lock on B
+	- T2 has a X lock on B and wants a X lock on A
+	- solution: the DBMS must detect this scenario and kill one of the requests -- one transaction is the 'victim' of deadlock
+* using `NOLOCK` for a query seems like a good idea if you don't want to change any data, so why might that be a bad idea?
+	- using `NOLOCK` means another query won't block your access to that data, but if you read that data while the query is changing it, you might get a **dirty read** where your data is suddenly no longer current
+* consider `NOLOCK` vs `SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`
+	- `NOLOCK` sets just one table to read w/out locking
+	- the latter sets the state of the entire transaction
+
+### DB PERFORMANCE
+* proper indexing
+* avoid using `SELECT *` -- specify the exact columns you want. this helps because:
+	- slims down your data fetch and reduces network traffic
+	- possible to retreive two columns of the same name when using joins
+	- `SELECT * with WHERE` conditions will use clustered index by default so it might not use other more optimal indexes
+* use temporary tables rather than iterating over the same beastly table
+* if you have the options of using a vw or a sproc, sprocs provide more ways to optimize
+* use dynamic joins wherever possible (only join if you have to)
+* inner joins are faster than outer joins (smaller data set)
+* if you have to use cross join, avoid performance issues:
+	- Use another JOIN (INNER/LEFT/RIGHT) with 2 ON conditions
+	- Use the GROUP BY clause to pre-aggregate data
+* use more `WHERE` conditions to narrow down your pool (such as only recent data, etc) over `HAVING`
+* enums take longer than bools
+* query plans are cached -- if the query parameters are exactly the same, it pulls the existing query out of the cache and uses that one. "optimized" queries sometimes waste time -- the cache may need to be cleared
+* avoid running queries in a loop -- try to insert what you need in a temp table if possible
+* don't put `CONST`s at the beginning of a sproc
+
 
 ## GENERAL C++ RULES FOR KARLA AND BEYOND:
 * no global variables!
@@ -182,8 +320,7 @@
 	- is passing by ref w/ const the best when you're not changing the data that's being passed in (saving memory w/out alterations)?
 * never pass a class object by value -- very spendy
 * send functions the exact type that they expect (aside from trivial conversions) because conversions cause a copy to be made.
-* following cin << int, use 'cin.clear()' to avoid endless looping if a
-  char is entered.
+* following cin << int, use 'cin.clear()' to avoid endless looping if a char is entered.
 * operator overloading: don't use void functions! it makes your operator pointless
 * operator overloading: copy constructor vs assignment operator overloading
 	- karla suggests making both call a copy function

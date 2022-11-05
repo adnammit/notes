@@ -1,3 +1,14 @@
+# NODE
+
+## OVERVIEW
+* node is cross-platform open-source js code that runs on servers
+* it uses async event-driven model and is efficient and scalable
+* some use cases for nodejs include:
+	- serverside template rendering for a SPA
+	- data streaming apps: http requests can be used for bufferless transfer between client and server
+	- data-intensive real time apps: transmitting large amounts of data to many users simultaneously, e.g. multiplayer games or stock market trackers
+	- on-demand apps: ex: uber; rapidly changing data and thousands of concurrent connections happening simultaneously
+
 ## NPM
 
 ### NVM
@@ -10,6 +21,7 @@
 		nvm install latest          install the latest version
 		nvm use 10.5.0              you gotta say "use" if you actually want to use it -- just installing won't work
 		nvm alias default 10.5.0    set as default
+		nvm list available			see what's available and select lts version if desired
 	```
 
 ### NPM USAGE
@@ -112,3 +124,15 @@
 	console.log("problem with request: " + e);
 	});
 	```
+
+## EXPRESS
+* express is a web app framework for nodejs
+* express provides various features that make development fast and easy -- kind of like the asp.net to .net
+* can be easily integrated with databases like mongo, redis etc. node by itself lacks support for relational databases
+* express is lightweight and easy to implement. use cases include:
+	- rest apis
+	- static file hosting
+	- real time services such as chat applications -- express supports websockets, which is great for data streaming over persistent connections
+
+### NODEMON
+* nodemon is a nice companion for express/node apps -- it watches your files and automatically restarts your app when changes are detected

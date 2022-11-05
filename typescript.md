@@ -4,6 +4,14 @@
 * ts is a superset of js that compiles to js
 * it is cross-browser and cross-platform compatible
 * it's open source
+* benefits of ts over js:
+	- ts uses optional static typing and a type inference system (the type of a var with no type in its declaration can be inferred from its value)
+	- ts supports OOO concepts like inheretance and classes
+	- js is an **interpreted language** so errors are caught at runtime. since ts is compiled, some errors are caught at compile time
+* cons of ts:
+	- requires more overhead
+	- less flexible
+	- not always necessary
 * tooling and support
 	- can be used directly with node.js ( )
 		* `npm install -g typescript` will allow you to run `tsc foo.ts`
