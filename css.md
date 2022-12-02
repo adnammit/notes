@@ -199,7 +199,7 @@ x display and positioning
 	- **inline-block** combines features of block and inline: inline-block elements can appear next to each other and their height and width _can_ be modified
 		* example elements that are inline-block by default: `img`
 	- **none** removes an element
-* using `display: block;` in conjuction with `margin: 0 auto 0;` gives us more flexibility than using the text property `center` -- better for formatting to variable screen sizes
+* using `display: block;` in conjunction with `margin: 0 auto 0;` gives us more flexibility than using the text property `center` -- better for formatting to variable screen sizes
 * the **visibility** property allows elements to be hidden from (or brought into) view
 	- hidden elements are not visible but reserve space
 * what's the difference between `display: none;` and `visibility: hidden;`?

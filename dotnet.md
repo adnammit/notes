@@ -64,6 +64,10 @@
 	- `appsettings.json`: connection and app-specific settings, globally scoped variables. env-specific settings files can be created, such as `appsettings.Development.json`
 	- `MyProject.csproj`: an XML file
 
+## .NET CORE => .NET6+ AND NEW STUFF
+* C# 10+ allows for the omission of the program class and the `Main` method -- whether you use them or not is up to you if your app doesn't take command line args
+
+
 ## MVC
 * **model**: the data model that is ultimately displayed in the view. model is responsible for communicating with the db
 * **controller**: a layer between the view and the model; keeps secret stuff in the model hidden
@@ -88,6 +92,23 @@
 
 
 ## DEPENDENCY INJECTION
+* DI is a built-in part of the Core framework
+* services/dependencies are registered in a service container: `IServiceProvider`
+* services are registered on app start up and appended to an `IServiceCollection`
+* once all the services are added, `BuildServiceProvider` creates the service container which supplies the dependencies
+* the service *injects* the service to the construcotr of the class where it's needed -- it is responsible for creating an instance of that dependency and disposing of it when it's no longer needed
+
+### SCOPES
+* the method used to register a service indicates the scope (lifetime) of an instance
+* **transient**: a new instance will be created every time it is requested
+	- used for lightweight operations with very little or no state
+	- ex: httpclient: you get a fresh one each time because your request is (probably) different
+* **scoped**: a new instance is created for each scope (each server request)
+	- used when some amount of state is needed throughout a request
+	- ex: sql connection
+* **singleton**: a single instance will be created
+	- must be memory tight and efficient as it's used everywhere for a long time (leaks build up)
+	- ex: logger, memory cache
 
 ## WEB APPLICATION
 

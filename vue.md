@@ -6,8 +6,90 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
 ## VUE3
 * vue3 is a thing now! it's LTS so start using it
 * vuetify3 is in beta but seems to be working ok
-* try Pinia over Vuex for state management -- simplified interface
+* try Pinia over Vuex for state management -- simplified interface, no mutations (you just change the data in actions)
 * Vite is the preferred optimized compiler for Vue now over vue-cli (which is webpack under the hood)
+* [Udemy course on Vue3, Pinia and Firebase](https://www.udemy.com/course/vue-js-3-composition-api/)
+
+### REACTIVITY
+* we now have `refs` and `reactive` objects for two-way binding
+* `reactive` is used for objects, `ref` is used for primitive types and arrays (everything but objects)
+* not all data needs to reactive and if it doesn't need to be, it shouldn't as non reactive data is more performant
+	- example of things that don't need to be reactive (just `data`) are things that are static once the component loads -- values that are set and then don't change
+
+### LIFECYCLE HOOKS
+* mounted: what to do as the component is being created
+	- onBeforeMount, onMount, onBeforeUnmount, onUnmount
+* activate: fired if component is being kept alive (in background)
+* update
+
+
+### CUSTOM DIRECTIVES
+
+
+
+### COMPOSABLES
+
+
+
+### MODULES
+
+
+
+
+### VUE3 SETUP CHEATSHEET
+```html
+<script setup lang="ts">
+import { computed, defineComponent, ref } from 'vue'
+import { useMainStore } from '@/store'
+import { useDisplay } from 'vuetify'
+
+const itemProps = defineProps({
+	value: {
+		type: Boolean,
+		required: true
+	},
+	titleText: {
+		type: String,
+		default: 'Alert!'
+	},
+})
+
+const store = useMainStore()
+const { name } = useDisplay()
+
+// reactive data:
+const dialog = ref(false)
+const formData = reactive({
+	name: '',
+	email: '',
+	isDisabled: false,
+})
+
+// non-reactive data:
+const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${itemProps.poster}`
+const maxCharLimit = 50
+
+const quickText = () => {
+	let words = itemProps.summary?.split(' ') ?? []
+	if (words?.length > maxPreviewWordLength) {
+		words = words.slice(0, maxPreviewWordLength)
+		words.push('(...)')
+	}
+	return words.join(' ')
+}
+
+// computed:
+const isSmallScreen = computed(() => {
+	return name.value == 'xs'
+})
+
+
+
+</script>
+
+```
+
+
 
 ## CREATING A VUE APP
 * Vue is a js library that makes building complex, responsive websites simpler, faster and easier
@@ -244,10 +326,29 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
 
 
 
-## STORES
+## STORES AND STATE MANAGEMENT
 * UPDATE: rather than Vuex, we use Pinia now 🍍 it's cleaner/simpler to use than Vuex but the same principles apply
+* we can also use composables for state management
+	- using composables is simple and you don't have to install any packages
+	- however using Vuex or Pinia is more optimized and provides devTool support in chrome
 
-### OVERVIEW
+### PINIA 🍍
+* pretty similar to Vuex with some distinguishing differences:
+	- Pinia is simpler
+	- mutations have been completely removed -- state can be directly updated with actions
+	- actions don't need context
+	- you can subscribe to actions to observe their outcomes
+	- getters that reference other getters
+	- optimized for composition API
+* there are three components of a pinia store:
+	- **state**: the data held in the store
+	- **actions**: actions taken on the state which may mutate the data
+	- **getters**: sort of like computed properties for the state
+		* you don't need to use getters for state properties -- you can just reference them directly, getters are just for convenience
+		* the value of getters are cached and only updated when their dependencies are updates
+* see [this article](https://pinia.vuejs.org/cookbook/hot-module-replacement.html) for info about how to enable store hot loading
+
+### VUEX
 * the **store** provides an interface for storing, mutating data, and managing complex computed values with getters
 * at the heart of the store concept is **state**
 	- the state tree is a single object that contains all the state information
@@ -265,15 +366,7 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
 	- this allows you to put filtering/computing logic in once place, rather than in all the places that use the data
 * the state of large applications can be broken into individual modules to be a bit more wieldy but tread carefully with namespacing
 
-### PINIA 🍍
-* pretty similar to Vuex with some distinguishing differences:
-	- Pinia is simpler
-	- mutations have been completely removed -- state can be directly updated with actions
-	- actions don't need context
-	- you can subscribe to actions to observe their outcomes
-	- getters that reference other getters
-
-### MUTATIONS
+#### MUTATIONS
 * mutations take two args: the state, and optionally any other args you want to pass
 	```typescript
 		state: {
@@ -286,7 +379,7 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
 		},
 	```
 
-### ACTIONS
+#### ACTIONS
 * the first param to an action function is a **context** item. context exposes several items for working with the state
 	- it provides state, getters, commit, and dispatch functions
 	- you can pass in the context or deconstruct it to immediately have what you need
@@ -303,7 +396,7 @@ https://www.codecademy.com/courses/learn-vue-js/lessons/vue-forms/exercises/v-mo
 		},
 	```
 
-### MODULES
+#### VUEX MODULES
 * you might have code for different components in your app that have their own getters, actions and mutations, so if you call a getter, how does vuex know what to call?
 	- it doesn't -- it will call any or all getters/actions/mutation that have that name
 	- not great if you accidentally have two things that have the same name

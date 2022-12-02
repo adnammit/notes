@@ -160,6 +160,14 @@
 * access modifiers for abstract classes and methods are optional
 *
 
+### INTERFACES
+* unlike C#, typescript interface names should not be prefaced with `I` as their usage is more broad
+* interfaces can be merged via **declaration merging**: two different interfaces with the same name are automatically merged into one
+
+
+
+### TYPES
+
 
 ## MODULES
 

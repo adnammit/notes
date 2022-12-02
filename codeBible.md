@@ -46,59 +46,69 @@
 * testing pyramid
 * CI/CD Pipeline: Continuous Integration: developers merge code changes in a central repository multiple times a day. Continuous Delivery: automation of software release via infrastructure provisioning and deployment, which may be manual and consist of multiple stages
 
-
-## QUICK GUIDE OF TERMS AND CONCEPTS
-* **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
-* **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
-* **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
-* **arity**: the number of args that a function takes
-* **authentication**: verify the identity of the user. is this person who they say they are?
-* **authorization**: restrict access to allow only the correct people. does this person have permission to access this?
-* **Big O**: a type of Asymptotic notation that describes how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
-* **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
-* **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
-* **CLR**: Common Language Runtime: the execution engine that handles running .NET applications compiled to Intermediate Language. it includes a JIT compiler to convert IL to machine/native code
-* **compiler**: takes source code written in one language and produces an output file in another language -- the output is generally a binary executable written in machine code, but transpilers (source-to-source) can be considered a subset of compiler
-* **correctness**: does the program behave as expected?
-* **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
-* **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
-* **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
-* **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
-* **idempotent**: if a process is idempotent, it can be re-run multiple times and will still result in the same end state as existed after the first run (multiple applications of the process == the first application of the process) -- ex: this is important in REST apis: if you POST the same request multiple times, you would hope not to have multiple objects
-* **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
-* **interface**: a way of specifying a "contract" that other (people's) code must meet. contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
-* **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
-* **IoT (Internet of Things)**: system of Things which all have unique identifiers and the ability to transfer info over the internet w/out human-to-human or human-to-computer interaction. Things include computing devices, mechanical systems (like a car with a tire pressure reader), people (someone with a heart monitor implant), and animals (a cow with a biochip transponder) -- anything that can be assigned an IP address and transfer data over a network
-* **isomorphic application**: app whose code can run on server or client (ex: JS)
-* **JIT Compiler**: just-in-time compiler is a component of the .NET CLR, turning Intermediate Language into machine code
-* **KPI**: Key performance indicator: a quantifiable measure of performance
-* **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
-* **LTS**: long term support: some versions are supported longer than others; if you're frequently updating a project and want the cutting edge, use the latest, but if you need something stable that you can set and forget (for a bit) select a LTS version
-* **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
-* **MITM**: man in the middle: interception of communication between two parties
-* **node migrations**:
-* **object literal**: in JS, a list of property-value pairs in a comma separated list
-* **open-closed principle**: classes should be open for extension and closed for modification
-* **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
-* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
-* **promise**: an object which represents the completion (success or failure) of an asychronous operation
-* **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
-* **restful api**: Representational State Transfer: a set of standards which includes an api interface to allow other apps to interface with it, statelessness, scalability, cacheability and interface uniformity
-* **semaphore**: a variable or abstract data type used to control access to a common resource by multiple threads
-* **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
-* **SOLID**: an object-oriented programming paradigm; Single Responsibility, Open-closed, Liskov substitution, Interface segregation, Dependency inversion
-* **SQLI**: SQL injection
-* **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
-	- **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
-	- **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
-	- **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
-* **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
-* **XSS**: cross-site scripting, injecting client-side script in a webpage
-
-
+## FAANG INTERVIEWING TIPS
+* brush up on fundamentals: string and array manipulation
+* practice coding -- don't look rusty
+* look for patterns:
+	- two pointers
+	- stacks
+	- subsets
+	- cyclic sort
+	- union find
+	- k-way merge
+* interviewers are looking for signals that you're a good hire:
+	- what design considerations are you making?
+	- how do you generate your test cases?
+	- what questions do you ask?
+* interviewers may give you complexity/efficiency requirements up front (i.e. "the data is not sorted and cannot be sorted" so you know you're looking for a linear time solution) - otherwise you might code a sub-optimal solution and then try to iterate on it or at least point out the pitfalls
 
 
 ## INTERVIEW TIPS
+* behavioral questions: answer with the STAR method:
+	- explain the *situation*
+	- describe the *task* you worked on
+	- describe the *action* you took: what did *you* do, what was *your* contribution
+	- describe the *result*: what did you accomplish and learn
+* system design
+	- **RESHADED** approach [read more](https://www.educative.io/blog/use-reshaded-for-system-design-interviews)
+		- **requirements**: clarify the functional and non-functional requirements
+			* functional ex: users need to stream data; system should store a sortable, searchable archive of music
+			* non-functional ex: streaming should be low-latency -- a song should start within 200ms of clicking play; we need to store 100 million songs
+		- **estimation**: what are the hardware or infrastructural requirements necessary
+			* how many users? how many concurrent users? are they globally distributed? mobile and web?
+			* how much data do we need to store? how often is it updated?
+		- **storage schema (optional,last)**: articulate the data model -- define tables, fields and demonstrate granular understanding of the system and make sure the system can handle the data efficiently
+			* this is somewhat optional and may be done after everything else is complete
+			* particularly focus on:
+				- when the data is highly normalized
+				- when different parts of the data need to be stored in different formats
+				- when there are performance or efficiency concerns around how the data is stored
+		- **high-level design**: identify the main components and building blocks of your system -- start to focus on fulfilling the functional requirements
+			* don't get bogged down in details. keep it high level -- you can iterate and improve as you continue to work
+			* outline the relationship between clients (mobile and desktop), load balancers, application servers, and database instances -- add in message queues, caches, etc as needed
+		- **APIs**: design the interface that will be used by the client. determine the API calls that will be needed to meet the functional requirements
+			* ex:
+				```
+					get all items: 		GET /items
+					get all user items:	GET /users/{userId}/items
+					add user item: 		POST /users/{userId}/items
+				```
+		- **detailed design**: refine and finalize the design of your system
+			* call out technology choices
+			* analyze the high-level design and discuss details to improve the final design
+			* add components that meet the non-functional requirements
+			* ex: discuss why you chose a NoSQL db over a relational db
+			* discuss:
+				- what is the availability of your system? is it fault tolerant?
+				- how is caching being handled?
+				- how are load balancing and CDNs being used to reduce latency and distribute load?
+		- **evaluation**: does your design effectively meet the functional and non-functional requirements, and have you made justifications for the design you chose?
+			* address any trade-offs you made and how you weight the benefits and drawbacks of other solutions
+			* identify aspects of your system design that could be improved on
+		- **distinctive component/feature**: you may need to add a unique feature to your design to meet the requirements, such as a concurrency control mechanism to support multiple concurrent users
+	- check out [this resource](https://www.educative.io/blog/favorite-system-design-question?utm_term=&eid=5082902844932096&utm_campaign=holiday-2022&utm_medium=email&_hsmi=235163542&_hsenc=p2ANqtz-_g02OK8jWnLM8UERg2ahav08M_3z8zLj56Ct-PGSzt1DGdsKQrLE9QtQQ9tc-dPIMJem4NSz0CXvHHixkHztbPT-7DQg&utm_content=&utm_source=educative.io)
+	- focus on **CAP theorem**
+
 * whiteboard: talk through thought process as you assess:
 	- syntax, idioms (nuances of the language), proficiency
 	- algorithms and data structures
@@ -141,6 +151,65 @@
 	- mentoring
 	- mastery
 
+## QUICK GUIDE OF TERMS AND CONCEPTS
+* **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
+* **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
+* **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
+* **arity**: the number of args that a function takes
+* **authentication**: verify the identity of the user. is this person who they say they are?
+* **authorization**: restrict access to allow only the correct people. does this person have permission to access this?
+* **availability**: high availability means the system remains in operation at all times
+* **Big O**: a type of Asymptotic notation that describes how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
+* **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
+* **CAP theorem**: a distributed system cannot simultaneously be consistent, available, and partition tolerant -- you must choose two of the three given your use case
+* **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
+* **CLR**: Common Language Runtime: the execution engine that handles running .NET applications compiled to Intermediate Language. it includes a JIT compiler to convert IL to machine/native code
+* **compiler**: takes source code written in one language and produces an output file in another language -- the output is generally a binary executable written in machine code, but transpilers (source-to-source) can be considered a subset of compiler
+* **consistency**: all nodes in a system see the same data simultaneously
+* **correctness**: does the program behave as expected?
+* **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
+* **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
+* **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
+* **eventual consistency**: in a distributed system, it may take time for an update to be reflected across all data nodes. this is usually a requisite trade off for high availability/low latency. see strong consistency
+* **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
+* **horizontal scaling** or "scaling out" means adding more hardware to the existing resource pool in a distributed system. there is no limit to how far you can scale horizontally and it's easier to maintain uptime by rotating servers, though it does require more overhead to manage and different coding considerations
+* **idempotent**: if a process is idempotent, it can be re-run multiple times and will still result in the same end state as existed after the first run (multiple applications of the process == the first application of the process) -- ex: this is important in REST apis: if you POST the same request multiple times, you would hope not to have multiple objects
+* **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
+* **interface**: a way of specifying a "contract" that other (people's) code must meet. contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
+* **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
+* **IoT (Internet of Things)**: system of Things which all have unique identifiers and the ability to transfer info over the internet w/out human-to-human or human-to-computer interaction. Things include computing devices, mechanical systems (like a car with a tire pressure reader), people (someone with a heart monitor implant), and animals (a cow with a biochip transponder) -- anything that can be assigned an IP address and transfer data over a network
+* **isomorphic application**: app whose code can run on server or client (ex: JS)
+* **JIT Compiler**: just-in-time compiler is a component of the .NET CLR, turning Intermediate Language into machine code
+* **KPI**: Key performance indicator: a quantifiable measure of performance
+* **lazy-loading**:
+* **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
+* **LTS**: long term support: some versions are supported longer than others; if you're frequently updating a project and want the cutting edge, use the latest, but if you need something stable that you can set and forget (for a bit) select a LTS version
+* **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
+* **MITM**: man in the middle: interception of communication between two parties
+* **node migrations**:
+* **object literal**: in JS, a list of property-value pairs in a comma separated list
+* **open-closed principle**: classes should be open for extension and closed for modification
+* **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
+* **partition tolerance**: a partition is a break in communication between nodes - a partition tolerant system does not fail regardless of dropped messages between nodes
+* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
+* **promise**: an object which represents the completion (success or failure) of an asychronous operation
+* **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)
+* **restful api**: Representational State Transfer: a set of standards which includes an api interface to allow other apps to interface with it, statelessness, scalability, cacheability and interface uniformity
+* **semaphore**: a variable or abstract data type used to control access to a common resource by multiple threads
+* **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
+* **SOLID**: an object-oriented programming paradigm; Single Responsibility, Open-closed, Liskov substitution, Interface segregation, Dependency inversion
+* **SQLI**: SQL injection
+* **strong consistency**: "one source of truth" -- data may be backed up in multiple places but it is read/written in one location to ensure the data is always 100% accurate; no dirty reads. see eventual consistency
+* **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
+	- **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
+	- **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
+	- **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
+* **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
+* **vertical scaling** means adding more power to the server: more RAM, more CPU etc. this works in a pinch, but is limited in how far you can scale and the impact of a server going out is great
+* **write-through cache**: a storage method in which data is written into the cache and corresponding main memory location at the same time. cache sits between db and application - all operations pass through cache tier so anything retrieved from or updated to the db is stored in the cache. this is a nice compliment to **lazy loading**
+* **XSS**: cross-site scripting, injecting client-side script in a webpage
+
+
 ## TOPIC DEEP DIVES
 * **architecture**: according to [Martin Fowler](https://www.youtube.com/watch?v=DngAZyWMGR0), architecture is the "important stuff": the shared understanding between developers, and the things that are hard to change:
 	- architecture is the common understanding of the system design that is shared between expert developers of the system.
@@ -150,16 +219,36 @@
 	- why good architecture?
 		* good design takes more time/money, so how can you argue for it?
 		* it's not just about avoiding expense/problems down the line: a well-designed system will allow features to be created more and more rapidly -- saving time/money in the future
+* **inheritance**
+	- **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract base class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended
+	- **abstract** classes serve as the **base** class blueprint for **derived** classes and may implement virtual methods that must be overridden by the implementing base class
+	- you cannot create an instance of an abstract class but you can implement functionality that will be shared by inheriting classes
+	- abstract classes cannot be static
 * **abstract data type**: a logical, conceptual description of an interface (what it does)
-	- list, queue, stack, map, table, hash table
+	- list, queue, stack, map, table, hash table, dictionary
 * **data structure**: how the data is stored, the implementation of the ADT (how it does it)
 	- array (dynamic, static) [lists, stacks, queues]
+		* data is stored in contiguous locations making iteration efficient -- we can use indexing
+		* pro: lower overhead
+		* con: not flexible; if you want to add/remove, you'll have to create a new one
 	- linear, circular linked lists [lists, stacks, queues]
+		* data is *not* stored in contiguous locations -- no index, instead we use nodes and pointers to other nodes
+		* `head` and `tail` refer to first and last node
+		* in C#, if you need to "slice" a linked list, you can just set a pointer to null and garbage collection will take care of the rest
+		* pro: these are flexible -- dynamically add or remove items
+		* con: less efficient than array, more overhead
 	- doubly linked lists [lists]
 	- BST, red-black tree [table]
 	- array of linked lists [hash table]
-* **inversion of control**: allowing other code to call you rather
-* **dependency injection**: providing an object with its dependencies rather than having it source them itself. Dependency injection is one technique in the broader concept of Inversion of Control
+* **inversion of control**: allowing other code to call you rather than your code managing everything
+	- steps for a nice IoC:
+		-> Tightly coupled classes
+		-> implement IoC using factory pattern
+		-> implement DIP through abstraction
+		-> implement DI
+		-> use IoC container
+		-> loosely coupled classes
+* **dependency injection**: providing an object with its dependencies rather than having it source them itself. Dependency injection is one technique in the broader concept of Inversion of Control (or *dependency inversion*)
 	- dependencies are passed in to a constructor/class definition rather than being instantiated within
 	- helpful in that it allows dependencies to be run at runtime - more dynamic
 	- benefit that the client (dependent) object doesn't need to be changed when the method of acquiring the dependencies changes
@@ -183,11 +272,20 @@
 		* can be more difficult to read, trace and debug -- more files must be read
 		* demands more upfront development effort (maintaining two things is harder than maintaining one)
 * **SOLID** OOO design principals. it is important to use these principals so that one area of software can be modified without impacting other areas. it makes the design easier to understand, maintain and extend. it also makes for easier testing, and more agile, adaptive, bug-free software
-	- *Single-Responsibility principle*: each class should have one responsibility, one reason to change. each class should solve one problem
+	- *Single-Responsibility principle*: each class should have one responsibility, one reason to change. each class should solve one problem. this applies to microservices as well -- we can have one service for auth and another for importing client data so one service isn't doing it all. this makes code simpler and easier to modify, but it does require more code to be written
 	- *Open-Closed principle*: entities should be open for extension but closed to modification (via inheritance)
-	- *Liskov substitution principle*: every subclass should be substitutable for their base or parent class
+	- *Liskov substitution principle*: every subclass should be substitutable for their base or parent class -- you should be able to substitute an instance of a derived class for an instance of its base class with no errors
+		* **variance**
+		* **covariance**
+		* more [here](https://youtu.be/-3UXq2krhyw)
 	- *Interface segregation principle*: clients should not be forced to depend on interfaces or methods that they do not use. interfaces should be fine-grained and client specific so that clients can implement only those needed
-	- *Dependency inversion principle*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling
+		* if your concrete class has to implement methods with `notImplException` or with default values for properties that don't apply just to satisfy the interface, the interface isn't fine-grained enough
+		* example: if you type all your library items as `IBook` with fields for pages, that won't apply to your audiobook or cd. fine grained nested interfaces will help define only what is necessary for your use case
+	- *Dependency inversion principle*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling. a technique to implement DIP is *dependency injection*
+		* high level modules (modules that depend on other things)
+		* low level modules (modules that depend on nothing)
+		* abstractions (interfaces) help high and low level modules work together and allow for changes to be made to low-level modules without breaking high-level modules. e.g. if your application depends on `IMessageService` you can inject an `EmailService` or an `SmsService` or pass in a mock service for testing that won't send real messages
+		* if your high-level code creates a lot of `new` instances, it is dependent on that low level module. you have to create new instances somewhere, and that place should be centralized so you're swapping all your stuff out in one place and can supply your dependencies from there (i.e. factory)
 * **.NET ECOSYSTEM**:
 	- **.NET generally speaking**:
 		* .NET is a developer platform made up of tools, programming languages, and libraries for building many different types of applications
@@ -236,7 +334,7 @@
 	- normalization/data redundancy reduction has these advantages:
 		* less likely for there to be inconsistency between the dupe data
 		* data maintenance is less tedious -- data is maintained in fewer places
-		* fewer anomolies caused by failing to synchronize data
+		* fewer anomalies caused by failing to synchronize data
 		* less disk space
 * **CRUD**: Create, Read, Update and Delete
 * **join types**
@@ -290,7 +388,7 @@
 * proper indexing
 * avoid using `SELECT *` -- specify the exact columns you want. this helps because:
 	- slims down your data fetch and reduces network traffic
-	- possible to retreive two columns of the same name when using joins
+	- possible to retrieve two columns of the same name when using joins
 	- `SELECT * with WHERE` conditions will use clustered index by default so it might not use other more optimal indexes
 * use temporary tables rather than iterating over the same beastly table
 * if you have the options of using a vw or a sproc, sprocs provide more ways to optimize

@@ -1,3 +1,12 @@
+# JAVASCRIPT ☕
+
+## COOL TRICKS/GOTCHAS
+* use bang-bang operator (`!!`) to check if value is truthy but know that empty object is truthy
+* use `Object.assign(obj, copy)` to create a copy of `obj`
+	- **NOTE** `Object.assign()` does not **deep clone** -- it copies values but not references, so the copy will be linked to any nested objects in the original
+* for **deep clones** you can use `JSON`:
+	- `const copy = JSON.parse(JSON.stringify(original))`
+
 ## BACKGROUND
 * ECMA2015 == ES6
 * js ecosystem: javascript is most commonly run in browsers, but it can also be used in native apps

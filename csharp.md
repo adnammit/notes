@@ -87,7 +87,7 @@
 			customer.2.FirstName = "Frodo";
 			Console.log(customer1.FirstName); // "Frodo"
 		```
-* ints and other primative types are **value types** store their values directly
+* ints and other primitive types are **value types** store their values directly
 
 ## TYPES AND CASTING
 * the `is` operator can used to test if an expression result or variable is compatible with a given type. the evaluation of `is` returns a boolean.
@@ -320,8 +320,9 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 	- Application -> Visual Studio Solution
 	- Layer Component -> Visual Studio Project
 
+
 ## DOMAIN DRIVEN DESIGN
-* programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up encorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
+* programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up incorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
 * DDD still depends on SRP (Single Responsibility Principal)
 * Anti-Corruption Layers (ACL) are another key DDD pattern
 	- ACLs are essentially seams that prevent non-domain concepts from leaking into your model
@@ -435,7 +436,7 @@ class Program
 * **implicit types** just use `var` -- the compiler knows what to do
 * **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
 	- when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
-
+* **StringBuilder**: once instantiated, strings are immutable. string concatenation creates new strings. if you're doing a bunch of concatenation, use StringBuilder
 
 ### LOCKING
 * the `lock` statement is an integrated shorthand for restricting access to a block of code to only one thread at a time

@@ -5,6 +5,76 @@
 * [Overview of HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview)
 * [RESTful architecture](https://restfulapi.net/)
 
+## SYSTEM DESIGN INTERVIEW: DESIGN SPOTIFY
+* use the **reshaded** method
+* ask clarifying questions:
+	- "how big is the music repo? how frequently is it updated?"
+	- "how many (concurrent) users? are all concurrent users streaming or are they doing other less demanding activities?"
+	- "are the users globally distributed?"
+### REQUIREMENTS
+* functional requirements
+	- user should be able to **stream** music
+	- the system should **store** an archive of music sorted by artist and album
+	- the database of the songs should be **searchable**
+* non-functional requirements
+	- streaming should be very low latency: music should begin playing within 200ms of a user pressing play
+	- the system should support a repo of 100M songs
+
+### ESTIMATION
+* we will want to store user data as well as versions of songs at different qualities
+* assume the average song is 5min and takes up 5mb of space and we have 100M songs
+	- medium quality song data at 5mb per song will take 500TB of space: 5mb * 100M = 500,000,000mb = 500,000GB => 500TB
+	- low quality song data at 1mb per song will take 500TB of space: 1mb * 100M = 100,000,000mb = 100,000GB => 100TB
+	- high quality song data at 10mb per song will take 1000TB of space: 10mb * 100M = 1,000,000,000mb = 1,000,000GB => 1000TB
+* hack for estimation: when converting from mb to gb or gb to tb, drop trailing three zeros:
+	-> 1000kb => 1mb
+	-> 1000mb => 1gb
+	-> 1000gb => 1tb
+* another example estimating storage for netflix with 10k videos:
+	-> 10,000 videos
+	-> 1hr average per video
+	-> 30gb/hour
+	=> 300,000gb => 300TB
+
+### STORAGE
+* RDBMS (relational db) vs blob/NoSQL
+* what are your data behavior requirements? does the data storage need to be ACIDic and strongly consistent (RDBMS), or do you need vast quantities of data to be available with very low latency (blob)?
+* identify what parts of the system need to have strong consistency vs low latency and design storage accordingly
+* user data could be stored in a relational db sharded by userid
+
+### HIGH-LEVEL DESIGN
+* our workflow will involve:
+	- user makes a search
+	- search indexer parses data
+	- system returns a page of search results
+	- user clicks on an item
+	- music starts streaming
+* identify components that will help you meet requirements: identify services and scaling/caching
+	- the song data should be stored and retrieved in chunks and the download will buffer
+	- when a user clicks 'play' the first chunk of the song will download and start playing immediately while the rest of the song downloads which should only take about 10 seconds with a 3G (3gb/sec) download speed
+	- we could also preemptively download the next songs in the queue/playlist while this song is playing
+* we could use write through caching to store misses in the cache
+	- caches are ideal for data that is accessed heavily but updated less frequently -- if the data is updated a lot and you're updating the cache every time, you just made a bunch of code for no reason
+* a load balancer can distribute traffic across horizontally scaled services
+
+
+### API
+* endpoints will support requirements:
+	- GET search/?artist={artistName}&track={title}&genre={genreId}
+	- GET titles/{id}
+	- GET users/{id}
+	- POST users/{id}/playlists/
+	- GET users/{id}/playlists/
+	- GET users/{id}/playlists/{id}
+
+
+### DETAILED DESIGN
+
+### EVALUATION
+
+### DISTINCTIVE COMPONENT/FEATURE
+
+
 
 ## TIERED APPLICATIONS
 * what is a **tier**? a tier is a logical, physical separation of components in an application or service
@@ -44,6 +114,11 @@
 	- layers (such as DAL, UI layer, Service Layer, etc) are distinctions between how the code is organized
 	- tiers represent physically separated components
 	- layers can be used within any one tier of any application
+* essentially a tiered application is a macrocosm of OOO single responsibility principle:
+	- each component has "one job"
+	- each component has a contract with other components and can be changed internally without impacting others
+	- additionally, components that demand higher resources/receive higher traffic can be distributed and scaled without duplicating other components
+
 
 ## WEB ARCHITECTURE
 * **web architecture** involves multiple components all working in conjunction to form an **online service**
@@ -86,15 +161,15 @@
 	- abstraction of information in the form of resources
 * a REST api acts as an interface, exposing **endpoints** to the consuming clients so that they can access resources
 * the api does not need to have any concern for the client -- it just needs to expose its resources
-* prior t REST apis, different versions of services were needed for each type of client (ex: different version for web vs mobile)
+* prior to REST apis, different versions of services were needed for each type of client (ex: different version for web vs mobile)
 * the REST api acts as a **gateway** to the system -- the api contains business logic, may tie to other apis, authorizes and authenticates, and sanitizes inputs
 
 ### AJAX
 * **asynchronous javascript and xml**
+* AJAX is a concept, but you'll see it implemented as 'ajax' in libraries like jQuery. axios and other libraries facilitate ajax-like behavior
 * AJAX is used for adding async behavior to a web page
-* ajax uses an XMLHttpRequest object to send request to the server
-* when data is retrieved, the ajax callback can update the DOM without loading the page
-* ajax is commonly used with jquery
+* ajax uses an **XMLHttpRequest** object to send request to the server
+* when data is retrieved, the ajax callback can update the DOM without reloading the whole page
 
 
 ### PULL AND PUSH
@@ -168,12 +243,18 @@
 
 ### LATENCY
 * **latency** is the amount of time it takes for a system to respond to a request
-	- in terms of **Big-O Notation** an ideal, scalable app whould have O(1) -- a constant execution time for any input
+	- in terms of **Big-O Notation** an ideal, scalable app would have O(1) -- a constant execution time for any input
 	- in contrast, an app with a complexity of O(n^2) where n is the size of the data set is not scalable -- the time the algorithm takes to complete will be exponential compared to the input
+* latency is important: time is money and latency is a good way to lose a customer
 * latency -- from time of the click to time the system responds -- has two parts:
 	- **network latency**: the time the network takes to send a data packet from point A to point B. Content Delivery Networks spread all over the globe or as close to their intended users are possible help reduce network latency
 	- **application latency**: the time the application spends processing the request
-* latency is important: time is money and latency is a good way to lose a customer
+* **content delivery network (CDN)**
+	- round trip for a response from a node in Virginia to California might take 63ms, but a request to the same node from Cape Town takes 225ms. distributing your services and routing users to the geographically closest service reduces latency
+	- a CDN adds complexity but ensures good user experience
+	- to set up a CDN, we need to have a routing service that directs data to the correct proxy services based on the location of the request
+	- web servers and load balancers need to go through the CDN's routing service before a response can be delivered
+
 
 ### TYPES OF SCALABILITY
 * applications can be scaled in two ways: vertically and horizontally
@@ -207,8 +288,7 @@
 ### IMPROVING SCALABILITY
 * tuning the performance of the app
 	- **profiling** to see which processes are running long or using too many resources
-		* profiling is dynamic analysis and
-		* can be used to measure performance
+		* profiling is dynamic analysis and can be used to measure performance
 		* helps identify concurrency errors, memory errors and overall robustness/safety
 	- **caching**: cache all static content, only hit the db when you need to. use a **write-through cache** which
 	- **CDN**: content delivery networks further reduce latency by increasing proximity of the data from the user
@@ -233,12 +313,73 @@
 ### FAULT TOLERANCE
 * **fault tolerance** is a system's ability to stay up to date despite taking hits
 * **fail soft**: if some backend nodes go down and some microservices are unavailable, the rest of the app is still functional: for a social media app, the services that upload photos might go down but the page still loads and other content is available
-* **microservices** assist in making a system fault tolerance
+* **microservices** assist in making a system fault tolerance:
+	- easier management and maintenance
+	- easier development: focus on one (relevant) area of code
+	- add new features without affecting other services
+	- makes system more scalable and highly available
+* **redundancy** is a HA mechanism -- we duplicate server instances and keep them on standby to take over if an active server instance goes down -- fail safe backup mechanism in deployment infrastructure
+	- this example is known as *Active-passive HA mode* where some nodes are active and some redundant nodes are passive, ready to be switched on if an active node goes down
+	- there is also *active-active mode* where all nodes are active by default and some may fail with their traffic being distributed to the remaining nodes
+* in the process of achieving HA/fault tolerance, we remove *single points of failure* (aka bottlenecks) by deconstructing the monolith and distributing our systems
+	- however it becomes more difficult to achieve a single *synchronous application state* -- but sometimes that's not necessary
+* **monitoring and automation** help us identify bottlenecks/failures and helps the system respond automatically without human intervention to maintain uptime
+* **kubernetes** is an example of a system that can monitor and intelligently manage instances
+* workloads should be **geographically distributed** not only so that globally distrubuted users experience the same low latency, but also so that regional power outages and large-scale failures do not bring the whole system down
+* **high-availability clustering**: a HA cluster contains a set of nodes that run in conjunction with one another
+	- nodes are connected by a *heartbeat network* that monitors the status of each node
+	- a *single state* across all nodes is achieved with *shared distributed memory* and a *distributed coordination service* like Zookeeper
+	- HA clusters use disk mirroring/RAID, redundant network connections, redundant electrical power etc -- every component with a single point of failure are made redundant
+	- multiple HA clusters run together in one geographical zone
+
+## LOAD BALANCING
+* **load balancing** enables our service to scale well and stay highly available when traffic/load increases
+* **load balancers** contain the logic and perform the action of load balancing
+* load balancers act as intermediaries between the client and the service instances, but there can be multiple layers of load balancing: they can also sit between server instances and db servers
+* if a server goes down while processing a request, the load balancer diverts future requests to other active nodes in the cluster
+* to know which nodes in the cluster are available for traffic, load balancers must perform regular *health checks* and maintains a running list of which nodes are up and which are down
+	- nodes are known as *in-service* or *out-of-service*
+
+### DNS
+* to understand how traffic is routed between nodes, we need to understand the **domain name system**
+* every machine on the web has a unique **IP address** that allows connections between machines -- IP stands for *internet protocol* and enables delivery of data packets from one machine to another using their IP addresses
+* domain name system maps IP addresses to easy to remember domain names
+* **DNS querying** occurs when a user types in the URL of a website
+
+[start here](https://www.educative.io/module/lesson/web-application-architecture-101/qV8nq1x9vv7)
 
 
 
+## MONOLITH VS MICROSERVICE
 
+### MONOLITHS
+* in a **monolithic architecture**, the entire application is contained in a single code base
+* monolithic architectures are *tightly coupled*
+* pros:
+	- easy to build, test and deploy and require less overhead
+* cons of monolithic architecture include
+	- necessity of deploying the entire application for a change to one part of the system
+	- full regression testing due to the tightly coupled nature
+	- single point of failure: a bug anywhere might bring the whole thing down
+	- maintenance, scalability and HA are all compromised
+	- can't leverage heterogenous technologies. want to use Java and NodeJS together in the same codebase? good luck
+	- not cloud ready
+* monoliths can be a good choice when the requirements and the app are simple and volume/traffic demands are known and low (e.g. internal tool)
 
+### MICROSERVICES
+* **microservices** are like a macro version of *SRP (single responsibility principle)*: each service has one clearly focused and cleanly delineated task
+* each microservice ideally has its own db, reducing bottlenecks/single points of failure
+* pros:
+	- no single point of failure
+	- heterogenous tech
+	- independent and continuous deployment: we can selectively deploy only what's changed without impact to other parts of the system
+	- allows for rapid development: we can get the MVP out there and then add more services for additional features, and different developers/teams can work on different parts
+* cons:
+	- complexity: management, monitoring and deployment are all more complex
+	- *strong consistency* is hard to guarantee in a distributed environment -- instead we have *eventual consistency*
+* microservices are a good choice for complex use cases where different functionality has different use cases and therefore demands (ex: a social messaging app will require messaging, real-time chat, live video streaming, photo uploads, post likes and shares, etc -- all these have different demands that can be best met by different technology)
+
+[start here](https://www.educative.io/module/lesson/web-application-architecture-101/xlrAgL4D3r3)
 
 
 

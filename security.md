@@ -64,6 +64,7 @@
 	- use strongly-typed, **parameterized** SQL queries and sprocs
 		* separate the query from the input data
 		* type cast each parameter
+	- or use an ORM -- these are still susceptible to attacks via ad hoc queries
 	- fine tune DB permissions
 		* segment sql accounts for admin and public so a query for information does not have the permissions to delete anything
 		* apply the "principle of least privilege"
@@ -147,7 +148,7 @@
 * reflected XSS
 	- an attacker gives a user a URL with an XSS payload
 		* a payload might be included in a URL query string
-		* the url can be distributed via social media or posting it publically (it can be obscured with a bit.ly etc
+		* the url can be distributed via social media or posting it publicly (it can be obscured with a bit.ly etc
 	- the user clicks through the link to the website using the URL with the XSS payload
 		* the XSS is then "reflected" back to the user
 		* the XSS can access the data in the user's cookies (auth cookies, say) and exfiltrate that data back to the attacker

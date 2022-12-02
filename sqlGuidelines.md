@@ -44,9 +44,9 @@ For INNER JOINs, try to limit the number of join conditions to two or less
 	- Mostly for readabiliy
 	- There are some exceptions but as a rule, try to stick to two
 	- Compound join conditions should have their extra conditions on separate lines and indented from the parent JOIN clause
-	- For INNER JOINs, putting the conditions on the join or in the WHERE cluase are logically equivalent
+	- For INNER JOINs, putting the conditions on the join or in the WHERE clause are logically equivalent
 
-For OUTER JOINS, the join conditions are more critical and do what is needed for the sceanrio
+For OUTER JOINS, the join conditions are more critical and do what is needed for the scenario
 	- For these joins, the ON clause and WHERE clause are not logically equivalent like in INNER JOINs
 	- Still put the extra conditions on separate lines and indented from the parent JOIN clause
 

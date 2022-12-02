@@ -35,6 +35,7 @@
 	npm prune                       remove unneeded packages
 	npm install <foo> --save-dev    use when you want this to be available to be downloaded by other developers (say, grunt or gulp)
 	npm install <foo> --save        use when you have a dependency which needs to be available for distribution (say, angularjs or express)
+	npm install [package]@[version]	install a specific version of a given package
 ```
 
 * should I install globally or locally?

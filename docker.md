@@ -124,7 +124,7 @@ docker push hello
 * "it works on my machine" -> "then we'll ship your machine"
 * docker can be thought of as a tool to create a disposable computer -- you can create the computer over and over again, across many instances, or with small adjustments
 * **docker vs kubernetes**
-	- docker is a continuous runtime whereas kubernetes is a platform for running and managing containers from many container runtimes -- it's a "meta-docker" of sorts
+	- docker is an orchestration tool: a continuous runtime whereas kubernetes is a platform for running and managing containers from many container runtimes -- it's a "meta-docker" of sorts
 	- kubernetes supports numberous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
 	- one metaphor is that kubernetes is an "OS" and docker is an "app"
 
@@ -331,7 +331,6 @@ docker push /docker101tutorial
 * to actually make use of the port, anyone who creates a container needs to explicitly bind that port to an actual port of the host machine using the `-p` switch
 
 
-
 ## REGISTRIES
 * there are lots of images available on the [Docker Hub](https://hub.docker.com/) -- this is what is used by default
 * **private registries** can also be configured -- options for privage registry hosting include:
@@ -360,7 +359,7 @@ docker push /docker101tutorial
 	- push the image into the registry (`docker push`)
 * public images are hosted for free on the Docker Hub -- paid plans available for private images
 
-### IMAGE OPTIMIZATION
+## IMAGE OPTIMIZATION
 * you'll want to make sure your image is as small as possible to reduce push/pull times and minimize the space that images take up on the build/registry/serving machine
 * things that influence the size include:
 	- the files in your image
