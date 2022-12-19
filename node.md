@@ -33,6 +33,7 @@
 	npm list -g --depth=0           view installed packages (-g for global - omit for local)
 	npm cache clean                 clear cache
 	npm prune                       remove unneeded packages
+	npm view foo versions (--json)	view available versions of foo, optionally in json format
 	npm install <foo> --save-dev    use when you want this to be available to be downloaded by other developers (say, grunt or gulp)
 	npm install <foo> --save        use when you have a dependency which needs to be available for distribution (say, angularjs or express)
 	npm install [package]@[version]	install a specific version of a given package

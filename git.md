@@ -1,8 +1,7 @@
 # VERSION CONTROL
 
 ## WHY USE IT?
-* allows you to back up, modify and revert changes without manually making and managing
-	backup files
+* allows you to back up, modify and revert changes without manually making and managing	backup files
 
 ## TYPES OF VERSION CONTROL
 * formal vs impromptu

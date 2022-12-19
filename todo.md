@@ -12,6 +12,8 @@
 		https://materialdesignicons.com/
 		lucid charts
 		name that color!
+		tim corey
+		educative.io
 	- env: vscode, extensions
 	- dotfiles
 	- fonts

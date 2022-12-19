@@ -161,6 +161,7 @@
 * **availability**: high availability means the system remains in operation at all times
 * **Big O**: a type of Asymptotic notation that describes how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
+* **boxing and unboxing**: converting a value type to a reference type and vice versa (respectively). considered bad practice
 * **CAP theorem**: a distributed system cannot simultaneously be consistent, available, and partition tolerant -- you must choose two of the three given your use case
 * **checksum**: an algorithm (a cryptographic hash function) is run on a piece of data, usually a file. the resulting string can be used to compare to that of other versions of that file to ensure they are the same. checksums are useful for comparing large objects to make sure the application you downloaded is complete and not malicious, to see if a file has been modified (and that an update therefore needs to be run)
 * **CLR**: Common Language Runtime: the execution engine that handles running .NET applications compiled to Intermediate Language. it includes a JIT compiler to convert IL to machine/native code
@@ -185,6 +186,7 @@
 * **low (loose) coupling**: organizing modules of code such that each has a clear function and their interdependence is low, so a fault in one does not break them all. Supports readability and maintainability. Correlates with high cohesion.
 * **LTS**: long term support: some versions are supported longer than others; if you're frequently updating a project and want the cutting edge, use the latest, but if you need something stable that you can set and forget (for a bit) select a LTS version
 * **magic values**: magic values and numbers are anti-patterns and refer to the use of values directly in source code. for example, rather than iterating through every int between 0 and 52, assign variable `deckSize=52`. rather than referring to "John" in code, assign `userName="John"`
+* **managed code**: code which is managed by a runtime at execution: the CLR compiles managed code to machine code, then executes the machine code. for **unmanaged code** the dev must manage execution and security concerns, handle garbage collection, target certain hardware architectures, etc
 * **MITM**: man in the middle: interception of communication between two parties
 * **node migrations**:
 * **object literal**: in JS, a list of property-value pairs in a comma separated list
