@@ -21,8 +21,61 @@
 	- tools
 		sourcegraph
 		postman
-
+		f.lux
+		lucidcharts
 * continue to decouple git-controlled repos from Dropbox
+
+
+## Fresh Install
+Stuff to set up for a new computer. First, run [this script](https://github.com/adnammit/config/blob/master/bin/setup_all_the_things.sh)
+
+### Dev Stuff
+* vscode
+* vscode extensions - look and editor
+	* Atom Keymap
+	* Block Travel
+	* macros
+	* One Dark Pro
+	* Material Icon Theme
+* vscode extensions - tooling
+	* Typescript Vue Plugin
+	* Vue Language Features
+	* SQL Server (mssql)
+	* docker
+	* LaTeX Workshop
+* git
+* fonts: firacode, jetbrainsmono, operatormono
+* cygwin
+* node/nvm
+* npm global install:
+	- vue
+	- vue cli
+	- corepack (what is?)
+	- typescript
+	- yarn
+* docker
+* pgadmin/postgres
+* dotnet sdks
+* texworks
+* postman
+* teensy
+* visual studio
+* visual studio extensions:
+	- VSBlockJumper
+
+### Regular Stuff
+* fancyZones - like uber window snap (install via microsoft store - powertoys package)
+* [synergy](https://symless.com/synergy) -- or logitech flow, or mouse without borders
+* slack
+* signal
+* f.lux -- turn off
+* spotify
+* dropbox
+* steam (look up what dirs to copy)
+* some hardware monitor
+* garmin express/basecamp?
+* vlc
+* winamp
 
 
 ### NEW STUFF:

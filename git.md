@@ -1,16 +1,16 @@
-# VERSION CONTROL
+# Version Control
 
-## WHY USE IT?
+## Why Version Control?
 * allows you to back up, modify and revert changes without manually making and managing	backup files
 
-## TYPES OF VERSION CONTROL
+## Types of Version Control
 * formal vs impromptu
 * scalable vs too much work
 * centralized vs decentralized
 * concurrent vs locking
 * diffs/patches vs snapshots
 
-## DISTRIBUTED VS CENTRALIZED
+## Distributed vs Centralized
 * centralized advantages:
 	- it is simple -- everyone puts their code in the same place
 	- works well for backup, undo and synchronization
@@ -35,7 +35,7 @@
 	- there aren't really revision numbers, though changes have guid's
 		* you can tag releases with names though
 
-## DISTRIBUTED VERSION CONTROL
+## Distributed Version Control
 * goals
 	- reliability
 	- making sure you get the most recent version
@@ -56,11 +56,11 @@
 * once something makes it to the repository, it's pretty much immutable
 
 
-# SO YOU'VE DECIDED TO USE GIT:
+# So You've Decided To Use Git
 
-### CHEAT SHEET
-```c
-// REPOS AND BRANCHING
+## Cheat Sheet
+```bash
+# REPOS AND BRANCHING
 man git-<command>               man for command
 git help foo                    get help for git command foo
 git init                        initialize new repository
@@ -81,12 +81,12 @@ git branch -d foo               delete branch that you’re done with
 git branch -D foo               force remove w/out merging
 git status                      show current state of your repo
 
-// COMMITS
+# COMMITS
 git rev-parse HEAD              show hash of HEAD (or whatever branch)
 git merge-base foo bar          get the last common commit between two branches
 git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
 
-// WORKING WITH AN EXISTING REPO
+# WORKING WITH AN EXISTING REPO
 git fetch                       get other people’s checked-in changes w/out merging into yours
 git pull		                fetch + merge
 git push                        push all committed files to the remote repository
@@ -94,7 +94,7 @@ git push -u origin master       push and set tracking info for your branch to pu
 git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
 git push --force --verbose --dry-run
 
-// MERGING & REBASING
+# MERGING & REBASING
 git merge foo                   merge foo into your current branch
 git merge --squash foo          merge foo into your current branch with one commit
 git merge --no-ff foo           merge foo into your current branch with one commit but retain history
@@ -104,7 +104,7 @@ git cherry-pick A^..B           cherry pick a range of commits from and includin
 git rebase master               pull changes from master into current branch and replay branch commits on top
 git rebase --skip master        avoid conflicts between your own commits as they are being applied
 
-// WORKING WITH FILES
+# WORKING WITH FILES
 git add foo                     add foo to files to be committed
 git add .                       stage all files in current dir and subdirs for commit
 git add -A                      add entire working branch to stage
@@ -120,7 +120,7 @@ git clean -f                    remove untracked files (not dirs)
 git rm foo                      remove local and remove remote on next push
 git rm --cached foo.txt         retain local and remove remote on next push - this will delete foo.txt for others who pull
 
-// VIEWING HISTORY
+# VIEWING HISTORY
 git show -B -w <hash>           show changes that were made for a commit, ignoring whitespace
 git show HEAD~:./dir/file       show output of the file in dir/ as of last commit before HEAD
 git log --follow foo.txt        see commit history of file
@@ -146,53 +146,29 @@ git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all
 git commit                      prep files to be committed
 git commit foo                  revert to commit foo
 
-
-// RESET RENAMELIMIT:
+# RESET RENAMELIMIT:
 git config merge.renameLimit 999999
 git config --unset merge.renameLimit
 
-
-// git pull is unable to resolve references: error: Ref refs/remotes/origin/{branch} is at <hash1> but expected <hash2>
+# git pull is unable to resolve references: error: Ref refs/remotes/origin/{branch} is at <hash1> but expected <hash2>
 git gc --prune=now              clean up and optimize local repo, removing loose objects of any age (now)
 git remote prune origin         delete all stale remote tracking branches under origin (remove local branches that are no longer in remote origin)
-// actually try this:
+# actually try this:
 git update-ref -d refs/remotes/origin/<branch_thats_barfing>
 
-
-// CLEAN UP FILES
+# CLEAN UP FILES
 git clean -n -d                 see which files would be removed
 git clean -f -d                 remove all untracked files that are not in .gitignore
 
-
-// BUNDLE BUNDLE WHO'S YOUR BUNDLE?
-// create:
+# BUNDLE BUNDLE WHO'S YOUR BUNDLE?
+# create:
 git bundle create my-repo.bundle HEAD master
-// extract:
+# extract:
 git clone my-repo.bundle <optional dir>
 
-
-### QUICK GUIDE
-
-* make a new repo:
-
-```
-git init
-git remote add origin https://github.com/adnammit/yourRepo.git
-git add .
-git commit -m "initialized repo"
-git push origin master
 ```
 
-* working with an existing repo:
-
-```
-git pull origin master
-git add .
-git commit -m "updates foo"
-git push origin master
-```
-
-## USING GIT
+## Using Git
 * staging: lining up changes to upload to the repository
 * making a commit: a commit is a snapshot of changes, author, date, committer, parent commit
 * author and committer are differentiated
@@ -205,12 +181,12 @@ git push origin master
 * many git commands can be performed on either a branch or a file or files. Using the `--` notation explicitly tells git "hey, this is a file!" in case you have a file and a repo with the same name
 
 
-### ANATOMY OF A COMMIT
+### Anatomy of a Commit
 * **SHA1**: a hash standard that takes various meta data (commit message, committer, commit date, author, authoring date, entire working directory) and generates a completely unique hash string
 
 
-### HEAD VS MASTER VS ORIGIN
-* HEAD is an official notion in git, HEAD always has a well defined meaning. master and origin are common names usually used in git but they don't have to be.
+### Head vs Master vs Origin
+* `HEAD` is an official notion in git, `HEAD` always has a well defined meaning. master and origin are common names usually used in git but they don't have to be.
 
 * **HEAD:** the current commit your repo is on.
 		- Most of the time HEAD points to the latest commit in your branch, but that doesn't have to be the case.
@@ -227,13 +203,13 @@ git push origin master
 		- That remote repo is almost always called origin, but it doesn't have to be.
 
 
-### MERGING VS REBASING
+### Merging vs Rebasing
 * merge: combining branches together
-		- git checkout mywork : get the branch you want
-		- git merge master : merge in 'master'
-		- there should rarely be conflicts -- maybe only if two people are adding at the same time
+	- `git checkout mywork`: get the branch you want
+	- `git merge master`: merge in 'master'
+	- there should rarely be conflicts -- maybe only if two people are adding at the same time
 * rebase: changing history
-		- this is mostly troublesome when you're rebasing something already pushed to others
+	- this is mostly troublesome when you're rebasing something already pushed to others
 
 
 ### SELECTIVE MERGING

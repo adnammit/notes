@@ -1,10 +1,9 @@
-# THE BIBLE OF CODING PRACTICES
+# The (Coding) Bible
 
-## TO DO
-* try WSL again (esp when WSL2 drops)
+[[toc]]
+
+## To Do
 * update git
-* overhaul config (esp after migrating to WSL)
-* keep on doing MovieTime - Vue3
 * learn:
 	- hangfire, rabbitmq
 	- kubernetes
@@ -18,7 +17,7 @@
 	- docker
 	- maths: fractions, ratio, proportions, linear equations
 
-## FUN THINGS TO DO AND KNOW:
+## Fun Things To Do And Know
 * check out fastcomet for webhosting
 * make an agent-based model to graphically display the growth of a search tree
 * probabilistic data structures
@@ -35,18 +34,18 @@
 * kaggle: data sets to play with
 * high charts: make cool charts in your browser
 * use draw.io for diagramming
-* heroku for fast back-end prototyping
+* heroku/render/netlify for fast back-end prototyping
 
-## THINGS I KNOW AND SHOULD BRAG ABOUT/SHOULD KNOW
+## Things I Already Know
 * .NET
 * REST apis and WCF services
 * domain-driven design/object oriented programming
 * architectural design/systems architecture (tiered systems, microservices)
-* **design patterns**
+* design patterns
 * testing pyramid
 * CI/CD Pipeline: Continuous Integration: developers merge code changes in a central repository multiple times a day. Continuous Delivery: automation of software release via infrastructure provisioning and deployment, which may be manual and consist of multiple stages
 
-## FAANG INTERVIEWING TIPS
+## Algorithm Interview Tips
 * brush up on fundamentals: string and array manipulation
 * practice coding -- don't look rusty
 * look for patterns:
@@ -62,15 +61,14 @@
 	- what questions do you ask?
 * interviewers may give you complexity/efficiency requirements up front (i.e. "the data is not sorted and cannot be sorted" so you know you're looking for a linear time solution) - otherwise you might code a sub-optimal solution and then try to iterate on it or at least point out the pitfalls
 
-
-## INTERVIEW TIPS
+## General Interview Tips
 * behavioral questions: answer with the STAR method:
 	- explain the *situation*
 	- describe the *task* you worked on
 	- describe the *action* you took: what did *you* do, what was *your* contribution
 	- describe the *result*: what did you accomplish and learn
 * system design
-	- **RESHADED** approach [read more](https://www.educative.io/blog/use-reshaded-for-system-design-interviews)
+	- **RESHADED** approach ([read more](https://www.educative.io/blog/use-reshaded-for-system-design-interviews))
 		- **requirements**: clarify the functional and non-functional requirements
 			* functional ex: users need to stream data; system should store a sortable, searchable archive of music
 			* non-functional ex: streaming should be low-latency -- a song should start within 200ms of clicking play; we need to store 100 million songs
@@ -148,10 +146,8 @@
 		* acidity
 	- how do you scale large enterprise applications and make them scale in-flight?
 * where do you see yourself in five years?
-	- mentoring
-	- mastery
 
-## QUICK GUIDE OF TERMS AND CONCEPTS
+## Vocab and Concepts
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
 * **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
@@ -212,7 +208,7 @@
 * **XSS**: cross-site scripting, injecting client-side script in a webpage
 
 
-## TOPIC DEEP DIVES
+## Topic Deep Dives
 * **architecture**: according to [Martin Fowler](https://www.youtube.com/watch?v=DngAZyWMGR0), architecture is the "important stuff": the shared understanding between developers, and the things that are hard to change:
 	- architecture is the common understanding of the system design that is shared between expert developers of the system.
 		* software development is a social thing -- we have to understand what each other are doing
@@ -328,7 +324,7 @@
 		* Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
 	- **Xamarin/Mono**: .NET implementations for mobile OS
 
-## DATABASE STUFF
+## Database Stuff
 * **indexing**
 * **normalization** is the process of (1) identifying redundant data within a table and (2) enhancing data integrity. normalization also helps organize data
 	- normalization organizes the columns and tables in a db to endure constraints properly execute their dependencies
@@ -364,7 +360,7 @@
 		* NoSQL and MongoDB replicate data across several nodes or servers where each node contains the same data, but don't update the data at the same time across all nodes, so data can be inconsistent
 		* high availability of distributed db systems comes with the tradeoff of lower consistency
 
-### LOCKS
+### Locks
 * a transaction must get a lock before it can read or update an item -- multiple transactions can operate on the same db but must lock individual items
 * **shared lock** (s) can be used for reading
 * **exclusive lock** (x) for writing. to get an x lock, there can be no locks of any type
@@ -386,7 +382,7 @@
 	- `NOLOCK` sets just one table to read w/out locking
 	- the latter sets the state of the entire transaction
 
-### DB PERFORMANCE
+### Performance
 * proper indexing
 * avoid using `SELECT *` -- specify the exact columns you want. this helps because:
 	- slims down your data fetch and reduces network traffic
@@ -406,7 +402,7 @@
 * don't put `CONST`s at the beginning of a sproc
 
 
-## GENERAL C++ RULES FOR KARLA AND BEYOND:
+## General C++ Rules For Karla And Beyond
 * no global variables!
 * never dereference a null pointer!
 * use local variables rather than dereferencing a million times
@@ -430,7 +426,7 @@
 * check out templates
 * Object-Oriented Design: generalities get pushed up into base classes -- the nuances trickle down into derived classes
 
-## EFFICIENCY AND ALGORITHMS:
+## Efficiency And Algorithms
 * the running time of an algorithm is a function of the size of its input
 * we look at the worst case: for example, if we're searching for a match, the worse case would be iterating through all of the data without finding a match
 * kinds of functions:
@@ -460,7 +456,7 @@
 	- Big Omega: the lower boundary of growth of our search algorithm
 		* "this algorithm takes at least x amount of time"
 
-## ELI5: RECURSION:
+## ELI5: Recursion
 * matryoshka doll:
 	- self-similar, nested layers that repeat until the problem has been 'solved' (you reach the innermost doll)
 * researching something on the internet:
@@ -474,7 +470,7 @@
 	- each branch is self-similar to it's 'parent' branch
 
 
-## RESUME TIPS
+## Resume Tips
 * clean and simple
 * action words! what was your impact?
 	- created, designed, debugged
