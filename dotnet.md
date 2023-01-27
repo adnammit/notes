@@ -103,7 +103,7 @@
 * services/dependencies are registered in a service container: `IServiceProvider`
 * services are registered on app start up and appended to an `IServiceCollection`
 * once all the services are added, `BuildServiceProvider` creates the service container which supplies the dependencies
-* the service *injects* the service to the construcotr of the class where it's needed -- it is responsible for creating an instance of that dependency and disposing of it when it's no longer needed
+* the container *injects* the service to the constructor of the class where it's needed -- it is responsible for creating an instance of that dependency and disposing of it when it's no longer needed
 
 ### SCOPES
 * the method used to register a service indicates the scope (lifetime) of an instance

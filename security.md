@@ -1,33 +1,40 @@
-# APPLICAITON SECURITY
+# Application Security
 
-## OWASP
+## Owasp
 * the Open Web Application Security Project is a non-profit
 * it is tech-agnostic
 * the OWASP Top 10 (Security Risks) is used as a reference for developing and choosing apps
 
-## FURTHER READING
+## Further Reading
 * [.NET Security Cheat Sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/DotNet_Security_Cheat_Sheet.md)
 
-## RISK ASSESSMENT
+## Risk Assessment
 * risk assessment has several components:
 	- overview of the risk
 	- understanding the risk
 	- common defenses
 	- the risk in the wild (real world examples)
 
-## CONCEPTS
+## General Concepts
 * authorization vs authentication
+* you will rarely have to worry about generating cookies, identity etc because you should not be writing your own authentication code. way smarter people will do that -- you just have to keep that information safe and handle it correctly
 * string interpolation (expansion of string literal containing placeholders) may create security issues via SQLI, XSS, script injection, etc
 	- user input must be properly filtered/escaped
-
 * types of attacks:
-- **DDoS**: Distributed Denial of Service (DDoS)
-	* an attempt to make an online service unavailable by overwhelming it with traffic from multiple sources
+	- **DDoS**: Distributed Denial of Service (DDoS)
+		* an attempt to make an online service unavailable by overwhelming it with traffic from multiple sources
+* transport vulnerability: hypothetically you can send whatever sensitive info you want as long as the transfer method is secure
+* **whitelisting** is preferred over **blacklisting** -- if you try to pick things you *shouldn't* do, you'll miss something
 
 
-## OWASP'S TOP TEN
+# [Owasp's Top Ten](https://owasp.org/www-project-top-ten/)
+* or "ten-ish" -- it changes every year
+* current state of affairs:
+	- injection and broken authentication incidents have dropped
+	- most others are on the rise. Broken access control is now #1, cryptographic failures (previously sensitive data exposure) #2
+	- some new attacks include insecure design, software and data integrity failures, and server-side request forgery (SSRF)
 
-### INJECTION
+## Injection
 * untrusted data is sent to an interpreter as a part of a command or query in order to trick the interpreter into executing unintended commands
 * most commonly we're talking about SQL injection, but there is also LDAP injection
 * the stats:
@@ -70,7 +77,10 @@
 		* apply the "principle of least privilege"
 	- don't disable [asp.net request validation](https://docs.microsoft.com/en-us/previous-versions/aspnet/hh882339(v=vs.110) unless you specifically need dangerous input and then ensure that input remains untrusted throughout the stack
 
-### BROKEN AUTHENTICATION AND SESSION MANAGEMENT
+
+## Broken Access Control
+
+## Broken Authentication And Session Management (Identification and Auth Failure)
 * in this attack, an attacker can log in and impersonate the victim
 * the stats:
 	- attack vector: average
@@ -121,7 +131,7 @@
 		* keep login errors vague - do not give attackers more info
 
 
-### XML EXTERNAL ENTITIES (XXE)
+## XML External Entities (XXE)
 * attackers upload XML containing hostile content to vulnerable XML processors
 	- Older XML processors allow specification of an external entity (a URI) that is dereferenced and evaluated during XML processing
 	- This can be used to extract data, execute a remote request from the server, execute internal system scan or execute DoS attack
@@ -133,7 +143,7 @@
 	- disable XML external entity processing in all XML parsers
 	- use an XSD to prevent external references from being processed by your application
 
-### XSS: CROSS SITE SCRIPTING
+## XSS: Cross Site Scripting
 * cross site scripting, injecting client-side script into a web-page
 * the stats:
 	- attack vector: average
@@ -145,6 +155,15 @@
 	- can result in session stealing, account takeovers, MFA bypass or replacement of DOM nodes
 	- XSS can also attack the user’s browser with malicious software downloads, key logging, etc
 * DOM XSS
+	- injection: say your site has something like this -- an attacker could inject malicious script
+		```js
+			$('#progress-banner').append('searching for <strong>' + searchTerm + '</strong>');
+		```
+	- this is pretty bad cos this is now "native" local js that is not subject to any of the limitations of cross site scripts and can do whatever
+	- we can protect our code by only permitting html text to be updated:
+		```js
+			$('#progress-banner').append('searching for <strong/>').find("strong").text(query);
+		```
 * reflected XSS
 	- an attacker gives a user a URL with an XSS payload
 		* a payload might be included in a URL query string
@@ -178,7 +197,7 @@
 		* the wrong encoding in the wrong context is useless
 	- request validation in .NET protects us against most XSS attacks
 
-### INSECURE DIRECT OBJECT REFERENCES
+## Insecure Direct Object References
 * an attacker changes the data that's sent to a site (such as an account number that maps directly to data in the db), resulting in them gaining access to data they're not supposed to have access to
 	```javascript
 	// Hitting the Balance resource and sending the AccountId as the query
@@ -207,7 +226,7 @@
 		* using ints as keys is dangerous -- an attacker can simply increment, try it, increment, try it etc.
 		* natural keys (like username) are discoverable -- use cryptographic strings or global unique identifiers
 
-### SECURITY MISCONFIGURATION
+## Security Misconfiguration
 * fairly broad topic, but essentially an attacker accesses an insecure resource
 	- like an admin page
 	- the website responds with a **gateway risk** -- information that an attacker can use to exploit other risks
@@ -237,9 +256,10 @@
 		* have a strategy to monitor and update 3rd party packages
 	- institute a repeatable hardening process that can easily be applied to new apps
 
-### SENSITIVE DATA EXPOSURE
+## Cryptographic Failures (formerly Sensitive Data Exposure)
+* previously known as Sensitive Data Exposure, which was a broad symptom rather than a root cause. The renewed focus here is on failures related to cryptography which often leads to sensitive data exposure or system compromise
 * when data is not properly protected in transit or at rest
-	- sensistive data should not be transmitted or stored in plain text
+	- sensitive data should not be transmitted or stored in plain text
 	- this includes db backups
 * the stats:
 	- attack vector: difficult exploitability
@@ -278,7 +298,7 @@
 		* be very careful with key management
 
 
-### MISSING FUNCTION LEVEL ACCESS CONTROL (FAILURE TO RESTRICT URL ACCESS)
+## Missing Function Level Access Control (Failure To Restrict Url Access)
 * authorized user gains access to a part of the system they should not have access to. users with no auth may also be able to gain access
 * the stats:
 	- attack vector: easy -- just plug in a URL
@@ -314,36 +334,52 @@
 	- Disable web server directory listing and don’t store file metadata and backup files within web roots.
 	- Create access controls that enforce record ownership, rather than accepting that the user can create, read, update, or delete any record.
 
-### CROSS SITE REQUEST FORGERY (CSRF)
+## Cross Site Request Forgery (CSRF)
+* [cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 * the stats:
 	- attack vector: average
 	- prevalence: common
 	- detectability: easy
 	- impact: moderate
+* two basic types:
+	- "do stuff" request forgery
+	- "get stuff" request forgery
 * how it works:
 	- the attacker has a website and sends a user a link via social media, phishing, etc
-	- the attacker's website loads a malicious request into the user's browser
-	- the malicious request is made to the target website wherein the user is already logged in
+	- the user visits the malicious website which makes a malicious request to the target website wherein the user is already logged in/has a valid cookie
 	- so essentially the objective it to get the user to make a request on the attacker's behalf on a website the user is already logged into and that the attacker can't access otherwise
 * understanding CSRF
+	- a browser/client has a cookie cached so that when a request is made to a server, the identity of the client requesting the data is known
+	- but from the server's perspective, where is the request actually coming from? it might not be coming from the user's browser, but from an attacker's website: a user could be tricked into visiting the malicious site which makes the request to the target server using the user's cookie for that service. to the server, this request is coming from the genuine user (because it is, kind of)
+* example
 	- suppose a user transfers money online
 		```
 			HTTP POST https://www.mybank.com/transfer
 		```
 	- this request has an auth-cookie attached to it (as it is with every request the user makes) as well as a request body containing the request amount, # of the account to transfer to, etc
 	- if the attacker is successful in a CSRF attack, they can fabricate the above post including the request body with the amount and the account they want the money to go to -- _all they need is the auth cookie to complete the request_
+	- in this scenario, the attacker doesn't need to worry about same-origin policies because this is a "do stuff" attack
 * common defenses
-	- employ anti-forgery tokens
-		* the whole pattern is very predictable -- here's a URL, a cookie and a body, and you know how to forge a request
-		* an anti-forgery token injects randomness that the attacker cannot predict, nor forge
+	- same origin policy
+		* if you're making a request to a reddit server, the request must originate from reddit.com
+		* a malicious website can get a response from the reddit server, but the browser will see that the response did not originate from the malicious site -- the browser blocks it so the malicious site will never see the response content
+		* however because the request to the server is completed (and blocked), this only helps with the **get stuff** variety of CSRF attacks
+	- employ anti-forgery tokens (**Cross Site Request Forgery Token**)
+		* this protects against **do stuff** requests
+		* the whole attack pattern is very predictable -- here's a URL, a cookie and a req body, and you know how to forge a request
+		* an anti-forgery token injects randomness that the attacker cannot predict nor fabricate
+		* the anti-forgery token is not a part of the user cookie -- where the heck does it come from?
+			- **to-do**: the token can't just live in client code -- it would be visible. how is it stored/retrieved by legitimate clients?
+		* it is sent along with the auth token -- these two pieces of data together should be used to secure any endpoint that modifies data or has any side effects
+		* the (legitimate) client js code knows to attach the anti-forgery token to these requests -- the malicious site won't know to do that, or it won't know the token (hopefully)
 	- validate the referrer
-		* valid requests don't originate externally (the referrer -- the attacker's website -- is embedded in the request header)
+		* valid that requests don't originate externally (the referrer -- the attacker's website -- is embedded in the request header)
 		* the referrer is in each request header
 	- other:
 		* native browser defenses (CORS)
 		* fraud detection patterns (no activity all day and then all of a sudden the user is transferring $1000000?)
 
-### INSECURE DESERIALIZATION
+## Insecure Deserialization
 * this type of attack is difficult to implement, but if successful it can result in data tampering, access control, DoS attack or remote code execution attack
 * Applications and APIs may be vulnerable if they deserialize hostile or tampered objects supplied by an attacker
 * prevention:
@@ -355,7 +391,7 @@
 	- restrict/monitor network connectivity with servers/containers that deserialize
 
 
-### USING COMPONENTS WITH KNOWN VULNERABILITIES
+## Using Components With Known Vulnerabilities
 * the stats:
 	- attack vector: average
 	- prevalence: widespread
@@ -386,12 +422,12 @@
 		* regularly monitor new releases
 	- so: know what you have, don't have more than what you need, and make it easy to update what you have
 
-### INSUFFICIENT LOGGING AND MONITORING
+## Insufficient Logging And Monitoring
 * high value transactions, logins and login failures should be logged and monitored
 * this information should be visible to you but not accessible by attackers
 * create a response plan
 
-### UNVALIDATED REDIRECTS AND FORWARDS
+## Unvalidated Redirects And Forwards
 * the stats:
 	- attack vector: average
 	- prevalence: uncommon
