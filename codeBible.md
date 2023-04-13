@@ -189,6 +189,7 @@
 * **open-closed principle**: classes should be open for extension and closed for modification
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
 * **partition tolerance**: a partition is a break in communication between nodes - a partition tolerant system does not fail regardless of dropped messages between nodes
+* **POCO**: plain old class, or CLR object, typically used as a DTO or serialization object. POCOs are data structures that contain only public properties or fields. a POCO should not contain any other members such as methods, events, or delegates
 * **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
 * **promise**: an object which represents the completion (success or failure) of an asychronous operation
 * **restful interfaces**: Representational State Transfer: uses HTTP protocols (GET, POST etc)

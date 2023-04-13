@@ -1,7 +1,7 @@
 # C#
 
-## SYNTAX
-* like C++, the `Main` method is your ticket into an application
+## Syntax
+* like C++, the `Main` method is your entry point into an application
 	- `Main` is a method which resides in a class or struct
 	- `Main` is static and can return an int and take arguments
 
@@ -28,13 +28,13 @@
 	- in your code include the `using System` directive at the beginning of the program and then you will be able to write `Console.WriteLine` instead of `System.Console.WriteLine`
 
 
-## C# ON THE COMMAND LINE
+## C# On The Command Line
 * to compile a project, run `$ csc Hello.cs`. this will generate an executable of the same name as your file with the `.exe` extension
 * then run `$ Hello.exe` to run the program
 
 
-## DOTNET
-* the most minimal way to compile C# is to use the `csc` compiler but it's far more practical to use the `dotnet cli` (would these be the different compilation approaches for unmanaged and managed code?)
+## dotnet
+* the most minimal way to compile C# is to use the `csc` compiler but it's far more practical to use the `dotnet cli` when working in .NET (would these be the different compilation approaches for unmanaged and managed code?)
 * Using `dotnet`:
 	- once installed, you can use `dotnet add package` to install and make packages available.
 	- `dotnet` implicitly calls the `nuget` package manager to install packages and maintain dependencies
@@ -49,7 +49,7 @@
 
 # Language Basics
 
-## OBJECTS
+## Objects
 * an object is a complex reference type
 * objects are transitory -- they do not exists when the code is not running
 	```csharp
@@ -59,7 +59,7 @@
 * we can use the **var** keyword when declaring an implicitly typed local variable
 	* using `var` doesn't mean that it's not strongly typed -- its type is just as defined as if you had used the class name. we can use `var` because the type is obvious
 
-### OBJECT INITIALIZER SYNTAX
+### Object Initializer Syntax
 * for a class with no constructor, you can create a `new` object by using the following curly-brace syntax:
 	```csharp
 		public class Student
@@ -79,26 +79,7 @@
 		};
 	```
 
-## STRINGS
-* strings are immutable. when we manipulate or concatenate strings, we aren't modifying the original -- we're creating new ones
-* methods for concatenation:
-	- concatenation operator: `+`
-	- StringBuilder: a flexible class which allows us to dynamically construct strings without creating a new one with every modification
-
-```csharp
-	string firstName = "Barb";
-	string lastName = "Kilner";
-	string name = firstName + " " + lastName;
-
-	var builder = new StringBuilder("Hello");
-	builder.Append(" World");
-	builder.Insert(0, "Ahoy ");
-	builder.Remove(4,9);
-	string greeting = builder.ToString();
-	Console.WriteLine(greeting);
-```
-
-# TYPES
+# Types
 * objects are **reference types**: variables that store references to their properties
 	- this means that:
 		```csharp
@@ -124,7 +105,7 @@
 		Console.WriteLine(j); // 90 -- really?
 	```
 
-## PASS BY REFERENCE VS VALUE
+## Pass By Reference Vs Value
 * when passing a value into a function, a copy of the value is created in memory and any modifications made to the value in the function will not persist outside the function scope (as those changes were made to the copy)
 * when passing by reference, we send a reference to the value into the function -- changes to the value will persist outside the function scope as we use the reference to access the value it's pointing to
 * *passing by value is the default for all types* including reference types -- when you pass an object into a function, you're passing a copy of the reference to the object value -- you can modify the object in the function with persisting changes to the object outside the function because the reference copy allowed you to modify the values of the object
@@ -148,7 +129,7 @@
 	- `out` shouldn't be used to "cheat" and return multiple values -- you should return an object or tuple that contains all the data you need
 
 
-## TYPES AND CASTING
+## Types And Casting
 * the `is` operator can used to test if an expression result or variable is compatible with a given type. the evaluation of `is` returns a boolean.
 * the `as` operator explicitly converts the result of an expression to a given reference or nullable type. the `as` operator never throws an exception (as compared to the **cast operator**)
 	- comparing `as` to type casting: `as` is equivalent to `E is T ? (T)(E) : (T)null;` except the value of `E` is only read once
@@ -157,8 +138,33 @@
 	- arguments must be the name of a type or a type parameter
 	- arguments cannot be an expression. to get the `System.Type` of an expression, use `Object.GetType()`
 
+## Strings
+* strings are immutable. when we manipulate or concatenate strings, we aren't modifying the original -- we're creating new ones
+* methods for concatenation:
+	- concatenation operator: `+`
+	- StringBuilder: a flexible class which allows us to dynamically construct strings without creating a new one with every modification
 
-# CLASSES
+```csharp
+	string firstName = "Barb";
+	string lastName = "Kilner";
+	string name = firstName + " " + lastName;
+
+	var builder = new StringBuilder("Hello");
+	builder.Append(" World");
+	builder.Insert(0, "Ahoy ");
+	builder.Remove(4,9);
+	string greeting = builder.ToString();
+	Console.WriteLine(greeting);
+```
+
+## Null
+* the default value of reference types is null (string = null)
+* normally, value types have defaults that correspond to their type (int = 0, bool = false, etc)
+* however a **nullable value type** can be null: `int? i = null`
+
+
+
+# Classes
 * **classes** define the structure of **objects** which are instances of the class
 * class **members** consist of
 	- **methods**
@@ -173,58 +179,13 @@
 	- we create instances (or **objects**) of the `Customer` class which contain all the class properties
 
 
-## STATIC MODIFIER
-* entire classes can be static, and individual properties/methods of a nonstatic class can be static
-* the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
-	- it is accessed using the class name
-	- it is not an object variable
-	```csharp
-		public static int InstanceCount { get; set; }
-		// later, in code:
-		Customer.InstanceCount += 1;
-		// not this:
-		var customer = new Customer();
-		customer.InstanceCount = count; // nope
-	```
-* static classes cannot be instantiated or inherited and all members must be static
+## Access Modifiers
+* **private**: only accessible by the class itself
+* **protected**: accessible by a class and its children
+* **public**: accessible by anyone
+* **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
 
-## CONST AND READONLY
-* **const** keyword creates a constant variable:
-	- const variables can be local or a class member
-	- const variables must be assigned a value when they are declared -- they are immutable after creation
-	- const variables can be initialized using other const values as long as it doesn't create a circular reference
-	- const can only be used to to store built-in types, not Object, classes, arrays or structs
-	- const values are static even without the `static` keyword: they are accessed like static fields because the value will be the same for every instance of the class
-* **readonly** is used to create a class, struct or array that is initialized one time at runtime (ex: in a constructor) and cannot be changed thereafter
-	- readonly cannot be used on local variables -- only on class fields
-	- readonly fields can be assigned to in the declaration or in a constructor
-	- readonly fields can therefore have variable values depending on how the value is initialized at runtime
-	- when an object is readonly, the immutability only applies to the reference -- you cannot reassign the field to a different object, but you can modify the subproperties of the object
-	```csharp
-	public class Calendar
-	{
-		public const int Months = 12;
-		public const int Weeks = 52;
-		public const int Days = 365;
-		public const double DaysPerWeek = (double) Days / (double) Weeks;
-		public const double DaysPerMonth = (double) Days / (double) Months;
-		public readonly int HoursPerDay = 24;
-		public Calendar(int hours)
-		{
-			HoursPerDay = hours;
-		}
-
-		// accessing a constant outside the class like a static field:
-		int birthstones = Calendar.Months;
-	}
-	```
-
-## FIELDS AND PROPERTIES AND AUTOPROPERTIES, OH MY!
-* a **field** is a private (or protected) class member that stores the actual data
-* a **property** allows the field to be accessed, but only exposes the contract
-* an **autoproperty** automatically generates a backing field when you define the property
-
-## DATA ACCESS
+## Data Access
 * a class encapsulates its data and access to that data is controlled via `getters` and `setters`
 * `getters` and `setters` map to **backing fields** -- the actual data
 * you could manually create a property that returns or sets the value of the backing field, as in the first example below. but you only want to do this if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
@@ -273,17 +234,60 @@
 
 	```
 
-
-### ACCESS MODIFIERS
-* **private**: only accessible by the class itself
-* **protected**: accessible by a class and its children
-* **public**: accessible by anyone
-* **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
+## Fields And Properties And Autoproperties, Oh My!
+* a **field** is a private (or protected) class member that stores the actual data
+* a **property** allows the field to be accessed, but only exposes the contract
+* an **autoproperty** automatically generates a backing field when you define the property
 
 
+## Static Modifier
+* entire classes can be static, and individual properties/methods of a nonstatic class can be static
+* the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
+	- it is accessed using the class name
+	- it is not an object variable
+	```csharp
+		public static int InstanceCount { get; set; }
+		// later, in code:
+		Customer.InstanceCount += 1;
+		// not this:
+		var customer = new Customer();
+		customer.InstanceCount = count; // nope
+	```
+* static classes cannot be instantiated or inherited and all members must be static
+
+## Const And Readonly
+* **const** keyword creates a constant variable:
+	- const variables can be local or a class member
+	- const variables must be assigned a value when they are declared -- they are immutable after creation
+	- const variables can be initialized using other const values as long as it doesn't create a circular reference
+	- const can only be used to to store built-in types, not Object, classes, arrays or structs
+	- const values are static even without the `static` keyword: they are accessed like static fields because the value will be the same for every instance of the class
+* **readonly** is used to create a class, struct or array that is initialized one time at runtime (ex: in a constructor) and cannot be changed thereafter
+	- readonly cannot be used on local variables -- only on class fields
+	- readonly fields can be assigned to in the declaration or in a constructor
+	- readonly fields can therefore have variable values depending on how the value is initialized at runtime
+	- when an object is readonly, the immutability only applies to the reference -- you cannot reassign the field to a different object, but you can modify the subproperties of the object
+	```csharp
+	public class Calendar
+	{
+		public const int Months = 12;
+		public const int Weeks = 52;
+		public const int Days = 365;
+		public const double DaysPerWeek = (double) Days / (double) Weeks;
+		public const double DaysPerMonth = (double) Days / (double) Months;
+		public readonly int HoursPerDay = 24;
+		public Calendar(int hours)
+		{
+			HoursPerDay = hours;
+		}
+
+		// accessing a constant outside the class like a static field:
+		int birthstones = Calendar.Months;
+	}
+	```
 
 
-# GENERICS
+# Generics
 * csharp 2.0 and up, you can create a class with a placeholder type that is assigned at compile time
 ```csharp
 	// class definition:
@@ -314,7 +318,7 @@
 
 ```
 
-## GENERIC TYPE PARAMETERS
+## Generic Type Parameters
 * a type parameter is a placeholder for a specific type that a client specifies when they create an instance of the generic type
 * A generic class, such as GenericList<T> listed in Introduction to Generics, cannot be used as-is because it is not really a type; it is more like a blueprint for a type
 * To use GenericList<T>, client code must declare and instantiate a constructed type by specifying a type argument inside the angle brackets
@@ -385,7 +389,7 @@ public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumer
 There isn't a T, however there is TKey and TSource. It is recommended that you always name type parameters with the prefix T as shown above.
 
 
-# LAYERING
+# Layering
 * in addition to breaking the code down into classes, it also makes sense to break the application itself into portable units or **layers**
 * layering makes it easier to extend the application
 * layers include:
@@ -397,14 +401,14 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 * each layer is encapsulated into a separate project
 
 
-## CREATING A BUSINESS LAYER
+## Creating A Business Layer
 * in VB select `New Project > Visual C# > Class Library`
 	- name it something like solution: "ACM", project name: "ACM.BLL"
 	- Application -> Visual Studio Solution
 	- Layer Component -> Visual Studio Project
 
 
-# C# OBJECT ORIENTED PROGRAMMING
+# C# Object Oriented Programming
 * using OOP helps us to accomplish and conform to the following:
 	- clean code
 	- defensive coding
@@ -412,7 +416,7 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 	- design patterns
 	- iterative agile
 
-# DOMAIN DRIVEN DESIGN
+# Domain Driven Design
 * programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up incorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
 * DDD still depends on SRP (Single Responsibility Principal)
 * Anti-Corruption Layers (ACL) are another key DDD pattern
@@ -428,9 +432,9 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 	```
 
 
-# EXCEPTION HANDLING
+# Exception Handling
 
-# LOCKS
+# Locks
 * the `lock` statement is an integrated shorthand for restricting access to a block of code to only one thread at a time
 * the `lock` construct very simply requires that a `reference_type` object be instantiated as the lock (i.e., you cannot use a `value_type` such as an int as a lock)
 * For example, if you have an `Account` class with `Debit` and `Credit` methods, you can lock the balance to make sure a deposit is not being made at the same time as a withdrawal:
@@ -458,16 +462,16 @@ public decimal Debit(decimal amount)
 
 
 
-# LIBRARIES
+# Libraries
 * a library is code that compiles to a DLL (rather than `exe`) and is used by other projects
 * DLLs therefore do not have entry points and cannot be run on their own -- if needed, a console app with an entry point must be created to run the DLL
 
-## DEBUGGING DLLs
+## Debugging DLLs
 * [debugging DLLs](https://docs.microsoft.com/en-us/visualstudio/debugger/debugging-dll-projects?view=vs-2019)
 * debugging a class library (or anything that compiles to a DLL) is different than debugging something that compiles to an `exe`
 
 
-# TESTING
+# Testing
 * if we're working with layered design, how do we test a dll?
 * we write an **automated** code test -- a separate body of code that's sole purpose is to test another piece of code
 * tests usually have the same name as the code it's testing with the `Test` suffix
@@ -505,9 +509,9 @@ public decimal Debit(decimal amount)
 
 
 
-# EXTENSIONS
+# Extensions
 
-## WHAT ARE THEY?
+## What Are They?
 * extensions are really cool! they are:
 	- additional methods that allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface
 	- extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces
@@ -516,7 +520,7 @@ public decimal Debit(decimal amount)
 * The only difference between a regular static method and an extension method is that the first parameter of the extension method specifies the type that it is going to operate on, preceded by the this keyword
 * The first parameter of the extension method must be of the type for which the extension method is applicable, preceded by the this keyword
 
-## EXAMPLE
+## Example
 ```csharp
 // Extensions.cs
 namespace ExtensionMethods
@@ -545,7 +549,7 @@ class Program
 ```
 
 
-# MISC TRICKS AND THINGS
+# Misc Tricks And Things
 * **string interpolation** provides a more readable and convenient syntax to include formatted expression results in a result string
 	```csharp
 		Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
@@ -556,6 +560,6 @@ class Program
 * **StringBuilder**: once instantiated, strings are immutable. string concatenation creates new strings. if you're doing a bunch of concatenation, use StringBuilder
 
 
-# RESOURCES
+# Resources
 * Check [msdocs coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
 * [Json.NET Samples](https://www.newtonsoft.com/json/help/html/Samples.htm)

@@ -221,7 +221,7 @@
 * used for streaming multimedia content, large large images or video
 
 ### CLIENT-SIDE VS SERVER-SIDE RENDERING
-* the client requests data and the browser receives the response, then rendering it as html on the page
+* first, how do web pages do? the client requests data and the browser receives the response, then renders it as html on the page
 * the browser has several components that all work together to convert the response into an html page
 	- browser engine
 	- rendering engine
@@ -229,11 +229,27 @@
 	- networking and the UI backend
 	- data storage
 * **server-side rendering**: to keep the browser from doing all the work, the server can render the UI on the server, generate HTML and then send the html page to the ui
-	- server-side rendering is perfect for delivering static content
-	- server-side rendering is great for SEO because crawlers can easily read generated content
-	- it is not useful in situations where ajax is used to dynamically update the page -- sections or modules have to be fetched and rendered on the fly -- each request generates the entire page on the server
-	- this consumes bandwidth/server resources
+	- perfect for delivering static/read-only content such as blogs/reports
+	- frameworks include ASP.NET Core Razor, ASP.NET Core MVC
+	- minimal client requirements: perfect for consumption by low-end devices and low-bandwidth connections
+		* support broad range of browser versions
+		* quick initial page loads
+		* minimal to no js
+	- great for SEO because crawlers can easily read generated content
+	- protected access of server resources -- keeps db connections and secrets private
+	- drawbacks:
+		* it is not useful in situations where ajax is used to dynamically update the page: sections or modules have to be fetched and rendered on the fly -- each request generates the entire page on the server
+		* this consumes bandwidth/server resources -- higher demand on server overall
 * standard **client-side rendering** is best for modern dynamic ajax websites
+	- rich interactivity: once loaded, client pulls small, frequent updates from the server. examples: interactive dashboard, drag-and-drop app, social media app
+	- frameworks include Angular, React, Vue etc
+		* Blazor WebAssembly is a crazy thing that download assemblies and .NET runtime to the browser; the runtime uses js interop to manage DOM and browser API calls
+	- supports incremental updates to a page/progressive form completion
+	- can be run disconnected with client-side updates eventually synchronizing when connection is reestablished
+	- reduced server load -- takes advantage of client devices
+	- drawbacks:
+		* longer initial load
+		* clients with low bandwidth, low-end device, old browser versions may have poor experience
 * a **hybrid** approach can be used with server-side rendering for static pages and client-side for dynamic pages
 
 

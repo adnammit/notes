@@ -45,7 +45,7 @@ Stuff to set up for a new computer. First, run [this script](https://github.com/
 	* LaTeX Workshop
 * git
 * fonts: firacode, jetbrainsmono, operatormono
-* cygwin
+* cygwin -> Windows Terminal
 * node/nvm
 * npm global install:
 	- vue
@@ -58,6 +58,7 @@ Stuff to set up for a new computer. First, run [this script](https://github.com/
 * dotnet sdks
 * texworks
 * postman
+* LICEcap: screen record to gif
 * teensy
 * visual studio
 * visual studio extensions:
