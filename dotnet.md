@@ -114,10 +114,15 @@ _
 ## Project Folder Structure
 * depends on your purpose, but general stuff includes:
 	- `/Properties/launchsettings.json`: tells the framework how to launch the app, including what commands to run, env variables to set, and applications (such as browser) to launch. **THIS IS WHERE YOUR LOCALHOST URL IS SET!**. this info is also used for debugging
-	- `Startup.cs`: provide configurations for how the app should start and execute
+	- `Startup.cs`: provide configurations for how the app should start and execute. this is now an optional supplement to Program
 	- `Program.cs`: .NET Core is a console application configured to run a web app -- Program.cs contains the `main` method
 	- `appsettings.json`: connection and app-specific settings, globally scoped variables. env-specific settings files can be created, such as `appsettings.Development.json`
 	- `MyProject.csproj`: an XML file
+
+## Build an Application
+* you specify in the `Program.cs` how the application is built and configured -- that depends based on what kind of application you are creating, but generally it will be some kind of ASP.NET with some kind of web service/interface
+* as of .NET6+ it is preferred to use `WebApplication.CreateBuilder()`
+* [the history of building an application and Generic Host vs WebApplicationBuilder](https://andrewlock.net/exploring-dotnet-6-part-2-comparing-webapplicationbuilder-to-the-generic-host/)
 
 ## Configuration
 * [See configuration doc](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0)
@@ -195,14 +200,19 @@ _
 
 # Nuget Packages
 * Rider and VS have built in package restoration processes but you can use `dotnet` and `nuget` clis to manage packages as well -- it is preferred to use the `dotnet` cli over `nuget` when your project uses `PackageReferences` in the csproj files, rather than the obsolescing `packages.config`
+* check out Central Package Management if  you're working with a newer project
 
+
+# References
+* [configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0)
+* [writing custom middleware](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-7.0)
+* [keep your secrets safe](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows)
 
 
 # .NET CLI
 
 ```sh
-## QUICK START SLN WITH CONSOLE APP:
-
+## QUICK START SLN WITH .NET7 CONSOLE APP:
 mkdir HelloDotnet7 && cd $_
 dotnet new sln
 dotnet new console --framework net7.0 -o HelloConsole
@@ -249,8 +259,10 @@ dotnet sln add folder1/folder2/myapp
 
 
 ## MANAGE PACKAGES
-# install package foo and make it available to your code
-dotnet install package foo
+# install package to the project in pwd
+dotnet add package Newtonsoft.Json
+# uninstall package
+dotnet remove [project] package Newtonsoft.Json
 
 # add package
 dotnet add package Microsoft.EntityFrameworkCore.InMemory

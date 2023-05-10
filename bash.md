@@ -1,8 +1,8 @@
 
-# BASH SCRIPTING AND FUNCTIONS!
+# Bash Scripting And Functions!
 
 
-## BASIC BASH COMMANDS:
+## Basic Bash Commands:
 
 ``` bash
 .
@@ -15,9 +15,9 @@ cd
 command
 continue
 declare
-echo	    print
+echo						print
 enable
-eval	    d
+eval						d
 exec
 exit
 export
@@ -28,14 +28,14 @@ let
 local
 logout
 printf
-pwd	    present working dir
+pwd							present working dir
 read
 readonly
 return
 set
 shift
 shopt
-sleep 1		sleep 1 sec before proceeding
+sleep 1						sleep 1 sec before proceeding
 test
 times
 trap
@@ -48,7 +48,7 @@ unset
 
 ```
 
-## BASH SCRIPTING:
+## Bash Scripting:
 
 * execution occurs through forking: the parent process pauses while the child process runs through the script
 * steps:
@@ -71,7 +71,7 @@ unset
 * init scripts starts system services
 
 
-## VARIABLES:
+## Variables:
 
 * global vs local
 * types:
@@ -103,7 +103,7 @@ unset
 	- if you do not want variables to persist after the script, use the `local` keyword when declaring them.
 
 
-## COMPARISON OPERATORS
+## Comparison Operators
 
 * if you declare a variable without assigning it any value (or use an unknown variable name) and then run it through a binary comparison operator, it will yell at you
 * this is true of args as well, so it's important to check that you either check that your variable has something before putting it in a binary conditional statement, OR! put your variable reference in double quotes to essentially "cast" it as an empty string if it has no assigned value already.
@@ -123,7 +123,7 @@ fi
 ```
 
 
-## PARAMETERS
+## Parameters
 
 * parameters that are passed into a bash script are handled in the same way as defined variables -- that is they can be referenced with dollar sign notation:
 	- $2 dereferences the 2nd arg that was passed in
@@ -137,7 +137,7 @@ fi
 * if you have more than 9, you must use braces: `${12}`
 
 
-### PARSING ARGUMENTS
+### Parsing Arguments
 
 ```bash
 	#!/bin/bash
@@ -171,7 +171,7 @@ fi
 ```
 
 
-## RETURNING A VALUE
+## Returning A Value
 * every command in bash returns a value
 	- that value can only be a number in the range of 0-255
 	- if you need to return a string, that can be done with an `echo` statement and `$()`
@@ -206,18 +206,18 @@ fi
 * note that the value of `$?` must be captured right after the command, otherwise you will get the result of another command
 
 
-## MATHEMATICS:
+## Mathematics:
 * are expressed with double parens:
 	$((VAR1 + 3)) will return the sum of $VAR1 and 3
 	$((number%3)) will return the modulus of the number divided by 3
 * anything other than 0 is evaluated as false.
 
 
-## FORMATTING AND SYNTAX
+## Formatting And Syntax
 * semicolons are used to separate two commands on the same line
 
 
-#### WHEN TO USE "" AND {}
+#### When To Use "" And {}
 * braces are used for variable expansion
 	- they are required when referencing an element in an array
 	- they are necessary for expansion operations
@@ -238,7 +238,7 @@ fi
 	- do not use quotations if your variable could contain whitespace and should be treated as separate units
 
 
-#### WHICH TEST BRACKETS TO USE
+#### Which Test Brackets To Use
 * single brackets `[ ]` are used when your script needs to be POSIX compatible
 	- the opening bracket is a synonym for `test`
 	- use `-a` and `-o` rather than `&&` and `||`
@@ -253,7 +253,7 @@ fi
 	[[ -f $file ]] && echo "$file is a regular file"
 	```
 
-### CONDITIONAL BLOCKS AND LOOPS
+### Conditional Blocks And Loops
 * the syntax is as follows:
 	for VARIABLE in RANGE; do COMMAND done
 * this prints out numbers one through one hundred:

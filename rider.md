@@ -3,7 +3,7 @@ Resharper is probably the way to go -- too many F keys on IntelliJ
 
 custom non-Resharper keybindings noted with (*)
 
-
+```
 Settings * 					ctrl+comma
 Search Everywhere 			shift shift
 Recent files				ctrl+E
@@ -37,4 +37,4 @@ Toggle bookmark				ctrl+k k
 Reformat Code				ctrl+i
 Next tab					???
 Previous tab				???
-
+```

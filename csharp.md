@@ -143,7 +143,6 @@
 * methods for concatenation:
 	- concatenation operator: `+`
 	- StringBuilder: a flexible class which allows us to dynamically construct strings without creating a new one with every modification
-
 ```csharp
 	string firstName = "Barb";
 	string lastName = "Kilner";
@@ -161,7 +160,16 @@
 * the default value of reference types is null (string = null)
 * normally, value types have defaults that correspond to their type (int = 0, bool = false, etc)
 * however a **nullable value type** can be null: `int? i = null`
-
+* as of C#8/.NET6 we have **nullable annotation context**
+	- basically an agreement that all your reference types which *can* be null will either be explicitly be assigned a non-null value (never null) or will be marked as nullable with question mark
+	- with this feature enabled, IDE warns if you have a reference type that is null that you might not be expecting
+		```csharp
+		// IDE warns: Converting null literal or possible null value to non-nullable type
+		string s = null;
+		// this however is happy and should be more evident in later execution that your value could be null:
+		string? s = null;
+		```
+	- enabled by default in .NET6+ -- in the csproj file you'll see something like `<Nullable>enable</Nullable>`
 
 
 # Classes
