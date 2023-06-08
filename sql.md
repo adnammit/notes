@@ -19,6 +19,15 @@
 * view the contents of a stored procedure by right-clicking on the procedure and going to `Script stored procedure as -> CREATE to -> New Query Editor Window`
 	- here you can view the procedure without saving
 
+## Tools
+* **solarwinds plan explorer**: execution plan diagnostics
+	- right click in SSMS > get actual plan (I think?)
+	- look for fat arrows and see if you can narrow them down sooner
+	- use statement breakdown for a query race: put two query versions in the command text and run: you'll see a breakdown for each one
+	- you can save the file and share it with someone smart who wants to help you
+	- to gauge performance look at time and minimal cpu -- we don't care how much data it touches
+* **[Redgate SQL Search](https://www.red-gate.com/products/sql-search/)**: hell yeah, it's awesome
+
 ## QUERY FEATURES
 * **LIKE**
 	```sql
@@ -84,7 +93,5 @@ CREATE EVENT SESSION [testSession]
 			,STARTUP_STATE=OFF
 		)
 GO
-
-
 
 ```

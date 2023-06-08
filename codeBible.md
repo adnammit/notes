@@ -1,152 +1,5 @@
 # The (Coding) Bible
 
-[[toc]]
-
-## To Do
-* update git
-* learn:
-	- hangfire, rabbitmq
-	- kubernetes
-	- snap ins
-	- entity
-	- azure/t-sql
-	- sql review
-	- aws
-	- more node.js, express
-	- scala, haskell
-	- docker
-	- maths: fractions, ratio, proportions, linear equations
-
-## Fun Things To Do And Know
-* check out fastcomet for webhosting
-* make an agent-based model to graphically display the growth of a search tree
-* probabilistic data structures
-* learn what the hell sed is
-* learn more about security
-* restful web services
-* APIs
-* how to authenticate people
-* get involved with open source
-* learn more about the DOM
-* check out quora (like stack overflow, but different)
-* use code pen
-* learning about C# -- try making a game with Unity
-* kaggle: data sets to play with
-* high charts: make cool charts in your browser
-* use draw.io for diagramming
-* heroku/render/netlify for fast back-end prototyping
-
-## Things I Already Know
-* .NET
-* REST apis and WCF services
-* domain-driven design/object oriented programming
-* architectural design/systems architecture (tiered systems, microservices)
-* design patterns
-* testing pyramid
-* CI/CD Pipeline: Continuous Integration: developers merge code changes in a central repository multiple times a day. Continuous Delivery: automation of software release via infrastructure provisioning and deployment, which may be manual and consist of multiple stages
-
-## Algorithm Interview Tips
-* brush up on fundamentals: string and array manipulation
-* practice coding -- don't look rusty
-* look for patterns:
-	- two pointers
-	- stacks
-	- subsets
-	- cyclic sort
-	- union find
-	- k-way merge
-* interviewers are looking for signals that you're a good hire:
-	- what design considerations are you making?
-	- how do you generate your test cases?
-	- what questions do you ask?
-* interviewers may give you complexity/efficiency requirements up front (i.e. "the data is not sorted and cannot be sorted" so you know you're looking for a linear time solution) - otherwise you might code a sub-optimal solution and then try to iterate on it or at least point out the pitfalls
-
-## General Interview Tips
-* behavioral questions: answer with the STAR method:
-	- explain the *situation*
-	- describe the *task* you worked on
-	- describe the *action* you took: what did *you* do, what was *your* contribution
-	- describe the *result*: what did you accomplish and learn
-* system design
-	- **RESHADED** approach ([read more](https://www.educative.io/blog/use-reshaded-for-system-design-interviews))
-		- **requirements**: clarify the functional and non-functional requirements
-			* functional ex: users need to stream data; system should store a sortable, searchable archive of music
-			* non-functional ex: streaming should be low-latency -- a song should start within 200ms of clicking play; we need to store 100 million songs
-		- **estimation**: what are the hardware or infrastructural requirements necessary
-			* how many users? how many concurrent users? are they globally distributed? mobile and web?
-			* how much data do we need to store? how often is it updated?
-		- **storage schema (optional,last)**: articulate the data model -- define tables, fields and demonstrate granular understanding of the system and make sure the system can handle the data efficiently
-			* this is somewhat optional and may be done after everything else is complete
-			* particularly focus on:
-				- when the data is highly normalized
-				- when different parts of the data need to be stored in different formats
-				- when there are performance or efficiency concerns around how the data is stored
-		- **high-level design**: identify the main components and building blocks of your system -- start to focus on fulfilling the functional requirements
-			* don't get bogged down in details. keep it high level -- you can iterate and improve as you continue to work
-			* outline the relationship between clients (mobile and desktop), load balancers, application servers, and database instances -- add in message queues, caches, etc as needed
-		- **APIs**: design the interface that will be used by the client. determine the API calls that will be needed to meet the functional requirements
-			* ex:
-				```
-					get all items: 		GET /items
-					get all user items:	GET /users/{userId}/items
-					add user item: 		POST /users/{userId}/items
-				```
-		- **detailed design**: refine and finalize the design of your system
-			* call out technology choices
-			* analyze the high-level design and discuss details to improve the final design
-			* add components that meet the non-functional requirements
-			* ex: discuss why you chose a NoSQL db over a relational db
-			* discuss:
-				- what is the availability of your system? is it fault tolerant?
-				- how is caching being handled?
-				- how are load balancing and CDNs being used to reduce latency and distribute load?
-		- **evaluation**: does your design effectively meet the functional and non-functional requirements, and have you made justifications for the design you chose?
-			* address any trade-offs you made and how you weight the benefits and drawbacks of other solutions
-			* identify aspects of your system design that could be improved on
-		- **distinctive component/feature**: you may need to add a unique feature to your design to meet the requirements, such as a concurrency control mechanism to support multiple concurrent users
-	- check out [this resource](https://www.educative.io/blog/favorite-system-design-question?utm_term=&eid=5082902844932096&utm_campaign=holiday-2022&utm_medium=email&_hsmi=235163542&_hsenc=p2ANqtz-_g02OK8jWnLM8UERg2ahav08M_3z8zLj56Ct-PGSzt1DGdsKQrLE9QtQQ9tc-dPIMJem4NSz0CXvHHixkHztbPT-7DQg&utm_content=&utm_source=educative.io)
-	- focus on **CAP theorem**
-
-* whiteboard: talk through thought process as you assess:
-	- syntax, idioms (nuances of the language), proficiency
-	- algorithms and data structures
-	- analytical skills: logic and process to get to the solution
-	- sound design
-		* define interfaces
-		* identify bugs and efficiency concerns
-		* discuss tradeoffs for potential solutions
-	- correctness: does it compile and run?
-	- quality: clean, testable, well-named vars and funcs
-* questions/topics:
-	- reading/refactoring code
-	- what makes for maintainable code?
-	- types vs unit testing
-	- singleton: class which only allows one instance of itself to be created
-	- interface vs abstract class
-	- Big O notation: "this algorithm takes at most x amount of time"
-	- recursion
-	- powers of 2 ?
-	- low coupling and high cohesion
-	- design patterns: book by Martin Fowler
-	- algorithms
-	- use node in MVC schema
-	- have an example of an AJAX request
-	- react vs jsx vs javascript
-	- what is an object literal?
-	- what is routing?
-	- node migrations
-	- dependency injection
-	- avoiding sql injections and other security topics
-	- types vs unit testing
-	- OOO
-		* SOLID
-	- databases:
-		* SQL query refresh
-		* ORM libraries/APIs: Object Relational Mapping - manipulating the data that you get from a DB
-		* acidity
-	- how do you scale large enterprise applications and make them scale in-flight?
-* where do you see yourself in five years?
-
 ## Vocab and Concepts
 * **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
 * **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
@@ -163,7 +16,10 @@
 * **CLR**: Common Language Runtime: the execution engine that handles running .NET applications compiled to Intermediate Language. it includes a JIT compiler to convert IL to machine/native code
 * **compiler**: takes source code written in one language and produces an output file in another language -- the output is generally a binary executable written in machine code, but transpilers (source-to-source) can be considered a subset of compiler
 * **consistency**: all nodes in a system see the same data simultaneously
+* **continuous integration/continuous deployment (CI/CD)**: minimize downtime and release code faster. [read more](https://about.gitlab.com/blog/2020/07/06/beginner-guide-ci-cd/)
 * **correctness**: does the program behave as expected?
+* **CQRS (Command and Query Responsibility Segregation)**: traditionally, the same DTOs are used for all CRUD operations. In practice, the DTO for an update or delete operation may include far less information than a read operation. Writes may require complex data validation. Where these pathways are significantly different, CQRS can be used to separate updates into **commands** and reads into **queries**
+* **CSRF (Cross Site Request Forgery)**: a user visits a malicious site which makes a request to some resource using the user's valid cookie. there are "do stuff" attacks which are prevented by requiring clients attach an antiforgery token (request is then blocked by the server) and "get stuff" attacks which are prevented by same origin policy in browsers which see the request did not originate from the site the user is currently on
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
 * **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
 * **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
@@ -198,6 +54,7 @@
 * **singleton**: an object whose instantiation is restricted to one instance (only one is needed or permitted at a time)
 * **SOLID**: an object-oriented programming paradigm; Single Responsibility, Open-closed, Liskov substitution, Interface segregation, Dependency inversion
 * **SQLI**: SQL injection
+* **strangler fig application**: when you cannot outright replace a critical system due to complexity, risk, time constraints, etc one option is to gradually create a new system around the old one that gradually grows over the old one. the new application can then grow progressively with carefully monitored progress. the new application should be designed to be "strangleable" or easily replaced in the future by a similar strategy ([reference](https://martinfowler.com/bliki/StranglerFigApplication.html))
 * **strong consistency**: "one source of truth" -- data may be backed up in multiple places but it is read/written in one location to ensure the data is always 100% accurate; no dirty reads. see eventual consistency
 * **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
 	- **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
@@ -239,7 +96,7 @@
 	- doubly linked lists [lists]
 	- BST, red-black tree [table]
 	- array of linked lists [hash table]
-* **inversion of control**: allowing other code to call you rather than your code managing everything
+* **inversion of control (IoC)**: allowing other code to call you rather than your code managing everything
 	- steps for a nice IoC:
 		-> Tightly coupled classes
 		-> implement IoC using factory pattern
@@ -280,7 +137,7 @@
 	- *Interface segregation principle*: clients should not be forced to depend on interfaces or methods that they do not use. interfaces should be fine-grained and client specific so that clients can implement only those needed
 		* if your concrete class has to implement methods with `notImplException` or with default values for properties that don't apply just to satisfy the interface, the interface isn't fine-grained enough
 		* example: if you type all your library items as `IBook` with fields for pages, that won't apply to your audiobook or cd. fine grained nested interfaces will help define only what is necessary for your use case
-	- *Dependency inversion principle*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling. a technique to implement DIP is *dependency injection*
+	- *Dependency inversion principle (DIP)*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling. a technique to implement DIP is *dependency injection*
 		* high level modules (modules that depend on other things)
 		* low level modules (modules that depend on nothing)
 		* abstractions (interfaces) help high and low level modules work together and allow for changes to be made to low-level modules without breaking high-level modules. e.g. if your application depends on `IMessageService` you can inject an `EmailService` or an `SmsService` or pass in a mock service for testing that won't send real messages
@@ -389,7 +246,7 @@
 	- slims down your data fetch and reduces network traffic
 	- possible to retrieve two columns of the same name when using joins
 	- `SELECT * with WHERE` conditions will use clustered index by default so it might not use other more optimal indexes
-* use temporary tables rather than iterating over the same beastly table
+* use temporary tables rather than iterating over the same beastly table or running queries in a loop
 * if you have the options of using a vw or a sproc, sprocs provide more ways to optimize
 * use dynamic joins wherever possible (only join if you have to)
 * inner joins are faster than outer joins (smaller data set)
@@ -399,7 +256,6 @@
 * use more `WHERE` conditions to narrow down your pool (such as only recent data, etc) over `HAVING`
 * enums take longer than bools
 * query plans are cached -- if the query parameters are exactly the same, it pulls the existing query out of the cache and uses that one. "optimized" queries sometimes waste time -- the cache may need to be cleared
-* avoid running queries in a loop -- try to insert what you need in a temp table if possible
 * don't put `CONST`s at the beginning of a sproc
 
 
@@ -469,31 +325,3 @@
 	- a hand drawing a hand drawing a hand...
 * tree branches:
 	- each branch is self-similar to it's 'parent' branch
-
-
-## Resume Tips
-* clean and simple
-* action words! what was your impact?
-	- created, designed, debugged
-	- focus on results and impact - list metrics rather than long descriptions
-* use bullet points
-* include github with your contact info
-* one page - eh, not so much
-* education
-	- should be first if you don't have work exp
-	- list gpa, etc, key courses completed; algorithms, etc
-	- brief description of important projects
-	- technical skills
-* experience:
-	- chronological order
-	- employer, position, dates
-	- concise descriptions
-	- showcase results for:
-		* internships
-		* interesting project work and research (robby?)
-		* open source experience
-		* mobile/web development
-		* student groups (?)
-		* hacks coding competitions
-* extracurriculars:
-	- student groups

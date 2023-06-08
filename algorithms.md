@@ -17,7 +17,7 @@
 * general identification of asymptotic type:
 	- if a list or array gets iterated over once it is most likely O(n) time
 	- if half of the elements are visited, it is likely O(log(n)) time
-	- if you have singly-nested loops, it is likely quadratic
+	- if you have a loop within a loop, it is likely quadratic
 * [summary of types](https://www.educative.io/courses/data-structures-interviews-cs/qVQq0WLjO3p)
 
 ## NORMALIZATION
@@ -50,8 +50,6 @@
 * halve your data and search one half or the other depending on which half would have your value
 * this algorithm runs in O(log(n)) time vs O(n) time for linear search
 * C# Linq has a built in BinarySearch method
-
-
 
 ## DATA STRUCTURES
 * **arrays**

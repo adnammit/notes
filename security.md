@@ -75,7 +75,7 @@
 	- fine tune DB permissions
 		* segment sql accounts for admin and public so a query for information does not have the permissions to delete anything
 		* apply the "principle of least privilege"
-	- don't disable [asp.net request validation](https://docs.microsoft.com/en-us/previous-versions/aspnet/hh882339(v=vs.110) unless you specifically need dangerous input and then ensure that input remains untrusted throughout the stack
+	- don't disable [asp.net request validation](https://docs.microsoft.com/en-us/previous-versions/aspnet/hh882339(v=vs.110)) unless you specifically need dangerous input and then ensure that input remains untrusted throughout the stack
 
 
 ## Broken Access Control
@@ -336,6 +336,7 @@
 
 ## Cross Site Request Forgery (CSRF)
 * [cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
+* [dotnet documentation on CSRF](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery)
 * the stats:
 	- attack vector: average
 	- prevalence: common
@@ -360,7 +361,7 @@
 	- if the attacker is successful in a CSRF attack, they can fabricate the above post including the request body with the amount and the account they want the money to go to -- _all they need is the auth cookie to complete the request_
 	- in this scenario, the attacker doesn't need to worry about same-origin policies because this is a "do stuff" attack
 * common defenses
-	- same origin policy
+	- same origin policy: browser security features to the rescue!
 		* if you're making a request to a reddit server, the request must originate from reddit.com
 		* a malicious website can get a response from the reddit server, but the browser will see that the response did not originate from the malicious site -- the browser blocks it so the malicious site will never see the response content
 		* however because the request to the server is completed (and blocked), this only helps with the **get stuff** variety of CSRF attacks
@@ -369,12 +370,13 @@
 		* the whole attack pattern is very predictable -- here's a URL, a cookie and a req body, and you know how to forge a request
 		* an anti-forgery token injects randomness that the attacker cannot predict nor fabricate
 		* the anti-forgery token is not a part of the user cookie -- where the heck does it come from?
-			- **to-do**: the token can't just live in client code -- it would be visible. how is it stored/retrieved by legitimate clients?
+			- **to-do**: the token can't just live in client code -- it would be visible to attackers. how is it stored/retrieved by legitimate clients?
 		* it is sent along with the auth token -- these two pieces of data together should be used to secure any endpoint that modifies data or has any side effects
 		* the (legitimate) client js code knows to attach the anti-forgery token to these requests -- the malicious site won't know to do that, or it won't know the token (hopefully)
 	- validate the referrer
-		* valid that requests don't originate externally (the referrer -- the attacker's website -- is embedded in the request header)
-		* the referrer is in each request header
+		* the referrer -- the attacker's website -- is embedded in the request header
+		* valid that requests don't originate externally
+		* however referrer can be spoofed so this is only helpful in combination with other measures
 	- other:
 		* native browser defenses (CORS)
 		* fraud detection patterns (no activity all day and then all of a sudden the user is transferring $1000000?)

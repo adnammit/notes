@@ -1,6 +1,6 @@
 # Command Line Your Way to a Great Happiness
 
-# Shells vs Terminal Emulators
+## Shells vs Terminal Emulators
 * shells are interpreters which take user input and translate the input to execute actions (the language)
 	- bash/zsh (Linux)
 	- cmd or powershell on Windows
@@ -16,10 +16,20 @@
 * powershell is optimized for microsoft environments, whereas bash is native to *nix
 * powershell is thought of more as a configuration management tool -- used to manage windows environments at scale. both powershell and bash are scripting languages that can used for automation tasks
 
+# bash
+* native to linux/unix. bash can be used on Windows via Cygwin or more recently the linux subsystem
+* particularly useful for porting *nix code into windows envs
+* quicker commands
+* treats everything as plain text
+
+## WSL
+* the linux subsystem for Windows makes it possible to install multiple Linux distros on a windows machine
+* compare to Cygwin, which doesn't have the proper integration with windows
+
 # Powershell
 * flexible and powerful; open-source
 * Windows mostly, but Powershell Core can be installed on any OS
-* is designed to interact with .NET structures
+* designed to interact with .NET structures
 * more than a shell: it's a complete scripting environment (Powershell ISE)
 * uses lightweight cmdlets and external tools like Windows Management Instrumentation and .NET
 * treats everything as objects
@@ -35,13 +45,31 @@
 * Powershell ISE is an application/environment used to run, test and debug powershell scripts
 * kind of like an IDE for powershell?
 
-# bash
-* native to linux/unix. bash can be used on Windows via Cygwin or more recently the linux subsystem
-* particularly useful for porting *nix code into windows envs
-* quicker commands
-* treats everything as plain text
+## Installing Powershell
+* if you already have powershell 5, you can install powershell 7 (with pwsh) side-by-side
+* [installing powershell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
+* [powershell 5 vs 7](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/migrating-from-windows-powershell-51-to-powershell-7?view=powershell-7.3#using-powershell-7-side-by-side-with-windows-powershell-51)
 
-## WSL
-* the linux subsystem for Windows makes it possible to install multiple Linux distros on a windows machine
-* compare to Cygwin, which doesn't have the proper integration with windows
+## Powershell Resources
+* [how to source functions](https://stackoverflow.com/a/6040725/7898566)
+* [do more with modules](https://learn.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7.3)
+
+## Powershell Cheat Sheet
+* **TODO** add more!
+
+```powershell
+# ls
+Get-ChildItem
+
+# cd
+Set-Location {destination}
+
+# less
+Get-Content {file}
+
+# echo "Hello World!"
+Write-Host "Hello World!"
+
+Get-Command
+```
 

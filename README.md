@@ -1,2 +1,2 @@
 # NOTES
-My personal notes about many things coding-related (and sometimes not-so-coding-related)
+My personal notes about many things code-related (and sometimes not-so-code-related)

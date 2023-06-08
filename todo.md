@@ -1,11 +1,9 @@
-
 # TO DO
 * keep an eye on Bun, a js runtime that may contend with Nodejs: with native ts support, written in a C-like language, built in compiler rather than webpack, it can handle many more requests than node in prelim testing
 * check out browserless.io, use for debugging, testing, snapshots, etc
-* make vscode sql better
+* make vscode sql better -- or don't, use SSMS like a grown up and just hack dark mode
 	- configure connection
 	- something like redgate search?
-* go through config and clean up stuff you don't use/need anymore
 * make a /uses
 	- sites i like
 		https://restfulapi.net/resource-naming/
@@ -23,77 +21,37 @@
 		postman
 		f.lux
 		lucidcharts
-* continue to decouple git-controlled repos from Dropbox
+* learn:
+	- hangfire, rabbitmq
+	- kubernetes
+	- snap ins
+	- entity
+	- azure/t-sql
+	- sql review
+	- aws
+	- more node.js, express
+	- scala, haskell
+	- docker
+	- maths: fractions, ratio, proportions, linear equations
+* write a script to periodically update stuff like git, powershell, docker
 
+## Fun Things To Do And Know
+* learn more about CQRS
+* check out fastcomet for webhosting
+* render/netlify for fast back-end prototyping
+* learn about cloudformation (better alternative to terraform)
+* make an agent-based model to graphically display the growth of a search tree
+* probabilistic data structures
+* learn more about security and authentication
+* get involved with open source
+* learn more about the DOM
+* use [codepen](https://codepen.io/) to practice front end coding
+* learning about C# -- try making a game with Unity
+* kaggle: data sets to play with
+* high charts: make cool charts in your browser
+* use draw.io for diagramming
 
-## Fresh Install
-Stuff to set up for a new computer. First, run [this script](https://github.com/adnammit/config/blob/master/bin/setup_all_the_things.sh)
-
-### Dev Stuff
-* vscode
-* vscode extensions - look and editor
-	* Atom Keymap
-	* Block Travel
-	* macros
-	* One Dark Pro
-	* Material Icon Theme
-* vscode extensions - tooling
-	* Typescript Vue Plugin
-	* Vue Language Features
-	* SQL Server (mssql)
-	* docker
-	* LaTeX Workshop
-* git
-* fonts: firacode, jetbrainsmono, operatormono
-* cygwin -> Windows Terminal
-* node/nvm
-* npm global install:
-	- vue
-	- vue cli
-	- corepack (what is?)
-	- typescript
-	- yarn
-* docker
-* pgadmin/postgres
-* dotnet sdks
-* texworks
-* postman
-* LICEcap: screen record to gif
-* teensy
-* visual studio
-* visual studio extensions:
-	- VSBlockJumper
-
-### Regular Stuff
-* fancyZones - like uber window snap (install via microsoft store - powertoys package)
-* [synergy](https://symless.com/synergy) -- or logitech flow, or mouse without borders
-* slack
-* signal
-* f.lux -- turn off
-* spotify
-* dropbox
-* steam (look up what dirs to copy)
-* some hardware monitor
-* garmin express/basecamp?
-* vlc
-* winamp
-
-
-### NEW STUFF:
-* vs theme
-* custom bash icon?
-* get WSL2 some day
-
-vue cli
-webpack cli -- install --save-dev, not globally
-stackify prefix
-winptty
-resharper
-rider (vs alternative)
-vnc viewer
-
-
-### BASH STUFF
+# Bash Stuff
 * make the git equivalent of `sall` (grep for multiple expressions)
 * learn parsing bash opts more betterly
 * go through scripts and clean up the following:
@@ -105,5 +63,3 @@ vnc viewer
 		- can be used to preserve a string containing whitespace
 		- quotes are also used to prevent errors in the case of evaluating a variable that is null
 		- to avoid having to make quotes all over the damn place, you can use [[ ]] for tests
-
-

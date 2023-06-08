@@ -1,7 +1,7 @@
-# DESIGN PATTERNS
+# Design Patterns
 
-## 'THE BOOK'
-* [Design Patterns](file:///C:/Users/tardigrade/Dropbox/codedocs/Design%20Patterns.pdf)
+## 'The Book' by the Gang of Four (GoF)
+* [Design Patterns](file:///C:/Users/pangolin/Dropbox/code%20and%20nerd/codedocs/Design%20Patterns.pdf)
 
 ## Creational Patterns
 
