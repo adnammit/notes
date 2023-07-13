@@ -1,26 +1,24 @@
-# TO DO
+# TODO
+* write a script to periodically update stuff like git, powershell, docker
 * keep an eye on Bun, a js runtime that may contend with Nodejs: with native ts support, written in a C-like language, built in compiler rather than webpack, it can handle many more requests than node in prelim testing
 * check out browserless.io, use for debugging, testing, snapshots, etc
-* make vscode sql better -- or don't, use SSMS like a grown up and just hack dark mode
-	- configure connection
-	- something like redgate search?
 * make a /uses
 	- sites i like
-		https://restfulapi.net/resource-naming/
-		https://materialdesignicons.com/
-		lucid charts
-		name that color!
-		tim corey
-		educative.io
+		* https://restfulapi.net/resource-naming/
+		* https://materialdesignicons.com/
+		* lucid charts
+		* name that color!
+		* tim corey
+		* educative.io
 	- env: vscode, extensions
 	- dotfiles
 	- fonts
 	- stack
 	- tools
-		sourcegraph
-		postman
-		f.lux
-		lucidcharts
+		* sourcegraph
+		* postman
+		* f.lux
+		* lucidcharts
 * learn:
 	- hangfire, rabbitmq
 	- kubernetes
@@ -29,11 +27,9 @@
 	- azure/t-sql
 	- sql review
 	- aws
-	- more node.js, express
 	- scala, haskell
 	- docker
 	- maths: fractions, ratio, proportions, linear equations
-* write a script to periodically update stuff like git, powershell, docker
 
 ## Fun Things To Do And Know
 * learn more about CQRS
@@ -46,7 +42,7 @@
 * get involved with open source
 * learn more about the DOM
 * use [codepen](https://codepen.io/) to practice front end coding
-* learning about C# -- try making a game with Unity
+* try making a game with Unity (C#)
 * kaggle: data sets to play with
 * high charts: make cool charts in your browser
 * use draw.io for diagramming
