@@ -210,6 +210,7 @@ _
 
 
 # .NET CLI
+The `dotnet` cli is included when you install an SDK
 
 ```sh
 ## QUICK START SLN WITH .NET7 CONSOLE APP:

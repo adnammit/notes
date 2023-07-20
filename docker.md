@@ -1,20 +1,33 @@
-# DOCKER
+# Docker
 
-## HELPFUL COMMANDS
+## Helpful Commands
 ```sh
 ## BASIC RUNNING
 
 # check that docker is working
 docker run hello-world
 
-# use a given image to create a container. if not found locally, pull it from the registry
+# create a new container using a given image. if not found locally, pull the image from the registry
 docker run foo
 
-# run nginx image on and connect host port 8085 to container port 80 -> http://localhost:8085
+# stop a container
+docker stop foo
+
+# start an existing container
+docker start foo
+
+
+# CONTAINER CONFIGURATION
+
+# `run` can be used for configuration when creating a container but also to add configuration to an existing container
+# ex: configure foo to always be running unless manually stopped
+docker run -d --restart unless-stopped foo
+
+# run nginx image as long-running service (-d) and connect host port 8085 to container port 80 -> http://localhost:8085
 docker run -d -p 8085:80 nginx
 
 # write data stored to container `/var/lib/mysql` to `/your/dir` on your host machine
-docker run -v /your/dir:/var/lib/mysql -d mysql:5.7
+docker run -d -v /your/dir:/var/lib/mysql mysql:5.7
 
 # allow container to be stopped with ctrl-c if not using -d switch (-it) and remove once stopped (-rm):
 docker run --rm -it -p 8082:80 webserver
@@ -25,9 +38,8 @@ docker run -d -e host=www.bing.com --rm pinger
 # configure a long-running service to restart unless manually stopped with `docker stop` etc
 docker run -d -p 8080:80 --restart unless-stopped nginx
 
-# stop a container
-docker stop [containerid/name]
-
+# you can also create a container without running it right away
+docker container create --name webserver alpine
 
 ## WHAT'S GOING ON
 
@@ -58,7 +70,7 @@ docker container prune (-f)
 # compare prune to this, which will forcefully remove *running* containers using sigkill. prune only removes stopped containers
 docker rm -f [id]
 
-# remove ALL containers. follow with `docker system prune` (why? what does system prune do?)
+# remove ALL containers. follow with `docker system prune`
 docker rm -f $(docker ps -qa)
 
 # remove unused volumes (not referenced by any containers)
@@ -111,25 +123,23 @@ docker login
 # and push!
 docker push hello
 
-
-
 ```
 
-## OVERVIEW
+## Overview
 * check out [this course](https://www.educative.io/courses/docker-for-developers)
 
-### WHAT DOCKER?
+### What Docker?
 * docker is a platform to build, deploy, run, update, and test applications
 * it is standardized and repeatable -- a docker app runs the same on any machine regardless of OS/env
 * "it works on my machine" -> "then we'll ship your machine"
 * docker can be thought of as a tool to create a disposable computer -- you can create the computer over and over again, across many instances, or with small adjustments
 * **docker vs kubernetes**
 	- docker is an orchestration tool: a continuous runtime whereas kubernetes is a platform for running and managing containers from many container runtimes -- it's a "meta-docker" of sorts
-	- kubernetes supports numberous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
+	- kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
 	- one metaphor is that kubernetes is an "OS" and docker is an "app"
 
 
-### WHY DOCKER?
+### Why Docker?
 * deployment
 	- containers make deployment easy: just run a new container, direct users to it and trash the old one
 	- better, faster, more automated CI/CD
@@ -150,7 +160,7 @@ docker push hello
 	- common container control and monitoring
 	- common container versioning methodology
 
-### KEY CONCEPTS
+### Key Concepts
 * **containers**: what we want to run and use to host our apps in docker
 	- containers can be though of as isolated machines, or VMs
 	- a container runs inside the docker host, isolated from other containers and the host OS
@@ -162,16 +172,16 @@ docker push hello
 	- an image consists of sub-parts that may be reused when a new version is built if they are the same
 * **registries**: where images are stored
 	- a registry may contain multiple images, which themselves are used to create multiple containers
-* **volumes**: where persistent data is kept -- containers are disposible and temporary, so using a volume allows the data to persist
+* **volumes**: where persistent data is kept -- containers are disposable and temporary, so using a volume allows the data to persist
 
 
-### COMMANDS
+### Commands
 * **run**: asks docker to create and run a container based on a given image. if the image isn't already present, it will be downloaded from a registry. the image may specify some outputs be generated to the console. then the container is stopped
 * **pull**: images are pulled from the registry if they're not present locally, but the `pull` command forces an image to be downloaded, whether it's already present or not
 	- use pull to get `latest` -- `docker run` does *not* pull latest if it has an image already present locally
 
 
-### LIFECYCLE
+### Lifecycle
 * generally you'd do something like
 ```sh
 # clone, pull and run
@@ -187,7 +197,7 @@ docker build -t docker101tutorial .
 
 # run
 docker run -d -p 80:80 \
-	--name docker-tutiorial docker101tutorial
+	--name docker-tutorial docker101tutorial
 
 #share
 docker tag docker101tutorial /docker101tutorial
@@ -195,7 +205,7 @@ docker push /docker101tutorial
 ```
 
 
-### GENERAL DOCKER STUFF
+### General Docker Stuff
 * did you know that docker is an api service? so when you use the command line (or the GUI), it's just sending calls to the api -- you could just do it all from postman if that made sense for some reason
 * there are different flavors/sizes of docker depending on purpose/needs:
 	- dev machine: Docker Engine Community or Docker Desktop
@@ -203,23 +213,23 @@ docker push /docker101tutorial
 	- serious stuff: Docker Engine Enterprise or Kubernetes
 
 
-## LONG-LIVED CONTAINERS
+## Long-Lived Containers
 * we might run a docker container to perform some actions and then it's done, or we might use them as servers
 * there are two differences between short-lived and long-lived containers:
 	- long vs short lived (duh)
 	- long lived listen for incoming network connections
 * a docker container can be left running with the **detach** switch: `docker run -d alpine ping www.docker.com`
-* *HOWEVER* long-lived containers should still be treated as disposible stateless things
+* *HOWEVER* long-lived containers should still be treated as disposable stateless things
 
 
-### LISTENING FOR CONNECTIONS
+### Listening For Connections
 * a container runs in isolation and must be configured to listen for incoming connections
 * a port must explicitly be opened on the host machine and mapped to a port on the container
 * for example, we have an NGINX web server that listens to port 80 by default. we use the -p switch with the `run` command to specify host/container ports:
 	`docker run -d -p 8085:80 nginx` -> hosts page on http://localhost:8085
 
 
-## DATA
+## Data
 * docker containers are just little temporary, throwaway things, so what if you need persistent data?
 * a container dies when it finishes, when it's manually killed, when the host machine restarts, when the container is moved from one node to another, etc -- and all the app's data is lost
 * also if you have multiple container instances up in a load-balancing scenario, the data will be different for each, resulting in an inconsistent user experience
@@ -232,13 +242,13 @@ docker push /docker101tutorial
 	`docker run -v /your/dir:/var/lib/mysql -d mysql:5.7`
 
 
-## IMAGES
+## Images
 * images contain the instructions needed to create a container, including the base image, files and image layers
 * image layers are subcomponents of an image which may be reused when a new version is built if they are the same
 * a docker image is created using the `docker build` command along with a dockerfile
 
 
-### DOCKERFILES
+### Dockerfiles
 * a **dockerfile** contains information on how the image should be built
 	- dockerfiles can have any name but it makes it easier for other folks to understand what it is to just call it 'dockerfile'
 	- dockerfiles begin with `FROM` because every image is based on another image, so `FROM debian:11` will kick off your image with debian linux
@@ -249,7 +259,7 @@ docker push /docker101tutorial
 		CMD ["echo", "Hello, world!"]
 		```
 
-#### INSTRUCTIONS
+#### Instructions
 * **FROM**: the first instruction - determines the base image and creates the first layer
 * **WORKDIR**: define the working directory in which the subsequent instructions will be run within the container. multiple workdir instructions can be made and must be relative to the previous workdir instruction
 * **ENV**: set a default env var. this can be overridden with the `-e` switch
@@ -260,13 +270,13 @@ docker push /docker101tutorial
 * **VOLUME**:
 * **ENTRYPOINT**: configure the container to run as an executable
 
-### BUILDING IMAGES
+### Building Images
 * build an image with name (-t) of hello using . as build path. omitting a name will generate a unique id instead
 	`docker build -t hello .`
 * the image can then be run like any other image on the host:
 	`docker run --rm hello`
 
-### IMAGE FILES
+### Image Files
 * images contain other files, say like an index.html page
 * you can use a statement in the dockerfile to copy a file from the build context to a destination within the image
 	```dockerfile
@@ -280,7 +290,7 @@ docker push /docker101tutorial
 	docker run --rm -it -p 8082:80 webserver
 	```
 
-### TAGGING IMAGES
+### Tagging Images
 * images can be tagged with a publishing name like: `<repository_name>/<name>:<tag>`
 * tags are optional and when omitted, it is `latest` by default. the same goes for `run` and `pull` commands -- if tag is omitted, `latest` is assumed
 * `repository_name` can be a dns entry or the name of a registry in the docker hub
@@ -305,7 +315,7 @@ docker push /docker101tutorial
 * tags can be added after build with `docker tag` - this image will now be known by the build machine as both `hello` and `my-repo/hello`
 	`docker tag hello my-repo/hello`
 
-### ENVIRONMENT VARIABLES
+### Environment Variables
 * just like anything else, a container's inputs and outputs are likely to vary depending on what server/environment it's deployed to
 * the tech you use inside your container will determine how you access environment variables. for instance, to get a `name` env variable, you might do:
 	```
@@ -320,18 +330,18 @@ docker push /docker101tutorial
 * you may also want to define a default value for an env variable -- this can be done in the dockerfile using the `ENV` instruction. the default value can then be overridden in the `docker run` command
 * however, even though you can provide vars in the `docker run` command, it's much easier to add an ENV instruction for each env variable your image expects - and it helps document your image
 
-### VOLUME CONFIGURATION
+### Volume Configuration
 * the `VOLUME` instruction can be used to specify a volume location
 * the specified path is internal to the image
 * when the `docker run` command is run, the `-v` switch can be used to map this directory to a volume on the host system. if the volume is not mapped to an external store, the data will be stored inside the container
 
-### NETWORKING
+### Networking
 * the `EXPOSE` instruction indicates what port(s) should be opened for the services to listen
 * using this instruction is purely for documentation purposes -- it does *NOT* open a port to the outside world
 * to actually make use of the port, anyone who creates a container needs to explicitly bind that port to an actual port of the host machine using the `-p` switch
 
 
-## REGISTRIES
+## Registries
 * there are lots of images available on the [Docker Hub](https://hub.docker.com/) -- this is what is used by default
 * **private registries** can also be configured -- options for privage registry hosting include:
 	- docker hub
@@ -345,10 +355,10 @@ docker push /docker101tutorial
 	- an http api that allows the pushing/pulling of images
 	- TLS-secured connection to prevent MITM attacks
 
-### REPOSITORIES
+### Repositories
 * a repository contains the versioned/tagged images for one app/image
 
-### PUBLISHING
+### Publishing
 * when an image is published to a registry, its name must be:
 	`<repository_name>/<name>:<tag>`
 * tag is optional; when missing, it is considered to be latest by default
@@ -359,7 +369,7 @@ docker push /docker101tutorial
 	- push the image into the registry (`docker push`)
 * public images are hosted for free on the Docker Hub -- paid plans available for private images
 
-## IMAGE OPTIMIZATION
+## Image Optimization
 * you'll want to make sure your image is as small as possible to reduce push/pull times and minimize the space that images take up on the build/registry/serving machine
 * things that influence the size include:
 	- the files in your image
@@ -383,7 +393,7 @@ docker push /docker101tutorial
 		* when pulling from a registry, the common part you already have is not pulled
 	- docker skips steps up until the first instruction that actually changes something -- you can cheat the system by intentionally ordering the dockerfile and putting the instructions most likely to change at the end of the file
 
-## DEPLOYING WITH DOCKER
+## Deploying With Docker
 * here is a sample dockerfile for an asp.net core application which restores nugets and builds the dlls with necessary dependencies. it does the following
 ```dockerfile
 FROM microsoft/dotnet:2.2-sdk AS builder
@@ -397,7 +407,7 @@ EXPOSE 80
 ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 ```
 
-### MULTI-STAGE DOCKERFILES
+### Multi-Stage Dockerfiles
 * you can have multiple `FROM` instructions wherein the instructions following the first isolate just the parts of the prior build that we need
 * for example, we might need a large sdk to build our app, but in the end we only need the executable. we can make sure our image only contains the necessary layers with something like:
 ```dockerfile
@@ -421,18 +431,18 @@ ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 ```
 * the image produced by second dockerfile weighs only 9% of the first image!
 
-### PLATFORM BOILERPLATES
+### Platform Boilerplates
 * find platform-specific boiler plates [here](https://bitbucket.org/epobb/dockerbookfiles/src/master/common-development-profiles/demos/)
 
 
-### RUNNING CONTAINERS
+### Running Containers
 * when running a container, you can set a restart mode, which tells docker what to do when a container stops
 * restart mode is set with switch `--restart`
 * it is tempting set restart mode to `always` -- when the container stops, it will restart to maintain uptime -- but this creates issues if you're trying to manually stop the container.
 * to restart the container always *unless* you manually stop it, use `unless-stopped`:
 	`docker run -d -p 80 --restart unless-stopped nginx`
 
-### MONITORING AND RESOURCES
+### Monitoring And Resources
 * `docker stats` provides simple monitoring including running containers and resource consumption stats -- similar to `docker ps` but with resource info
 * docker consumes disk space in various ways:
 	- stopped containers that were not removed with `--rm` switch
@@ -440,20 +450,20 @@ ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 	- dangling images: images with no name. this happens when you `docker build` with the same tag as previous; the old image becomes a dangler
 	- unused volumes
 * some ways to reclaim disk space:
-	```sh
-	# remove stopped containers only
-	docker container prune -f
-	# remove unused volumes (not referenced by any containers)
-	docker volume prune -f
-	# remove dangling images only
-	docker image prune -f
-	# remove all unused images (not referenced by any containers)
-	docker image prune -a/--all
-	# or do it all, including unused images:
-	docker system prune -fa --volumes
-	```
+```bash
+# remove stopped containers only
+docker container prune -f
+# remove unused volumes (not referenced by any containers)
+docker volume prune -f
+# remove dangling images only
+docker image prune -f
+# remove all unused images (not referenced by any containers)
+docker image prune -a/--all
+# or do it all, including unused images:
+docker system prune -fa --volumes
+```
 
-### ORCHESTRATION
+### Orchestration
 * managing and monitoring containers can be tedious
 * with docker, **rolling updates** are preferred to deploy new app instances, route users to them, then stop old ones
 * orchestration tools can be used to manage rolling updates by setting up reverse proxies and updating the container routing

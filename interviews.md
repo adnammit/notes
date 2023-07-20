@@ -78,45 +78,48 @@
 	- quality: clean, testable, well-named vars and funcs
 
 ## System Design Tips
-* system design
-	- **RESHADED** approach ([read more](https://www.educative.io/blog/use-reshaded-for-system-design-interviews))
-		- **requirements**: clarify the functional and non-functional requirements
-			* functional ex: users need to stream data; system should store a sortable, searchable archive of music
-			* non-functional ex: streaming should be low-latency -- a song should start within 200ms of clicking play; we need to store 100 million songs
-		- **estimation**: what are the hardware or infrastructural requirements necessary
-			* how many users? how many concurrent users? are they globally distributed? mobile and web?
-			* how much data do we need to store? how often is it updated?
-		- **storage schema (optional,last)**: articulate the data model -- define tables, fields and demonstrate granular understanding of the system and make sure the system can handle the data efficiently
-			* this is somewhat optional and may be done after everything else is complete
-			* particularly focus on:
-				- when the data is highly normalized
-				- when different parts of the data need to be stored in different formats
-				- when there are performance or efficiency concerns around how the data is stored
-		- **high-level design**: identify the main components and building blocks of your system -- start to focus on fulfilling the functional requirements
-			* don't get bogged down in details. keep it high level -- you can iterate and improve as you continue to work
-			* outline the relationship between clients (mobile and desktop), load balancers, application servers, and database instances -- add in message queues, caches, etc as needed
-		- **APIs**: design the interface that will be used by the client. determine the API calls that will be needed to meet the functional requirements
-			* ex:
-				```
-					get all items: 		GET /items
-					get all user items:	GET /users/{userId}/items
-					add user item: 		POST /users/{userId}/items
-				```
-		- **detailed design**: refine and finalize the design of your system
-			* call out technology choices
-			* analyze the high-level design and discuss details to improve the final design
-			* add components that meet the non-functional requirements
-			* ex: discuss why you chose a NoSQL db over a relational db
-			* discuss:
-				- what is the availability of your system? is it fault tolerant?
-				- how is caching being handled?
-				- how are load balancing and CDNs being used to reduce latency and distribute load?
-		- **evaluation**: does your design effectively meet the functional and non-functional requirements, and have you made justifications for the design you chose?
-			* address any trade-offs you made and how you weight the benefits and drawbacks of other solutions
-			* identify aspects of your system design that could be improved on
-		- **distinctive component/feature**: you may need to add a unique feature to your design to meet the requirements, such as a concurrency control mechanism to support multiple concurrent users
-	- check out [this resource](https://www.educative.io/blog/favorite-system-design-question?utm_term=&eid=5082902844932096&utm_campaign=holiday-2022&utm_medium=email&_hsmi=235163542&_hsenc=p2ANqtz-_g02OK8jWnLM8UERg2ahav08M_3z8zLj56Ct-PGSzt1DGdsKQrLE9QtQQ9tc-dPIMJem4NSz0CXvHHixkHztbPT-7DQg&utm_content=&utm_source=educative.io)
-	- discuss **CAP theorem**
+* check out [this resource](https://www.educative.io/blog/favorite-system-design-question?utm_term=&eid=5082902844932096&utm_campaign=holiday-2022&utm_medium=email&_hsmi=235163542&_hsenc=p2ANqtz-_g02OK8jWnLM8UERg2ahav08M_3z8zLj56Ct-PGSzt1DGdsKQrLE9QtQQ9tc-dPIMJem4NSz0CXvHHixkHztbPT-7DQg&utm_content=&utm_source=educative.io)
+* discuss **CAP theorem**
+* [educative RESHADED youTube](https://youtu.be/uw-gcK9bjkk)
+* [read more about RESHADED](https://www.educative.io/blog/use-reshaded-for-system-design-interviews)
+
+### RESHADED
+- **requirements**: clarify the functional and non-functional requirements
+	* functional ex: users need to stream data; system should store a sortable, searchable archive of music
+	* non-functional ex: streaming should be low-latency -- a song should start within 200ms of clicking play; we need to store 100 million songs
+- **estimation**: what are the hardware or infrastructural requirements necessary
+	* how many users? how many concurrent users? are they globally distributed? mobile and web?
+	* how much data do we need to store? how often is it updated?
+- **storage schema (optional,last)**: articulate the data model -- define tables, fields and demonstrate granular understanding of the system and make sure the system can handle the data efficiently
+	* this is somewhat optional and may be done after everything else is complete
+	* particularly focus on:
+		- when the data is highly normalized
+		- when different parts of the data need to be stored in different formats
+		- when there are performance or efficiency concerns around how the data is stored
+- **high-level design**: identify the main components and building blocks of your system -- start to focus on fulfilling the functional requirements
+	* don't get bogged down in details. keep it high level -- you can iterate and improve as you continue to work
+	* outline the relationship between clients (mobile and desktop), load balancers, application servers, and database instances -- add in message queues, caches, etc as needed
+- **APIs**: design the interface that will be used by the client. determine the API calls that will be needed to meet the functional requirements
+	* ex:
+		```
+			get all items: 		GET /items
+			get all user items:	GET /users/{userId}/items
+			add user item: 		POST /users/{userId}/items
+		```
+- **detailed design**: refine and finalize the design of your system
+	* call out technology choices
+	* analyze the high-level design and discuss details to improve the final design
+	* add components that meet the non-functional requirements
+	* ex: discuss why you chose a NoSQL db over a relational db
+	* discuss:
+		- what is the availability of your system? is it fault tolerant?
+		- how is caching being handled?
+		- how are load balancing and CDNs being used to reduce latency and distribute load?
+- **evaluation**: does your design effectively meet the functional and non-functional requirements, and have you made justifications for the design you chose?
+	* address any trade-offs you made and how you weight the benefits and drawbacks of other solutions
+	* identify aspects of your system design that could be improved on
+- **distinctive component/feature**: you may need to add a unique feature to your design to meet the requirements, such as a concurrency control mechanism to support multiple concurrent users
+
 
 ## Discussion Topics
 * what makes for maintainable code?

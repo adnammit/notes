@@ -160,6 +160,13 @@ git update-ref -d refs/remotes/origin/<branch_thats_barfing>
 git clean -n -d                 see which files would be removed
 git clean -f -d                 remove all untracked files that are not in .gitignore
 
+# REMOVE IGNORED FILES (reset to a "just cloned" state)
+git status --ignored			# see what's ignored
+git clean -ndx					# dry run, include directories, uncommitted and ignored files
+git clean -ndX					# dry run, include only ignored directories and files (leave uncommitted)
+git clean -fdX/x				# do the removal
+git status --ignored			# check your work
+
 # BUNDLE BUNDLE WHO'S YOUR BUNDLE?
 # create:
 git bundle create my-repo.bundle HEAD master
