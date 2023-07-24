@@ -415,6 +415,8 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 		$ git commit -m "removed foo"   //only need to do this if the file was pushed
 ```
 
+### Changing Master to Main
+* [see this step-by-step process](https://gist.github.com/danieldogeanu/739f88ea5312aaa23180e162e3ae89ab)
 
 ### CLEANSING SENSITIVE INFORMATION
 * use bfg repo cleaner: https://rtyley.github.io/bfg-repo-cleaner/

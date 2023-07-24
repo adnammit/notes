@@ -28,24 +28,39 @@
 	- in your code include the `using System` directive at the beginning of the program and then you will be able to write `Console.WriteLine` instead of `System.Console.WriteLine`
 
 
-## C# On The Command Line
+# Building C# Code
+* C# is a compiled language -- it must be compiled before it can be run
+* there are basically three options for compiling C# code: csc, dotnet and msbuild
+* [some differences between build options](https://stackoverflow.com/a/56949667)
+* [how MSBuild builds projects](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview)
+
+## CSC
+* csc is a command line csharp compiler
+* most minimal way to build C# code
+* targets files or filesystems -- you can specify individual files or directories to compile, but not .NET projects or solutions
+* produces exes, dlls or code modules (.netmodule)
+* invoked by MSBuild to build .NET Framework projects
 * to compile a project, run `$ csc Hello.cs`. this will generate an executable of the same name as your file with the `.exe` extension
 * then run `$ Hello.exe` to run the program
 
+## MSBuild
+* msbuild is the Microsoft build engine
+* msbuild is not a compiler -- it orchestrates other build operations and applies the appropriate build strategy for the project type
+* integrated into Visual Studio (when you hit F5) but can be used on the command line for deployment pipeline etc
+* compiles at a project or solution level
+* can be used to configure environment/build variables, customize build operations (like transpiling and minifying ts/js/css)
+* handles all .NET languages including C#, C++, F#, VB.NET, etc
+
+### Visual Studio Build vs MSBuild on the Command Line
+* there are some [significant differences between a build in VS and invoking MSBuild directly](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#visual-studio-builds-vs-msbuildexe-builds)
+* VS manages the project build order directly
+* when MSBuild is invoked with a sln on the command line, the sln is parsed and executed as a project. with VS, MSBuild never sees the sln file
+* therefore solution build customization does not apply to VS builds
 
 ## dotnet
-* the most minimal way to compile C# is to use the `csc` compiler but it's far more practical to use the `dotnet cli` when working in .NET (would these be the different compilation approaches for unmanaged and managed code?)
-* Using `dotnet`:
-	- once installed, you can use `dotnet add package` to install and make packages available.
-	- `dotnet` implicitly calls the `nuget` package manager to install packages and maintain dependencies
-	- basic `dotnet` commands:
-	```
-		dotnet new console          // create a new project with a Program.cs file and main()
-		dotnet build                // builds a project and all its dependencies
-		dotnet run                  // first builds and then runs the application
-		dotnet install package foo  // install package foo and make it available to your code
-		dotnet add package CCI.Communications.Client -s https://nuget.altsrc.net/api/v2/ // specify package source
-	```
+* dotnet is somewhere between csc and msbuild -- a command line-only tool that can build projects and solutions
+* TODO would csc vs dotnet be the different compilation approaches for unmanaged and managed code?
+
 
 # Language Basics
 

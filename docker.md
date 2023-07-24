@@ -19,7 +19,7 @@ docker start foo
 
 # CONTAINER CONFIGURATION
 
-# `run` can be used for configuration when creating a container but also to add configuration to an existing container
+# `run` is used to configure and create a container
 # ex: configure foo to always be running unless manually stopped
 docker run -d --restart unless-stopped foo
 
@@ -40,6 +40,12 @@ docker run -d -p 8080:80 --restart unless-stopped nginx
 
 # you can also create a container without running it right away
 docker container create --name webserver alpine
+
+# once a container is created, it really shouldn't be modified except for a few exceptions
+docker rename old_name new_name
+docker update --restart unless-stopped demo_container
+docker update --cpus 4 --memory 1024M webserver1 webserver2
+
 
 ## WHAT'S GOING ON
 
@@ -125,21 +131,20 @@ docker push hello
 
 ```
 
-## Overview
+# Overview
 * check out [this course](https://www.educative.io/courses/docker-for-developers)
 
-### What Docker?
+## Platform Boilerplates
+* find platform-specific docker boiler plates [here](https://bitbucket.org/epobb/dockerbookfiles/src/master/common-development-profiles/demos/)
+
+
+## What Docker?
 * docker is a platform to build, deploy, run, update, and test applications
 * it is standardized and repeatable -- a docker app runs the same on any machine regardless of OS/env
 * "it works on my machine" -> "then we'll ship your machine"
 * docker can be thought of as a tool to create a disposable computer -- you can create the computer over and over again, across many instances, or with small adjustments
-* **docker vs kubernetes**
-	- docker is an orchestration tool: a continuous runtime whereas kubernetes is a platform for running and managing containers from many container runtimes -- it's a "meta-docker" of sorts
-	- kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
-	- one metaphor is that kubernetes is an "OS" and docker is an "app"
 
-
-### Why Docker?
+## Why Docker?
 * deployment
 	- containers make deployment easy: just run a new container, direct users to it and trash the old one
 	- better, faster, more automated CI/CD
@@ -160,7 +165,17 @@ docker push hello
 	- common container control and monitoring
 	- common container versioning methodology
 
-### Key Concepts
+## Beyond Docker
+* **docker** is used to manage an individual container
+* **docker-compose** is used for configuring multiple containers in the same host (multi-container applications)
+	- ex: for local development, you might need containers for the UI, database, and several services
+* **docker swarm** and **kubernetes** are container orchestration tools used for connecting multiple containers across multiple hosts
+* **docker swarm vs kubernetes**
+	- kubernetes is typically more difficult to use (particularly when it comes to networking -- Kubernetes requires configuring a networking layer)
+	- kubernetes is typically more powerful and scalable
+	- kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
+
+# Key Concepts
 * **containers**: what we want to run and use to host our apps in docker
 	- containers can be though of as isolated machines, or VMs
 	- a container runs inside the docker host, isolated from other containers and the host OS
@@ -175,13 +190,34 @@ docker push hello
 * **volumes**: where persistent data is kept -- containers are disposable and temporary, so using a volume allows the data to persist
 
 
-### Commands
+## Commands
 * **run**: asks docker to create and run a container based on a given image. if the image isn't already present, it will be downloaded from a registry. the image may specify some outputs be generated to the console. then the container is stopped
 * **pull**: images are pulled from the registry if they're not present locally, but the `pull` command forces an image to be downloaded, whether it's already present or not
 	- use pull to get `latest` -- `docker run` does *not* pull latest if it has an image already present locally
 
+### Stopping A Container
+* [reference](https://www.baeldung.com/ops/docker-stop-vs-kill)
+```bash
+# temporarily stop a container using SIGTERM -- the process has time to resolve any pending child processes
+# it can be restarted with `docker start`
+# allocated resources (CPU and memory) are released
+docker stop foo
 
-### Lifecycle
+# process is suspended, container can be restarted
+# allocated CPU is released but memory is retained
+docker pause foo
+
+# immediately kill the process with SIGKILL
+docker kill foo
+
+# stop and remove a container from local storage immediately.
+# container cannot be restarted
+# resources are released
+# --force sends SIGKILL
+docker rm foo [--force]
+```
+
+## Lifecycle
 * generally you'd do something like
 ```sh
 # clone, pull and run
@@ -204,14 +240,14 @@ docker tag docker101tutorial /docker101tutorial
 docker push /docker101tutorial
 ```
 
-
-### General Docker Stuff
+## General Docker Stuff
 * did you know that docker is an api service? so when you use the command line (or the GUI), it's just sending calls to the api -- you could just do it all from postman if that made sense for some reason
 * there are different flavors/sizes of docker depending on purpose/needs:
 	- dev machine: Docker Engine Community or Docker Desktop
 	- small server: Docker Engine Community
 	- serious stuff: Docker Engine Enterprise or Kubernetes
 
+# Configuring Containers
 
 ## Long-Lived Containers
 * we might run a docker container to perform some actions and then it's done, or we might use them as servers
@@ -221,13 +257,23 @@ docker push /docker101tutorial
 * a docker container can be left running with the **detach** switch: `docker run -d alpine ping www.docker.com`
 * *HOWEVER* long-lived containers should still be treated as disposable stateless things
 
+## Restarting Containers
+* when running a container, you can set a restart mode, which tells docker what to do when a container stops
+* restart mode is set with switch `--restart`
+* it is tempting set restart mode to `always` -- when the container stops, it will restart to maintain uptime -- but this creates issues if you're trying to manually stop the container.
+* to restart the container always *unless* you manually stop it, use `unless-stopped`:
+	```
+	docker run -d -p 80 --restart unless-stopped nginx
+	```
 
-### Listening For Connections
+## Listening For Connections
 * a container runs in isolation and must be configured to listen for incoming connections
 * a port must explicitly be opened on the host machine and mapped to a port on the container
 * for example, we have an NGINX web server that listens to port 80 by default. we use the -p switch with the `run` command to specify host/container ports:
-	`docker run -d -p 8085:80 nginx` -> hosts page on http://localhost:8085
-
+	```
+	# host page on http://localhost:8085
+	docker run -d -p 8085:80 nginx` ->
+	```
 
 ## Data
 * docker containers are just little temporary, throwaway things, so what if you need persistent data?
@@ -239,16 +285,35 @@ docker push /docker101tutorial
 	- on the host machine
 	- azure file storage on azure or amazon s3 on aws
 * example: run a mysql db and write any data stored to `/var/lib/mysql` in the container to `/your/dir` on your host machine. the data will still be in `/your/dir` when the container dies
-	`docker run -v /your/dir:/var/lib/mysql -d mysql:5.7`
+	```
+	docker run -v /your/dir:/var/lib/mysql -d mysql:5.7
+	```
+
+## Modifying an Existing Container
+* once a container is created, it really shouldn't be modified except for a few [exceptions](https://www.howtogeek.com/devops/how-to-modify-the-configuration-of-running-docker-containers/)
+	```
+	docker rename old_name new_name
+	docker update --restart unless-stopped demo_container
+	docker update --cpus 4 --memory 1024M webserver1 webserver2
+	```
+* containers are ephemeral -- only modify containers you've created manually with `docker run`. containers created with `docker-compose` and orchestrators should be disposed of and recreated
+* you definitely can't change the image, port bindings or volumes
+* the good news: you probably mostly only care about retaining the persistent data stored in a volume, so you can remove a container and reattach it to the volume when you recreate it
+	```
+	docker run --name someapp -v config-volume:/usr/lib/config someimage
+	docker rm someapp
+	docker run --name someapp -v config-volume:/usr/lib/config someimage
+	```
 
 
-## Images
+
+# Images
 * images contain the instructions needed to create a container, including the base image, files and image layers
 * image layers are subcomponents of an image which may be reused when a new version is built if they are the same
 * a docker image is created using the `docker build` command along with a dockerfile
 
 
-### Dockerfiles
+## Dockerfiles
 * a **dockerfile** contains information on how the image should be built
 	- dockerfiles can have any name but it makes it easier for other folks to understand what it is to just call it 'dockerfile'
 	- dockerfiles begin with `FROM` because every image is based on another image, so `FROM debian:11` will kick off your image with debian linux
@@ -259,7 +324,7 @@ docker push /docker101tutorial
 		CMD ["echo", "Hello, world!"]
 		```
 
-#### Instructions
+## Instructions
 * **FROM**: the first instruction - determines the base image and creates the first layer
 * **WORKDIR**: define the working directory in which the subsequent instructions will be run within the container. multiple workdir instructions can be made and must be relative to the previous workdir instruction
 * **ENV**: set a default env var. this can be overridden with the `-e` switch
@@ -270,13 +335,13 @@ docker push /docker101tutorial
 * **VOLUME**:
 * **ENTRYPOINT**: configure the container to run as an executable
 
-### Building Images
+## Building Images
 * build an image with name (-t) of hello using . as build path. omitting a name will generate a unique id instead
 	`docker build -t hello .`
 * the image can then be run like any other image on the host:
 	`docker run --rm hello`
 
-### Image Files
+## Image Files
 * images contain other files, say like an index.html page
 * you can use a statement in the dockerfile to copy a file from the build context to a destination within the image
 	```dockerfile
@@ -290,7 +355,7 @@ docker push /docker101tutorial
 	docker run --rm -it -p 8082:80 webserver
 	```
 
-### Tagging Images
+## Tagging Images
 * images can be tagged with a publishing name like: `<repository_name>/<name>:<tag>`
 * tags are optional and when omitted, it is `latest` by default. the same goes for `run` and `pull` commands -- if tag is omitted, `latest` is assumed
 * `repository_name` can be a dns entry or the name of a registry in the docker hub
@@ -315,7 +380,7 @@ docker push /docker101tutorial
 * tags can be added after build with `docker tag` - this image will now be known by the build machine as both `hello` and `my-repo/hello`
 	`docker tag hello my-repo/hello`
 
-### Environment Variables
+## Environment Variables
 * just like anything else, a container's inputs and outputs are likely to vary depending on what server/environment it's deployed to
 * the tech you use inside your container will determine how you access environment variables. for instance, to get a `name` env variable, you might do:
 	```
@@ -330,44 +395,15 @@ docker push /docker101tutorial
 * you may also want to define a default value for an env variable -- this can be done in the dockerfile using the `ENV` instruction. the default value can then be overridden in the `docker run` command
 * however, even though you can provide vars in the `docker run` command, it's much easier to add an ENV instruction for each env variable your image expects - and it helps document your image
 
-### Volume Configuration
+## Volume Configuration
 * the `VOLUME` instruction can be used to specify a volume location
 * the specified path is internal to the image
 * when the `docker run` command is run, the `-v` switch can be used to map this directory to a volume on the host system. if the volume is not mapped to an external store, the data will be stored inside the container
 
-### Networking
+## Networking
 * the `EXPOSE` instruction indicates what port(s) should be opened for the services to listen
 * using this instruction is purely for documentation purposes -- it does *NOT* open a port to the outside world
 * to actually make use of the port, anyone who creates a container needs to explicitly bind that port to an actual port of the host machine using the `-p` switch
-
-
-## Registries
-* there are lots of images available on the [Docker Hub](https://hub.docker.com/) -- this is what is used by default
-* **private registries** can also be configured -- options for privage registry hosting include:
-	- docker hub
-	- azure container registry
-	- gitlab
-	- host your own using the registry image on a docker-enabled machine
-* registries make your built image available to other machines/users/servers
-* a registry consists of
-	- images
-	- tags for those images
-	- an http api that allows the pushing/pulling of images
-	- TLS-secured connection to prevent MITM attacks
-
-### Repositories
-* a repository contains the versioned/tagged images for one app/image
-
-### Publishing
-* when an image is published to a registry, its name must be:
-	`<repository_name>/<name>:<tag>`
-* tag is optional; when missing, it is considered to be latest by default
-* repository_name can be a registry DNS or the name of a registry in the [Docker Hub](https://hub.docker.com/)
-* publishing is a three-step process:
-	- build with the appropriate name:tag (`docker build`)
-	- log in to the registry (`docker login`)
-	- push the image into the registry (`docker push`)
-* public images are hosted for free on the Docker Hub -- paid plans available for private images
 
 ## Image Optimization
 * you'll want to make sure your image is as small as possible to reduce push/pull times and minimize the space that images take up on the build/registry/serving machine
@@ -393,7 +429,35 @@ docker push /docker101tutorial
 		* when pulling from a registry, the common part you already have is not pulled
 	- docker skips steps up until the first instruction that actually changes something -- you can cheat the system by intentionally ordering the dockerfile and putting the instructions most likely to change at the end of the file
 
-## Deploying With Docker
+# Registries
+* there are lots of images available on the [Docker Hub](https://hub.docker.com/) -- this is what is used by default
+* **private registries** can also be configured -- options for privage registry hosting include:
+	- docker hub
+	- azure container registry
+	- gitlab
+	- host your own using the registry image on a docker-enabled machine
+* registries make your built image available to other machines/users/servers
+* a registry consists of
+	- images
+	- tags for those images
+	- an http api that allows the pushing/pulling of images
+	- TLS-secured connection to prevent MITM attacks
+
+## Repositories
+* a repository contains the versioned/tagged images for one app/image
+
+## Publishing
+* when an image is published to a registry, its name must be:
+	`<repository_name>/<name>:<tag>`
+* tag is optional; when missing, it is considered to be latest by default
+* repository_name can be a registry DNS or the name of a registry in the [Docker Hub](https://hub.docker.com/)
+* publishing is a three-step process:
+	- build with the appropriate name:tag (`docker build`)
+	- log in to the registry (`docker login`)
+	- push the image into the registry (`docker push`)
+* public images are hosted for free on the Docker Hub -- paid plans available for private images
+
+# Deploying With Docker
 * here is a sample dockerfile for an asp.net core application which restores nugets and builds the dlls with necessary dependencies. it does the following
 ```dockerfile
 FROM microsoft/dotnet:2.2-sdk AS builder
@@ -407,7 +471,7 @@ EXPOSE 80
 ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 ```
 
-### Multi-Stage Dockerfiles
+## Multi-Stage Dockerfiles
 * you can have multiple `FROM` instructions wherein the instructions following the first isolate just the parts of the prior build that we need
 * for example, we might need a large sdk to build our app, but in the end we only need the executable. we can make sure our image only contains the necessary layers with something like:
 ```dockerfile
@@ -431,18 +495,7 @@ ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 ```
 * the image produced by second dockerfile weighs only 9% of the first image!
 
-### Platform Boilerplates
-* find platform-specific boiler plates [here](https://bitbucket.org/epobb/dockerbookfiles/src/master/common-development-profiles/demos/)
-
-
-### Running Containers
-* when running a container, you can set a restart mode, which tells docker what to do when a container stops
-* restart mode is set with switch `--restart`
-* it is tempting set restart mode to `always` -- when the container stops, it will restart to maintain uptime -- but this creates issues if you're trying to manually stop the container.
-* to restart the container always *unless* you manually stop it, use `unless-stopped`:
-	`docker run -d -p 80 --restart unless-stopped nginx`
-
-### Monitoring And Resources
+## Monitoring And Resources
 * `docker stats` provides simple monitoring including running containers and resource consumption stats -- similar to `docker ps` but with resource info
 * docker consumes disk space in various ways:
 	- stopped containers that were not removed with `--rm` switch
@@ -463,7 +516,12 @@ docker image prune -a/--all
 docker system prune -fa --volumes
 ```
 
-### Orchestration
+# Docker Compose
+* [documentation](https://docs.docker.com/compose/)
+* docker compose is used to manage multi-container applications on the same host (e.g. setting up your local dev environment to run a UI, db and server all in concert)
+
+
+# Orchestration
 * managing and monitoring containers can be tedious
 * with docker, **rolling updates** are preferred to deploy new app instances, route users to them, then stop old ones
 * orchestration tools can be used to manage rolling updates by setting up reverse proxies and updating the container routing
