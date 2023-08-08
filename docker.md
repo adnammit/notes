@@ -67,6 +67,9 @@ docker logs --since 10s [id]
 # get detailed info about a container
 docker inspect [containerid/name]
 
+# get in there and crawl around
+docker exec -it [containerId/name] bash
+
 
 ## CLEAN YOUR MESS
 
@@ -87,6 +90,9 @@ docker image prune -f
 
 # remove all unused images (not referenced by any containers)
 docker image prune -a/--all
+
+# free up space from borked builds, unused images, etc
+docker system prune
 
 # remove all unused containers, networks, images (both dangling and unreferenced using -a), and optionally, volumes
 docker system prune -fa --volumes
@@ -195,7 +201,7 @@ docker push hello
 * **pull**: images are pulled from the registry if they're not present locally, but the `pull` command forces an image to be downloaded, whether it's already present or not
 	- use pull to get `latest` -- `docker run` does *not* pull latest if it has an image already present locally
 
-### Stopping A Container
+### Stopping Or Removing A Container
 * [reference](https://www.baeldung.com/ops/docker-stop-vs-kill)
 ```bash
 # temporarily stop a container using SIGTERM -- the process has time to resolve any pending child processes
@@ -315,14 +321,21 @@ docker push /docker101tutorial
 
 ## Dockerfiles
 * a **dockerfile** contains information on how the image should be built
-	- dockerfiles can have any name but it makes it easier for other folks to understand what it is to just call it 'dockerfile'
-	- dockerfiles begin with `FROM` because every image is based on another image, so `FROM debian:11` will kick off your image with debian linux
-	- dockerfiles are therefore extensible and this makes them very powerful -- it's easy to build on a complex image
-	- a very basic dockerfile that prints hello, world from a linux cmd is:
-		```dockerfile
-		FROM debian:11
-		CMD ["echo", "Hello, world!"]
-		```
+* dockerfiles can have any name but it makes it easier for other folks to understand what it is to just call it 'dockerfile'
+* dockerfiles begin with `FROM` because every image is based on another image, so `FROM debian:11` will kick off your image with debian linux
+* dockerfiles are therefore extensible and this makes them very powerful -- it's easy to build on a complex image
+* a very basic dockerfile that prints hello, world from a linux cmd is:
+```dockerfile
+FROM debian:11
+CMD ["echo", "Hello, world!"]
+```
+* **build context**:
+	- the build context is the "source" for common commands like `COPY <src> <dest>`
+	- by default the build context is set to the dir in which the docker build command is invoked
+	- dockerfile location can be set with the `-f` flag and the build context is set with the last argument
+	```
+	docker build -t myImage -f ./some/path/Dockerfile /buildContextDir
+	```
 
 ## Instructions
 * **FROM**: the first instruction - determines the base image and creates the first layer
@@ -519,6 +532,16 @@ docker system prune -fa --volumes
 # Docker Compose
 * [documentation](https://docs.docker.com/compose/)
 * docker compose is used to manage multi-container applications on the same host (e.g. setting up your local dev environment to run a UI, db and server all in concert)
+* compose only recreates containers that have changed
+
+## Docker Compose Lifecycle
+* `docker-compose up` executes your `docker-compose.yml` file: it builds the images and creates containers
+* subsequent calls of `docker-compose up` will reuse the existing containers
+
+* Compose preserves all volumes used by your services. When docker compose up runs, if it finds any containers from previous runs, it copies the volumes from the old container to the new container. This process ensures that any data you’ve created in volumes isn’t lost.
+
+## Local Development
+* you can use a `docker-compose.override.yml` file to override values in `docker-compose.yml` -- docker-compose will read them both and sub in values from the override file
 
 
 # Orchestration

@@ -43,9 +43,19 @@
 * to compile a project, run `$ csc Hello.cs`. this will generate an executable of the same name as your file with the `.exe` extension
 * then run `$ Hello.exe` to run the program
 
+## Roslyn
+* Roslyn is a C# compiler platform that is invoked by some other build engine (msbuild or dotnet)
+* when building with VS, the version of Roslyn used is bound to the version of VS
+* Roslyn is bundled with Core SDKs. when building with dotnet, usually the latest SDK Roslyn version will be used
+* when Roslyn is invoked by msbuild or VS, it runs on .NET Framework and can handle both SDK-style and non-SDK-style csproj files
+* when Roslyn is invoked by dotnet, it runs on .NET Core and can only handle SDK-style csproj files
+* even though Roslyn may be loaded into either Framework or Core runtimes, it can emit compiled IL for either
+
+
 ## MSBuild
 * msbuild is the Microsoft build engine
 * msbuild is not a compiler -- it orchestrates other build operations and applies the appropriate build strategy for the project type
+* msbuild runs on .NET Framework and calls Roslyn accordingly
 * integrated into Visual Studio (when you hit F5) but can be used on the command line for deployment pipeline etc
 * compiles at a project or solution level
 * can be used to configure environment/build variables, customize build operations (like transpiling and minifying ts/js/css)
@@ -59,7 +69,8 @@
 
 ## dotnet
 * dotnet is somewhere between csc and msbuild -- a command line-only tool that can build projects and solutions
-* TODO would csc vs dotnet be the different compilation approaches for unmanaged and managed code?
+* dotnet runs on .NET Core and calls Roslyn accordingly
+* TODO compilation approaches for unmanaged and managed code
 
 
 # Language Basics
@@ -95,7 +106,25 @@
 	```
 
 # Types
-* objects are **reference types**: variables that store references to their properties
+* quick reminder about how code execution do:
+	- when code is being executed, it's stored in memory
+	- the memory is divided into two parts: the **stack** (short-lived) and the **heap** (less short-lived)
+* there are two different basic type types:
+	- **value types**:
+		* stored on the stack
+		* immutable
+		* when a value type is passed, a copy of the value is created on the stack
+		* any modifications made to a value in the function will not persist outside the function scope
+		* reassigning the variable overwrites the data in memory (I think? but what about immutability?)
+	- **reference types**:
+		* stored in the heap
+		* mutable
+		* multiple variables can point to the same object in memory
+		* when a reference type is passed, the *reference* is copied which points to the same data in the heap
+		* changes to the value will persist outside the function scope as we use the reference to access the value it's pointing to
+		* reassigning the variable will change the reference to point to a different object in memory
+	- [value and reference types](https://www.pluralsight.com/guides/csharp-passing-reference-vs-value-objective)
+* objects are reference types: variables that store references to their properties
 	- this means that:
 		```csharp
 			var customer1 = new Customer();
@@ -104,8 +133,13 @@
 			customer.2.FirstName = "Frodo";
 			Console.log(customer1.FirstName); // "Frodo"
 		```
-* ints and other primitive types are **value types** store their values directly
-* **pointer types**
+* ints and other "primitives" are values types and store their values directly. interestingly, structs are also value types
+* **pointer types**: similar to reference types but with different qualities. the bottom line is that pointers are unsafe and you shouldn't use them unless you know what you're doing and really need to
+	- a reference points to an *object* in memory but a pointer just points to a *place*
+	- as such, pointers are not type safe: they could be pointed at an int, a char, another pointer...
+	- pointer can be null
+	- pointers can incremented and decremented
+	- pointers are not cleaned up as part of automatic garbage collection -- they need to be cleaned up manually
 * **boxing** and **unboxing** allows conversion between value and reference types
 	- boxing converts a value type to an object type. boxing is performed implicitly by the CLR. when the CLR boxes a value type, it wraps the value inside a System.Object instance and stores it on the managed heap
 	- unboxing converts an object type to a value type. unboxing is performed explicitly by the programmer
@@ -189,10 +223,6 @@
 
 # Classes
 * **classes** define the structure of **objects** which are instances of the class
-* class **members** consist of
-	- **methods**
-	- **fields**: variables declared at the class level
-	- **properties**: public contract used to access (get/set) and manipulate the field value
 * an instance of a class is often called an **object variable**
 * **business object** often refers to a class that solves a particular problem (in this case, object == class)
 * an **entity** is something from the real world that is being represented by a class
@@ -201,67 +231,68 @@
 	- we create a `Customer` class to represent our real-life customers
 	- we create instances (or **objects**) of the `Customer` class which contain all the class properties
 
-
 ## Access Modifiers
 * **private**: only accessible by the class itself
 * **protected**: accessible by a class and its children
 * **public**: accessible by anyone
 * **internal/protected internal**: accessible only by methods within the same assembly or by derived classes from other assemblies
 
-## Data Access
-* a class encapsulates its data and access to that data is controlled via `getters` and `setters`
-* `getters` and `setters` map to **backing fields** -- the actual data
-* you could manually create a property that returns or sets the value of the backing field, as in the first example below. but you only want to do this if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
-	```csharp
-		// full property syntax with a backing field:
-		public class Customer
+## Class Members
+* **methods**: essentially functions which have access to other class members. they may accept parameters and return values
+* **fields**: variables declared at the class level that store the class instance state (the actual data). fields are typically private and modified either by the constructor or by properties. when a field is managed by a property, it is called a **backing field**
+* **properties**: properties expose fields
+	- properties are methods that look and behave like public fields
+	- properties represent the public contract used to access and manipulate the field value
+	- properties manage fields via `getters` and `setters`
+* private fields and public properties may be managed manually, but if no custom logic is needed for the field, **AutoProperties** automatically generate a backing field
+
+### Accessing Data
+* you should only manually manage your fields if there's some logic you need to perform before getting or setting the data. Otherwise, use **auto-implemented properties**
+```csharp
+	// full property syntax with a backing field:
+	public class Customer
+	{
+		private string _lastName;
+		public string LastName
 		{
-			private string _lastName;
-			public string LastName
-			{
-				get {
-					// some code
-					return _lastName;
-				}
-				set {
-					// some code
-					_lastName = value;
-				}
+			get {
+				// some code
+				return _lastName;
+			}
+			set {
+				// some code
+				_lastName = value;
 			}
 		}
+	}
 
-		// or more simply, using auto-implemented properties:
-		public class Customer
-		{
-			// this implements the backing field as well
-			public string FirstName { get; set; }
-			public string LastName { get; set; }
-		}
-	````
-* example of class creation:
-	- note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
-	- `FullName` is calcualted from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
-	- you can create a **"read only"** property by only defining the `getter` (as with `FullName`)
+	// or more simply, using auto-implemented properties:
+	public class Customer
+	{
+		// this implements the backing field as well
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+	}
+```
 
-	```csharp
-		public class Customer {
-			public string FirstName { get; set; }
-			public string EmailAddress { get; set; }
-			public int CustomerId { get; private set; }
-			public string FullName {
-				get {
-					return LastName + ", " + FirstName;
-				}
+### Class Creation
+* note that we don't want anything outside our `Customer` class setting the `CustomerId` class so the `set` is private
+* `FullName` is calculated from `LastName` and `FirstName` and you don't need to use our private backing fields -- just use the ones we defined
+* you can create a **"read only"** property by only defining the `getter` (as with `FullName`)
+
+```csharp
+	public class Customer {
+		public string FirstName { get; set; }
+		public string EmailAddress { get; set; }
+		public int CustomerId { get; private set; }
+		public string FullName {
+			get {
+				return LastName + ", " + FirstName;
 			}
 		}
+	}
 
-	```
-
-## Fields And Properties And Autoproperties, Oh My!
-* a **field** is a private (or protected) class member that stores the actual data
-* a **property** allows the field to be accessed, but only exposes the contract
-* an **autoproperty** automatically generates a backing field when you define the property
-
+```
 
 ## Static Modifier
 * entire classes can be static, and individual properties/methods of a nonstatic class can be static
@@ -269,6 +300,7 @@
 	- it is accessed using the class name
 	- it is not an object variable
 	```csharp
+		// Customer.cs property:
 		public static int InstanceCount { get; set; }
 		// later, in code:
 		Customer.InstanceCount += 1;
@@ -277,6 +309,7 @@
 		customer.InstanceCount = count; // nope
 	```
 * static classes cannot be instantiated or inherited and all members must be static
+* abstract classes cannot be static nor can they have static members
 
 ## Const And Readonly
 * **const** keyword creates a constant variable:
@@ -425,19 +458,10 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 
 
 ## Creating A Business Layer
-* in VB select `New Project > Visual C# > Class Library`
+* in VS select `New Project > Visual C# > Class Library`
 	- name it something like solution: "ACM", project name: "ACM.BLL"
 	- Application -> Visual Studio Solution
 	- Layer Component -> Visual Studio Project
-
-
-# C# Object Oriented Programming
-* using OOP helps us to accomplish and conform to the following:
-	- clean code
-	- defensive coding
-	- domain driven design
-	- design patterns
-	- iterative agile
 
 # Domain Driven Design
 * programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up incorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
@@ -449,6 +473,13 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 	- entities have an identity and a lifecycle -- when the process is complete, the entity is dead as far as the system is concerned and goes back to long-term storage
 	- an entity is a unit of behavior: when you invoke a command on an entity, it is responsible for changing its internal state
 	- use **read-only** to enforce immutability of entities
+* an **aggregate root** is an entity that is the parent of other entities
+	- the root is responsible for maintaining the consistency of the aggregate
+	- the root is the only member of the aggregate that outside objects are allowed to reference
+* **value objects** are immutable data structures used to encapsulate primitives or other value objects that are bound to each other
+	- no identity: unlike entities they do not have a unique identifier
+	- rather they are defined only by their values
+	- ex: you may have an `Address` value object that contains a `Street`, `City`, `State` and `Zip` -- the address is defined by the values of those properties and two objects with the same values are considered equal
 * core behavior should be owned by the entity but you might need to provide it with additional data, or provide dependencies which will be responsible for imposing side effects on the outside world
 	```csharp
 		public class Policy { public void Renew(IAuditNotifier notifier) { // do a bunch of internal state-related things, // some validation, etc. ... // now notify the audit system that there's // a new policy period that needs auditing notifier.ScheduleAuditFor(this); } }
@@ -572,12 +603,12 @@ class Program
 ```
 
 
-# Misc Tricks And Things
+# Misc Tricks, Best Practices And Gotchas
 * **string interpolation** provides a more readable and convenient syntax to include formatted expression results in a result string
 	```csharp
 		Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
 	```
-* **implicit types** just use `var` -- the compiler knows what to do
+* **implicit types** just use `var` when declaring variables -- the compiler knows what to do
 * **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
 	- when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
 * **StringBuilder**: once instantiated, strings are immutable. string concatenation creates new strings. if you're doing a bunch of concatenation, use StringBuilder

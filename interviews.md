@@ -127,6 +127,10 @@
 	- use descriptive variable names -- comments should be the exception, not the rule
 * compare Monolith (no) -> Microservices (better) -> Monorepo of microservices (yes!)
 * interface vs abstract class
+	- neither interfaces nor abstract classes can be instantiated
+	- a derived class may only inherit from one base class, but it may implement multiple interfaces
+	- an abstract class may provide base functionality used by the derived classes
+	- what's the point of a pure abstract class? it might be easier to extend later on with a virtual property or method
 * what is an object literal?
 * what is reflection?
 * what are examples of antipatterns?

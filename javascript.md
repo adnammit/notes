@@ -1,7 +1,14 @@
 # Javascript ☕
 
 ## Cool Tricks/Gotchas
-* use `!!` to check if value is truthy but know that empty object will evaluate truthy
+* use `!!` to check if value is truthy but know that empty object will evaluate truthy. example: `if(!!myStr)` to check if string is null or empty
+* use **short circuit evaluation** for variable assignment when you want to assign to the first non-null/empty value. the last value will be assigned even if it's empty/null so it's important to put a default value at the end if you need some value
+	```js
+	var a;
+	var b = "";
+	var c = null;
+	var d = a || b || c || "hello"; // d == "hello"
+	```
 * use `Object.assign(obj, copy)` to create a copy of `obj`
 	- **NOTE** `Object.assign()` does not **deep clone** -- it copies values but not references, so the copy will be linked to any nested objects in the original
 * for **deep clones** you can use `JSON`:

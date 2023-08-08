@@ -1,5 +1,4 @@
 # TODO
-* git completion doesn't work on mac
 * check out SvelteKit/Vite
 * write a script to periodically update stuff like git, powershell, docker
 * keep an eye on Bun, a js runtime that may contend with Nodejs: with native ts support, written in a C-like language, built in compiler rather than webpack, it can handle many more requests than node in prelim testing
@@ -23,14 +22,14 @@
 		* lucidcharts
 * learn:
 	- hangfire, rabbitmq
-	- kubernetes
+	- kubernetes/docker-compose
 	- snap ins
 	- entity
 	- azure/t-sql
 	- sql review
-	- aws
+	- aws/ecs
+	- google cloud
 	- scala, haskell
-	- docker
 	- maths: fractions, ratio, proportions, linear equations
 
 ## Fun Things To Do And Know

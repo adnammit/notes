@@ -1,8 +1,9 @@
 # The (Coding) Bible
 
 ## Vocab and Concepts
-* **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one other class. Compare to interfaces
+* **abstract class**: a base class containing one or more pure virtual (abstract) functions which must be defined by derived classes. Pure abstract classes contain only abstract member functions and no data. Derived classes can inherit from only one class. Compare to interfaces
 * **ACID**: Atomicity, Consistency, Isolation and Durability; key feature of relational databases
+* **aggregate root**: an entity that is the parent of other entities. the root is responsible for maintaining the consistency of the aggregate. the root is the only member of the aggregate that outside objects are allowed to reference
 * **antipattern**: a common response to a recurring problem that is usually ineffective and risks being counterproductive
 * **arity**: the number of args that a function takes
 * **authentication**: verify the identity of the user. is this person who they say they are?
@@ -23,12 +24,13 @@
 * **DDoS**: Distributed Denial of Service: attack via overwhelming a service w traffic
 * **declarative programming**: focuses on what the program should accomplish without prescribing how to do it in terms of sequences of operations. Functional programming is declarative. "my address is 1234 S Main St. now you can figure out how to get there". see imperative programming.
 * **dependency injection**: one object supplies the dependencies (services) of another object, as opposed to the dependent object building or finding those services itself. For example, client code doesn't need to worry about gathering its dependencies itself, it is only concerned with what to do with that information. When the means of sourcing the dependency changes, the client code does not need to be altered. See low coupling.
+* **entity**: a class that represents a table in a database. Entities have a unique identity, and are not compared by value. Entities are mutable. compare to value objects and aggregate roots
 * **eventual consistency**: in a distributed system, it may take time for an update to be reflected across all data nodes. this is usually a requisite trade off for high availability/low latency. see strong consistency
 * **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
 * **horizontal scaling** or "scaling out" means adding more hardware to the existing resource pool in a distributed system. there is no limit to how far you can scale horizontally and it's easier to maintain uptime by rotating servers, though it does require more overhead to manage and different coding considerations
 * **idempotent**: if a process is idempotent, it can be re-run multiple times and will still result in the same end state as existed after the first run (multiple applications of the process == the first application of the process) -- ex: this is important in REST apis: if you POST the same request multiple times, you would hope not to have multiple objects
 * **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
-* **interface**: a way of specifying a "contract" that other (people's) code must meet. contains definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
+* **interface**: a way of specifying a "contract" that other (people's) code must meet. an interface contains no actual implementation -- it is a collection of definitions (signatures) of related functionalities (methods, properties, events) that a class or struct can and must implement. A class or struct may implement multiple interfaces. Compare w/ abstract classes.
 * **interpolation**: str interpolation: evaluation/expansion of a str literal containing one or more placeholders
 * **IoT (Internet of Things)**: system of Things which all have unique identifiers and the ability to transfer info over the internet w/out human-to-human or human-to-computer interaction. Things include computing devices, mechanical systems (like a car with a tire pressure reader), people (someone with a heart monitor implant), and animals (a cow with a biochip transponder) -- anything that can be assigned an IP address and transfer data over a network
 * **isomorphic application**: app whose code can run on server or client (ex: JS)
@@ -61,6 +63,7 @@
 	- **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
 	- **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
 * **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
+* **value object**: a class whose equality is determined by its value rather than its identity. value objects are immutable. compare to entities
 * **vertical scaling** means adding more power to the server: more RAM, more CPU etc. this works in a pinch, but is limited in how far you can scale and the impact of a server going out is great
 * **write-through cache**: a storage method in which data is written into the cache and corresponding main memory location at the same time. cache sits between db and application - all operations pass through cache tier so anything retrieved from or updated to the db is stored in the cache. this is a nice compliment to **lazy loading**
 * **XSS**: cross-site scripting, injecting client-side script in a webpage

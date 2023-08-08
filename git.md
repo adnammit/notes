@@ -164,7 +164,7 @@ git clean -f -d                 remove all untracked files that are not in .giti
 git status --ignored			# see what's ignored
 git clean -ndx					# dry run, include directories, uncommitted and ignored files
 git clean -ndX					# dry run, include only ignored directories and files (leave uncommitted)
-git clean -fdX/x				# do the removal
+git clean -fdX/x				# do the removal (with force)
 git status --ignored			# check your work
 
 # BUNDLE BUNDLE WHO'S YOUR BUNDLE?
@@ -175,12 +175,11 @@ git clone my-repo.bundle <optional dir>
 
 ```
 
-## Using Git
-* staging: lining up changes to upload to the repository
+## Git Terms
+* **staging**: lining up changes to upload to the repository
 * making a commit: a commit is a snapshot of changes, author, date, committer, parent commit
 * author and committer are differentiated
-* remote: is a clone of more or less the same repo
-		- `git remote add <name> <url>`
+* a `remote` is a mirror of a local repo that is universally accessible to all users
 * tag: marker attached to a specific
 		- `git tag -l 'foo'  //list all tags with 'foo'`
 * branch: a parallel path of development starting from a commit that's in the tree
@@ -219,7 +218,7 @@ git clone my-repo.bundle <optional dir>
 	- this is mostly troublesome when you're rebasing something already pushed to others
 
 
-### SELECTIVE MERGING
+### Selective Merging
 * say you have a bunch of commits on a feature branch (`f3`) that are for three different issues. You want to group these changes into three commits when you merge into `master` so you can properly document them. how to do?
 
 ```bash
@@ -240,7 +239,7 @@ git push
 ```
 
 
-### STASHING
+### Stashing
 * git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
 * to get around this, we use `stashing`
 
@@ -273,7 +272,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * you might have changes in your stash that would overwrite your uncommitted work, but maybe that's what you want. to apply the stash and overwrite any merge conflicts with what is in the stash, try:
 		`git checkout stash -- .`
 
-### FIXUP
+### Fixup
 * sometimes you may need to fix an old commit. `fixup` followed by `autosquash` can help (you can also use `--squash` which will allow you to edit the commit message)
 * note that this should **not** be performed on commits that have already been merged/pushed for other devs to modify. this should only be performed on code strictly under your own control
 * say you have a commit for feature A and then make a commit for feature B, but then you find another modification you need to make for feature A:
@@ -309,13 +308,13 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 
 
 
-### GOTCHAS
+### Gotchas
 * git might not see casing changes on files as an actual change, so you might need to explicitly "move" the file
 		```bash
 				git mv duck.ts Duck.ts
 		```
 
-### AMEND A COMMIT
+### Amend A Commit
 * so say you're doing some work and you realize that you need to make a change to your last commit (make a small change to a file, say)
 		```c
 				//you can reset and re-commit:
@@ -328,7 +327,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 				<alter commit message if needed, save quit>
 		```
 
-### OMIT A FILE FROM A COMMIT
+### Omit A File From A Commit
 * use `update-index` to preserve local changes to something like a config file that points to your sandbox db -- you have changes that are just for you that you don't want to push
 		```c
 				// ignore changes to this file for now:
@@ -338,7 +337,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 		```
 
 
-### RECOVERING LOST WORK WITH REFLOG
+### Recovering Lost Work With Reflog
 * the reflog contains a history of all recent changes
 * say you did a `git reset --hard` but now you need those changes -- `reflog` has your back
 * using `reflog` you can view commits that are not visible with `git log`
@@ -363,7 +362,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 		- `reflog` only works with changes that were committed
 		- `reflog` is yours and yours alone -- it can't help you with another person's uncommitted, unpushed work
 
-### .GITIGNORE
+### .Gitignore
 * frequently there will be files in your git folder that you don’t want on the interweb, or that are unnecessary/inapplicable to the repo.
 * use .gitignore to tell git which files to leave alone
 * don’t gitignore .gitignore -- it will automatically prevent other contributors to the repo from polluting the repo with the same files you’re omitting
@@ -383,7 +382,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 		- package.json-lock
 
 
-### .GITATTRIBUTES
+### .Gitattributes
 * `.gitattributes` can be configured to contain some useful instructions about how to treat your version-controlled content
 * `export-ignore` tells git to ignore certain files/folders when someone downloads your repository
 * `text-auto` normalizes line-endings to use LF
@@ -403,7 +402,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 				public/build/css/*.css -diff
 		```
 
-### REMOVING FILES FROM GIT
+### Removing Files From Git
 * remove a local file from the directory
  ```
 		$ git rm foo
@@ -418,7 +417,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 ### Changing Master to Main
 * [see this step-by-step process](https://gist.github.com/danieldogeanu/739f88ea5312aaa23180e162e3ae89ab)
 
-### CLEANSING SENSITIVE INFORMATION
+### Cleansing Sensitive Information
 * use bfg repo cleaner: https://rtyley.github.io/bfg-repo-cleaner/
 * steps:
 		- clone repo using `--mirror`:
@@ -431,10 +430,10 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 				$ git reflog expire --expire=now --all && git gc --prune=now --aggressive
 				$ git push
 		```
-### FORMATTING
+### Formatting
 * you can use various options to format data about commits and files
 
-#### DATES
+#### Dates
 * format options include:
 		%cd: committer date (format respects --date= option)
 		%cD: committer date, RFC2822 style
@@ -445,7 +444,7 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 * use `--format="%cd" --date=short` to easily get YYYY-MM-DD
 
 
-## GITHUB
+## Github
 * github is a less distributed paradigm of git
 * github has more specific parameters (forking, for example)
 * gh has more rules about who to trust
@@ -468,4 +467,8 @@ git stash clear                 CAREFUL! this will delete your reflog as well
 				* communicating pushes/pulls is necessary
 		- focused commits with clear messages
 		- follow project standards for branching, tagging, etc
+
+## Big Files
+* if you need to include large assets in your repo, it's bad -- it slows down your git operations and takes up space with information that will never change
+* use [git-lfs](https://git-lfs.com/) to replace large files with text pointers to the actual file which is hosted on a remote server
 
