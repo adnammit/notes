@@ -260,6 +260,8 @@ traceroute google.com           show an IP network's route packet trace to the n
 
 netstat -ano | findstr :3000    find processes using port 3000
 
+ps -Id {pid}					get info about a process
+
 tskill <PID>                    kill the task using the port (or any task really)
 
 ```

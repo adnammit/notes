@@ -1,11 +1,11 @@
-# GENERAL WEB DEVELOPMENT STUFF
+# General Web Development Stuff
 
-## HOW THE INTERNET WORKS:
+## How The Internet Works
 * there are three main parts:
 	- Front end/Client: looks so pretty with HTML/CSS, talks to back end to update, etc
 	- Back end/Server: convert data from the database to html, etc to be passed to the front end
 	- Database: where bare, naked data is stored
-* your domain is the entry point for the user -- it is actually just a key which allows a user to access data via an IP address -- so www.mysite.com connects the client through to the server
+* your domain is the entry point for the user -- it is actually just a key which allows a user to access data via an IP address -- so www.mysite.com is like an alias for your website's IP address
 * after you've purchased a domain and web server, you'll need to go to your registrar and transfer the DNS (domain name server) to your web host
 	- this might take a minute -- all DNS's need to be redirected to your site
 * security
@@ -15,7 +15,7 @@
 	- authentication
 	- how to make a username/password
 
-## DOMAINS:
+## Domains
 * consider: http://www.example.com
 	- 'http://' is the PROTOCOL
 	- 'www' is the SUBDOMAIN. unnecessary, but it's a way of partitioning a website
@@ -27,7 +27,7 @@
 	- godaddy, namecheap
 	- whois: public registry of who owns what
 
-## SERVERS
+## Servers
 * also called 'web host'
 * shared servers are just fine for a personal website that's small, simple and low-traffic
 * host examples:
@@ -41,7 +41,7 @@
 	- within www there's a cgi-bin folder that you can delete (it's for storing cgi scripts -- previously the only place to store executables. it's now a relic)
 
 
-## THE FRONT END
+# The Front End
 * its job is to be friendly and pretty
 * there are three pillars of the front end: content, presentation, behavior (or `noun`, `adjective` and `verb`)
 	- HTML: create structure/content (`noun`)
@@ -74,7 +74,7 @@
 	- browserfly: learn this.
 
 
-## BACK END/SERVERS:
+# Back End/Servers:
 * there are two aspects to the server: the script that serves up code and the physical hardware that it runs on
 * there are different types of server services you can pay for/work with
 	- CMS: content management system, written with PHP
@@ -106,7 +106,9 @@
 	- yeng says centOS redhat is best server OS
 
 
-## APIS: APPLICATION PROGRAMMING INTERFACE
+# Backend Services
+
+## API: Application Programming Interface
 * sets of requirements that govern how one app talks to another
 	- they share some of the program's code
 	- defines what you can get and how you can get it
@@ -116,7 +118,7 @@
 * you can use JS, ruby, python or php to talk to third-party APIs
 
 
-### RESTFUL APIs
+### Restful APIs
 * what is REST?
 	- Representational State Transfer via HTTP transfer protocols
 		* GET, POST, PUT, etc
@@ -132,15 +134,20 @@
 	6). uniform interface between the client and the server
 * REST supports MVC features like controllers, routing, filter, action results, IOC container, model binders, DI
 
+### REST API Best Practices
+* use nouns, not verbs
+* [how to name your REST endpoints](https://restfulapi.net/resource-naming/)
+* *do not put api keys in query parameters* -- use headers instead. people tend to share urls, and if you put your api key in the url, you're sharing your api key with the world
 
-### WCF
+
+## WCF Services
 * WCF (Windows Communication Foundation) is used for developing SOAP-based services
 * uses XML schemas rather than HTTP
 * testing is a little trickier
 	- use WcfTestClient: a SOAP xml web-based service
 	- or you can use Postman apparently
 
-### REST VS SOAP
+## Rest Vs Soap
 * SOAP: XML schemas vs REST's HTTP
 * SOAP is ideal for message queues, duplex communication, generally regarded as being more reliable and more secure
 * since it uses HTTP, REST can interface with a wide variety of clients including browsers, mobile phones, tablets, etc
@@ -153,7 +160,7 @@
 		When you want to create a service that can use expedite transport channels when available such as Named Pipes, TCP, and even UDP, WCF is the ideal choice. Web API can be used when you want to expose an expansive range of clients including, mobile phones, iPhone, tablets, and browsers.
 	```
 
-## WCF HOSTING
+## WCF Hosting
 * WCFs can be served via IIS, be self-hosted, or they can be managed through a Windows service
 * [read more about WCF hosting](https://docs.microsoft.com/en-us/dotnet/framework/wcf/hosting-services?redirectedfrom=MSDN)
 
@@ -162,21 +169,21 @@
 * preferred for services that must be highly available and highly scaleable
 * IIS services can only use HTTP transport (IIS 6 and below)
 
-### SELF-HOSTED
+### Self-Hosted
 * requires the least amount of infrastructure to deploy
 * the WCF service is hosted inside a console application
 * this is a useful way to host a service in the development stages
 
-### MANAGED WINDOWS SERVICE
+### Managed Windows Service
 * long-running WCF services can be hosted outside of IIS in a Windows Service
 * managed by the OS
 
-### WINDOWS PROCESS ACTIVATION SERVICE (WAS)
+### Windows Process Activation Service (WAS)
 * new process activation mechanism
 * retains familiar IIS features (app pools, health monitoring, recycling) but removes dependency on HTTP
 
 
-## OPTIMIZATION
+# Optimization
 * chrome developer tools:
 	- command+opt+i will pull up chrome dev tools
 	- displays the DOM
@@ -192,7 +199,7 @@
 	- css formattion
 		* W3.org/TR/css2/visualformattingmodel
 
-## JAVASCRIPT DEVELOPMENT ENVIRONMENT
+## Javascript Development Environment
 * react
 	- JS library for creating dynamic visual components
 * gulp
@@ -219,7 +226,7 @@
 	- exchanges data and updates webpage content without reloading the entire page
 
 
-## RUNNING A LOCAL PHP SERVER
+## Running A Local Php Server
 * instead of MAMP you can moderate Apache and php yourself
 * start, stop and restart apache from the command line:
 	- apachectl start, stop, restart, graceful
@@ -245,7 +252,7 @@
 	- these together allow us to type 'startpostgres' from any directory in bash and the postgres command will be called
 
 
-## FRAMEWORKS AND LIBRARIES AND SERVERS -- OH MY!
+## Frameworks And Libraries And Servers -- Oh My!
 * **angularJS**
 	- a front-end framework which allows webpages to behave more like applications and communicates asynchronously with the server
 	- using the angular resource factory, you create an abstraction of the server side RESTful API to make server side calls
@@ -267,11 +274,11 @@
 * however you implement your website, making sure that there is a clear distinction between the client and server will make it easier to test and maintain
 
 
-## TOOLS
+## Tools
 * **Linter**: analyzes code for potential errors
 * **Beautifier**: restructures the source code to make indentations and whitespace consistent throughout
 
-# RESPONSIVE WEB DESIGN
+# Responsive Web Design
 * there are a wide array of screen sizes and devices that access web content
 * "mobile-first" approach: it's easier to take something simple and then make it more complex than to scale a big project down
 * fluid layout: a page layout flexes and rearranges depending on the dimensions of the page.
@@ -290,7 +297,7 @@
 		* viewport metatag
 	- responsive follows main because it will build on main in response to different cases.
 
-## MEDIA QUERIES
+## Media Queries
 * before writing queries, determine what the breakpoints for your design are. that is, at what point does this not look good anymore? at what point should the layout change?
 * css rules: writing rules containing code that is executed only if the specified condition is true
 * syntax and arrangement is as follows:
@@ -316,7 +323,7 @@
 
 * the order is important: it follows the rules of cascading style, where the last statement that is true is the one that is executed.
 
-## CHOOSING BREAKPOINTS AND DESIGN:
+## Choosing Breakpoints And Design:
 * mobiles are designed for narrow vertical scrolling
 * desktops are more horizontal, and generally all the goodies should fit on the main page.
 * viewport metatag:
@@ -327,7 +334,7 @@
 		* this means essentially that the viewport should be set to the scale of the device's screen width.
 
 
-## WEBSITE TESTING
+## Website Testing
 * you can test many characteristics using screenshots of the site and basic image editing software
 	- make a screenshot grayscale to make sure everything has sufficient contrast to be legible
 	- turn a screenshot 180* to check for composition -- does it look too heavy in one area and empty in another?
@@ -339,7 +346,7 @@
 	- nothing beats just seeing what it looks like on different devices
 	- browserstack.com also provides screenshots of your code -- for a price
 
-## DATA
+## Data
 * choosing a database construct: relational or noSql?
 * **relational databases**
 	- store data in tables as rows and columns

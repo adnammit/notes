@@ -47,6 +47,21 @@ docker update --restart unless-stopped demo_container
 docker update --cpus 4 --memory 1024M webserver1 webserver2
 
 
+## VOLUMES
+
+# create a volume independent of a container
+docker volume create my-volume
+
+# view all volumes
+docker volume list
+
+# inspect volumes
+docker volume inspect my-volume
+
+# remove a volume
+docker volume rm my-volume
+
+
 ## WHAT'S GOING ON
 
 # list containers that are running
@@ -143,9 +158,8 @@ docker push hello
 ## Platform Boilerplates
 * find platform-specific docker boiler plates [here](https://bitbucket.org/epobb/dockerbookfiles/src/master/common-development-profiles/demos/)
 
-
 ## What Docker?
-* docker is a platform to build, deploy, run, update, and test applications
+* docker is a platform to build, deploy, run, update, and test applications -- like an infinitely customizable lightweight virtual machine
 * it is standardized and repeatable -- a docker app runs the same on any machine regardless of OS/env
 * "it works on my machine" -> "then we'll ship your machine"
 * docker can be thought of as a tool to create a disposable computer -- you can create the computer over and over again, across many instances, or with small adjustments
@@ -182,12 +196,14 @@ docker push hello
 	- kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
 
 # Key Concepts
-* **containers**: what we want to run and use to host our apps in docker
-	- containers can be though of as isolated machines, or VMs
+* **docker** sits under the OS -- it manages and provides resources for containers
+* **containers**: a "wrapper" around an application that contains everything needed to run the application
+	- containers can be thought of as isolated machines, or VMs
 	- a container runs inside the docker host, isolated from other containers and the host OS
 	- a container contains everything needed to run: OS, packages, runtimes, files, env variables, stdin, stout
 	- a typical docker server would host many containers
 	- containers should be stateless -- they should not store any persistent data (because they're not persistent), and if you're running multiple load-balanced containers, their data needs to be uniform
+	- containers are isolated by default -- to talk to one another or to connect from outside the docker server, ports must be exposed
 * **images**: a container template which describes everything needed to create a container
 	- you may create many containers from a single image
 	- an image consists of sub-parts that may be reused when a new version is built if they are the same
@@ -283,17 +299,55 @@ docker push /docker101tutorial
 
 ## Data
 * docker containers are just little temporary, throwaway things, so what if you need persistent data?
-* a container dies when it finishes, when it's manually killed, when the host machine restarts, when the container is moved from one node to another, etc -- and all the app's data is lost
-* also if you have multiple container instances up in a load-balancing scenario, the data will be different for each, resulting in an inconsistent user experience
-* therefore, containers should be stateless
-* data should be stored in an external relational database, or a distributed cache (like redis). but you can also store files in a third place where they are persisted: volumes
-* a **volume** is a map from inside the container to persistent storage. persistent storage can be:
-	- on the host machine
-	- azure file storage on azure or amazon s3 on aws
+	- by default, container data is written to the container's local filesystem and is therefore ephemeral -- it will be lost when the container is removed
+	- a container dies when it finishes, when it's manually killed, when the host machine restarts, when the container is moved from one node to another, etc -- and all the app's data is lost
+	- also if you have multiple container instances up in a load-balancing scenario, the data will be different for each, resulting in an inconsistent user experience
+	- therefore, containers should be stateless
+* data can be stored in an external relational database or a distributed cache (like redis). but you can also store files in a third place where they are persisted: volumes and bind mounts
+* persistent storage can be either a bind mount or a volume
+	- or third option: azure file storage on azure or amazon s3 on aws?
+
+### Bind Mounts
+* a **bind mount** is a reference to a directory on the host machine
+* the directory is mounted into the container and the container can read/write to it
+* a bind mount can be located pretty much anywhere on the host machine
+* if a bind mount path doesn't exist, is will be created 
+* bind mounts have limited functionality compared to volumes
 * example: run a mysql db and write any data stored to `/var/lib/mysql` in the container to `/your/dir` on your host machine. the data will still be in `/your/dir` when the container dies
-	```
+```sh
 	docker run -v /your/dir:/var/lib/mysql -d mysql:5.7
-	```
+```
+
+### Volumes
+* a **volume** is a docker-managed file system
+* volumes can be managed using docker cli commands
+* volumes support easy backup and recovery
+* volumes are located in `/var/lib/docker/volumes` 
+* volumes can be created independent of a container or at the same time as a container
+```sh
+	# create a volume
+	docker volume create my-volume
+	# create a container and attach it to a volume
+	docker run -d --name myapp --mount source=my-volume,target=/usr/lib/myapp nginx:latest
+```
+
+
+### Bind Mounts vs Volumes
+* bind mount files are local, volumes are managed by docker
+* bind mounts give docker access to your filesystems -- this can have security implications or impacts to other processes
+* bind mounts are not always supported (e.g. MongoDB)
+* volumes are simpler -- no need to worry about permissions, ownership, etc
+* *bottom line*: if other processes need access to the files, use a bind mount -- otherwise use a volume
+
+### Configuring a Container to Use a Volume
+* there are two ways of mounting a volume: with `--mount` or `--volume`. docker documentation says `--mount` is preferred
+* you can confirm a container's bindings with 
+```sh
+	docker inspect [containername]
+```
+
+
+
 
 ## Modifying an Existing Container
 * once a container is created, it really shouldn't be modified except for a few [exceptions](https://www.howtogeek.com/devops/how-to-modify-the-configuration-of-running-docker-containers/)
@@ -318,7 +372,6 @@ docker push /docker101tutorial
 * image layers are subcomponents of an image which may be reused when a new version is built if they are the same
 * a docker image is created using the `docker build` command along with a dockerfile
 
-
 ## Dockerfiles
 * a **dockerfile** contains information on how the image should be built
 * dockerfiles can have any name but it makes it easier for other folks to understand what it is to just call it 'dockerfile'
@@ -326,16 +379,16 @@ docker push /docker101tutorial
 * dockerfiles are therefore extensible and this makes them very powerful -- it's easy to build on a complex image
 * a very basic dockerfile that prints hello, world from a linux cmd is:
 ```dockerfile
-FROM debian:11
-CMD ["echo", "Hello, world!"]
+	FROM debian:11
+	CMD ["echo", "Hello, world!"]
 ```
 * **build context**:
 	- the build context is the "source" for common commands like `COPY <src> <dest>`
 	- by default the build context is set to the dir in which the docker build command is invoked
 	- dockerfile location can be set with the `-f` flag and the build context is set with the last argument
-	```
+```sh
 	docker build -t myImage -f ./some/path/Dockerfile /buildContextDir
-	```
+```
 
 ## Instructions
 * **FROM**: the first instruction - determines the base image and creates the first layer
@@ -537,11 +590,22 @@ docker system prune -fa --volumes
 ## Docker Compose Lifecycle
 * `docker-compose up` executes your `docker-compose.yml` file: it builds the images and creates containers
 * subsequent calls of `docker-compose up` will reuse the existing containers
-
-* Compose preserves all volumes used by your services. When docker compose up runs, if it finds any containers from previous runs, it copies the volumes from the old container to the new container. This process ensures that any data you’ve created in volumes isn’t lost.
+* Compose preserves all volumes used by your services. When `docker-compose` up runs, if it finds any containers from previous runs, it copies the volumes from the old container to the new container. This process ensures that any data you’ve created in volumes isn’t lost.
 
 ## Local Development
 * you can use a `docker-compose.override.yml` file to override values in `docker-compose.yml` -- docker-compose will read them both and sub in values from the override file
+
+## Docker, Visual Studio, and Visual Studio Code
+* [more info](https://www.richard-banks.org/2018/07/debugging-core-in-docker.html)
+* there are two approaches for using docker with your IDE: VS and everything else
+* VS has a special project type (`dcproj`) that wraps a bunch of docker-compose functionality into the simple action of running the project: it generates a docker-compose.vs.debug.g.yml, spins up the containers and starts the application
+* VS Code (or any other IDE) can be done via a much more manual process, or via VSCode `devcontainers`
+
+## Dev Containers
+* [documentation](https://code.visualstudio.com/docs/remote/containers)
+* [configuration spec](https://containers.dev/implementors/json_reference/)
+* [converting an existing project to use a dev container](https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-an-existing-folder-in-a-container)
+
 
 
 # Orchestration

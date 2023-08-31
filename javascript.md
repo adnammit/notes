@@ -19,6 +19,12 @@
 	1. synchronous events (`console.log("hello world")`)
 	2. promise resolution (`new Promise(resolve()).then(() => console.log("resolved!"))`)
 	3. browser API events (`setTimeout(() => (console.log("time's up!")), 0)`) << even with 0 timeout, this executes last
+* [debugging beyond `console.log()`](https://medium.com/@anirudh.munipalli/stop-using-console-log-in-javascript-try-these-instead-72490d895a24)
+	- use `console.trace()` to see the call stack of the function that calls it
+	- use `console.group()` and `console.groupEnd()` to group related messages together
+	- use `console.time()` and `console.timeEnd()` to see how long a process takes to execute
+	- use `console.table()` to organize complex data: `console.table({person1, person2, person3})`
+	- add css to the console to make your logs stand out: `console.log("%cHello World", "color: blue; font-size: 20px; border: solid;")`
 
 ## Background
 * ECMA2015 == ES6
