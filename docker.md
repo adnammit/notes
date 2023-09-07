@@ -605,6 +605,12 @@ docker system prune -fa --volumes
 * [documentation](https://code.visualstudio.com/docs/remote/containers)
 * [configuration spec](https://containers.dev/implementors/json_reference/)
 * [converting an existing project to use a dev container](https://code.visualstudio.com/docs/devcontainers/containers#_quick-start-open-an-existing-folder-in-a-container)
+* dev containers can run locally or on a remote machine
+
+
+### Configuring a Dev Container
+* dev containers are configured in a `.devcontainer/devcontainer.json` or `.devcontainer.json` file in the root of your project
+* dev containers can be configured to use an image, dockerfile or docker-compose
 
 
 

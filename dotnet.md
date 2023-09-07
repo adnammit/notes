@@ -231,6 +231,9 @@ dotnet sdk check
 # builds a project and all its dependencies
 dotnet build
 
+# clean a project
+dotnet clean
+
 # first builds and then runs the application
 dotnet run
 # if you're working in a solution, you'll need to specify what to run -- consider creating a launch.json to configure this instead
@@ -260,13 +263,15 @@ dotnet sln add folder1/folder2/myapp
 
 
 ## MANAGE PACKAGES
+
 # install package to the project in pwd
 dotnet add package Newtonsoft.Json
+
 # uninstall package
 dotnet remove [project] package Newtonsoft.Json
 
-# add package
-dotnet add package Microsoft.EntityFrameworkCore.InMemory
+# manually restore nuget packages
+dotnet restore
 
 # specify package source
 dotnet add package CCI.Communications.Client -s https://www.myprivatesource.com/api/v2/

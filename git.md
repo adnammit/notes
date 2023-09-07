@@ -180,7 +180,7 @@ git clone my-repo.bundle <optional dir>
 * **staging**: lining up changes to upload to the repository
 * **commit**: a snapshot of changes, author, date, committer, parent commit
 * **author** and **committer** are differentiated
-* a **remote** is a mirror of a local repo that is universally accessible to all users
+* a **remote** is a mirror of a **local** repo that is universally accessible to all users
 * **branch**: a parallel path of development starting from a commit that's in the tree
 * **HEAD** is a pointer to the last commit in a branch
 * **tag**: a ref that points to a specific point in history
@@ -189,16 +189,13 @@ git clone my-repo.bundle <optional dir>
 ```sh
 	git tag -l 'foo'  # list all tags with 'foo'
 ```
-
-
-
 * many git commands can be performed on either a branch or a file or files. Using the `--` notation explicitly tells git "hey, this is a file!" in case you have a file and a repo with the same name
 
 ### Anatomy of a Commit
 * **SHA1**: a hash standard that takes various meta data (commit message, committer, commit date, author, authoring date, entire working directory) and generates a completely unique hash string
 
 
-### Head vs main vs Origin
+### Head vs Main vs Origin
 * `HEAD` is an official notion in git, `HEAD` always has a well defined meaning. main and origin are common names usually used in git but they don't have to be.
 * **HEAD:** the current commit your repo is on.
 	- Most of the time HEAD points to the latest commit in your branch, but that doesn't have to be the case.
@@ -218,7 +215,8 @@ git clone my-repo.bundle <optional dir>
 ### SSH
 * ssh is the most secure option and doesn't require you to enter your password every time 
 * more tedious to set up -- requires generating and managing an SSH key
-* [see this guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
+* [github doc on ssh](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
+* there are additional steps to manage keychain for MacOS -- check [this guide](https://medium.com/codex/git-authentication-on-macos-setting-up-ssh-to-connect-to-your-github-account-d7f5df029320)
 
 ### HTTPS
 * https is more convenient/user friendly and there are more options for how to handle it
@@ -226,7 +224,7 @@ git clone my-repo.bundle <optional dir>
 	- your username and password
 	- your Personal Access Token (PAT)
 * sending this information every time is tedious, so there are ways to cache your credentials: using `osxkeychain` on mac or `wincred` on windows
-* [git credential manager](https://github.com/git-ecosystem/git-credential-manager) is a cross-platform tool that can be used to manage credentials and integrates with many other systems like AWS and Azure
+* another convenient cross-platform option is [git credential manager](https://github.com/git-ecosystem/git-credential-manager) -- a tool that can be used to manage credentials and integrates with many other systems like AWS and Azure
 
 
 ## Git Configuration
@@ -294,6 +292,14 @@ git clone my-repo.bundle <optional dir>
 * **rebase**: changing history
 	- `git rebase main` from your local branch basically says "reset to main and then replay all my work on top of that"
 	- great for local development that no one else is working on but can create issues when sharing a branch
+
+### Playing Well With Others
+* change history locally, never globally
+* never force push unless you have to or are working on a branch you know is not being used by others
+	* if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
+* if you are asked to force pull, there could be something malicious going on
+* focused commits with clear messages
+* follow project standards for branching, tagging, etc
 
 ### Stashing
 * git will not let you switch branches if you have changes in the branch you're switching to that could override your current work
@@ -473,6 +479,35 @@ git push
 		%cI: committer date, strict ISO 8601 format
 * use `--format="%cd" --date=short` to easily get YYYY-MM-DD
 
+
+## Git Submodules
+* [github blog post on submodules](https://github.blog/2016-02-01-working-with-submodules/)
+* submodules are a way of nested interdependent repositories together, usually with shared configurations and dependencies managed in a top-level repository
+* submodules can be really handy for local development and testing where multiple services need to be built and deployed together
+
+### Adding Submodules
+* submodules are tracked in the `.gitmodules` file of the parent repo
+* to add a submodule to a repo, use `git submodule add <repo url> <path>`. this will clone the submodule and add or update the `.gitmodules` file
+* commit the submodule by committing the `.gitmodules` file and the submodule directory
+
+### Updating Submodules
+* when you make a change to a submodule, the change is tracked in the submodule's revision history, but the parent is aware that the submodule has changed
+* suppose I make a change to a submodule - I need to also commit the submodule in the parent and push it for another dev to get my changes
+
+### Submodule-specific Commands
+```sh
+# clone a repo and all its submodules
+git clone git@github.com:foo/bar.git --recurse-submodules
+
+# create a new repo -- this is our parent
+mkdir my-parent-repo && cd my-parent-repo && git init
+# add a submodule to existing repo
+git submodule add https://bitbucket.org/jaredw/awesomelibrary
+# commit the submodule
+git add .gitmodules awesomelibrary/ && git commit -m "added submodule"
+
+```
+
 ## Gotchas
 * git might not see casing changes on files as an actual change, so you might need to explicitly "move" the file
 ```
@@ -485,30 +520,20 @@ git push
 * github is a less distributed paradigm of git
 * github has more specific parameters (forking, for example)
 * gh has more rules about who to trust
-* HTTP vs SSH clones:
-		- use ssh clone: it uses the key in your account
 * forking:
-		- creating a parallel (possibly divergent) copy of a persons repo
-		- creates a 'center' of the hub, implying that the others are not the center
+	- creating a parallel (possibly divergent) copy of a persons repo
+	- creates a 'center' of the hub, implying that the others are not the center
 * other cool features:
-		- wiki
-		- gist: paste bin with a little bit of version control
-		- issue trackers
-		- cool graphs
-		- repo descriptions and automatic README display
-* rules to play well with others:
-		- change history locally, never globally
-		- never force push unless you have to
-				* if git suggests that you `git push -f (force push)` DON'T. reconsider what you've done.
-		- if you are asked to force pull, there could be something malicious going on.
-				* communicating pushes/pulls is necessary
-		- focused commits with clear messages
-		- follow project standards for branching, tagging, etc
+	- wiki
+	- gist: paste bin with a little bit of version control
+	- issue trackers
+	- cool graphs
+	- repo descriptions and automatic README display
 
 ## Git Credential Manager
 * [git credential manager](https://github.com/git-ecosystem/git-credential-manager/tree/main)
-* there are several different ways to manage credentials for git
 * if you're using https, the simplest way is to use GCM
+* supported by github, bitbucket and azure devops
 
 ## Big Files
 * if you need to include large assets in your repo, it's bad -- it slows down your git operations and takes up space with information that will never change
