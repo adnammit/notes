@@ -211,12 +211,13 @@ git clone my-repo.bundle <optional dir>
 
 ## Authentication
 * you can use either ssh or https to authenticate when cloning/pushing/pulling
+* [swapping remote from ssh to https](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories?platform=mac#switching-remote-urls-from-ssh-to-https)
 
 ### SSH
 * ssh is the most secure option and doesn't require you to enter your password every time 
 * more tedious to set up -- requires generating and managing an SSH key
 * [github doc on ssh](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
-* there are additional steps to manage keychain for MacOS -- check [this guide](https://medium.com/codex/git-authentication-on-macos-setting-up-ssh-to-connect-to-your-github-account-d7f5df029320)
+* there are additional steps to manage keychain for MacOS -- check [this guide](https://medium.com/codex/git-authentication-on-macos-setting-up-ssh-to-connect-to-your-github-account-d7f5df029320) except change `Host *` to `Host github.com` in your `~/.ssh/config` file
 
 ### HTTPS
 * https is more convenient/user friendly and there are more options for how to handle it

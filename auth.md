@@ -63,7 +63,6 @@
 * boils down to which is easier to integrate with your application
 * if you're creating a new web app and are integrating with other OIDC providers, OIDC is probably the way to go
 
-
 ## OAuth
 * remember that OAuth is *not* an authentication protocol -- it's just for securely passing access tokens (especially from clients which are inherently untrustworthy)
 * OAuth allows an app to access a user's resources on behalf of the user without exposing the user's password -- the third-party app is *authorized* to access the resource
@@ -117,10 +116,6 @@
 	- the client receives a 401
 	- client posts to `/token` endpoint with `grant_type=refresh_token` and the refresh token (and client id and secret)
 	- client receives a new access and refresh token pair to cache
-
-
-
-
 
 
 ## OpenId Connect (OIDC)
