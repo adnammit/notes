@@ -2,8 +2,8 @@
 
 ## Syntax
 * like C++, the `Main` method is your entry point into an application
-	- `Main` is a method which resides in a class or struct
-	- `Main` is static and can return an int and take arguments
+	* `Main` is a method which resides in a class or struct
+	* `Main` is static and can return an int and take arguments
 
 ```c
 	// comments can be single line
@@ -25,7 +25,7 @@
 
 ```
 * using `System` methods and classes like `Console.WriteLine`
-	- in your code include the `using System` directive at the beginning of the program and then you will be able to write `Console.WriteLine` instead of `System.Console.WriteLine`
+	* in your code include the `using System` directive at the beginning of the program and then you will be able to write `Console.WriteLine` instead of `System.Console.WriteLine`
 
 
 # Building C# Code
@@ -107,17 +107,17 @@
 
 # Types
 * quick reminder about how code execution do:
-	- when code is being executed, it's stored in memory
-	- the memory is divided into two parts: the **stack** (short-lived) and the **heap** (less short-lived)
+	* when code is being executed, it's stored in memory
+	* the memory is divided into two parts: the **stack** (short-lived) and the **heap** (less short-lived)
 * there are two different basic type types:
-	- **value types**:
+	* **value types**:
 		* stored on the stack
 		* immutable
 		* when a value type is passed, a copy of the value is created on the stack
 		* any modifications made to a value in the function will not persist outside the function scope
 		* reassigning the variable overwrites the data in memory (I think? but what about immutability?)
 		* value types include ints and other "primitives" are values types and store their values directly. interestingly, structs are also value types
-	- **reference types**:
+	* **reference types**:
 		* pointer is stored on the stack, the actual data is stored in the heap
 		* mutable: which is to say that the pointer can be changed, but the data it points to cannot be changed
 			* this explains why strings are immutable -- you can reassign the variable pointer to a different string, but you can't change the string itself
@@ -126,9 +126,9 @@
 		* when a reference type is passed, the *reference* is copied which points to the same data in the heap
 		* changes to the value will persist outside the function scope as we use the reference to access the value it's pointing to
 		* reassigning the variable will change the reference to point to a different object in memory
-	- [value and reference types](https://www.pluralsight.com/guides/csharp-passing-reference-vs-value-objective)
+	* [value and reference types](https://www.pluralsight.com/guides/csharp-passing-reference-vs-value-objective)
 * objects are reference types: variables that store references to their properties
-	- this means that:
+	* this means that:
 		```csharp
 			var customer1 = new Customer();
 			customer.FirstName = "Bilbo";
@@ -137,16 +137,16 @@
 			Console.log(customer1.FirstName); // "Frodo"
 		```
 * **pointer types**: similar to reference types but with different qualities. the bottom line is that pointers are unsafe and you shouldn't use them unless you know what you're doing and really need to
-	- a reference points to an *object* in memory but a pointer just points to a *place*
-	- as such, pointers are not type safe: they could be pointed at an int, a char, another pointer...
-	- pointer can be null
-	- pointers can incremented and decremented
-	- pointers are not cleaned up as part of automatic garbage collection -- they need to be cleaned up manually
+	* a reference points to an *object* in memory but a pointer just points to a *place*
+	* as such, pointers are not type safe: they could be pointed at an int, a char, another pointer...
+	* pointer can be null
+	* pointers can incremented and decremented
+	* pointers are not cleaned up as part of automatic garbage collection -- they need to be cleaned up manually
 * **boxing** and **unboxing** allows conversion between value and reference types
-	- boxing converts a value type to an object type. boxing is performed implicitly by the CLR. when the CLR boxes a value type, it wraps the value inside a System.Object instance and stores it on the managed heap
-	- unboxing converts an object type to a value type. unboxing is performed explicitly by the programmer
-	- boxing and unboxing is generally considered bad practice as it's computationally expensive -- boxing requires a new object to be allocated and constructed. the operation is probably unnecessary
-	- example:
+	* boxing converts a value type to an object type. boxing is performed implicitly by the CLR. when the CLR boxes a value type, it wraps the value inside a System.Object instance and stores it on the managed heap
+	* unboxing converts an object type to a value type. unboxing is performed explicitly by the programmer
+	* boxing and unboxing is generally considered bad practice as it's computationally expensive -- boxing requires a new object to be allocated and constructed. the operation is probably unnecessary
+	* example:
 	```csharp
 		int i = 90;
 		object o = i; // implicit boxing; o is a pointer on the heap that points to value 90 on the stack
@@ -173,27 +173,27 @@
 		Console.WriteLine(foo.name); // "Bob"
 	```
 * the `out` keyword has a use case that is similar to `ref`
-	- `ref`: the object is initialized outside the function. the function can read and modify the object
-	- `out`: the object will be initialized inside the function. the value must be set before returning. out is one way to cheat and return multiple values from a function
+	* `ref`: the object is initialized outside the function. the function can read and modify the object
+	* `out`: the object will be initialized inside the function. the value must be set before returning. out is one way to cheat and return multiple values from a function
 * using `out` and `ref` can be antipatterns and should only be used in select scenarios
-	- `ref` can cause side effects -- generally you want to `return` the changes you want to persist
-	- `out` shouldn't be used to "cheat" and return multiple values -- you should return an object or tuple that contains all the data you need
+	* `ref` can cause side effects -- generally you want to `return` the changes you want to persist
+	* `out` shouldn't be used to "cheat" and return multiple values -- you should return an object or tuple that contains all the data you need
 
 
 ## Types And Casting
 * the `is` operator can used to test if an expression result or variable is compatible with a given type. the evaluation of `is` returns a boolean.
 * the `as` operator explicitly converts the result of an expression to a given reference or nullable type. the `as` operator never throws an exception (as compared to the **cast operator**)
-	- comparing `as` to type casting: `as` is equivalent to `E is T ? (T)(E) : (T)null;` except the value of `E` is only read once
+	* comparing `as` to type casting: `as` is equivalent to `E is T ? (T)(E) : (T)null;` except the value of `E` is only read once
 * a `cast expression` takes the format `(T)E` and performs an explicit conversion of the expression `E` to type `T`. If no explicit conversion can be made, it will not compile. At run time, an exception might be thrown.
 * the `typeof` operator returns the `System.Type` instance for a type
-	- arguments must be the name of a type or a type parameter
-	- arguments cannot be an expression. to get the `System.Type` of an expression, use `Object.GetType()`
+	* arguments must be the name of a type or a type parameter
+	* arguments cannot be an expression. to get the `System.Type` of an expression, use `Object.GetType()`
 
 ## Strings
 * strings are immutable. when we manipulate or concatenate strings, we aren't modifying the original -- we're creating new ones
 * methods for concatenation:
-	- concatenation operator: `+`
-	- StringBuilder: a flexible class which allows us to dynamically construct strings without creating a new one with every modification
+	* concatenation operator: `+`
+	* StringBuilder: a flexible class which allows us to dynamically construct strings without creating a new one with every modification
 ```csharp
 	string firstName = "Barb";
 	string lastName = "Kilner";
@@ -212,15 +212,15 @@
 * normally, value types have defaults that correspond to their type (int = 0, bool = false, etc)
 * however a **nullable value type** can be null: `int? i = null`
 * as of C#8/.NET6 we have **nullable annotation context**
-	- basically an agreement that all your reference types which *can* be null will either be explicitly be assigned a non-null value (never null) or will be marked as nullable with question mark
-	- with this feature enabled, IDE warns if you have a reference type that is null that you might not be expecting
+	* basically an agreement that all your reference types which *can* be null will either be explicitly be assigned a non-null value (never null) or will be marked as nullable with question mark
+	* with this feature enabled, IDE warns if you have a reference type that is null that you might not be expecting
 		```csharp
 		// IDE warns: Converting null literal or possible null value to non-nullable type
 		string s = null;
 		// this however is happy and should be more evident in later execution that your value could be null:
 		string? s = null;
 		```
-	- enabled by default in .NET6+ -- in the csproj file you'll see something like `<Nullable>enable</Nullable>`
+	* enabled by default in .NET6+ -- in the csproj file you'll see something like `<Nullable>enable</Nullable>`
 
 
 # Classes
@@ -229,9 +229,9 @@
 * **business object** often refers to a class that solves a particular problem (in this case, object == class)
 * an **entity** is something from the real world that is being represented by a class
 * putting it all together:
-	- a _customer_ is something that's important to business, so it is an **entity**
-	- we create a `Customer` class to represent our real-life customers
-	- we create instances (or **objects**) of the `Customer` class which contain all the class properties
+	* a _customer_ is something that's important to business, so it is an **entity**
+	* we create a `Customer` class to represent our real-life customers
+	* we create instances (or **objects**) of the `Customer` class which contain all the class properties
 
 ## Access Modifiers
 * **private**: only accessible by the class itself
@@ -243,9 +243,9 @@
 * **methods**: essentially functions which have access to other class members. they may accept parameters and return values
 * **fields**: variables declared at the class level that store the class instance state (the actual data). fields are typically private and modified either by the constructor or by properties. when a field is managed by a property, it is called a **backing field**
 * **properties**: properties expose fields
-	- properties are methods that look and behave like public fields
-	- properties represent the public contract used to access and manipulate the field value
-	- properties manage fields via `getters` and `setters`
+	* properties are methods that look and behave like public fields
+	* properties represent the public contract used to access and manipulate the field value
+	* properties manage fields via `getters` and `setters`
 * private fields and public properties may be managed manually, but if no custom logic is needed for the field, **AutoProperties** automatically generate a backing field
 
 ### Accessing Data
@@ -299,8 +299,8 @@
 ## Static Modifier
 * entire classes can be static, and individual properties/methods of a nonstatic class can be static
 * the **static modifier** declares a member that belongs to the class itself -- rather than to an object of a class
-	- it is accessed using the class name
-	- it is not an object variable
+	* it is accessed using the class name
+	* it is not an object variable
 	```csharp
 		// Customer.cs property:
 		public static int InstanceCount { get; set; }
@@ -315,16 +315,16 @@
 
 ## Const And Readonly
 * **const** keyword creates a constant variable:
-	- const variables can be local or a class member
-	- const variables must be assigned a value when they are declared -- they are immutable after creation
-	- const variables can be initialized using other const values as long as it doesn't create a circular reference
-	- const can only be used to to store built-in types, not Object, classes, arrays or structs
-	- const values are static even without the `static` keyword: they are accessed like static fields because the value will be the same for every instance of the class
+	* const variables can be local or a class member
+	* const variables must be assigned a value when they are declared -- they are immutable after creation
+	* const variables can be initialized using other const values as long as it doesn't create a circular reference
+	* const can only be used to to store built-in types, not Object, classes, arrays or structs
+	* const values are static even without the `static` keyword: they are accessed like static fields because the value will be the same for every instance of the class
 * **readonly** is used to create a class, struct or array that is initialized one time at runtime (ex: in a constructor) and cannot be changed thereafter
-	- readonly cannot be used on local variables -- only on class fields
-	- readonly fields can be assigned to in the declaration or in a constructor
-	- readonly fields can therefore have variable values depending on how the value is initialized at runtime
-	- when an object is readonly, the immutability only applies to the reference -- you cannot reassign the field to a different object, but you can modify the subproperties of the object
+	* readonly cannot be used on local variables -- only on class fields
+	* readonly fields can be assigned to in the declaration or in a constructor
+	* readonly fields can therefore have variable values depending on how the value is initialized at runtime
+	* when an object is readonly, the immutability only applies to the reference -- you cannot reassign the field to a different object, but you can modify the subproperties of the object
 	```csharp
 	public class Calendar
 	{
@@ -451,37 +451,37 @@ There isn't a T, however there is TKey and TSource. It is recommended that you a
 * in addition to breaking the code down into classes, it also makes sense to break the application itself into portable units or **layers**
 * layering makes it easier to extend the application
 * layers include:
-	- **user interface**: forms or pages displayed to the user; logic to control the UI elements (`exe`)
-	- **business logic**: logic to perform business operations (`dll`)
-	- **data access**: logic to retrieve and save data to and from the database (`dll`)
-	- **common**: code that is applicable to many layers and perhaps multiple applications (`dll`)
-		- ex: logging, sending an email
+	* **user interface**: forms or pages displayed to the user; logic to control the UI elements (`exe`)
+	* **business logic**: logic to perform business operations (`dll`)
+	* **data access**: logic to retrieve and save data to and from the database (`dll`)
+	* **common**: code that is applicable to many layers and perhaps multiple applications (`dll`)
+		* ex: logging, sending an email
 * each layer is encapsulated into a separate project
 
 
 ## Creating A Business Layer
 * in VS select `New Project > Visual C# > Class Library`
-	- name it something like solution: "ACM", project name: "ACM.BLL"
-	- Application -> Visual Studio Solution
-	- Layer Component -> Visual Studio Project
+	* name it something like solution: "ACM", project name: "ACM.BLL"
+	* Application -> Visual Studio Solution
+	* Layer Component -> Visual Studio Project
 
 # Domain Driven Design
 * programmers tend to think in terms of models -- what is the shape of this data? what does it do? but that doesn't always scale up incorporate the high-level business requirements. thinking about the domain as a whole can help capture the bigger picture
 * DDD still depends on SRP (Single Responsibility Principal)
 * Anti-Corruption Layers (ACL) are another key DDD pattern
-	- ACLs are essentially seams that prevent non-domain concepts from leaking into your model
-	- repos are another kind of seam
+	* ACLs are essentially seams that prevent non-domain concepts from leaking into your model
+	* repos are another kind of seam
 * **entities** are "things" in your system: person, place, thing
-	- entities have an identity and a lifecycle -- when the process is complete, the entity is dead as far as the system is concerned and goes back to long-term storage
-	- an entity is a unit of behavior: when you invoke a command on an entity, it is responsible for changing its internal state
-	- use **read-only** to enforce immutability of entities
+	* entities have an identity and a lifecycle -- when the process is complete, the entity is dead as far as the system is concerned and goes back to long-term storage
+	* an entity is a unit of behavior: when you invoke a command on an entity, it is responsible for changing its internal state
+	* use **read-only** to enforce immutability of entities
 * an **aggregate root** is an entity that is the parent of other entities
-	- the root is responsible for maintaining the consistency of the aggregate
-	- the root is the only member of the aggregate that outside objects are allowed to reference
+	* the root is responsible for maintaining the consistency of the aggregate
+	* the root is the only member of the aggregate that outside objects are allowed to reference
 * **value objects** are immutable data structures used to encapsulate primitives or other value objects that are bound to each other
-	- no identity: unlike entities they do not have a unique identifier
-	- rather they are defined only by their values
-	- ex: you may have an `Address` value object that contains a `Street`, `City`, `State` and `Zip` -- the address is defined by the values of those properties and two objects with the same values are considered equal
+	* no identity: unlike entities they do not have a unique identifier
+	* rather they are defined only by their values
+	* ex: you may have an `Address` value object that contains a `Street`, `City`, `State` and `Zip` -- the address is defined by the values of those properties and two objects with the same values are considered equal
 * core behavior should be owned by the entity but you might need to provide it with additional data, or provide dependencies which will be responsible for imposing side effects on the outside world
 	```csharp
 		public class Policy { public void Renew(IAuditNotifier notifier) { // do a bunch of internal state-related things, // some validation, etc. ... // now notify the audit system that there's // a new policy period that needs auditing notifier.ScheduleAuditFor(this); } }
@@ -533,9 +533,9 @@ public decimal Debit(decimal amount)
 * tests usually have the same name as the code it's testing with the `Test` suffix
 * create the test through VS by creating a new project of type test and
 * steps for building an automated test:
-	- **arrange**:  any preparations such as creating an instance of the subject class, and defining the **expected** result
-	- **act**: perform an action that returns an **actual** value
-	- **assert**: evaluate the actual value as compared to the expected value
+	* **arrange**:  any preparations such as creating an instance of the subject class, and defining the **expected** result
+	* **act**: perform an action that returns an **actual** value
+	* **assert**: evaluate the actual value as compared to the expected value
 	```csharp
 	Using Customer.BLL // reference the class you're testing
 		[TestClass]
@@ -560,8 +560,8 @@ public decimal Debit(decimal amount)
 		}
 	```
 * pinning Test Explorer might be useful
-	- you can "Run All"
-	- or right-click and "run test" or "debug run"
+	* you can "Run All"
+	* or right-click and "run test" or "debug run"
 
 
 
@@ -569,10 +569,10 @@ public decimal Debit(decimal amount)
 
 ## What Are They?
 * extensions are really cool! they are:
-	- additional methods that allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface
-	- extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces
-	- they are static
-	- available throughout the application by including the namespace in which it has been defined
+	* additional methods that allow you to inject additional methods without modifying, deriving or recompiling the original class, struct or interface
+	* extension methods can be added to your own custom class, .NET framework classes, or third party classes or interfaces
+	* they are static
+	* available throughout the application by including the namespace in which it has been defined
 * The only difference between a regular static method and an extension method is that the first parameter of the extension method specifies the type that it is going to operate on, preceded by the this keyword
 * The first parameter of the extension method must be of the type for which the extension method is applicable, preceded by the this keyword
 
@@ -644,6 +644,13 @@ class Program
 	* using `Any()` in .NET Core is ok as it is optimized to use `Count > 0` if available
 	* do not use `Count() > 0` as this will iterate through the entire collection
 	* [see this SO answer](https://stackoverflow.com/a/63569609)
+* when deserializing a complex json object but you only need subobjects of the json, use `JsonDocument GetProperty` to get the subobject and then deserialize that
+	```csharp
+		JsonDocument doc = JsonDocument.Parse(json);
+		JsonElement root = doc.RootElement;
+		JsonElement userData = root.GetProperty("payload").GetProperty("data").GetProperty("user");
+		User classObject = JsonSerializer.Deserialize<User>(userData.ToString());
+	```
 
 
 # Resources

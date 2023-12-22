@@ -14,21 +14,21 @@
 ## Resume Tips
 * clean and simple
 * action words! what was your impact?
-	- created, designed, debugged
-	- focus on results and impact - list metrics rather than long descriptions
+	* created, designed, debugged
+	* focus on results and impact - list metrics rather than long descriptions
 * use bullet points
 * include github with your contact info
 * one page - eh, not so much
 * education
-	- should be first if you don't have work exp
-	- list gpa, etc, key courses completed; algorithms, etc
-	- brief description of important projects
-	- technical skills
+	* should be first if you don't have work exp
+	* list gpa, etc, key courses completed; algorithms, etc
+	* brief description of important projects
+	* technical skills
 * experience:
-	- chronological order
-	- employer, position, dates
-	- concise descriptions
-	- showcase results for:
+	* chronological order
+	* employer, position, dates
+	* concise descriptions
+	* showcase results for:
 		* internships
 		* interesting project work and research
 		* open source experience
@@ -36,7 +36,7 @@
 		* student groups
 		* hackathons
 * extracurriculars:
-	- student groups
+	* student groups
 
 ## Elevator Pitch
 * as far as my educational experience, after trying on a bunch of different hats and a few different majors, I graduated from Portland State University with a bachelors in Liberal Studies and a minor in Computer Science in 2015
@@ -48,34 +48,34 @@
 * brush up on fundamentals: string and array manipulation
 * practice coding -- don't look rusty
 * look for patterns:
-	- two pointers
-	- stacks
-	- subsets
-	- cyclic sort
-	- union find
-	- k-way merge
+	* two pointers
+	* stacks
+	* subsets
+	* cyclic sort
+	* union find
+	* k-way merge
 * interviewers are looking for signals that you're a good hire:
-	- what design considerations are you making?
-	- how do you generate your test cases?
-	- what questions do you ask?
+	* what design considerations are you making?
+	* how do you generate your test cases?
+	* what questions do you ask?
 * interviewers may give you complexity/efficiency requirements up front (i.e. "the data is not sorted and cannot be sorted" so you know you're looking for a linear time solution) - otherwise you might code a sub-optimal solution and then try to iterate on it or at least point out the pitfalls
 
 ## Interview Tips
 * behavioral questions: answer with the STAR method:
-	- explain the *situation*
-	- describe the *task* you worked on
-	- describe the *action* you took: what did *you* do, what was *your* contribution
-	- describe the *result*: what did you accomplish and learn
+	* explain the *situation*
+	* describe the *task* you worked on
+	* describe the *action* you took: what did *you* do, what was *your* contribution
+	* describe the *result*: what did you accomplish and learn
 * whiteboard: talk through thought process as you assess:
-	- syntax, idioms (nuances of the language), proficiency
-	- algorithms and data structures
-	- analytical skills: logic and process to get to the solution
-	- sound design
+	* syntax, idioms (nuances of the language), proficiency
+	* algorithms and data structures
+	* analytical skills: logic and process to get to the solution
+	* sound design
 		* define interfaces
 		* identify bugs and efficiency concerns
 		* discuss tradeoffs for potential solutions
-	- correctness: does it compile and run?
-	- quality: clean, testable, well-named vars and funcs
+	* correctness: does it compile and run?
+	* quality: clean, testable, well-named vars and funcs
 
 ## System Design Tips
 * check out [this resource](https://www.educative.io/blog/favorite-system-design-question?utm_term=&eid=5082902844932096&utm_campaign=holiday-2022&utm_medium=email&_hsmi=235163542&_hsenc=p2ANqtz-_g02OK8jWnLM8UERg2ahav08M_3z8zLj56Ct-PGSzt1DGdsKQrLE9QtQQ9tc-dPIMJem4NSz0CXvHHixkHztbPT-7DQg&utm_content=&utm_source=educative.io)
@@ -93,9 +93,9 @@
 - **storage schema (optional,last)**: articulate the data model -- define tables, fields and demonstrate granular understanding of the system and make sure the system can handle the data efficiently
 	* this is somewhat optional and may be done after everything else is complete
 	* particularly focus on:
-		- when the data is highly normalized
-		- when different parts of the data need to be stored in different formats
-		- when there are performance or efficiency concerns around how the data is stored
+		* when the data is highly normalized
+		* when different parts of the data need to be stored in different formats
+		* when there are performance or efficiency concerns around how the data is stored
 - **high-level design**: identify the main components and building blocks of your system -- start to focus on fulfilling the functional requirements
 	* don't get bogged down in details. keep it high level -- you can iterate and improve as you continue to work
 	* outline the relationship between clients (mobile and desktop), load balancers, application servers, and database instances -- add in message queues, caches, etc as needed
@@ -112,9 +112,9 @@
 	* add components that meet the non-functional requirements
 	* ex: discuss why you chose a NoSQL db over a relational db
 	* discuss:
-		- what is the availability of your system? is it fault tolerant?
-		- how is caching being handled?
-		- how are load balancing and CDNs being used to reduce latency and distribute load?
+		* what is the availability of your system? is it fault tolerant?
+		* how is caching being handled?
+		* how are load balancing and CDNs being used to reduce latency and distribute load?
 - **evaluation**: does your design effectively meet the functional and non-functional requirements, and have you made justifications for the design you chose?
 	* address any trade-offs you made and how you weight the benefits and drawbacks of other solutions
 	* identify aspects of your system design that could be improved on
@@ -123,35 +123,38 @@
 
 ## Discussion Topics
 * what makes for maintainable code?
-	- follow SRP
-	- use descriptive variable names -- comments should be the exception, not the rule
+	* follow SRP
+	* use descriptive variable names -- comments should be the exception, not the rule
 * compare Monolith (no) -> Microservices (better) -> Monorepo of microservices (yes!)
 * interface vs abstract class
-	- neither interfaces nor abstract classes can be instantiated
-	- a derived class may only inherit from one base class, but it may implement multiple interfaces
-	- an abstract class may provide base functionality used by the derived classes
-	- what's the point of a pure abstract class? it might be easier to extend later on with a virtual property or method
+	* neither interfaces nor abstract classes can be instantiated
+	* a derived class may only inherit from one base class, but it may implement multiple interfaces
+	* an abstract class may provide base functionality used by the derived classes
+	* an abstract class may contain state (data members) and/or implementation (methods) -- interfaces only contain declarations
+	* abstract classes may contain any type of access modifier -- interfaces contain public only
+	* abstract classes support static members -- interfaces do not
+	* what's the point of a pure abstract class? it might be easier to extend later on with a virtual property or method
 * what is an object literal?
 * what is reflection?
 * what are examples of antipatterns?
 * when would you use a NoSQL database?
 * know your acronyms:
-	- SOLID
-	- CAP theorem
-	- ACID
-	- IoC
-	- DI
-	- CRUD vs CQRS
+	* SOLID
+	* CAP theorem
+	* ACID
+	* IoC
+	* DI
+	* CRUD vs CQRS
 * design patterns: book by Gang of Four
-	- singleton: class which only allows one instance of itself to be created; manages concurrent access to a single resource (such as logging, caching, configuration); may be lazy loaded
-	- factory: decouple/abstract means of creating objects from the client; a means of creating objects without specifying the exact class that will be created using inheritance; way of centrally managing implementation details and ensuring objects are always created in the correct state
+	* singleton: class which only allows one instance of itself to be created; manages concurrent access to a single resource (such as logging, caching, configuration); may be lazy loaded
+	* factory: decouple/abstract means of creating objects from the client; a means of creating objects without specifying the exact class that will be created using inheritance; way of centrally managing implementation details and ensuring objects are always created in the correct state
 
 ### Algorithms
 * Big O notation: "this algorithm takes at most x amount of time". identify algorithms as being:
-	- constant (pop, dequeue)
-	- logarithmic (divide and conquer)
-	- linear (foreach in data set)
-	- quadratic (nested for loops)
+	* constant (pop, dequeue)
+	* logarithmic (divide and conquer)
+	* linear (foreach in data set)
+	* quadratic (nested for loops)
 * recursion
 * powers of 2 ?
 

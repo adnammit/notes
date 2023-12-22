@@ -14,9 +14,9 @@
 * the CLR includes services such as thread management, garbage collection, type safety and exception handling. it also provides security boundaries
 * code that is managed by the CLR is called **managed code**
 * developers working on **unmanaged code** must handle all these concerns manually. additionally, code compiled on one architecture can only be run on that arch -- it must be recompiled for other environments
-	- more control over memory allocation, bypass restrictions, closer to CPU architecture
-	- typical for C and C++ development
-	- C# can be unmanaged but it's not common
+	* more control over memory allocation, bypass restrictions, closer to CPU architecture
+	* typical for C and C++ development
+	* C# can be unmanaged but it's not common
 
 
 # Flavors of .NET
@@ -28,6 +28,15 @@
 * includes the CLR and Class Library
 * Framework is currently at 4.8 and will be supported but will not be developed further
 
+## .NET Standard
+* Standard is a specification of .NET, rather than an implementation -- it is a successor of the portable class library
+* it defines the set of APIs that all .NET implementations must provide
+* kind of like another .NET Framework, but it is only used to develop class libraries -- it is a "bridge" between these different abstraction layers
+* example: you use Standard to write a shared library that is consumed by both Framework and Core applications (specifically you use Standard 2.0 as Standard 1.x is not supported by Core)
+* Standard can also be used to "bridge" between things like Xamarin, Mono and Unity
+* Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
+
+
 ## .NET/.NET Core
 * an open-source, cross-platform reimagination of the common layer below all languages -- the basis of Core is the CLR Core
 * this strips a lot of backwards compatibility for things we don't need anymore -- this fresh start allows for much greater performance
@@ -37,15 +46,15 @@
 * confusingly, we skipped Core 4 and what would be Core 5 is now known as just .NET 5 🙄 going forward, we just refer to ".NET 6" rather than ".NET Core 6" but you still may see "Core" in contexts like "ASP.NET Core 6"
 * Core can be used with Docker, and it includes command line tools for local development and continuous integration
 
-### .NET CORE => .NET6+
+### .NET Core => .NET6+
 * C# 10+ allows for the omission of the program class and the `Main` method -- whether you use them or not is up to you if your app doesn't take command line args
 * C# 10+ now supports **top-level statements**
-	- [see here](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements)
-	- basically there is no need to specify `Main`
-	- this is made cleaner with implicit and global using directives
-	- code here is in the global namespace
-	- you can still use the old program style too
-	- example `Program.cs`
+	* [see here](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements)
+	* basically there is no need to specify `Main`
+	* this is made cleaner with implicit and global using directives
+	* code here is in the global namespace
+	* you can still use the old program style too
+	* example `Program.cs`
 		```csharp
 		// this:
 		using System;
@@ -63,40 +72,32 @@
 		Console.WriteLine("Hello, World!");
 		```
 * **implicit using directives**:
-	- some basic directives are assumed and included implicitly -- [see here](https://learn.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#implicit-using-directives)
-	- these don't need to included with `using` or in globals
-	- implicit using directives can be disabled with the `ImplicitUsing` property group.
+	* some basic directives are assumed and included implicitly -- [see here](https://learn.microsoft.com/en-us/dotnet/core/tutorials/top-level-templates#implicit-using-directives)
+	* these don't need to included with `using` or in globals
+	* implicit using directives can be disabled with the `ImplicitUsing` property group.
 * **global using directives**:
-	- in addition to implicit directives, you can specify additional directives to be included in every file (assemblies and namespaces)
-	- globals can be specified in the project file or in (any?) code file with `global using` -- the developing common practice is to put them all in a `Usings.cs` file
-	- implicit using directives can be removed with a global  as well
-	- are globals a good idea?
+	* in addition to implicit directives, you can specify additional directives to be included in every file (assemblies and namespaces)
+	* globals can be specified in the project file or in (any?) code file with `global using` -- the developing common practice is to put them all in a `Usings.cs` file
+	* implicit using directives can be removed with a global  as well
+	* are globals a good idea?
 		* be careful with generic names -- you will want to use forethought and consider your namespace pollution, but i don't think there's any performance penalty
 * **central package management**
-	- [more info](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
-	- historically, packages and package versions have been managed in `packages.config` and `<PackageReference />` within the csproj
-	- with NuGet 6.2+ dependencies for all solution projects are globally managed in `Directory.Packages.props` -- csproj files still declare which dependencies are used there, but the version is managed in `Directory.Packages.props` and is easy to maintain across all projects
-	- enable central package management by setting `ManagePackageVersionsCentrally` to true in `Directory.Packages.props`
-	- if you have multiple package sources, you will get a `NU1507` warning to alert you to vulnerabilities in package supply chains. To safeguard your code against attacks, use [Package Source Mapping](https://youtu.be/G6P38Dn69Ro)
+	* [more info](https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management)
+	* historically, packages and package versions have been managed in `packages.config` and `<PackageReference />` within the csproj
+	* with NuGet 6.2+ dependencies for all solution projects are globally managed in `Directory.Packages.props` -- csproj files still declare which dependencies are used there, but the version is managed in `Directory.Packages.props` and is easy to maintain across all projects
+	* enable central package management by setting `ManagePackageVersionsCentrally` to true in `Directory.Packages.props`
+	* if you have multiple package sources, you will get a `NU1507` warning to alert you to vulnerabilities in package supply chains. To safeguard your code against attacks, use [Package Source Mapping](https://youtu.be/G6P38Dn69Ro)
 
 
 ## ASP.NET
 * ASP == "Active Server Pages"
 * ASP.NET extends the .NET platform with tools and libraries specifically for building server-side web apps, including MVC apps and APIs
 * includes
-	- request processing framework
-	- Razor web page templating
-	- common web pattern libraries like MVC
-	- authentication system
-	- editor extensions for working with web pages
-
-## .NET STANDARD
-* Standard is a specification of .NET, rather than an implementation -- it is a successor of the portable class library
-* it defines the set of APIs that all .NET implementations must provide
-* kind of like another .NET Framework, but it is only used to develop class libraries -- it is a "bridge" between these different abstraction layers
-* example: you use Standard to write a shared library that is consumed by both Framework and Core applications (specifically you use Standard 2.0 as Standard 1.x is not supported by Core)
-* Standard can also be used to "bridge" between things like Xamarin, Mono and Unity
-* Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
+	* request processing framework
+	* Razor web page templating
+	* common web pattern libraries like MVC
+	* authentication system
+	* editor extensions for working with web pages
 
 ## XAMARIN/MONO
 * .NET implementations for mobile OS
@@ -107,17 +108,15 @@
 * friendly with SSMS, MySQL, psql, SQLite and more
 
 
-
-
 # Creating a Project
-_
+
 ## Project Folder Structure
 * depends on your purpose, but general stuff includes:
-	- `/Properties/launchsettings.json`: tells the framework how to launch the app, including what commands to run, env variables to set, and applications (such as browser) to launch. **THIS IS WHERE YOUR LOCALHOST URL IS SET!**. this info is also used for debugging
-	- `Startup.cs`: provide configurations for how the app should start and execute. this is now an optional supplement to Program
-	- `Program.cs`: .NET Core is a console application configured to run a web app -- Program.cs contains the `main` method
-	- `appsettings.json`: connection and app-specific settings, globally scoped variables. env-specific settings files can be created, such as `appsettings.Development.json`
-	- `MyProject.csproj`: an XML file
+	* `/Properties/launchsettings.json`: tells the framework how to launch the app, including what commands to run, env variables to set, and applications (such as browser) to launch. **THIS IS WHERE YOUR LOCALHOST URL IS SET!**. this info is also used for debugging
+	* `Startup.cs`: provide configurations for how the app should start and execute. this is now an optional supplement to Program
+	* `Program.cs`: .NET Core is a console application configured to run a web app -- Program.cs contains the `main` method
+	* `appsettings.json`: connection and app-specific settings, globally scoped variables. env-specific settings files can be created, such as `appsettings.Development.json`
+	* `MyProject.csproj`: an XML file
 
 ## Build an Application
 * you specify in the `Program.cs` how the application is built and configured -- that depends based on what kind of application you are creating, but generally it will be some kind of ASP.NET with some kind of web service/interface
@@ -127,13 +126,13 @@ _
 ## Configuration
 * [See configuration doc](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0)
 * various configuration providers can be used:
-	- `appsettings.json` and other `*.json` files
-	- env variables
-	- azure key vault
-	- command line args
-	- custom providers
-	- directory files
-	- in-memory .NET objects
+	* `appsettings.json` and other `*.json` files
+	* env variables
+	* azure key vault
+	* command line args
+	* custom providers
+	* directory files
+	* in-memory .NET objects
 * for many apps, there is an *app* and a *host* which hosts the app. both can be configured, some things can be configured in either place. generally only necessary configuration should be done in the host and all else in the app
 * technically you can add `appsettings.json` to both host and app configuration, but Config set in ConfigureHostConfiguration flows to the app's config. The last config provider to set a value (in either method) on a key wins
 
@@ -141,10 +140,10 @@ _
 
 ### Host Configuration
 * some variables are locked in early when the host builder is initialized and cannot be changed by application configuration:
-	- application name
-	- env name
-	- content root
-	- web root
+	* application name
+	* env name
+	* content root
+	* web root
 
 
 
@@ -166,10 +165,10 @@ _
 * `_context` can be used throughout your controller classes to access your httpContext and database context
 * **Action methods** are the methods within a controller -- the name of the method is used to map to its URL endpoint, e.g. the `Details()` method in `UserController` maps to `/User/Details`
 * action methods can have a few different return types:
-	- `ActionResult`: returns an object or exception
-	- `IActionResult`: contract to represent the result of an action method. the default implementation of `IActionResult` is `ActionResult`
-	- `Task<>` represents an operation that executes asynchronously
-	- `Task<IActionResult>` returns results from action methods asynchronously
+	* `ActionResult`: returns an object or exception
+	* `IActionResult`: contract to represent the result of an action method. the default implementation of `IActionResult` is `ActionResult`
+	* `Task<>` represents an operation that executes asynchronously
+	* `Task<IActionResult>` returns results from action methods asynchronously
 
 ## Client vs Server Side Rendering
 * [docs](https://learn.microsoft.com/en-us/aspnet/core/tutorials/choose-web-ui?view=aspnetcore-6.0)
@@ -182,21 +181,21 @@ _
 * once all the services are added, `BuildServiceProvider` creates the service container which supplies the dependencies
 * the container *injects* the service to the constructor of the class where it's needed -- it is responsible for creating an instance of that dependency and disposing of it when it's no longer needed
 * for MVC controllers
-	- services may be injected into the controller constructor as with other class instance
-	- alternatively, if the service is only used in one or some action methods, the [`FromServices` attribute](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-6.0#action-injection-with-fromservices) may be used instead
+	* services may be injected into the controller constructor as with other class instance
+	* alternatively, if the service is only used in one or some action methods, the [`FromServices` attribute](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-6.0#action-injection-with-fromservices) may be used instead
 
 
 ## Scopes
 * the method used to register a service indicates the scope (lifetime) of an instance
 * **transient**: a new instance will be created every time it is requested
-	- used for lightweight operations with very little or no state
-	- ex: httpclient: you get a fresh one each time because your request is (probably) different
+	* used for lightweight operations with very little or no state
+	* ex: httpclient: you get a fresh one each time because your request is (probably) different
 * **scoped**: a new instance is created for each scope (each server request)
-	- used when some amount of state is needed throughout a request
-	- ex: sql connection
+	* used when some amount of state is needed throughout a request
+	* ex: sql connection
 * **singleton**: a single instance will be created
-	- must be memory tight and efficient as it's used everywhere for a long time (leaks build up)
-	- ex: logger, memory cache
+	* must be memory tight and efficient as it's used everywhere for a long time (leaks build up)
+	* ex: logger, memory cache
 
 # Nuget Packages
 * Rider and VS have built in package restoration processes but you can use `dotnet` and `nuget` clis to manage packages as well -- it is preferred to use the `dotnet` cli over `nuget` when your project uses `PackageReferences` in the csproj files, rather than the obsolescing `packages.config`
