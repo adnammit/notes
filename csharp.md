@@ -116,9 +116,12 @@
 		* when a value type is passed, a copy of the value is created on the stack
 		* any modifications made to a value in the function will not persist outside the function scope
 		* reassigning the variable overwrites the data in memory (I think? but what about immutability?)
+		* value types include ints and other "primitives" are values types and store their values directly. interestingly, structs are also value types
 	- **reference types**:
-		* stored in the heap
-		* mutable
+		* pointer is stored on the stack, the actual data is stored in the heap
+		* mutable: which is to say that the pointer can be changed, but the data it points to cannot be changed
+			* this explains why strings are immutable -- you can reassign the variable pointer to a different string, but you can't change the string itself
+			* likewise when you modify an object property, you're not changing the value, you're modifying the value the property pointer is pointing to (at least I think that's how it works)
 		* multiple variables can point to the same object in memory
 		* when a reference type is passed, the *reference* is copied which points to the same data in the heap
 		* changes to the value will persist outside the function scope as we use the reference to access the value it's pointing to
@@ -133,7 +136,6 @@
 			customer.2.FirstName = "Frodo";
 			Console.log(customer1.FirstName); // "Frodo"
 		```
-* ints and other "primitives" are values types and store their values directly. interestingly, structs are also value types
 * **pointer types**: similar to reference types but with different qualities. the bottom line is that pointers are unsafe and you shouldn't use them unless you know what you're doing and really need to
 	- a reference points to an *object* in memory but a pointer just points to a *place*
 	- as such, pointers are not type safe: they could be pointed at an int, a char, another pointer...
@@ -437,7 +439,7 @@ void Foo<T>(T item) where T: class
 	Type type = typeof(T);
 }
 ```
-As a more complex example, check the signature of ToDictionary or any other Linq method.
+As a more complex example, check the signature of ToDictionary or any other LINQ method.
 
 ```csharp
 public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
@@ -603,15 +605,45 @@ class Program
 ```
 
 
+# LINQ
+* Language INtegrated Query, a .NET library which allows you to write queries directly into your code
+* LINQ can be used on its own on IEnumerables, or paired with an ORM like Entity
+* there are different ways of writing a LINQ statement:
+	* **query syntax**: written like a SQL query
+	* **method syntax**: can be written with LambdaExpressions
+	* **dynamic LINQ**: a third-party library that allows you to write your LINQ queries as strings
+	* **comprehension syntax**: a combination of query and method syntax
+	```csharp
+	// LINQ Query Syntax
+	var result = from s in stringList
+		where s.Contains("Tutorials") 
+		select s;
+
+	// LINQ Method Syntax
+	var result = stringList.Where(s => s.Contains("Tutorials"));
+
+	// dynamic LINQ
+	var list = customers.Where("Name.Contains(@0)","ZZZ Projects");
+	```
+
 # Misc Tricks, Best Practices And Gotchas
 * **string interpolation** provides a more readable and convenient syntax to include formatted expression results in a result string
 	```csharp
 		Console.WriteLine($"On {date:dddd, MMMM dd, yyyy} Leonhard Euler introduced the letter e to denote {Math.E:F5} in a letter to Christian Goldbach.");
 	```
 * **implicit types** just use `var` when declaring variables -- the compiler knows what to do
-* **linq**: Language Integrated Query, a .NET library which allows you to write queries directly into your code
-	- when using linq, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
+* when using LINQ, consider using `list.FirstOrDefault()` over `list.First()` as the former will not throw an exception if there is no element
 * **StringBuilder**: once instantiated, strings are immutable. string concatenation creates new strings. if you're doing a bunch of concatenation, use StringBuilder
+* **"" vs String.Empty**: this used to matter ("" created a new object every time it's referenced) but this has been optimized so that they are the same
+* **request data**: there are a few requirements for models/data used in requests
+	* is your input/request body null when it reaches your endpoint? check the formatting of the request object -- if it doesn't match the C# model, it will be null
+	* if your C# model has a custom constructor, it also needs a default constructor to be used in requests
+	* your C# model properties must have public getters and setters
+* most efficient method to determine "are there any in this collection?"
+	* use `Count > 0` if available
+	* using `Any()` in .NET Core is ok as it is optimized to use `Count > 0` if available
+	* do not use `Count() > 0` as this will iterate through the entire collection
+	* [see this SO answer](https://stackoverflow.com/a/63569609)
 
 
 # Resources

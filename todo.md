@@ -3,6 +3,7 @@
 * write a script to periodically update stuff like git, powershell, docker
 * keep an eye on Bun, a js runtime that may contend with Nodejs: with native ts support, written in a C-like language, built in compiler rather than webpack, it can handle many more requests than node in prelim testing
 * check out browserless.io, use for debugging, testing, snapshots, etc
+* try fakeapi to easily mock services
 * make a /uses
 	- sites i like
 		* https://restfulapi.net/resource-naming/

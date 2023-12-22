@@ -1,7 +1,17 @@
 # Javascript ☕
 
 ## Cool Tricks/Gotchas
-* use `!!` to check if value is truthy but know that empty object will evaluate truthy. example: `if(!!myStr)` to check if string is null or empty
+* use `const` or `let` if possible -- fallback to `var` if necessary
+* [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
+* [`falsy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`, and `document.all`
+* use `!!` to cast a non-boolean to a boolean -- particularly if you need to assign a boolean based on the truthiness of another value:
+	```js
+		let enabled = !!userId;
+		let enabled = Boolean(userId); // same as this
+		// or consider the difference between these assignments:
+		let isValid = !!(list && list.name && list.name.trim()); // assigns a boolean
+		let name = list && list.name && list.name.trim(); // assigns a string
+	```
 * use **short circuit evaluation** for variable assignment when you want to assign to the first non-null/empty value. the last value will be assigned even if it's empty/null so it's important to put a default value at the end if you need some value
 	```js
 	var a;
@@ -9,12 +19,23 @@
 	var c = null;
 	var d = a || b || c || "hello"; // d == "hello"
 	```
-* use `Object.assign(obj, copy)` to create a copy of `obj`
-	- **NOTE** `Object.assign()` does not **deep clone** -- it copies values but not references, so the copy will be linked to any nested objects in the original
-* for **deep clones** you can use `JSON`:
-	- `const copy = JSON.parse(JSON.stringify(original))`
+* **copying data**: TL;DR: use `structuredClone` for deep copies
+	* [comparison of all options](https://web.dev/articles/structured-clone)
+	* for **shallow copies** use `Object.assign(obj, copy)` to create a copy of `obj` -- it copies values but not references, so the copy will be linked to any nested objects in the original
+	* you can also use spread syntax for a **shallow copy** 
+	* for **deep copies** of objects and arrays you can use `JSON` or `structuredClone`
+		* `JSON` is more widely supported, but cannot handle cyclical data structures or built in types like `Date`, `Map`, `Set` etc
+		* `structuredClone` is faster, handles cyclical data structures, and can handle built in types
+		* `lodash cloneDeep()` provides the most flexibility in deep cloning but requires the library
+	```js
+		// shallow copies
+		var copy = Object.assign({}, original);
+		var copy = {...original};
+		// deep copies
+		var copy = JSON.parse(JSON.stringify(original));
+		var copy = structuredClone(original);
+	```
 * attaching js to html: import script in body (after DOM is loaded) unless there's a good reason to put it in document head
-* use `const` or `let` if possible -- fallback to `var` if necessary
 * is js asynchronous? not really, but it behaves like it thanks to web/browser API and promises which handle events concurrent to the main call stack and emit callback events that are eventually pushed back on to the main call stack. priority of execution is as follows:
 	1. synchronous events (`console.log("hello world")`)
 	2. promise resolution (`new Promise(resolve()).then(() => console.log("resolved!"))`)
@@ -25,6 +46,8 @@
 	- use `console.time()` and `console.timeEnd()` to see how long a process takes to execute
 	- use `console.table()` to organize complex data: `console.table({person1, person2, person3})`
 	- add css to the console to make your logs stand out: `console.log("%cHello World", "color: blue; font-size: 20px; border: solid;")`
+* **array manipulation**
+	* use `shift` over `splice` to remove the first element of an array
 
 ## Background
 * ECMA2015 == ES6
