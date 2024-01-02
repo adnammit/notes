@@ -17,14 +17,10 @@
 * powershell is thought of more as a configuration management tool -- used to manage windows environments at scale. both powershell and bash are scripting languages that can used for automation tasks
 
 # bash
-* native to linux/unix. bash can be used on Windows via Cygwin or more recently the linux subsystem
+* native to linux/unix. bash can be used on Windows via Cygwin or more recently the Windows Subsystem for Linux (WSL)
 * particularly useful for porting *nix code into windows envs
 * quicker commands
 * treats everything as plain text
-
-## WSL
-* the linux subsystem for Windows makes it possible to install multiple Linux distros on a windows machine
-* compare to Cygwin, which doesn't have the proper integration with windows
 
 # Powershell
 * flexible and powerful; open-source

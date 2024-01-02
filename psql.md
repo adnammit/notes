@@ -1,56 +1,66 @@
-# PSQL
+# PostgreSQL
 
-## PSQL FLAVORS AND INTEGRATIONS
+## Resources
 
-### PSQL WINDOWS - SQL SHELL
-* SQL shell is a special shell that will make your life easier. run psql within this shell
+[Getting started](https://www.postgresqltutorial.com/)
+
+[How to seed a Postgres DB on a dev environment](https://hub.qovery.com/guides/tutorial/data-seeding-in-postgres/)
+
+[Running stuff via psql vs script](https://stackoverflow.com/a/8208821)
+
+## PostgreSQL Flavors And Integrations
+
+### psql CLI
+* the psql utility is a command line interface for postgresql
 * when you start, you'll enter:
-	- Server: localhost by default. just click enter
-	- Database: there is a database called "postgres" that's created with install
-	- Port: enter for default
-	- Username: postgres by default
-	- if you have a pw stored in pgpass.conf, it'll use that (so make sure it's right)
+	* Server: localhost by default. just click enter
+	* Database: there is a database called "postgres" that's created with install
+	* Port: enter for default
+	* Username: postgres by default
+	* if you have a pw stored in pgpass.conf, it'll use that (so make sure it's right)
 * remember that you might have to restart the pg server with pg_ctl and that sucks and might not work and you'll have to restart your computer...
 * you can also use the pgAdmin gui if you prefer
 
-## PG
-* aka node-postgres: a nonblocking postgresql client for nodejs
+### pgAdmin
+* pgAdmin is a full-on GUI for postgresql, like SSMS
 
-## DATA TYPES
+### PG
+* an npm package aka node-postgres: nonblocking postgresql client for nodejs
+
+## Data Types
 * use `text` over `varchar` (they're all dynamic arrays so it doesn't matter)
-	- you could use `varchar(n)` if you wanted to limit the max size but really just use `text`
+	* you could use `varchar(n)` if you wanted to limit the max size but really just use `text`
 * for primary keys use `serial` over `int` (`id serial primary key not null`)
 * for datetimes use `timezonetz` (`datecreated timezonetz not null default NOW()`)
-	- `time` and `date` are also available
+	* `time` and `date` are also available
 * store files with `binary`
 * `numeric` types include `integer`, `smallint`, `bigint` and `float`
 * `numeric` is used to declare decimals. decimals are defined by precision (number of digits) and scale (places after the decimal), e.g. `numeric(5,2)` will store a decimal like `123.45`
 * other types include monetary, geometric for storing points
 
 
-## RUNNING PSQL LOCALLY:
-* from your local CLI type:
-```
+## Running PostgreSQL Locally:
+From your local CLI type:
+```bash
 	psql -d <dbname> -U <username>
 	\c foo;    // connect to database foo
 ```
-* data is in ~/Library/Application Support/Postgres[ver]/var by default.
+Data is in `~/Library/Application Support/Postgres[version]/var` by default.
 
 
 To have launchd start postgresql at login:
+```bash
+	ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+	# Then to load postgresql now:
+	launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+	#Or, if you don't want/need launchctl, you can just run:
+	postgres -D /usr/local/var/postgres
 ```
-ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-Then to load postgresql now:
-launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
-Or, if you don't want/need launchctl, you can just run:
-postgres -D /usr/local/var/postgres
-```
-* `pg_config --includedir` tells you where the pg_dtconfig is
+`pg_config --includedir` tells you where the pg_dtconfig is
 
 
-
-## PSQL COMMANDS
-**remember you have to put a ; after everything**
+## psql Commands
+**REMEMBER** you have to put a `;` after everything
 ```
 * \? - full list of commands
 * \h - help
@@ -67,132 +77,135 @@ postgres -D /usr/local/var/postgres
 * \e - open query in vim, nano, or other environment editor
 ```
 
-## CREATE AND DESIGN A TABLE:
+# Table Creation And Design
 * **CREATE** table
-		```sql
-		create table faculty(
-				fid int primary key,
-				fname char(15),
-				age int,
-				did int references department(did) deferrable
-		);
-		```
+```sql
+	create table faculty(
+			fid int primary key,
+			fname char(15),
+			age int,
+			did int references department(did) deferrable
+	);
+```
 * **ALTER** a table:
-		```sql
-				-- create fk
-				alter table department add foreign key (dhead) references
-						faculty(fid) deferrable;
-				-- remove column?
-				alter table faculty drop age;
-				-- add a column
-				alter table students add column major char(15);
-		```
+```sql
+	-- create fk
+	alter table department add foreign key (dhead) references
+			faculty(fid) deferrable;
+	-- remove column?
+	alter table faculty drop age;
+	-- add a column
+	alter table students add column major char(15);
+```
 * **INSERT** values:
-		```sql
-				insert into faculty values(124, 'Jean-Luc', 45, 1005);
-				-- insert multiple values
-				insert into pirates values
-						('Black Beard', 42),
-						('Anne Bonny', 28),
-						('Calico Jack', 32)
-		```
+```sql
+	insert into faculty values(124, 'Jean-Luc', 45, 1005);
+	-- insert multiple values
+	insert into pirates values
+			('Black Beard', 42),
+			('Anne Bonny', 28),
+			('Calico Jack', 32)
+```
 * **DELETE** a row which satisfies a condition:
-		```sql
-				delete from faculty where fname = 'Jean-Luc';
-				delete from faculty;    -- empties the table :(
-				delete from students where gpa < 2;
-				delete from students where name = 'Daniel';
-		```
+```sql
+	delete from faculty where fname = 'Jean-Luc';
+	delete from faculty;    -- empties the table :(
+	delete from students where gpa < 2;
+	delete from students where name = 'Daniel';
+```
 * **UPDATE** a row:
-		```sql
-				update students set gpa = 4 where name = 'Daniel';
-		```
+```sql
+	update students set gpa = 4 where name = 'Daniel';
+```
 * **NOT NULL**: if you add a not-null column to a table, you can't just add it -- that column will be null for all existing rows which is not permitted
-		- to get around this, create the column as null, add values for existing columns and then make the column not null:
-		```sql
-				-- conditionally add a column if it doesn't exist to avoid errors
-				if (not exists(select 1 from information_schema.columns where table_schema = 'HighSeas' and table_name = 'Pirates' and column_name = 'Age'))
-				begin
-						alter table HighSeas.Pirates add Age int null;
-				end
-				update HighSeas.Pirates
-				set
-					Age = 32
-				where Name = 'Anne Bonny';
-				alter table attendance.eventreason alter column displayorder int not null;
-		```
+	* to get around this, create the column as null, add values for existing columns and then make the column not null:
+```sql
+	-- conditionally add a column if it doesn't exist to avoid errors
+	if (not exists(select 1 from information_schema.columns where table_schema = 'HighSeas' and table_name = 'Pirates' and column_name = 'Age'))
+	begin
+			alter table HighSeas.Pirates add Age int null;
+	end
+	update HighSeas.Pirates
+	set
+		Age = 32
+	where Name = 'Anne Bonny';
+	alter table attendance.eventreason alter column displayorder int not null;
+```
 
-
-### PRIMARY KEY:
+## Primary Key:
 * **primary key** is a distinct value which distinguishes one row of data in a table from all the rest
 * you can change the column of data which is the pkey but psql won't let you if each row doesn't have a distinct value.
 * change pkey with:
-		```sql
-				alter table students add constraint pkey_type primary key (lastname);
-		```
+```sql
+		alter table students add constraint pkey_type primary key (lastname);
+```
 * a pkey can be more than one attribute:
-		```sql
-				alter table enrolled add constraint enrolled_pkey
-				primary key (sid, cid);
-		```
+```sql
+	alter table enrolled add constraint enrolled_pkey
+	primary key (sid, cid);
+```
 * psql always creates a b tree for the pkey
 * a pkey may consist of two values combined together
 * remove a pkey:
-		```sql
-				alter table foo drop constraint foo_pkey;
-		```
+```sql
+	alter table foo drop constraint foo_pkey;
+```
 
-### FOREIGN KEY:
+## Foreign Key:
 * adding two foreign keys to the table 'enrolled':
-		```sql
-				alter table enrolled add foreign key (sid) references student(sid);
-				alter table enrolled add foreign key (cid) references class(cid);
-		```
+```sql
+	alter table enrolled add foreign key (sid) references student(sid);
+	alter table enrolled add foreign key (cid) references class(cid);
+```
 
-### POPULATE A TABLE BY UPLOADING A FILE
+## Populate a Table By Uploading a File
 * populate the table by copying data from a .csv or .txt:
-		```sql
-				copy zip_codes from '/path/to/csv/ZIP_CODES.txt' DELIMITERS ',' CSV;
-		```
+```sql
+	copy zip_codes from '/path/to/csv/ZIP_CODES.txt' DELIMITERS ',' CSV;
+```
 
 
 
-## SQL BASICS
+# SQL Basics
 
-### DISPLAY ORDERING:
+## Display Ordering
 * if an order is not specified, the output is in the order it was inserted onto the drive, unless some kind of processing like 'distinct' occurs
 * psql is perfectly happy to have duplicate rows unless you use 'distinct'
-		- recall that this is a 'bag' -- a set of data with duplicate members
+	* recall that this is a 'bag' -- a set of data with duplicate members
 
-### CORRELATION NAMES:
+## Correlation Names
 * **correlation names** allow you to reference the same table twice, and create more complex statements
-		```sql
-				select s.sname from sailors s;
-		```
+```sql
+	-- 's' is the correlation name - an alias for 'sailors'
+	select s.sname from sailors s;
+```
 
+# Relationships Between Tables
+* some tables share the same attributes
+```
+	sailors(sid, sname, rating, age)
+	reserves(sid, bid, day)
+	boats(bid, bname, color)
+```
+* show the hierarchy of schemas
+```
+	show seach_path;
+```
 
-## RELATIONSHIPS BETWEEN TABLES:
-* some tables share the same attributes:
-		sailors(sid, sname, rating, age)
-		reserves(sid, bid, day)
-		boats(bid, bname, color)
-* show the hierarchy of schemas:
-		show seach_path;
-
-## INDEXES:
+## Indexes
 * indexes should not be used on small tables
 * add an index based on a column in the table:
 		create index width_idx on rocks(width);
 
 
-## VIEWS
+## Views
 * create a view
 		```sql
 				create view youngSailors as
 				select * from sailors where age < 27;
 		```
 
-## STORED PROCEDURES
+## Stored Procedures
 * create a new sproc:
 		```sql
 				if not exists(
@@ -244,12 +257,12 @@ COMPARISON OPERATORS:
 EXPRESSION OPERATORS:
 * we can merge and compare two query expressions using operators
 * operators are:
-		- union: automatically eliminates duplicates
-		- union all: returns a bag set
-		- intersect:
-		- intersect all:
-		- except:
-		- except all
+		* union: automatically eliminates duplicates
+		* union all: returns a bag set
+		* intersect:
+		* intersect all:
+		* except:
+		* except all
 * when you use an expression operator the queries must have a matching
 	number of columns
 * slick use of expression operator:
@@ -261,12 +274,12 @@ EXPRESSION OPERATORS:
 EFFICIENCY
 * "touching disk" - it is 100K slower to pull from disk compared to
 	grabbing from memory
-		- the more we can grab from memory, the faster our operations
+		* the more we can grab from memory, the faster our operations
 * data is in the order that they were inserted into the database
-		- sequential scan: steps through the data in the inserted order
-		- seq scan vs materialize: materialize puts the data into memory
+		* sequential scan: steps through the data in the inserted order
+		* seq scan vs materialize: materialize puts the data into memory
 * using 'explain' may help figure out if a query is logically sound
-		- cost in time listed for first row to last entry
+		* cost in time listed for first row to last entry
 * psql uses B-trees to load ids and pointers to the data for faster searches
 * use the 'explain' function to see how psql arranges its algorithms and
 	the relative cost of running a command:
@@ -335,9 +348,9 @@ EXERCISES:
 `\dt spy.*;`
 		// counts how many tables are in the spy schema (there are 11)
 for the languagerel table:
-		- the foreign keys reference the agent table (agent_id) and the
+		* the foreign keys reference the agent table (agent_id) and the
 			language table (lang_id)
-		- the  primary key is the combination of the two other id's
+		* the  primary key is the combination of the two other id's
 			(lang_id, agent_id)
 for the skill table:
 		contains
@@ -345,22 +358,22 @@ for the skill table:
 
 RELATIONAL DATABASES
 * why study relational databases?
-		- way better than having a big chunk of random data -- better
+		* way better than having a big chunk of random data -- better
 			efficiency and better design
 * database technology and theories have been very thoroughly developed
 * DBMS: database management system
 * schemas:
-		- 'public' is the default schema space
+		* 'public' is the default schema space
 * key: one or more attributes whose values uniquely identify the rows in
 	the table. example: the key could be an id number, or a combination of
 	id and date, etc
 
 * how is a query evaluated?
-		- it starts with the 'from' clause -- we have to have a pool to draw
+		* it starts with the 'from' clause -- we have to have a pool to draw
 			candidates from
-		- once we've got our candidates, the 'where' clause is used to narrow
+		* once we've got our candidates, the 'where' clause is used to narrow
 			down candidates
-		- finally, the 'select' clause is evaluated to tell us which columns
+		* finally, the 'select' clause is evaluated to tell us which columns
 			to keep in the query answer
 * equivalent queries: order is irrelevant unless there is an 'order by'
 	clause
@@ -372,15 +385,15 @@ BAGS AND SETS:
 
 JOIN:
 * join is secretly built in to most queries that we write
-		- foriegn keys
+		* foriegn keys
 * joins in the from clause:
-		- inner join (the regular join)
-		- cross join - cross product
-		- natural join - don't use
-		- left outer join
-		- right outer join
-		- full outer join
-		- (the words 'inner' and 'outer' are not needed)
+		* inner join (the regular join)
+		* cross join - cross product
+		* natural join - don't use
+		* left outer join
+		* right outer join
+		* full outer join
+		* (the words 'inner' and 'outer' are not needed)
 * you can use two tables at a time with join and then pipe join statements
 	together for more complex statements
 * example:
@@ -412,15 +425,15 @@ JOIN:
 		from agent a join languagerel lr on a.agent_id = lr.agent_id
 		join language l on lr.lang_id = l.lang_id;
 * does the order of tables effect the efficiency of the query?
-		- they are equivalent, regardless of the order they're written
-		- the optimizer selects the order, regardless of the order you pick
-		- however, if you start with the smallest table, that's best
+		* they are equivalent, regardless of the order they're written
+		* the optimizer selects the order, regardless of the order you pick
+		* however, if you start with the smallest table, that's best
 * remember that the attributes you select have *NOTHING* to do with
 	'right' or 'left' -- R or L refer to the order of the tables.
 * LEFT (outer) JOIN:
-		- includes all data from the left table and all data from the right
+		* includes all data from the left table and all data from the right
 			table that matches.
-		- if we want to create a query table where the two join tables have
+		* if we want to create a query table where the two join tables have
 			an uneven number of columns, we can use left join to insert null
 			values on the right
 		select s.sid, s.sname, r.bid
@@ -428,44 +441,44 @@ JOIN:
 		sailors s left join reserves r
 		on s.sid = r.sid;
 * RIGHT (outer) JOIN:
-		- includes all data from the right table and all data from the left
+		* includes all data from the right table and all data from the left
 			table that matches
-		- we get the same result as above if we swap sailors and reserves:
+		* we get the same result as above if we swap sailors and reserves:
 		select s.sid, s.sname, r.bid
 		from
 		reserves r right join sailors s
 		on s.sid = r.sid;
 * INNER JOIN VS OUTER JOIN:
-		- an inner join includes only matches between tables
-		- full outer join will include all matches plus the leftovers from the
+		* an inner join includes only matches between tables
+		* full outer join will include all matches plus the leftovers from the
 			first table and from the second table
 * FULL OUTER JOIN:
-		- includes all matches between tables and all other rows from both
+		* includes all matches between tables and all other rows from both
 			tables
 * CROSS JOIN:
-		- the two queries are equivalent:
+		* the two queries are equivalent:
 		select * from sailors s, boats b;
 		select * from sailors s cross join boats b;
 * 'USING'
-		- 'using(sid)' is pretty much the same as 'on s.sid = r.sid'
+		* 'using(sid)' is pretty much the same as 'on s.sid = r.sid'
 		select * from sailors join reserves using (sid);
-		- in this example, 'sid' MUST be in both tables so saying 's.sid' is
+		* in this example, 'sid' MUST be in both tables so saying 's.sid' is
 			redundant and will cause a syntax error
-		- this also drops the extra 'sid' column that appears using the 'on'
+		* this also drops the extra 'sid' column that appears using the 'on'
 			clause
 * NATURAL JOIN:
-		- finds the similarity between tables -- implied "using" or on
+		* finds the similarity between tables -- implied "using" or on
 		select * from sailors natural join reserves;
 		select * from sailors natural join reserves natural join boats;
 				**whoa, that's slick!**
-		- so why not do this all day long?
+		* so why not do this all day long?
 		* if two tables have two columns that have the same name (like
 			'name' or 'first') natural join will join based on the matching
 			attribute names -- example, if you join boats and sailors based
 			on 'name', you won't get anything unless a boat and a sailor
 			have the same name
-		- as schemas change, this small problem could break your software
-		- using 'using' is less risky and better practice
+		* as schemas change, this small problem could break your software
+		* using 'using' is less risky and better practice
 
 VALUE CONSTRUCTOR:
 * allows you to create rows or tables on the fly
@@ -473,77 +486,77 @@ VALUE CONSTRUCTOR:
 QUERY OPTIMIZATION:
 * the job of the query optimizer is to find the fastest query plan, after
 	looking at the costs of various plans. the optimizer considers:
-		- how many plans are there? can we enumerate them?
-		- how can we estimate the cost of a plan? what units do we use?
+		* how many plans are there? can we enumerate them?
+		* how can we estimate the cost of a plan? what units do we use?
 		* we can count and compare by counting number of times that we
 			touch disk
-		- how are queries (and query operators) implemented?
+		* how are queries (and query operators) implemented?
 * query optimization steps:
-		- translate SQL query into a query tree
-		- generate other equivalent trees
-		- for each possible tree:
+		* translate SQL query into a query tree
+		* generate other equivalent trees
+		* for each possible tree:
 		* select an algorithm for each operator
 		* estimate the cost of the plan
-		- choose the plan with the lowest estimated cost
+		* choose the plan with the lowest estimated cost
 * using 'explain' gives an estimate of a potential cost.
-		- BUT you have to 'analyze' first to make sure PSQLs stats on the
+		* BUT you have to 'analyze' first to make sure PSQLs stats on the
 			table are accurate
 
 INDICES
 * what is an index?
-		- it is a separate file that holds a B+ tree structure
-		- the B+ tree is always balanced (same number of levels on every
+		* it is a separate file that holds a B+ tree structure
+		* the B+ tree is always balanced (same number of levels on every
 			branch)
-		- you set the size of the index block when you first define it
-		- typically the index holds about 127 key values and 128 pointers
-		- the leaves of the tree hold pointers to the rows on the actual
+		* you set the size of the index block when you first define it
+		* typically the index holds about 127 key values and 128 pointers
+		* the leaves of the tree hold pointers to the rows on the actual
 			table
 * why?
-		- the index file is smaller, faster to search
-		- the top couple of tree levels are brought in to main memory when
+		* the index file is smaller, faster to search
+		* the top couple of tree levels are brought in to main memory when
 			the DBMS is fired up
-		- the tree is sorted and designed to direct you to the key value as
+		* the tree is sorted and designed to direct you to the key value as
 			fast as possible
 * but!
-		- they make inserts slower because all the b trees have to be updated
+		* they make inserts slower because all the b trees have to be updated
 * clustered index: the data records are sorted and blocked together in
 	groups based on the index order
 * unclustered index: the data records are not sorted into any order
-		- terrible for range queries -- you have to keep jumping back to get
+		* terrible for range queries -- you have to keep jumping back to get
 			to the next item, rather than just scanning through the table until
 			you get to the end or the condition is no longer met
 * dense index: one index entry for each entry in the table
 * sparse index: one index points to each PAGE or block of data
-		- you can get away with this if the data is sorted
+		* you can get away with this if the data is sorted
 * PSQL uses dense and clustered indices
-		- an index is UNCLUSTERED until you cluster it
+		* an index is UNCLUSTERED until you cluster it
 * create an index:
 		create index on sailorscopy (age);
 * when a table is clustered it is resorted according to the specified
 	index
-		- if you add data after clustering it gets thrown on the end, the
+		* if you add data after clustering it gets thrown on the end, the
 			added data won't be sorted
-		- a table can only be clustered under one index at a time.
+		* a table can only be clustered under one index at a time.
 
 EMBEDDED SQL:
 * putting databases in our code, and code in our databases
-		- connecting a website to a database --> web app!
+		* connecting a website to a database --> web app!
 * SQL can be customized, controlling what is visible to users, and results
 	can be updated dynamically
 * SQL can be called by a host languege:
-		- C/C++, .NET, PHP, Java, Ruby, Python
+		* C/C++, .NET, PHP, Java, Ruby, Python
 * SQL statements can refer to host variables (return values) and must
 	include a statement to connect to the correct database
 * you can code multiple cursors in multiple databases to operate at the
 	same time.
 * the general procedure for embedding SQL:
-		- take some command line args
-		- open a connection
-		- create a cursor
-		- do what you need to do with the cursor data
+		* take some command line args
+		* open a connection
+		* create a cursor
+		* do what you need to do with the cursor data
 		* this includes throwing an error if needed
-		- close the cursor (so you're not leaking memory)
-		- close the connection
+		* close the cursor (so you're not leaking memory)
+		* close the connection
 
 CURSORS
 * cursors can be declared on a relation or query statement (which
@@ -552,17 +565,17 @@ CURSORS
 * you can also modify and delete the tuple pointed to by a cursor
 * must be able to report data-generated errors
 * creating a cursor:
-		- open a transation:
+		* open a transation:
 		begin;
-		- 'begin' will be concluded with 'end transaction;' or 'end;'
-		- create the cursor with:
+		* 'begin' will be concluded with 'end transaction;' or 'end;'
+		* create the cursor with:
 		DECLARE agent_cursor CURSOR for select * from agent;
-		- after that you can look at the next result or the previous result:
+		* after that you can look at the next result or the previous result:
 		fetch next from agent_cursor;
 		fetch prior from agent_cursor;
 		fetch first from agent_cursor;
 		fetch last from agent_cursor;
-		- changing your table using a cursor:
+		* changing your table using a cursor:
 		update agent set middle='lotsomoney' where current of
 				agent_cursor;
 * cursors are ephemeral -- they are only good for the transaction and do
@@ -603,14 +616,14 @@ PSQL TIPS:
 
 QUERY OPTIMIZATION: JOIN ALGORITHMS
 * simple nested loops join
-		- "for every row in table 1, check every row in table 2
-		- not very efficient at all
+		* "for every row in table 1, check every row in table 2
+		* not very efficient at all
 * page-oriented nested loops join
-		- "for each page of tuples in table 1, compare each value on the page
+		* "for each page of tuples in table 1, compare each value on the page
 			to every value in a page of table 2"
 * block nested-loops join
 * index nested loops join
-		- read first page of table 1 and hit the index to find matching tuples
+		* read first page of table 1 and hit the index to find matching tuples
 			in table 2
 
 SQL EXTENSIONS
@@ -620,7 +633,7 @@ SQL EXTENSIONS
 
 		select b.color, count(*) from boats b group by color;
 		// count the number of boats per color
-		- 'null' counts as a group -- if the group by clause is null, that row
+		* 'null' counts as a group -- if the group by clause is null, that row
 			will still be grouped with null
 * HAVING:
 		select s.rating, avg(s.age) from sailors s group by s.rating
@@ -644,37 +657,37 @@ EQUIVALENCE:
 * two queries are equivalent if they are guaranteed to return the same
 	answer for any database state (any rows in the table)
 * how would you determine if two queries are equivalent?
-		- run them. not a definitive answer though -- just might narrow it
+		* run them. not a definitive answer though -- just might narrow it
 			down
-		- do they return the same columns? if not, they're not equivalent
-		- or: use relational algebra! equivalences
+		* do they return the same columns? if not, they're not equivalent
+		* or: use relational algebra! equivalences
 * RELATIONAL ALGEBRA:
-		- translate SQL queries to relational algebra and compare them
-		- translation comes across as a tree
-		- example: where R, S and T are tables
+		* translate SQL queries to relational algebra and compare them
+		* translation comes across as a tree
+		* example: where R, S and T are tables
 		(R x S) x T == R x (S x T)
-		- relational algebra is a set of operators that work on tables/
+		* relational algebra is a set of operators that work on tables/
 			relations (including intermediate results) that produce one table/
 			relation
-		- for n, u and -, it is requred that relations
-		- project is not neede (only select) where we are projecting all of
+		* for n, u and -, it is requred that relations
+		* project is not neede (only select) where we are projecting all of
 			the fields
-		- there's no 'having' in relational algebra -- the grouping operator
+		* there's no 'having' in relational algebra -- the grouping operator
 			produces aggregates that you can then simply select from.
 * tables and relations:
-		- database theory began with relational math theory
-		- tables are the structure used by the language SQL
-		- most DBMS systems use tables as bags of rows
+		* database theory began with relational math theory
+		* tables are the structure used by the language SQL
+		* most DBMS systems use tables as bags of rows
 * cross products:
-		- Codd simplified or "flattened" the product results:
+		* Codd simplified or "flattened" the product results:
 		sailors X boats is not:
 				((101, 'Rusty', 7, 35),(102,'Interlake', 'red'))
 		but rather it is:
 				(101, 'Rusty', 7, 35, 102,'Interlake', 'red')
 * real-life applications of relational algebra:
-		- the algebra used by DBMSs are different.
-		- functional algebras need to be as small (efficient) as possible
-		- the most efficient and optimized
+		* the algebra used by DBMSs are different.
+		* functional algebras need to be as small (efficient) as possible
+		* the most efficient and optimized
 
 SUBQUERIES
 * a subquery is a query with parentheses around it! boom.
@@ -688,22 +701,22 @@ SUBQUERIES
 * example:
 		select p.first, p.last, p.city
 		from (select * from agent a where city = 'Paris') p;
-		- note that subqueries need to have correlation names assigned to them
+		* note that subqueries need to have correlation names assigned to them
 			even if you don't use it.
 * scalar query: guaranteed to produce just one row with just one column;
 	one single simple value called a scalar
-		- ex: aggregates(max, min, count, ave)
+		* ex: aggregates(max, min, count, ave)
 * scalar subquery example:
 		select * from sailors s where
 				s.rating = (select max(rating) from sailors);
-		- common in where clauses, join condition, select clause, and having
+		* common in where clauses, join condition, select clause, and having
 			clause
 				where color = (select color from boats)
 		* this works if the query returns one result; otherwise it barfs
 * scalar subqueries with constants
-		- we can use subqueries to insert constants into our query results
+		* we can use subqueries to insert constants into our query results
 * how to use nonscalar subqueries
-		- predicates that work with nonscalar queries
+		* predicates that work with nonscalar queries
 				* exists: returns boolean
 				* not exists: return boolean
 				* some/any: does any result in the query match to the subquery
@@ -715,7 +728,7 @@ SUBQUERIES
 		select s.sid, s.sname
 		from sailors s
 		where exists (select * from reserves r where r.sid=s.sid);
-		- why? recall that SQL evaluates the 'from' clause and THEN the
+		* why? recall that SQL evaluates the 'from' clause and THEN the
 			'where' clause -- by the time we get to 'where' we already have s
 
 CORRELATED VS NON-CORRELATED SUBQUERIES
@@ -729,24 +742,24 @@ CORRELATED VS NON-CORRELATED SUBQUERIES
 ## CONSTRAINTS IN SQL
 * examples of constraints: primary keys, foreign keys
 * 'unique' allows null values for more than one row -- null is a non-value
-		- unique implicity creates an index (makes sense -- easier sorting)
+		* unique implicity creates an index (makes sense -- easier sorting)
 * primary key does not allow null values and all values must be unique
 * why bother to name constraints?
-		- you can modify/drop them more easily
+		* you can modify/drop them more easily
 * how do you make sure a value in a column matches a specified list of
 	values?
-		- use a lookup table!
-		- your table contains a foreign key reference to the table, kind of
+		* use a lookup table!
+		* your table contains a foreign key reference to the table, kind of
 			like the language table
 * deferred constraints:
-		- foreign keys can be deferred -- that is, if you try to insert a new
+		* foreign keys can be deferred -- that is, if you try to insert a new
 			faculty member who is the head of a new department, you won't be
 			able to insert either the faculty member or the new department whose
 			references faculty for the head of the department.
-		- the solution: defer the change until COMMIT. it's like saying 'ok
+		* the solution: defer the change until COMMIT. it's like saying 'ok
 			computer, trust me here. it will all make sense before you change
 			anything.'
-		- how to:
+		* how to:
 		* begin a transaction
 		* 'set all constraints deferred;' // if a restraint can be
 				deferred, it will be
@@ -757,14 +770,14 @@ CONCURRENCY OF TRANSACTIONS
 * remember ACID? The Isolation bit is a problem to be solved by
 	concurrency
 * what is isolation?
-		- isolation is achieved when the result of concurrent transactions is
+		* isolation is achieved when the result of concurrent transactions is
 			the same as if they had been run in serial
-		- the order doesn't matter from an isolation correctness standpoint
+		* the order doesn't matter from an isolation correctness standpoint
 * a SCHEDULE is an interleaving of transaction actions
-		- the order of operations within each transaction must be preserved
-		- a schedule is SERIAL if its transactions occur as a series of
+		* the order of operations within each transaction must be preserved
+		* a schedule is SERIAL if its transactions occur as a series of
 			complete/uninterrupted transactions, one after the other
-		- a COMPLETE schedule means that all transactions commit or abort
+		* a COMPLETE schedule means that all transactions commit or abort
 * if a schedule is serializable, it is correct (because serial schedules
 	are always correct
 * isolation levels vary through applications: it matters what order your
@@ -772,30 +785,30 @@ CONCURRENCY OF TRANSACTIONS
 	feed is in exactly.
 * the acyclic precedence graph
 		( serializable ( conflict serializable ( Serial) ) )
-		- why don't DBMSs implement this?
+		* why don't DBMSs implement this?
 		* we need the full schedule to determine how serial or correct
 			a schedule is
 * then how do DBMSs actually handle things?
-		- a transaction must get a LOCK before it can read or update an item
-		- we can have multiple transactions operating on the same DB but we
+		* a transaction must get a LOCK before it can read or update an item
+		* we can have multiple transactions operating on the same DB but we
 			must lock individual items
-		- SHARED lock (S) for reading
+		* SHARED lock (S) for reading
 		* as long as there's no X lock, you can get an S lock
-		- EXCLUSIVE lock (X) for writing
+		* EXCLUSIVE lock (X) for writing
 		* to get an X lock on an item, there can be no locks on it.
-		- lock info maintained by a LOCK MANAGER
-		- if a transaction can't get a lock, it waits in a queue
+		* lock info maintained by a LOCK MANAGER
+		* if a transaction can't get a lock, it waits in a queue
 * locking protocols:
-		- strict 2-phase locking protocol tells us when locks can be released
+		* strict 2-phase locking protocol tells us when locks can be released
 		* locks cannot be released until the transaction ends through
 			commit or abort
-		- non-strict 2-phase locking protocol: a transaction gets and drops
+		* non-strict 2-phase locking protocol: a transaction gets and drops
 			locks as needed
 		* problem: what if the transaction is aborted? it results in a
 			cascading abort scenario where all transactions which viewed
 			the dirty data must be aborted also
-		- multi-version concurrency control
-		- lock scopes:
+		* multi-version concurrency control
+		* lock scopes:
 		* lock tables
 		* lock rows
 		* lock attribute values
@@ -803,18 +816,18 @@ CONCURRENCY OF TRANSACTIONS
 		* the last one is difficult to implement
 		* increasing granularity --> increasing concurrency
 * deadlock
-		- all this queueing results in a lot of waiting which can result in
+		* all this queueing results in a lot of waiting which can result in
 			deadlock, where transactions are waiting for an abort/commit which
 			will never happen
-		- T1 wants a X lock on A and has a X lock on B
-		- T2 has a X lock on B and wants a X lock on A
-		- solution: the DBMS must detect this scenario and kill one of the
+		* T1 wants a X lock on A and has a X lock on B
+		* T2 has a X lock on B and wants a X lock on A
+		* solution: the DBMS must detect this scenario and kill one of the
 			requests
 		* one transaction is the 'victim' of deadlock
-		- strict 2pl can have deadlocks
+		* strict 2pl can have deadlocks
 * phantoms:
-		- T1 reads an object, T2 modifies it, T1 reads a different value
-		- sometimes this is a problem, sometimes not
+		* T1 reads an object, T2 modifies it, T1 reads a different value
+		* sometimes this is a problem, sometimes not
 
 DESIGNING A DATABASE
 * ER (Entity Relationship) model: provides a conceptual, high level view
@@ -822,30 +835,30 @@ DESIGNING A DATABASE
 * logical design: transform ER to relational schema
 * normalization: check for redundancies and related anomalies
 * physical db design and tuning
-		- get it up and running, fast
+		* get it up and running, fast
 * ER vs Relational model:
-		- relation model has tables, keys, attributes, etc
-		- ER: no tables, just entities and relationships
+		* relation model has tables, keys, attributes, etc
+		* ER: no tables, just entities and relationships
 * UML diagrams can be used to map out database designs
 * relationships:
-		- something like 'reserves' is represented as a relationship, rather
+		* something like 'reserves' is represented as a relationship, rather
 			than a class object
-		- example: skillrel, teamrel, affilliationrel are just "connections"
+		* example: skillrel, teamrel, affilliationrel are just "connections"
 			between entities like agent, skill, team, affiliation, language
-		- if you want to connect an agent to a language, somewhere you have
+		* if you want to connect an agent to a language, somewhere you have
 			to get agent_id and lang_id on the same row together
-		- 'has many' versus 'has one' relationships:
+		* 'has many' versus 'has one' relationships:
 			* when designing, consider how the connections are made:
 			* does one agent know one language? is each language known by one
 				agent? or can each agent and language 'have many' of each other?
 			* this is the CARDINALITY of the relationship
-		- relationship arrows may have accompanying role names to make it even
+		* relationship arrows may have accompanying role names to make it even
 			more clear
 		* you need role names when you have a RECURSIVE relationship
 		* recursive: suppose you have one employee table which relates
 			back to itself with a 'reports-to' relationship and has
 			subordinate and supervisor roles
-		- sometimes you have to decide whether or not an attribute should be
+		* sometimes you have to decide whether or not an attribute should be
 			it's own entity:
 		* should 'quarter' be an attribute of 'class', or should it be
 			it's own entity?
@@ -855,10 +868,10 @@ DESIGNING A DATABASE
 			independently of "employee"
 * MEMORIZE ERD NOTATION AND CARDINALITY -- you will be tested
 * turning ERD into a DB:
-		- create a table with the appropriate keys and attributes
-		- have a multi-valued attribute? make a table for it
-		- have a many-to-many relationship set? make a table for it
-		- if you have a one-to-many relationship, you can stick it in the
+		* create a table with the appropriate keys and attributes
+		* have a multi-valued attribute? make a table for it
+		* have a many-to-many relationship set? make a table for it
+		* if you have a one-to-many relationship, you can stick it in the
 			table that has one of the other table
 		* ex: each project has one manager, but each manager has many
 			projects. the simplest solution is to reference manager from the
@@ -867,34 +880,34 @@ DESIGNING A DATABASE
 			if you need to avoid the possibilty of null values (a project
 			with no manager assigned yet)
 * weak entity:
-		- dependent on the "strong" entity -- they don't need to exist on their own, they are just a somewhat complex add-on to supplement the strong entity it's correlated with
-		- don't have keys on their own -- they pick up keys from their identifying relationship
+		* dependent on the "strong" entity -- they don't need to exist on their own, they are just a somewhat complex add-on to supplement the strong entity it's correlated with
+		* don't have keys on their own -- they pick up keys from their identifying relationship
 		* official def: they don't have a key of their own (but in practice some of them do)
-		- partial key: take the key from the strong entity and concatenate it with the weak key to make a partial key
+		* partial key: take the key from the strong entity and concatenate it with the weak key to make a partial key
 		* eg: 716287321ANDREWS
 
 COMPREHENSIVE AND MATERIAL VIEW
 * CRUD (create, read, update and delete) - we need something to help
 	manage alterations across tables
 * comprehensive view: a combination of data from several tables
-		- for example, if you draw from three different tables to create a
+		* for example, if you draw from three different tables to create a
 			fourth which contains an intersection of the three under certain
 			conditions
-		- we can create a function and a trigger that will update all tables
+		* we can create a function and a trigger that will update all tables
 			when one is updated
-		- does not contain the query that created it -- it's just data
-		- on disk
-		- in comparison to a materialized view
+		* does not contain the query that created it -- it's just data
+		* on disk
+		* in comparison to a materialized view
 * materialized view
-		- stored on disk
-		- populated when it's created. not automatically updating
-		- unlike tables, it remembers the query used to create it, and thus
+		* stored on disk
+		* populated when it's created. not automatically updating
+		* unlike tables, it remembers the query used to create it, and thus
 			can be refreshed, which happens on view
 
 TRIGGERS
 * what are triggers? they 'watch and tell' -- they don't DO anything with the data -- eh, i think they do though
 * a trigger is tied to a table -- when an insert, deletion, modification occurs, a corresponding procedure is called
-		- can execute before or after the modification
+		* can execute before or after the modification
 * a trigger can return a row/record from the old table, the new table, or null
 * triggers on different tables can call the same procedures
 
@@ -918,14 +931,14 @@ $$ language plpgsql;
 
 IMPLEMENTATIONS
 * comprehensive display + triggers + procedures
-		- pro: targeted updates -- we only touch the data that has changed
-		- con: difficulty, messy and complex
+		* pro: targeted updates -- we only touch the data that has changed
+		* con: difficulty, messy and complex
 * embedded code
-		- adv: often required to integrate it into software
-		- con: complicated, largest overhead
+		* adv: often required to integrate it into software
+		* con: complicated, largest overhead
 * materialized view + triggers + procedures
-		- pro: simple
-		- con: updates entire view -- bad for complex queries especially if
+		* pro: simple
+		* con: updates entire view -- bad for complex queries especially if
 			they access normal views
 
 FUZZINESS:
@@ -938,14 +951,14 @@ NORMALIZATION
 * normalization is based on functional dependency -- using it to decompose tables
 * for instance, if you have a table that is the result of a join on sailors and reserves, break them apart, alter them and stick them back together again
 * how do we know it's successful?
-		- lossless
-		- all tables in BCNF
-		- all FDs preserved
+		* lossless
+		* all tables in BCNF
+		* all FDs preserved
 * sometimes you must choose between BCNF and preserving FDs
 
 FINAL:
 * Final -- monday 12:30
-		- open book
-		- no embedded SQL
-		- no join algorithms
+		* open book
+		* no embedded SQL
+		* no join algorithms
 * equivalences: what is it? can you identify if two things are equivalent?

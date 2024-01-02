@@ -166,56 +166,74 @@ docker push hello
 
 ## Why Docker?
 * deployment
-	- containers make deployment easy: just run a new container, direct users to it and trash the old one
-	- better, faster, more automated CI/CD
-	- simplified hosting environment from devOps perspective: runtime, tech, library, and OS needs are all simplified -- different apps have their own dependencies in their own container with no need to manage them on a server-wide scale and risk breaking other apps.
-	- ex: you want to host a Node.JS app on the same server as some PHP apps, but the new app uses Node.JS runtime together with a package that, when installed, changes a dependency used by the PHP runtime. docker containers to the rescue!
+	* containers make deployment easy: just run a new container, direct users to it and trash the old one
+	* better, faster, more automated CI/CD
+	* simplified hosting environment from devOps perspective: runtime, tech, library, and OS needs are all simplified -- different apps have their own dependencies in their own container with no need to manage them on a server-wide scale and risk breaking other apps.
+	* ex: you want to host a Node.JS app on the same server as some PHP apps, but the new app uses Node.JS runtime together with a package that, when installed, changes a dependency used by the PHP runtime. docker containers to the rescue!
 * scaling:
-	- typically to support high usage, you'd duplicate the server, the app and all it's dependencies across many servers, then put a **reverse proxy** in front of the service to split the load between them. this makes deployment even harder
-	- containers are based on images, and we can have many containers spun up from the same image with the same dependencies etc
-	- when using an **orchestrator** you need merely state how many containers you want and the image name, and the orchestrator creates that many containers on your servers
-	- the reverse proxy model then works the same to distribute traffic across all docker servers/containers
-	- the orchestrator/registry/reverse proxy model also helps make for seamless upgrades/deployments as containers are cycled through
+	* typically to support high usage, you'd duplicate the server, the app and all it's dependencies across many servers, then put a **reverse proxy** in front of the service to split the load between them. this makes deployment even harder
+	* containers are based on images, and we can have many containers spun up from the same image with the same dependencies etc
+	* when using an **orchestrator** you need merely state how many containers you want and the image name, and the orchestrator creates that many containers on your servers
+	* the reverse proxy model then works the same to distribute traffic across all docker servers/containers
+	* the orchestrator/registry/reverse proxy model also helps make for seamless upgrades/deployments as containers are cycled through
 * allows you to serve an app without having to install anything directly on your computer (except docker, of course)
 * overall, it provides a **standardized** approach to code development and deployment including:
-	- common build chain
-	- common image storage
-	- common deploy and scale up methodology
-	- common container hosting
-	- common container control and monitoring
-	- common container versioning methodology
+	* common build chain
+	* common image storage
+	* common deploy and scale up methodology
+	* common container hosting
+	* common container control and monitoring
+	* common container versioning methodology
 
 ## Beyond Docker
 * **docker** is used to manage an individual container
 * **docker-compose** is used for configuring multiple containers in the same host (multi-container applications)
-	- ex: for local development, you might need containers for the UI, database, and several services
+	* ex: for local development, you might need containers for the UI, database, and several services
 * **docker swarm** and **kubernetes** are container orchestration tools used for connecting multiple containers across multiple hosts
 * **docker swarm vs kubernetes**
-	- kubernetes is typically more difficult to use (particularly when it comes to networking -- Kubernetes requires configuring a networking layer)
-	- kubernetes is typically more powerful and scalable
-	- kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
+	* kubernetes is typically more difficult to use (particularly when it comes to networking -- Kubernetes requires configuring a networking layer)
+	* kubernetes is typically more powerful and scalable
+	* kubernetes supports numerous runtimes including docker, containerd, CRI-O, and kubernetes CRI (container runtime interface)
+
+## General Docker Stuff
+* did you know that docker is an api service? so when you use the command line (or the GUI), it's just sending calls to the api -- you could just do it all from postman if that made sense for some reason
+* there are different flavors/sizes of docker depending on purpose/needs:
+	* dev machine: Docker Engine Community or Docker Desktop
+	* small server: Docker Engine Community
+	* serious stuff: Docker Engine Enterprise or Kubernetes
+
+# Setting up Docker Locally
+* you'll want to install [docker desktop](https://docs.docker.com/desktop/), which includes a whole suite of things like docker engine, docker cli, docker compose, kubernetes, etc
+* on Windows, you can toggle between Linux and Windows server environments, as well as work natively on Linux using WSL2
+
+## Windows Setup
+* on Windows, you have the option of using Hyper-V or WSL2 as the backend for docker desktop, however it's [generally recommended to use WSL2](https://docs.docker.com/desktop/wsl/)
+* 
+
+
+
 
 # Key Concepts
 * **docker** sits under the OS -- it manages and provides resources for containers
 * **containers**: a "wrapper" around an application that contains everything needed to run the application
-	- containers can be thought of as isolated machines, or VMs
-	- a container runs inside the docker host, isolated from other containers and the host OS
-	- a container contains everything needed to run: OS, packages, runtimes, files, env variables, stdin, stout
-	- a typical docker server would host many containers
-	- containers should be stateless -- they should not store any persistent data (because they're not persistent), and if you're running multiple load-balanced containers, their data needs to be uniform
-	- containers are isolated by default -- to talk to one another or to connect from outside the docker server, ports must be exposed
+	* containers can be thought of as isolated machines, or VMs
+	* a container runs inside the docker host, isolated from other containers and the host OS
+	* a container contains everything needed to run: OS, packages, runtimes, files, env variables, stdin, stout
+	* a typical docker server would host many containers
+	* containers should be stateless -- they should not store any persistent data (because they're not persistent), and if you're running multiple load-balanced containers, their data needs to be uniform
+	* containers are isolated by default -- to talk to one another or to connect from outside the docker server, ports must be exposed
 * **images**: a container template which describes everything needed to create a container
-	- you may create many containers from a single image
-	- an image consists of sub-parts that may be reused when a new version is built if they are the same
+	* you may create many containers from a single image
+	* an image consists of sub-parts that may be reused when a new version is built if they are the same
 * **registries**: where images are stored
-	- a registry may contain multiple images, which themselves are used to create multiple containers
+	* a registry may contain multiple images, which themselves are used to create multiple containers
 * **volumes**: where persistent data is kept -- containers are disposable and temporary, so using a volume allows the data to persist
 
 
 ## Commands
 * **run**: asks docker to create and run a container based on a given image. if the image isn't already present, it will be downloaded from a registry. the image may specify some outputs be generated to the console. then the container is stopped
 * **pull**: images are pulled from the registry if they're not present locally, but the `pull` command forces an image to be downloaded, whether it's already present or not
-	- use pull to get `latest` -- `docker run` does *not* pull latest if it has an image already present locally
+	* use pull to get `latest` -- `docker run` does *not* pull latest if it has an image already present locally
 
 ### Stopping Or Removing A Container
 * [reference](https://www.baeldung.com/ops/docker-stop-vs-kill)
@@ -262,20 +280,13 @@ docker tag docker101tutorial /docker101tutorial
 docker push /docker101tutorial
 ```
 
-## General Docker Stuff
-* did you know that docker is an api service? so when you use the command line (or the GUI), it's just sending calls to the api -- you could just do it all from postman if that made sense for some reason
-* there are different flavors/sizes of docker depending on purpose/needs:
-	- dev machine: Docker Engine Community or Docker Desktop
-	- small server: Docker Engine Community
-	- serious stuff: Docker Engine Enterprise or Kubernetes
-
 # Configuring Containers
 
 ## Long-Lived Containers
 * we might run a docker container to perform some actions and then it's done, or we might use them as servers
 * there are two differences between short-lived and long-lived containers:
-	- long vs short lived (duh)
-	- long lived listen for incoming network connections
+	* long vs short lived (duh)
+	* long lived listen for incoming network connections
 * a docker container can be left running with the **detach** switch: `docker run -d alpine ping www.docker.com`
 * *HOWEVER* long-lived containers should still be treated as disposable stateless things
 
@@ -299,13 +310,13 @@ docker push /docker101tutorial
 
 ## Data
 * docker containers are just little temporary, throwaway things, so what if you need persistent data?
-	- by default, container data is written to the container's local filesystem and is therefore ephemeral -- it will be lost when the container is removed
-	- a container dies when it finishes, when it's manually killed, when the host machine restarts, when the container is moved from one node to another, etc -- and all the app's data is lost
-	- also if you have multiple container instances up in a load-balancing scenario, the data will be different for each, resulting in an inconsistent user experience
-	- therefore, containers should be stateless
+	* by default, container data is written to the container's local filesystem and is therefore ephemeral -- it will be lost when the container is removed
+	* a container dies when it finishes, when it's manually killed, when the host machine restarts, when the container is moved from one node to another, etc -- and all the app's data is lost
+	* also if you have multiple container instances up in a load-balancing scenario, the data will be different for each, resulting in an inconsistent user experience
+	* therefore, containers should be stateless
 * data can be stored in an external relational database or a distributed cache (like redis). but you can also store files in a third place where they are persisted: volumes and bind mounts
 * persistent storage can be either a bind mount or a volume
-	- or third option: azure file storage on azure or amazon s3 on aws?
+	* or third option: azure file storage on azure or amazon s3 on aws?
 
 ### Bind Mounts
 * a **bind mount** is a reference to a directory on the host machine
@@ -383,9 +394,9 @@ docker push /docker101tutorial
 	CMD ["echo", "Hello, world!"]
 ```
 * **build context**:
-	- the build context is the "source" for common commands like `COPY <src> <dest>`
-	- by default the build context is set to the dir in which the docker build command is invoked
-	- dockerfile location can be set with the `-f` flag and the build context is set with the last argument
+	* the build context is the "source" for common commands like `COPY <src> <dest>`
+	* by default the build context is set to the dir in which the docker build command is invoked
+	* dockerfile location can be set with the `-f` flag and the build context is set with the last argument
 ```sh
 	docker build -t myImage -f ./some/path/Dockerfile /buildContextDir
 ```
@@ -414,7 +425,7 @@ docker push /docker101tutorial
 	FROM nginx:1.15
 	COPY index.html /usr/share/nginx/html
 	```
-	- other files in the build environment will *not* be available to the image or container unless you've used the COPY instruction
+	* other files in the build environment will *not* be available to the image or container unless you've used the COPY instruction
 * then we can build and run our image:
 	```sh
 	docker build -t webserver .
@@ -427,22 +438,22 @@ docker push /docker101tutorial
 * `repository_name` can be a dns entry or the name of a registry in the docker hub
 * if images are only local (not published to a registry) their names are simply `<name>:<tag>`
 * using `latest` is fine for a very simple CI/CD scenario where you:
-	- update source
-	- build a new image with latest tag
-	- run a new container with latest
-	- kill previous container
+	* update source
+	* build a new image with latest tag
+	* run a new container with latest
+	* kill previous container
 * however you certainly might have more nuanced needs, like:
-	- be able to roll back to a previous image if there's an issue
-	- run different versions in different environments (dev, test, prod, etc)
-	- run different versions at the same time, routing some users to latest and some to prev (**canary release**)
-	- deploy different versions to different users and be able to run whatever version on your dev machine to support them
+	* be able to roll back to a previous image if there's an issue
+	* run different versions in different environments (dev, test, prod, etc)
+	* run different versions at the same time, routing some users to latest and some to prev (**canary release**)
+	* deploy different versions to different users and be able to run whatever version on your dev machine to support them
 * common tagging methods include
-	- version number e.g. hello:1.0, hello:1.1, hello:2.0
-	- git commit tag e.g. hello:2cd7e376, hello:b43a14bb
+	* version number e.g. hello:1.0, hello:1.1, hello:2.0
+	* git commit tag e.g. hello:2cd7e376, hello:b43a14bb
 * tags are provided on build as part of the name argument:
 	`docker build -t hello:1.1 .`
 * tags are also used as part of the FROM statement in your dockerfile -- `FROM nginx:1.15`
-	- it is NOT recommended to ever use latest in your dockerfile. docker is all about reproducible images, and using `latest` makes it not. also, `latest` is only evaluated during the build command, so that's the only time `latest` matters. this makes for a potentially confusing situation
+	* it is NOT recommended to ever use latest in your dockerfile. docker is all about reproducible images, and using `latest` makes it not. also, `latest` is only evaluated during the build command, so that's the only time `latest` matters. this makes for a potentially confusing situation
 * tags can be added after build with `docker tag` - this image will now be known by the build machine as both `hello` and `my-repo/hello`
 	`docker tag hello my-repo/hello`
 
@@ -474,40 +485,40 @@ docker push /docker101tutorial
 ## Image Optimization
 * you'll want to make sure your image is as small as possible to reduce push/pull times and minimize the space that images take up on the build/registry/serving machine
 * things that influence the size include:
-	- the files in your image
-	- the base image size
-	- image layers
+	* the files in your image
+	* the base image size
+	* image layers
 * you can check your image size in the `docker image ls` output
 * to minimize size:
-	- only copy the files you need, e.g. do not do this: `COPY . .`. use separate COPY instructions
-	- `.dockerignore` files can be used to exclude files from the image build, e.g.
+	* only copy the files you need, e.g. do not do this: `COPY . .`. use separate COPY instructions
+	* `.dockerignore` files can be used to exclude files from the image build, e.g.
 		```dockerfile
 		# Ignore .git folder
 		.git
 		# Ignore Typescript files in any folder or subfolder
 		**/*.ts
 		```
-	- when using package managers like NPM, NuGet, apt, and so on, make sure you run them while building the image. It will avoid sending them as the context of the image, and it will allow the layer caching system to cache the result of running them. As long as the definition file doesn’t change, Docker will reuse its cache.
-	- use the smallest base image possible. for example, there is a smaller version of debian called `debian:8-slim`. `nginx:1.15-alpine` is also much lighter than `nginx:1.15`
-	- partial images are cached at each build step -- this is very effective as these parts are reused at different times to improve efficiency
+	* when using package managers like NPM, NuGet, apt, and so on, make sure you run them while building the image. It will avoid sending them as the context of the image, and it will allow the layer caching system to cache the result of running them. As long as the definition file doesn’t change, Docker will reuse its cache.
+	* use the smallest base image possible. for example, there is a smaller version of debian called `debian:8-slim`. `nginx:1.15-alpine` is also much lighter than `nginx:1.15`
+	* partial images are cached at each build step -- this is very effective as these parts are reused at different times to improve efficiency
 		* when building, common cached parts are used during build
 		* when pushing a new version, the common image parts are not pushed
 		* when pulling from a registry, the common part you already have is not pulled
-	- docker skips steps up until the first instruction that actually changes something -- you can cheat the system by intentionally ordering the dockerfile and putting the instructions most likely to change at the end of the file
+	* docker skips steps up until the first instruction that actually changes something -- you can cheat the system by intentionally ordering the dockerfile and putting the instructions most likely to change at the end of the file
 
 # Registries
 * there are lots of images available on the [Docker Hub](https://hub.docker.com/) -- this is what is used by default
 * **private registries** can also be configured -- options for privage registry hosting include:
-	- docker hub
-	- azure container registry
-	- gitlab
-	- host your own using the registry image on a docker-enabled machine
+	* docker hub
+	* azure container registry
+	* gitlab
+	* host your own using the registry image on a docker-enabled machine
 * registries make your built image available to other machines/users/servers
 * a registry consists of
-	- images
-	- tags for those images
-	- an http api that allows the pushing/pulling of images
-	- TLS-secured connection to prevent MITM attacks
+	* images
+	* tags for those images
+	* an http api that allows the pushing/pulling of images
+	* TLS-secured connection to prevent MITM attacks
 
 ## Repositories
 * a repository contains the versioned/tagged images for one app/image
@@ -518,9 +529,9 @@ docker push /docker101tutorial
 * tag is optional; when missing, it is considered to be latest by default
 * repository_name can be a registry DNS or the name of a registry in the [Docker Hub](https://hub.docker.com/)
 * publishing is a three-step process:
-	- build with the appropriate name:tag (`docker build`)
-	- log in to the registry (`docker login`)
-	- push the image into the registry (`docker push`)
+	* build with the appropriate name:tag (`docker build`)
+	* log in to the registry (`docker login`)
+	* push the image into the registry (`docker push`)
 * public images are hosted for free on the Docker Hub -- paid plans available for private images
 
 # Deploying With Docker
@@ -564,10 +575,10 @@ ENTRYPOINT ["dotnet", "aspnet-core.dll"]
 ## Monitoring And Resources
 * `docker stats` provides simple monitoring including running containers and resource consumption stats -- similar to `docker ps` but with resource info
 * docker consumes disk space in various ways:
-	- stopped containers that were not removed with `--rm` switch
-	- unused images
-	- dangling images: images with no name. this happens when you `docker build` with the same tag as previous; the old image becomes a dangler
-	- unused volumes
+	* stopped containers that were not removed with `--rm` switch
+	* unused images
+	* dangling images: images with no name. this happens when you `docker build` with the same tag as previous; the old image becomes a dangler
+	* unused volumes
 * some ways to reclaim disk space:
 ```bash
 # remove stopped containers only
