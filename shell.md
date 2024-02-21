@@ -114,6 +114,8 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
 |`!xyz:p`|print the last command that started with 'xyz' (then do !! to execute)|
 |`bg/fg`|bring a suspended process to the background/foreground|
 |`[command] $_`|take the last arg of the last command (or the command before it if the last one had no args) and use it as the arg for the current command|
+|`htop` or `top`|list processes|
+|`kill -9 {pid}`|kill process with force|
 
 
 

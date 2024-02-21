@@ -1,4 +1,7 @@
-# Javascript ☕
+# Javascript
+
+## References
+* [Eloquent Javascript](https://eloquentjavascript.net/)
 
 ## Cool Tricks/Gotchas
 * use `const` or `let` if possible -- fallback to `var` if necessary
@@ -41,40 +44,40 @@
 	2. promise resolution (`new Promise(resolve()).then(() => console.log("resolved!"))`)
 	3. browser API events (`setTimeout(() => (console.log("time's up!")), 0)`) << even with 0 timeout, this executes last
 * [debugging beyond `console.log()`](https://medium.com/@anirudh.munipalli/stop-using-console-log-in-javascript-try-these-instead-72490d895a24)
-	- use `console.trace()` to see the call stack of the function that calls it
-	- use `console.group()` and `console.groupEnd()` to group related messages together
-	- use `console.time()` and `console.timeEnd()` to see how long a process takes to execute
-	- use `console.table()` to organize complex data: `console.table({person1, person2, person3})`
-	- add css to the console to make your logs stand out: `console.log("%cHello World", "color: blue; font-size: 20px; border: solid;")`
+	* use `console.trace()` to see the call stack of the function that calls it
+	* use `console.group()` and `console.groupEnd()` to group related messages together
+	* use `console.time()` and `console.timeEnd()` to see how long a process takes to execute
+	* use `console.table()` to organize complex data: `console.table({person1, person2, person3})`
+	* add css to the console to make your logs stand out: `console.log("%cHello World", "color: blue; font-size: 20px; border: solid;")`
 * **array manipulation**
 	* use `shift` over `splice` to remove the first element of an array
 
 ## Background
 * ECMA2015 == ES6
 * js ecosystem: javascript is most commonly run in browsers, but it can also be used in native apps
-	- Electron: framework for building native apps using js, html, css etc
-	- Cordova
-	- NodeJS: serverside js
+	* Electron: framework for building native apps using js, html, css etc
+	* Cordova
+	* NodeJS: serverside js
 * javascript has myriad applications
-	- building front end for responsive web pages
-	- used as server-side scripting
-	- building web apps
+	* building front end for responsive web pages
+	* used as server-side scripting
+	* building web apps
 * javascript as it applies to front end dev:
-	- websites are built through three aspects:
+	* websites are built through three aspects:
 		* content (HTML)
 		* style (CSS)
 		* interactivity (JS)
-	- each browser reads and interprets html, css and js
-	- though js is often embedded in an html document, it is good to keep js code in a separate .js document
-	- this separate file can be reference by embedding the following code in the head tag:
+	* each browser reads and interprets html, css and js
+	* though js is often embedded in an html document, it is good to keep js code in a separate .js document
+	* this separate file can be reference by embedding the following code in the head tag:
 		<script src="myscript.js"></script>
 		* this tag cannot contain other js code
 		* more than one file can be linked to a single html doc
-			- you can also insert js into an html doc by putting code inside script tags, wherever you need to put it
+			* you can also insert js into an html doc by putting code inside script tags, wherever you need to put it
 				<script>
 				alert("Here's an important message");
 				</script>
-			- js code is usually inserted just before the close of the head tag and just before the close of the body tag. this allows the html to be interpreted and displayed before we execute our js
+			* js code is usually inserted just before the close of the head tag and just before the close of the body tag. this allows the html to be interpreted and displayed before we execute our js
 
 
 # Language Features
@@ -93,11 +96,11 @@
 * [more info](https://medium.com/@monuchaudhary/single-threaded-non-blocking-asynchronous-and-concurrent-nature-of-javascript-a0d5483bcf4c)
 * the js runtime is what is run by the browser (or server in the case of node/server-side js). for chrome, the engine is V8
 * runtime engine consists of:
-	- call stack and a memory heap
-	- event queue/callback queue for browser APIs
-	- job queue for promises
-	- event listeners, http/ajax requests, and timing functions
-	- event loop that constantly checks for completed events from the web API/promises and moves tasks from the queue to the call stack
+	* call stack and a memory heap
+	* event queue/callback queue for browser APIs
+	* job queue for promises
+	* event listeners, http/ajax requests, and timing functions
+	* event loop that constantly checks for completed events from the web API/promises and moves tasks from the queue to the call stack
 * js is **single-threaded** -- it has a single call stack and handles instructions one at a time
 * js **non-blocking** -- when it encounters an API call, a promise, an AJAX request, an I/O event or timer, it does not wait -- it moves on to the next code on the stack
 * js is able to be non-blocking with only a single thread because requests are performed by web APIs (C++ library for node) which has its own thread. when the request completes, the callback function is sent to the **callback queue**/**event queue**, or in the case of a promise, to the **job queue** (more on that below)
@@ -165,27 +168,27 @@
 * String
 * Boolean
 * infinity!
-	- division by zero will also generate infinity
+	* division by zero will also generate infinity
 * Array
 * Hex: `var myVar = 0xFF;`
 * NaN
-	- generated when trying to do arithmetic with non-numbers
+	* generated when trying to do arithmetic with non-numbers
 * objects
 * undefined
 
 ## Comparisons And Falsy Values
 * "Falsy" and "truthy" values: value/type combos that evaluate to true or false via type coercion in JS's internal `ToBoolean` function which underlies statements like `!value`, `value ? ... : ... ;` and `if(value)`
 * falsy values include:
-	- `false` - the true boolean 'false'
-	- `0`, `0.0`, `-0`, `0x0` - numerical zeroes
-	- `""`, `''` - empty strings
-	- `null` - fun fact: `typeof null` returns `'object'`
-	- `undefined`
-	- `NaN` - not a number
+	* `false` - the true boolean 'false'
+	* `0`, `0.0`, `-0`, `0x0` - numerical zeroes
+	* `""`, `''` - empty strings
+	* `null` - fun fact: `typeof null` returns `'object'`
+	* `undefined`
+	* `NaN` - not a number
 * Falsy values do not all necessarily compare to each other via loose comparison `==`
-	- `false`, numerical zeroes and empty strings are equal under loose comparison
-	- `null` will not compare to any other value but `null` and `undefined`
-	- `NaN` does not compare to any other value, *not even itself*
+	* `false`, numerical zeroes and empty strings are equal under loose comparison
+	* `null` will not compare to any other value but `null` and `undefined`
+	* `NaN` does not compare to any other value, *not even itself*
 	```javascript
 		false == 0;         // true
 		0 == "";            // true
@@ -194,27 +197,27 @@
 		NaN == NaN;         // false...... wtf
 	```
 * "Truthy" values that are actually false via loose comparison: there are some values that will evaluate true in an `if(value)` statement but `value != true`
-	- `"0"`, `'0'` - non-empty strings are truthy, but evaluate to false when using the comparison operator
-	- `new Number(0)` and `new Boolean(false)` are objects which are truthy, but the comparison operator sees their values, which are false
-	- `0 .toExponential();` an object with a numerical value equivalent to `0`
-	- `[]`, `[[]]` and `[0]`
+	* `"0"`, `'0'` - non-empty strings are truthy, but evaluate to false when using the comparison operator
+	* `new Number(0)` and `new Boolean(false)` are objects which are truthy, but the comparison operator sees their values, which are false
+	* `0 .toExponential();` an object with a numerical value equivalent to `0`
+	* `[]`, `[[]]` and `[0]`
 * other Truthy values you might expect to be falsy:
-	- `-1` and other negative non-zero negative numbers
-	- `" "`, `' '`, `"false"`, `'null'` and all other non-empty strings
-	- anything from `typeof` which always returns a non-empty string
-	- any object (aside from fake object `null`) including:
+	* `-1` and other negative non-zero negative numbers
+	* `" "`, `' '`, `"false"`, `'null'` and all other non-empty strings
+	* anything from `typeof` which always returns a non-empty string
+	* any object (aside from fake object `null`) including:
 		* `{}`, `[]`, `function(){}` or `() => {}`
-	- any regex
-	- any symbol
+	* any regex
+	* any symbol
 * for objects, the rules relate to reference i think...
-	- for two identical objects, they will fail comparison of either type.
-	- if two objects share the same reference (they point to the same object) then they are equivalent via both loose and strict comparison
+	* for two identical objects, they will fail comparison of either type.
+	* if two objects share the same reference (they point to the same object) then they are equivalent via both loose and strict comparison
 
 ## Rest Parameters And Spread Syntax
 * `rest parameters` allow functions to store multiple arguments in a single array
 * you can use rest parameters in tandem with normal parameters, but the rest param must come last.
-	- this is how "rest parameters" got their name -- they're the "rest" of the parameters
-	- as such, you can only have one rest param per function
+	* this is how "rest parameters" got their name -- they're the "rest" of the parameters
+	* as such, you can only have one rest param per function
 	```javascript
 		function sendCars(day, ...allCarids) {
 			console.log('Today is ' + day);
@@ -273,9 +276,9 @@
 	`console.log(/cde/.test("abcdef"))`
 * a regex pattern has the following structure:
 		`var pattern = /(a|b|c)/gi    //search for matches against 'a', 'b' and 'c'`
-	- `g` means search globally for *all* matches, not just the first match
-	- `i` makes the search case-insensitive
-	- `[]` brackets denote a set of potential matches such as all digits `/[0-9]/`, all letters `/[a-z]/i`
+	* `g` means search globally for *all* matches, not just the first match
+	* `i` makes the search case-insensitive
+	* `[]` brackets denote a set of potential matches such as all digits `/[0-9]/`, all letters `/[a-z]/i`
 		* note that special chars lose their special meaning inside brackets
 	```javascript
 	var str = "An apple was eaten";
@@ -291,20 +294,20 @@
 	});
 	```
 * special characters:
-	- `\d` any digit
-	- `\w` an alphanumeric character
-	- `\s` any whitespace character (space, tab, newline)
-	- `\D` any char that is *not* a digit
-	- `\W` a non-alphanumeric character
-	- `\S` a non-whitespace character
-	- `.` any char except newline
+	* `\d` any digit
+	* `\w` an alphanumeric character
+	* `\s` any whitespace character (space, tab, newline)
+	* `\D` any char that is *not* a digit
+	* `\W` a non-alphanumeric character
+	* `\S` a non-whitespace character
+	* `.` any char except newline
 		`.art` matches `dart` and `cart` but not `art` or `start`
-	- `^` the inversion of; matches any char but what is in the set
+	* `^` the inversion of; matches any char but what is in the set
 		```javascript
 		/[^01].test("100100100010");  // false
 		/[^01].test("100102100010");  // true
 		```
-	- **repeating expressions** can be used to match zero or more expressions.
+	* **repeating expressions** can be used to match zero or more expressions.
 		* `+` matches one or more occurrences of the regex
 		* `*` matches zero or more occurrences
 		* `?` matches zero or one time
@@ -320,13 +323,13 @@
 					// matches ab, aaab, abb         does not match b, baa
 
 		```
-	- **word boundaries**:
+	* **word boundaries**:
 		* `\b` denotes the beginning of a word
 		```javascript
 			var str = "the very voracious vulture vaulted upwards into the sky";
 			var vstrs = str.match(/\bv+/gi);
 		```
-	- **line boundaries**:
+	* **line boundaries**:
 		* `^` denotes beginning of a line
 		* `$` denotes end of a line
 		```javascript
@@ -339,8 +342,8 @@
 
 ## Maths
 * be careful with prefix/postfix!
-	- using postfix returns the value *before* incrementing -- prefix probably does what you want.
-	- decrement works the same
+	* using postfix returns the value *before* incrementing -- prefix probably does what you want.
+	* decrement works the same
 	```javascript
 		var x = 3;
 		var y = x++; //x = 4. y = 3
@@ -368,8 +371,8 @@
 ## Variables Keywords
 * in ES6 we got all the variable types
 * `const` says "we won't be changing the value of this variable" -- use it as default if that condition applies
-	- the `const` keyword declares a constant variable and it must be initialized upon declaration
-	- the `const` declaration means that the identifier can't be reassigned, but its properties can be mutated
+	* the `const` keyword declares a constant variable and it must be initialized upon declaration
+	* the `const` declaration means that the identifier can't be reassigned, but its properties can be mutated
 	```javascript
 		const foo = bar;
 		foo.name = "qux";  // legit
@@ -377,8 +380,8 @@
 		const cor;         // nope
 	```
 * `let` means "we may reassign this variable", as for a loop variable
-	- the `let` keyword declares a block-scope variable, optionally assigning it to a value
-	- `let` will only be used in the block it's defined in -- it falls out of scope once the block is cleared
+	* the `let` keyword declares a block-scope variable, optionally assigning it to a value
+	* `let` will only be used in the block it's defined in -- it falls out of scope once the block is cleared
 	```javascript
 		let x;
 		x = 10;
@@ -392,7 +395,7 @@
 		}
 		console.log(y);         // error!
 	```
-	- does not create a property on the global object
+	* does not create a property on the global object
 	```javascript
 		var x = 'hello';
 		let y = 'world';
@@ -400,10 +403,10 @@
 		console.log(this.y); //undefined
 	```
 * `var` is the most ambiguous. in ES6, it shouldn't really be used because its meaning is so weak
-	- the `var` keyword declares a variable, optionally assigning it to a value
-	- default value is `undefined`
-	- re-declaring a variable does not cause it to lose its value (unless you also assign it a value)
-	- scope is set to "execution context"
+	* the `var` keyword declares a variable, optionally assigning it to a value
+	* default value is `undefined`
+	* re-declaring a variable does not cause it to lose its value (unless you also assign it a value)
+	* scope is set to "execution context"
 		* if a var is declared within a function, its scope is that function
 		* if a var is declared outside of a function, its scope is global
 
@@ -420,10 +423,10 @@
 		console.log(z); // throws reference error
 	```
 * differences between variable types:
-	- declared variables are created before any code is executed
-	- undeclared variables do not exist until the code assigning them is executed
-	- declared variables are non-configurable properties of their execution context and thus, cannot be deleted
-	- undeclared variables are configurable and can be deleted
+	* declared variables are created before any code is executed
+	* undeclared variables do not exist until the code assigning them is executed
+	* declared variables are non-configurable properties of their execution context and thus, cannot be deleted
+	* undeclared variables are configurable and can be deleted
 
 ## Variable Hoisting
 * this really only has to do with `var` variables because `const` variables need to be initialized when they are declared, and you'd get an error trying to reference a `let` variable before it's declared.
@@ -453,18 +456,18 @@
 
 # Objects And Properties
 * objects may have:
-	- properties
-	- methods
-	- events
+	* properties
+	* methods
+	* events
 * the browser has a special relationship with the `window` and `document` objects -- their properties and methods are already written and ready to be used
-	- document
+	* document
 		* props: URL, title, lastModified
 		* events: load, click, keypress
 		* methods: write(), getElementById()
-	- window
+	* window
 		* properties: location (url)
 * properties of an object can be accessed using dot or bracket notation
-	- dot notation is generally easier to read, but using bracket notation allows us to use variable to access properties
+	* dot notation is generally easier to read, but using bracket notation allows us to use variable to access properties
 		```javascript
 			let farm = {
 				cat: 'meow',
@@ -477,7 +480,7 @@
 			let animal = 'cow';
 			sound = farm[animal]; // 'moo'
 		```
-	- `for` can be used to iterate through the properties of an object
+	* `for` can be used to iterate through the properties of an object
 		```javascript
 			for ( var propName in student) {
 				console.log(propName); // lists the properties
@@ -485,10 +488,10 @@
 			}
 		```
 * an **object literal** is a comma-separated list of name-value pairs wrapped in curly braces
-	- may be on one line or multiple
-	- property values can be of any type including arrays and functions
-	- there is no comma after the last item
-	- curly braces are terminated with a semi colon
+	* may be on one line or multiple
+	* property values can be of any type including arrays and functions
+	* there is no comma after the last item
+	* curly braces are terminated with a semi colon
 		```javascript
 			var Swapper = {
 				images: ["smile.gif", "grim.gif", "frown.gif", "bomb.gif"],
@@ -501,9 +504,9 @@
 				}
 			};
 		```
-	- why use an object literal?
+	* why use an object literal?
 		* useful for unobtrusive event handling
-	- why not use them?
+	* why not use them?
 		* it's a bit easier to introduce syntax errors -- complex ones can be difficult to navigate
 
 * objects can be declared using brace notation:
@@ -539,7 +542,7 @@ o concatenation: + symbol
 	alert("Hello, " + name);
 o you can use += to concatenate strings
 	message += " Thanks for stopping by!";
-	- this technique can be used to build up large blocks of text in a
+	* this technique can be used to build up large blocks of text in a
 	  more readable way than using a million concatenation operators
 
 * none of these things seem to actually alter the value of `str` -- they just return values which you could of course store as variables or use to alter the value of `str`
@@ -581,7 +584,7 @@ o you can use += to concatenate strings
 	```
 
 * character replacement
-	- `replace()` only works on the first instance -- for more mileage, use regex
+	* `replace()` only works on the first instance -- for more mileage, use regex
 	```javascript
 	var str = "Hello planet Earth";
 
@@ -594,14 +597,14 @@ o you can use += to concatenate strings
 	```
 
 * substring
-	- the two args sent to `substr()` are the index where the substring starts and the length of the substring
+	* the two args sent to `substr()` are the index where the substring starts and the length of the substring
 	```javascript
 	var str = "Hello planet Earth";
 
 	var part1 = str.substr(6,6); // "planet"
 	str.substr(6,6).toUpperCase(); // "Hello PLANET Earth"
 	```
-	- you can also use the `substring()` method which takes two args for the start of the substring and the ending index of the substring
+	* you can also use the `substring()` method which takes two args for the start of the substring and the ending index of the substring
 
 
 
@@ -627,9 +630,9 @@ o you can use += to concatenate strings
 	```
 * passing by reference is nice b/c you can manipulate multiple objects without returning multiple objects, however this is not cohesive with the "no-side effect" way of functional programming in which a function should not manipulate the external state (by changing values outside of itself)
 * passing by reference can be broken if a whole new value is assigned to the variable
-	- when this happens, the original pointer points to the old value and a new pointer points to the new data location, so when you return out of your function, the original pointer is still pointing to the old value
-	- if you want to keep your reference to the original object, you must manipulate individual elements of that object rather than replacing it entirely
-	- for arrays, using methods which manipulate the array in-place (`push`, `push`, `splice`) will preserve your original reference, while methods like `concat`, `slice`, `map` and `filter` will return a new array
+	* when this happens, the original pointer points to the old value and a new pointer points to the new data location, so when you return out of your function, the original pointer is still pointing to the old value
+	* if you want to keep your reference to the original object, you must manipulate individual elements of that object rather than replacing it entirely
+	* for arrays, using methods which manipulate the array in-place (`push`, `push`, `splice`) will preserve your original reference, while methods like `concat`, `slice`, `map` and `filter` will return a new array
 	```javascript
 		function changeStuff(arr, obj) {
 			arr = [4,5,6];
@@ -735,19 +738,19 @@ o you can use += to concatenate strings
 
 ## Loading A Web Page
 * when a webpage is loaded, the process looks like this:
-	- the page is received as html
-	- the document object and all its nodes are stored in memory
-	- the rendering engine processes any supplied CSS rules
+	* the page is received as html
+	* the document object and all its nodes are stored in memory
+	* the rendering engine processes any supplied CSS rules
 * when is JS loaded?
-	- as the browser loads the document, when it finds a `script` tag it stops and loads it, and does whatever it needs to do
-	- if you have in-line script (`document.write('Good afternoon!')`, say) and put it halfway through your document, 'Good afternoon!' will be inserted at that halfway point in the document.
+	* as the browser loads the document, when it finds a `script` tag it stops and loads it, and does whatever it needs to do
+	* if you have in-line script (`document.write('Good afternoon!')`, say) and put it halfway through your document, 'Good afternoon!' will be inserted at that halfway point in the document.
 
 ## Nodes
 * below the parent `document` object, the DOM consists of a tree of objects called nodes
 * there are three types of nodes:
-	- elements (`<h3>`)
-	- text ("Hello, welcome to Earth!")
-	- attribute (css style)
+	* elements (`<h3>`)
+	* text ("Hello, welcome to Earth!")
+	* attribute (css style)
 
 ## Access Existing Elements
 * `document` is your keyword to accessing the DOM

@@ -1,6 +1,28 @@
 # Typescript
 
-## What The Hey Is It
+## Resources
+* use the playground and check out docs on [typescript lang](www.typescriptlang.org)
+
+
+## Best Practices
+* [official best practices](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
+* [more best practices from AWS](https://docs.aws.amazon.com/prescriptive-guidance/latest/best-practices-cdk-typescript-iac/typescript-best-practices.html)
+* don't ever use `String`, `Number`, `Boolean` or `Object` types
+* `string` vs `String`: TL;DR: always use `string`
+	* `string` is a primative type and `String` is an `Object` type
+	* `typeof` checks will not behave as expected for `String` types -- they're objects
+	* strict equality checks of `string` vs `String` will not match
+* use `unknown` instead of `any`
+	* if you're using `any` you're probably doing it wrong -- use types!
+	* `any` should only be used when in the process of migrating js -> ts
+	* `any` is effectively the same as using `ts-ignore` everywhere
+	* `unknown` is a type-safe alternative to `any`
+* in a similar spirit, use strict in your tsconfig file to keep yourself honest
+* use `let` and `const` where appropriate -- don't overuse `var` which is global when declared outside functions and can be unknowingly redeclared
+* coming from C#, you will want to use interfaces but you should probably be using a type alias instead -- see Type Aliases vs Interfaces above
+
+
+# What The Hey Is It
 * ts is a superset of js that compiles to js
 * it is cross-browser and cross-platform compatible
 * it's open source
@@ -20,7 +42,6 @@
 		* adding a new ts file generates a new module with a sample class and interface
 		* VS extension "Web Essentials" includes a preview of your js
 	* typescript playground allows you to type ts and see the generated js immediately with intellisense
-* use the playground and check out docs on [typescript lang](www.typescriptlang.org)
 
 ## TS vs JS
 * js can feel messy, which leads to difficulty maintaining and structuring
@@ -272,28 +293,9 @@
 
 
 
-# Troubleshooting And Misc
+# Troubleshooting
 
 ## Typescript In The Browser
 * is your `ts` file not refreshing when you're using chrome devtools?
 	* with devtools open, do a `Empty Cache and Hard Reload` by right-clicking on the reload button
-
-## Best Practices
-* [official best practices](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
-* [more best practices from AWS](https://docs.aws.amazon.com/prescriptive-guidance/latest/best-practices-cdk-typescript-iac/typescript-best-practices.html)
-* don't ever use `String`, `Number`, `Boolean` or `Object` types
-* `string` vs `String`: TL;DR: always use `string`
-	* `string` is a primative type and `String` is an `Object` type
-	* `typeof` checks will not behave as expected for `String` types -- they're objects
-	* strict equality checks of `string` vs `String` will not match
-* use `unknown` instead of `any`
-	* if you're using `any` you're probably doing it wrong -- use types!
-	* `any` should only be used when in the process of migrating js -> ts
-	* `any` is effectively the same as using `ts-ignore` everywhere
-	* `unknown` is a type-safe alternative to `any`
-* in a similar spirit, use strict in your tsconfig file to keep you honest
-* use `let` and `const` where appropriate -- don't overuse `var` which is global when declared outside functions and can be unknowingly redeclared
-* coming from C#, you will want to use interfaces but you should probably be using a type alias instead -- see Type Aliases vs Interfaces above
-
-
 

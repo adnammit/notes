@@ -46,10 +46,17 @@ $ReturnValue        enter in the Immediate window to see the return value
 	```
 
 ## DEBUGGING
-* [instructions on how to set up debugging in VSCode](https://vuejs.org/v2/cookbook/debugging-in-vscode.html#Launching-the-Application-from-VS-Code)
 * [more instructions](https://medium.com/idomongodb/visual-studio-code-debugging-vue-js-d3bf5bcc6656)
-* essentially what you need to do is:
-	- update `vue.config.json` so that webpack will build sourcemaps
-	- configure a launch profile in `launch.json` (idk if attach works for vuejs, or if it does, idk what the config looks like)
-	- `npm run serve` and then begin debugging using the launch profile
+* vscode tasks (build, debug, etc) are configured in `.vscode/tasks.json`
+* launch chrome etc by configuring `launch.json`
+
+### C#
+* [Omnisharp vs Language Server Protocol](https://github.com/dotnet/vscode-csharp/issues/5708)
+* use the C# Dev ToolKit extension -- best for C# 6+ and can be configured to work with legacy versions as well
+
+### Web Apps
+* perform your usual build/serve operations: should be something like `npm i && npm run serve` and then begin debugging using the launch profile
 * once you've done that, you should just be able to F5/green play button with your launch configuration selected in the debug screen
+* [instructions on how to set up vue debugging in VSCode](https://vuejs.org/v2/cookbook/debugging-in-vscode.html#Launching-the-Application-from-VS-Code)
+	* for vue, update `vue.config.json` so that webpack will build sourcemaps
+

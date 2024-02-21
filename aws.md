@@ -134,3 +134,9 @@ sudo service codedeploy-agent status
 # it should be running, but if it's not:
 sudo service codedeploy-agent start
 ```
+
+
+# RDS
+
+## Management
+* when working with relational dbs managed by aws, you can use special `rdsadmin` procs to manage the db such as [bringing it back online](https://stackoverflow.com/a/12200909)

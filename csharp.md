@@ -70,7 +70,7 @@
 ## dotnet
 * dotnet is somewhere between csc and msbuild -- a command line-only tool that can build projects and solutions
 * dotnet runs on .NET Core and calls Roslyn accordingly
-* TODO compilation approaches for unmanaged and managed code
+* **TODO** compilation approaches for unmanaged and managed code
 
 
 # Language Basics
@@ -221,7 +221,7 @@
 		string? s = null;
 		```
 	* enabled by default in .NET6+ -- in the csproj file you'll see something like `<Nullable>enable</Nullable>`
-
+* we can also say `foo is null` instead of `foo == null`
 
 # Classes
 * **classes** define the structure of **objects** which are instances of the class

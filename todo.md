@@ -1,4 +1,8 @@
 # TODO
+* **SDK vs Runtime**
+* write a bash func that replaces `git push`
+	* check to see if on branch `main` or `master`
+	* if so, force confirm, else just do it
 * finish setting up database
 	* convert `media` to regular sql script
 	* seed the aws database
@@ -26,6 +30,7 @@
 	* sites i like
 		* https://restfulapi.net/resource-naming/
 		* https://materialdesignicons.com/
+		* https://eloquentjavascript.net/
 		* lucid charts
 		* name that color!
 		* tim corey

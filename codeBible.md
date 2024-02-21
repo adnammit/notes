@@ -47,6 +47,7 @@
 * **open-closed principle**: classes should be open for extension and closed for modification
 * **ORM**: Object Relational Mapping: conversion of data between incompatible type systems. For example, your DB can only store and manipulate strings and integers, and your client program uses complex objects, so an ORM standardizes mapping data between the two. ORM can be found commercially, and some devs write their own
 * **partition tolerance**: a partition is a break in communication between nodes - a partition tolerant system does not fail regardless of dropped messages between nodes
+* **pegged CPU**: maxed out CPU utilization; [etymology](https://english.stackexchange.com/a/202320)
 * **POCO**: plain old class, or CLR object, typically used as a DTO or serialization object. POCOs are data structures that contain only public properties or fields. a POCO should not contain any other members such as methods, events, or delegates
 * **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended.
 * **promise**: an object which represents the completion (success or failure) of an asychronous operation
@@ -59,9 +60,9 @@
 * **strangler fig application**: when you cannot outright replace a critical system due to complexity, risk, time constraints, etc one option is to gradually create a new system around the old one that gradually grows over the old one. the new application can then grow progressively with carefully monitored progress. the new application should be designed to be "strangleable" or easily replaced in the future by a similar strategy ([reference](https://martinfowler.com/bliki/StranglerFigApplication.html))
 * **strong consistency**: "one source of truth" -- data may be backed up in multiple places but it is read/written in one location to ensure the data is always 100% accurate; no dirty reads. see eventual consistency
 * **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
-	- **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
-	- **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
-	- **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
+	* **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
+	* **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
+	* **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
 * **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
 * **value object**: a class whose equality is determined by its value rather than its identity. value objects are immutable. compare to entities
 * **vertical scaling** means adding more power to the server: more RAM, more CPU etc. this works in a pinch, but is limited in how far you can scale and the impact of a server going out is great
@@ -71,36 +72,36 @@
 
 ## Topic Deep Dives
 * **architecture**: according to [Martin Fowler](https://www.youtube.com/watch?v=DngAZyWMGR0), architecture is the "important stuff": the shared understanding between developers, and the things that are hard to change:
-	- architecture is the common understanding of the system design that is shared between expert developers of the system.
+	* architecture is the common understanding of the system design that is shared between expert developers of the system.
 		* software development is a social thing -- we have to understand what each other are doing
 		* diagrams, design, technical documents are all well and good,but they are just representations of the ideas shared between people writing the software
-	- architecture's primary concerns are decisions that are hard to change
-	- why good architecture?
+	* architecture's primary concerns are decisions that are hard to change
+	* why good architecture?
 		* good design takes more time/money, so how can you argue for it?
 		* it's not just about avoiding expense/problems down the line: a well-designed system will allow features to be created more and more rapidly -- saving time/money in the future
 * **inheritance**
-	- **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract base class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended
-	- **abstract** classes serve as the **base** class blueprint for **derived** classes and may implement virtual methods that must be overridden by the implementing base class
-	- you cannot create an instance of an abstract class but you can implement functionality that will be shared by inheriting classes
-	- abstract classes cannot be static
+	* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract base class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended
+	* **abstract** classes serve as the **base** class blueprint for **derived** classes and may implement virtual methods that must be overridden by the implementing base class
+	* you cannot create an instance of an abstract class but you can implement functionality that will be shared by inheriting classes
+	* abstract classes cannot be static
 * **abstract data type**: a logical, conceptual description of an interface (what it does)
-	- list, queue, stack, map, table, hash table, dictionary
+	* list, queue, stack, map, table, hash table, dictionary
 * **data structure**: how the data is stored, the implementation of the ADT (how it does it)
-	- array (dynamic, static) [lists, stacks, queues]
+	* array (dynamic, static) [lists, stacks, queues]
 		* data is stored in contiguous locations making iteration efficient -- we can use indexing
 		* pro: lower overhead
 		* con: not flexible; if you want to add/remove, you'll have to create a new one
-	- linear, circular linked lists [lists, stacks, queues]
+	* linear, circular linked lists [lists, stacks, queues]
 		* data is *not* stored in contiguous locations -- no index, instead we use nodes and pointers to other nodes
 		* `head` and `tail` refer to first and last node
 		* in C#, if you need to "slice" a linked list, you can just set a pointer to null and garbage collection will take care of the rest
 		* pro: these are flexible -- dynamically add or remove items
 		* con: less efficient than array, more overhead
-	- doubly linked lists [lists]
-	- BST, red-black tree [table]
-	- array of linked lists [hash table]
+	* doubly linked lists [lists]
+	* BST, red-black tree [table]
+	* array of linked lists [hash table]
 * **inversion of control (IoC)**: allowing other code to call you rather than your code managing everything
-	- steps for a nice IoC:
+	* steps for a nice IoC:
 		-> Tightly coupled classes
 		-> implement IoC using factory pattern
 		-> implement DIP through abstraction
@@ -108,59 +109,59 @@
 		-> use IoC container
 		-> loosely coupled classes
 * **dependency injection**: providing an object with its dependencies rather than having it source them itself. Dependency injection is one technique in the broader concept of Inversion of Control (or *dependency inversion*)
-	- dependencies are passed in to a constructor/class definition rather than being instantiated within
-	- helpful in that it allows dependencies to be run at runtime - more dynamic
-	- benefit that the client (dependent) object doesn't need to be changed when the method of acquiring the dependencies changes
-	- useful for testing b/c it allows for dependencies to be mocked up more easily
-	- dependency injection consists of four roles:
+	* dependencies are passed in to a constructor/class definition rather than being instantiated within
+	* helpful in that it allows dependencies to be run at runtime - more dynamic
+	* benefit that the client (dependent) object doesn't need to be changed when the method of acquiring the dependencies changes
+	* useful for testing b/c it allows for dependencies to be mocked up more easily
+	* dependency injection consists of four roles:
 		* the **service** object(s) to be used
 		* the **client** that depends on the services
 		* the **interfaces** that define how the client may use the service
 		* the **injector** which constructs and injects the services
-	- there are three paradigms for accepting injection:
+	* there are three paradigms for accepting injection:
 		* setter:
 		* interface: the client has the opportunity to control its own injection
 		* constructor
-	- pros:
+	* pros:
 		* system may be reconfigured without recompilation of the client
 		* separate configurations can be written for different situations including testing
 		* the ability to create stubs and mock objects makes for easier unit testing
 		* since client has no concept or control over changes in dependencies, it is isolated from changes in design or defects elsewhere, thus promoting reusability, testability and maintainability. Coupling is decreased between the client and its services
 		* allows for concurrent development: one dev can work on the client, another on the injector, as long as the interface is already agreed upon
-	- cons:
+	* cons:
 		* can be more difficult to read, trace and debug -- more files must be read
 		* demands more upfront development effort (maintaining two things is harder than maintaining one)
 * **SOLID** OOO design principals. it is important to use these principals so that one area of software can be modified without impacting other areas. it makes the design easier to understand, maintain and extend. it also makes for easier testing, and more agile, adaptive, bug-free software
-	- *Single-Responsibility principle*: each class should have one responsibility, one reason to change. each class should solve one problem. this applies to microservices as well -- we can have one service for auth and another for importing client data so one service isn't doing it all. this makes code simpler and easier to modify, but it does require more code to be written
-	- *Open-Closed principle*: entities should be open for extension but closed to modification (via inheritance)
-	- *Liskov substitution principle*: every subclass should be substitutable for their base or parent class -- you should be able to substitute an instance of a derived class for an instance of its base class with no errors
+	* *Single-Responsibility principle*: each class should have one responsibility, one reason to change. each class should solve one problem. this applies to microservices as well -- we can have one service for auth and another for importing client data so one service isn't doing it all. this makes code simpler and easier to modify, but it does require more code to be written
+	* *Open-Closed principle*: entities should be open for extension but closed to modification (via inheritance)
+	* *Liskov substitution principle*: every subclass should be substitutable for their base or parent class -- you should be able to substitute an instance of a derived class for an instance of its base class with no errors
 		* **variance**
 		* **covariance**
 		* more [here](https://youtu.be/-3UXq2krhyw)
-	- *Interface segregation principle*: clients should not be forced to depend on interfaces or methods that they do not use. interfaces should be fine-grained and client specific so that clients can implement only those needed
+	* *Interface segregation principle*: clients should not be forced to depend on interfaces or methods that they do not use. interfaces should be fine-grained and client specific so that clients can implement only those needed
 		* if your concrete class has to implement methods with `notImplException` or with default values for properties that don't apply just to satisfy the interface, the interface isn't fine-grained enough
 		* example: if you type all your library items as `IBook` with fields for pages, that won't apply to your audiobook or cd. fine grained nested interfaces will help define only what is necessary for your use case
-	- *Dependency inversion principle (DIP)*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling. a technique to implement DIP is *dependency injection*
+	* *Dependency inversion principle (DIP)*: depend on abstractions, not concretions. “abstractions should not depend on details. Details should depend upon abstractions.” this allows for decoupling. a technique to implement DIP is *dependency injection*
 		* high level modules (modules that depend on other things)
 		* low level modules (modules that depend on nothing)
 		* abstractions (interfaces) help high and low level modules work together and allow for changes to be made to low-level modules without breaking high-level modules. e.g. if your application depends on `IMessageService` you can inject an `EmailService` or an `SmsService` or pass in a mock service for testing that won't send real messages
 		* if your high-level code creates a lot of `new` instances, it is dependent on that low level module. you have to create new instances somewhere, and that place should be centralized so you're swapping all your stuff out in one place and can supply your dependencies from there (i.e. factory)
 * **.NET ECOSYSTEM**:
-	- **.NET generally speaking**:
+	* **.NET generally speaking**:
 		* .NET is a developer platform made up of tools, programming languages, and libraries for building many different types of applications
 		* The base platform provides components that apply to all different types of apps and multiple languages, including basic libraries (strings etc), editors, and the C#, F# and Visual Basic programming languages
 		* all .NET programs are compiled into a CIL (Common Intermediate Language) that is then translated to machine code and executed
-			- when the app is built, regardless of what language the app is written in, it all gets compiled into a common "dotnet speak" -- the IL (intermediate language) is stored in the .exe or .dll generated by the build
-			- when the app is executed, the CLR's just in time (JIT) compiler converts the intermediate language to machine code -- there is a header in the executable that loads the .NET CLR, and the .NET CLR JIT compiles the IL to native code for the CPU. the native code is cached for CPU execution
-			- this is how you're able to run programs written in many different languages without your computer "speaking" F#
-			- the CLR includes services such as thread management, garbage collection, type safety and exception handling
-	- **.NET Framework**:
+			* when the app is built, regardless of what language the app is written in, it all gets compiled into a common "dotnet speak" -- the IL (intermediate language) is stored in the .exe or .dll generated by the build
+			* when the app is executed, the CLR's just in time (JIT) compiler converts the intermediate language to machine code -- there is a header in the executable that loads the .NET CLR, and the .NET CLR JIT compiles the IL to native code for the CPU. the native code is cached for CPU execution
+			* this is how you're able to run programs written in many different languages without your computer "speaking" F#
+			* the CLR includes services such as thread management, garbage collection, type safety and exception handling
+	* **.NET Framework**:
 		* the original implementation of .NET
 		* supports development of websites, services, desktop apps and more
 		* only supports Windows
 		* includes the CLR and Class Library
 		* Framework is currently at 4.8 and will be supported but will not be developed further
-	- **.NET Core**:
+	* **.NET Core**:
 		* an open-source, cross-platform reimagination of the common layer below all languages -- the basis of Core is the CLR Core
 		* this strips a lot of backwards compatibility for things we don't need anymore -- this fresh start allows for much greater performance
 		* Core still uses the same abstractions, same languages as .NET Framework instances that compile to a CLR Core, it just does a lot less stuff, faster
@@ -168,55 +169,55 @@
 		* still missing some things in Core like WCF (which is still supported in Framework)
 		* confusingly, we skipped Core 4 and what would be Core 5 is now known as just .NET 5 🙄
 		* Core can be used with Docker, and it includes command line tools for local development and continuous integration
-	- **ASP.NET**:
+	* **ASP.NET**:
 		* ASP.NET extends the .NET platform with tools and libraries specifically for building web apps
 		* includes
-			- request processing framework
-			- Razor web page templating
-			- common web pattern libraries like MVC
-			- authentication system
-			- editor extensions for working with web pages
-	- **.NET Standard**:
+			* request processing framework
+			* Razor web page templating
+			* common web pattern libraries like MVC
+			* authentication system
+			* editor extensions for working with web pages
+	* **.NET Standard**:
 		* Standard is a specification of .NET, rather than an implementation -- it is a successor of the portable class library
 		* it defines the set of APIs that all .NET implementations must provide
 		* kind of like another .NET Framework, but it is only used to develop class libraries -- it is a "bridge" between these different abstraction layers
 		* example: you use Standard to write a shared library that is consumed by both Framework and Core applications (specifically you use Standard 2.0 as Standard 1.x is not supported by Core)
 		* Standard can also be used to "bridge" between things like Xamarin, Mono and Unity
 		* Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
-	- **Xamarin/Mono**: .NET implementations for mobile OS
+	* **Xamarin/Mono**: .NET implementations for mobile OS
 
 ## Database Stuff
 * **indexing**
 * **normalization** is the process of (1) identifying redundant data within a table and (2) enhancing data integrity. normalization also helps organize data
-	- normalization organizes the columns and tables in a db to endure constraints properly execute their dependencies
-	- normalization is based on functional dependency
-	- normalization/data redundancy reduction has these advantages:
+	* normalization organizes the columns and tables in a db to endure constraints properly execute their dependencies
+	* normalization is based on functional dependency
+	* normalization/data redundancy reduction has these advantages:
 		* less likely for there to be inconsistency between the dupe data
 		* data maintenance is less tedious -- data is maintained in fewer places
 		* fewer anomalies caused by failing to synchronize data
 		* less disk space
 * **CRUD**: Create, Read, Update and Delete
 * **join types**
-	- **inner** most performant, common rows between both tables
-	- **left outer** contains all the data from the first table and the common rows from the second table with null values where there is no data in table 2
-	- **right outer** same as left but all data from table 2 and matching data from table 1
-	- **full join** combines and returns all data from both tables, regardless of whether there is shared information with nulls where there is no match between tables
-	- **cross join** is WILD. for each row in table 1, join it with every row in table 2. if table 1 has x rows and table 2 has y rows, the resulting set will contain x * y rows. comes in handy if you need all possible combinations of two different objects together (hopefully small sets of data)
+	* **inner** most performant, common rows between both tables
+	* **left outer** contains all the data from the first table and the common rows from the second table with null values where there is no data in table 2
+	* **right outer** same as left but all data from table 2 and matching data from table 1
+	* **full join** combines and returns all data from both tables, regardless of whether there is shared information with nulls where there is no match between tables
+	* **cross join** is WILD. for each row in table 1, join it with every row in table 2. if table 1 has x rows and table 2 has y rows, the resulting set will contain x * y rows. comes in handy if you need all possible combinations of two different objects together (hopefully small sets of data)
 * **ACID**: ACID transactions are a key feature of relational databases
-	- **Atomicity**: each transaction will either succeed completely or fail completely; if any component statement fails in a transaction, the whole transaction fails (e.g.: in a bank transfer, some failure doesn't result in both accounts or neither account having the money). to an observer of the system, the transaction has not occurred one moment and has fully occurred the next moment
-	- **Consistency**: data updated via transactions will respect other constraints and rules to keep the data in a consistent state. corruption or errors in your data will not create unintended consequences for the integrity of the table
-	- **Isolation**: transactions may run concurrently. isolation of transactions ensures that concurrent transactions do not interfere with or effect one another. if you were to take the transactions and run them one-by-one, the result would be the same as though they ran concurrently
+	* **Atomicity**: each transaction will either succeed completely or fail completely; if any component statement fails in a transaction, the whole transaction fails (e.g.: in a bank transfer, some failure doesn't result in both accounts or neither account having the money). to an observer of the system, the transaction has not occurred one moment and has fully occurred the next moment
+	* **Consistency**: data updated via transactions will respect other constraints and rules to keep the data in a consistent state. corruption or errors in your data will not create unintended consequences for the integrity of the table
+	* **Isolation**: transactions may run concurrently. isolation of transactions ensures that concurrent transactions do not interfere with or effect one another. if you were to take the transactions and run them one-by-one, the result would be the same as though they ran concurrently
 		* this is generally achieved by locks/isolation level which varies by application
 		* the order your bank transactions post matters but your twitter feed order does not
 		* a **schedule** is an interleaving of transaction actions -- the order of operations within each transaction must be preserved
-	- **Durability**: ensure that changes made to data by successful transactions will be saved, even in the event of system failure
-	- ACID pros:
+	* **Durability**: ensure that changes made to data by successful transactions will be saved, even in the event of system failure
+	* ACID pros:
 		* data integrity
 		* simplified operational logic -- complex updates don't require advance examination of the mutual interaction mechanisms
 		* reliable storage: in-memory storage fails, durable storage is more reliable
-	- ACID cons:
+	* ACID cons:
 		* ACID transactions are slower because of locking
-	- Alternatives to ACID:
+	* Alternatives to ACID:
 		* for high-volume systems (netflix, facebook), distributed systems working in parallel perform better
 		* NoSQL and MongoDB replicate data across several nodes or servers where each node contains the same data, but don't update the data at the same time across all nodes, so data can be inconsistent
 		* high availability of distributed db systems comes with the tradeoff of lower consistency
@@ -228,34 +229,34 @@
 * locks are managed by a **lock manager**
 * if a transaction cannot get a lock, it waits in a queue
 * locking protocols:
-	- **strict 2-phase protocol**: states that locks cannot be released until the transaction ends via commit or abort
-	- **non-strict 2-phase protocol**: a transaction gets and drops locks as needed
+	* **strict 2-phase protocol**: states that locks cannot be released until the transaction ends via commit or abort
+	* **non-strict 2-phase protocol**: a transaction gets and drops locks as needed
 * **locking scopes** can help improve concurrency
-	- you can lock tables, rows, attribute values, or predicates (such as age > 25 -- this one is difficult to implement)
-	- more granular locks -> increasing concurrency
+	* you can lock tables, rows, attribute values, or predicates (such as age > 25 -- this one is difficult to implement)
+	* more granular locks -> increasing concurrency
 * **deadlock**: strict 2-phase locking protocol may result in deadlock: queued transactions are waiting for an abort/commit that will never happen, e.g.:
-	- T1 wants a X lock on A and has a X lock on B
-	- T2 has a X lock on B and wants a X lock on A
-	- solution: the DBMS must detect this scenario and kill one of the requests -- one transaction is the 'victim' of deadlock
+	* T1 wants a X lock on A and has a X lock on B
+	* T2 has a X lock on B and wants a X lock on A
+	* solution: the DBMS must detect this scenario and kill one of the requests -- one transaction is the 'victim' of deadlock
 * using `NOLOCK` for a query seems like a good idea if you don't want to change any data, so why might that be a bad idea?
-	- using `NOLOCK` means another query won't block your access to that data, but if you read that data while the query is changing it, you might get a **dirty read** where your data is suddenly no longer current
+	* using `NOLOCK` means another query won't block your access to that data, but if you read that data while the query is changing it, you might get a **dirty read** where your data is suddenly no longer current
 * consider `NOLOCK` vs `SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`
-	- `NOLOCK` sets just one table to read w/out locking
-	- the latter sets the state of the entire transaction
+	* `NOLOCK` sets just one table to read w/out locking
+	* the latter sets the state of the entire transaction
 
 ### Performance
 * proper indexing
 * avoid using `SELECT *` -- specify the exact columns you want. this helps because:
-	- slims down your data fetch and reduces network traffic
-	- possible to retrieve two columns of the same name when using joins
-	- `SELECT * with WHERE` conditions will use clustered index by default so it might not use other more optimal indexes
+	* slims down your data fetch and reduces network traffic
+	* possible to retrieve two columns of the same name when using joins
+	* `SELECT * with WHERE` conditions will use clustered index by default so it might not use other more optimal indexes
 * use temporary tables rather than iterating over the same beastly table or running queries in a loop
 * if you have the options of using a vw or a sproc, sprocs provide more ways to optimize
 * use dynamic joins wherever possible (only join if you have to)
 * inner joins are faster than outer joins (smaller data set)
 * if you have to use cross join, avoid performance issues:
-	- Use another JOIN (INNER/LEFT/RIGHT) with 2 ON conditions
-	- Use the GROUP BY clause to pre-aggregate data
+	* Use another JOIN (INNER/LEFT/RIGHT) with 2 ON conditions
+	* Use the GROUP BY clause to pre-aggregate data
 * use more `WHERE` conditions to narrow down your pool (such as only recent data, etc) over `HAVING`
 * enums take longer than bools
 * query plans are cached -- if the query parameters are exactly the same, it pulls the existing query out of the cache and uses that one. "optimized" queries sometimes waste time -- the cache may need to be cleared
@@ -273,13 +274,13 @@
 * avoid passing char[] -- pass char* instead to save mem?
 * const: "this function won't change any of the class's data members"
 * passing by reference vs. passing by value vs. passing by const reference
-	- is passing by ref w/ const the best when you're not changing the data that's being passed in (saving memory w/out alterations)?
+	* is passing by ref w/ const the best when you're not changing the data that's being passed in (saving memory w/out alterations)?
 * never pass a class object by value -- very spendy
 * send functions the exact type that they expect (aside from trivial conversions) because conversions cause a copy to be made.
 * following cin << int, use 'cin.clear()' to avoid endless looping if a char is entered.
 * operator overloading: don't use void functions! it makes your operator pointless
 * operator overloading: copy constructor vs assignment operator overloading
-	- karla suggests making both call a copy function
+	* karla suggests making both call a copy function
 * whenever you create a class in C++, create a copy instructor and overload the assignment operator
 * use prefix increment
 * karla suggests using 'static' for utility functions from here on out
@@ -290,41 +291,41 @@
 * the running time of an algorithm is a function of the size of its input
 * we look at the worst case: for example, if we're searching for a match, the worse case would be iterating through all of the data without finding a match
 * kinds of functions:
-	- constant: a, 10, 283.4
-	- logarithmic: log2, ln
-	- linear: an + b
-	- quadratic: an^2 + bn + c
-	- polynomial: an^z + ... + an^2 + an^1 + an^0
-	- exponential: a^n
+	* constant: a, 10, 283.4
+	* logarithmic: log2, ln
+	* linear: an + b
+	* quadratic: an^2 + bn + c
+	* polynomial: an^z + ... + an^2 + an^1 + an^0
+	* exponential: a^n
 * this estimated time is expressed as a function of input (n), listed from slowest to fastest growing:
-	- constant: O(1)
-	- logarithmic: O(ln n)
-	- linear: O(n)
-	- O(n ln n)
-	- exponential/quadratic: O(n^2)
-	- O(n^2 ln n)
-	- polynomial: O(n^a)
-	- exponential: O(2^n)
+	* constant: O(1)
+	* logarithmic: O(ln n)
+	* linear: O(n)
+	* O(n ln n)
+	* exponential/quadratic: O(n^2)
+	* O(n^2 ln n)
+	* polynomial: O(n^a)
+	* exponential: O(2^n)
 * Asymptotic notation:
-	- when we measure the rate of growth of an algorithm's running time, we drop the less important factors in the calculation and focus on the most significant.
-	- suppose that an algorithm takes 2n^2 + 6n + 8 machine operations to complete, where n is the input. the most significant part of the equation is n^2, so that is how the algorithm's efficiency is simplified
+	* when we measure the rate of growth of an algorithm's running time, we drop the less important factors in the calculation and focus on the most significant.
+	* suppose that an algorithm takes 2n^2 + 6n + 8 machine operations to complete, where n is the input. the most significant part of the equation is n^2, so that is how the algorithm's efficiency is simplified
 * three forms of Asymptotic notation:
-	- Big Theta: the rate of growth is bound between constant factors above and below -- we know that our algorithm performs somewhere in between
+	* Big Theta: the rate of growth is bound between constant factors above and below -- we know that our algorithm performs somewhere in between
 		* "this algorithm takes at least x amount of time and at most y amount of time"
-	- Big O: the upper boundary of growth of our search algorithm
+	* Big O: the upper boundary of growth of our search algorithm
 		* "this algorithm takes at most x amount of time"
-	- Big Omega: the lower boundary of growth of our search algorithm
+	* Big Omega: the lower boundary of growth of our search algorithm
 		* "this algorithm takes at least x amount of time"
 
 ## ELI5: Recursion
 * matryoshka doll:
-	- self-similar, nested layers that repeat until the problem has been 'solved' (you reach the innermost doll)
+	* self-similar, nested layers that repeat until the problem has been 'solved' (you reach the innermost doll)
 * researching something on the internet:
-	- you open a tab and it tells you something, but now you have a question about something else so you pause what you're learning about and open a new tab, etc until you don't have any more questions and you work your way back through the tabs until you have a full understanding of what you wanted to know
+	* you open a tab and it tells you something, but now you have a question about something else so you pause what you're learning about and open a new tab, etc until you don't have any more questions and you work your way back through the tabs until you have a full understanding of what you wanted to know
 * the bedtime story:
-	- "the little girl couldn't sleep, so her mother told her about a little frog who couldn't sleep, so her mother told her a story about a little mouse who couldn't sleep, so her mother told her a story about a little bear who fell asleep, and then the mouse fell asleep, then the frog fell asleep, then the girl fell asleep."
+	* "the little girl couldn't sleep, so her mother told her about a little frog who couldn't sleep, so her mother told her a story about a little mouse who couldn't sleep, so her mother told her a story about a little bear who fell asleep, and then the mouse fell asleep, then the frog fell asleep, then the girl fell asleep."
 * Droste effect:
-	- in art, a pattern that appears recursively within itself
-	- a hand drawing a hand drawing a hand...
+	* in art, a pattern that appears recursively within itself
+	* a hand drawing a hand drawing a hand...
 * tree branches:
-	- each branch is self-similar to it's 'parent' branch
+	* each branch is self-similar to it's 'parent' branch
