@@ -27,6 +27,7 @@
 * **entity**: a class that represents a table in a database. Entities have a unique identity, and are not compared by value. Entities are mutable. compare to value objects and aggregate roots
 * **eventual consistency**: in a distributed system, it may take time for an update to be reflected across all data nodes. this is usually a requisite trade off for high availability/low latency. see strong consistency
 * **high cohesion**: the strength of the relationship between the elements of a module. Within a class, the methods and properties share a purpose and function. Correlates with low coupling.
+* **HMR**: hot module replacement: a feature of build tools that allows modules to be updated without a full page refresh (change something in your code, see it on the page faster)
 * **horizontal scaling** or "scaling out" means adding more hardware to the existing resource pool in a distributed system. there is no limit to how far you can scale horizontally and it's easier to maintain uptime by rotating servers, though it does require more overhead to manage and different coding considerations
 * **idempotent**: if a process is idempotent, it can be re-run multiple times and will still result in the same end state as existed after the first run (multiple applications of the process == the first application of the process) -- ex: this is important in REST apis: if you POST the same request multiple times, you would hope not to have multiple objects
 * **imperative programming**: focused on describing how a program operates in terms of a succession of operations that change the program state. "to get to my house, first you take I-35, take exit 43..." etc. see declarative programming
@@ -59,6 +60,7 @@
 * **SQLI**: SQL injection
 * **strangler fig application**: when you cannot outright replace a critical system due to complexity, risk, time constraints, etc one option is to gradually create a new system around the old one that gradually grows over the old one. the new application can then grow progressively with carefully monitored progress. the new application should be designed to be "strangleable" or easily replaced in the future by a similar strategy ([reference](https://martinfowler.com/bliki/StranglerFigApplication.html))
 * **strong consistency**: "one source of truth" -- data may be backed up in multiple places but it is read/written in one location to ensure the data is always 100% accurate; no dirty reads. see eventual consistency
+* **template literal**: in JS, a string literal that allows embedded expressions (`hello, my name is ${name ? name : "none of your business"}`)
 * **testing pyramid**: three tiers from most basic/fastest to most complex/slowest
 	* **unit tests**: the foundation of testing; limited, focused scope: do the code units function as intended? each unit test should test a single variable
 	* **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work

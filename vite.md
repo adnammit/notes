@@ -8,7 +8,7 @@
 * replaces webpack, rollup, parcel, gulp, snowpack and others for developing with ts, vue, react, svelte and more!
 * why is Vite so fast?
 	*  module imports (ESM): import each single file as a module
-	*  hot module reload via websockets
+	*  HMR (hot module replacement) via websockets
 	*  a change to one file does not require minifying/recompiling the entire project
 * **esbuild**: used in local build compilation
 	*  what actually compiles files as Vite serves the assets

@@ -1,48 +1,285 @@
-# REACT
+# React
 
-## NEW CONCEPTS:
-* (Context)[https://reactjs.org/docs/context.html#when-to-use-context]
-	- use Context to pass data that could be considered 'global' through multiple levels of components
-		* theme, authenticated user or preferred language could be examples
-	- don't do this just to avoid passing props down -- stick to cases where the data is used on multiple levels
-* Routes
-* Express integration
+## Overview
+* React is a JS library for creating UIs
+* unlike Angular, data flows only one way in React: from parent to child. this prevents side-effects and is more predictable
+* React is declarative: you describe what you want to happen and React takes care of the rest. think of the UI as a function of the state over time -- as the state changes, the UI changes -- you don't have to manage the UI, React will change it for you as the state changes
+* React is unopinionated about how you style your components - it provides the structure (the DOM), but you still get to style it
+
+## Getting Started
+* [official doc](https://react.dev/)
+* [typescript with react](https://react.dev/learn/typescript)
+* recommended setup ([more](https://react.dev/learn/editor-setup))
+	* vscode extensions: prettier, eslint
+	* node v18+
+	* [chrome devtools extension](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
+### Quick Start
+Create a React typescript app with Vite build tool, react router and prettier:
+```bash
+	npm create vite@latest my-cool-app -- --template react-ts
+	cd my-cool-app
+	npm i react-router-dom
+	npm i -D @types/react-router-dom
+	npm i -D prettier eslint-config-prettier
+```
+
+## Best Practices, Tips and Tricks
+* `StrictMode`: you can and should wrap your `App` component in `StrictMode` to help catch common bugs, look for outdated things, etc
+* for styling your app, use one of these (in order of "weight"): css modules, tailwind, UI library (like material)
+* use a Vite build unless you have a specific use case to warrant a full framework like Next.js or Gatsby
+	* example (see [docs](https://vitejs.dev/guide/#scaffolding-your-first-vite-project))
+	```bash
+		npm create vite@latest my-react-app -- --template react-ts
+	```
+* components should be defined as functions, not classes
+* when setting state, use a callback function rather than the current state value:
+	```js
+		// instead of
+		setCount(count + 1);
+		// do this
+		setCount(c => c + 1);
+	```	
+
+## Implementation Options
+* in the simplest "pure" vanilla js implementation, you can import react scripts into an html file ([template](https://gist.githubusercontent.com/gaearon/0275b1e1518599bbeafcde4722e79ed1/raw/db72dcbf3384ee1708c4a07d3be79860db04bff0/example.html))
+* the easiest way to get started creating a new app is to use [Create React App](https://create-react-app.dev/) -- configures eslint for you and is a good easy way to play around, but uses webpack/is slow and not advised for production
+* there are several production-grade React frameworks that all have [official cli templates](https://react.dev/learn/start-a-new-react-project). these have eslint, prettier, jest etc already configured:
+	* [Next.js](https://nextjs.org/): provides routing
+	* [Gatsby](https://www.gatsbyjs.com/)
+	* [Remix](https://remix.run/)
+* if you need a simpler yet performant solution, use [Vite](https://vitejs.dev/) which is far less complicated than any of the React-based frameworks. however it requires manual configuration of eslint, testing, etc
+* [add react to an existing project](https://react.dev/learn/add-react-to-an-existing-project)
+
+## Key Concepts
+* React is a JS library (not a framework) for creating UIs. there are several full-fledged frameworks based on React such as Next.js, Gatsby, and Remix
+* **components**: like many other js frameworks and libraries, react uses reusable components as building blocks
+* **JSX**: JavaScript XML: the react templating language which allows you to write html-like code in your js files which is transpiled to js
+* **virtual dom**: a lightweight JS representation of the actual DOM used to determine which components in the actual DOM should be updated, greatly reducing DOM updates
+* **props**: the data which is passed to the child component from the parent
+* **lifecycle methods**: methods that are called at different points in the lifecycle of a component. class-based components use lifecycle methods, but functional components can acheive similar functionality using React Hooks like `useEffect`
+* **hooks**: a feature added in React 16.8 that allows you to use state and other React features previously only available to class components in functional components. these include `useState`, `useEffect`, `useContext`, and `useReducer`
+* **router**: in SPAs, the page is never reloaded -- instead we rely on urls mapped to different views (routes). when a user clicks on something, JS is used to update the DOM and modify the view appearance. react-router is a popular library for managing client-side routing
+* **state**: the internal data store of a component. Context API and Redux are used to manage state
 
 
-## KEY CONCEPTS
-* JSX: allows us to write JS in html-like script which gets transformed
-  into lightweight JS objects
-* VIRTUAL DOM: a lightweight JS representation of the actual DOM
-* React.createClass: create a new component (type?)
-* render(method): what we would like our html component to look like
-* ReactDOM.render: renders a React component to a DOM node
-* state: the internal data store (object) of a component
-* getInitialState: the way in which you set the initial state of a component
-* getState: a helper method for altering the state of a component
-* props: the data which is passed to the child component from the parent
-* propTypes: allow you to control the presence or types of certain props passed to the child component
-* getDefaultProps: the way in which you set the default props of a component
-* component life cycle:
-	- componentWillMount - fired before component mounts
-	- componentDidMount - fired after component mounts
-	- componentWillReceiveProps - fired whenever there is a change to props
-	- componentWillUnmount - fired before the component will unmount
-* events:
-	- onClick
-	- onSubmit
-	- onChange
-
-* check out render-props method of declaration
-* check out react.createRefs
+## React Virtual DOM
+* The React DOM is a lightweight representation of the real thing
+* The real DOM is updated as little as possible, as rearranging it comes at a high performance cost
+* using ReactDOM we add rendered components to our page
+* React keeps tabs on the previous virtual DOM, so when changes are made, it ‘diffs’ the two DOMs and changes only what is necessary
+* ReactDOM.render takes two args:
+	* the component to render
+	* the DOM node where you want to render the component
+* you usually only have to call ReactDOM.render once because of the parent child relationship of the components: call 'render' on the root (most parent) element and all descendents will be rendered as well
+* these components get added to a virtual DOM, or a lightweight JS representation of the actual DOM
+* this gets you the accessibility of templates with the power of js
+* this also allows React to track differences between the current virtual DOM state and the previous virtual DOM state so that only the necessary elements of the actual DOM are altered (changing the actual DOM is a comparatively slow process).
+* if you want your whole app to be React, you would render the parent component to document.body
 
 
-## CONTEXT API
-* you will need 16.3 or greater -- it will not support the old way of making context
+## Data Overview: Props, State, Context, and Hooks
+* it's heckin' confusing trying to keep all the ways of managing data in React straight, so here's a rundown
+* **props** are data that is sent one-way from parent to the child component. props are immutable.
+* **state** is the internal data of a component that is updated by the component's logic. state is mutable.
+
+
+# Components, Props and JSX
+
+## Components
+* components are the building blocks of a React app
+* a component contains its own data, logic and appearance
+* components can be nested within other components
+* components should be defined as a function, not a class
+
+### Component Lifecycle
+There are several different phases in the lifecycle of a compenent that a developer can "hook" into
+
+* **mount**
+	* component instance is created and rendered for the first time
+	* fresh state and props are created
+
+* **re-render**
+	* state changes
+	* props change
+	* parent re-renders
+	* context changes
+
+* **unmount**
+	* component instance is destroyed and removed
+	* state and props are destroyed
+
+
+
+## Props
+* [docs](https://react.dev/learn/passing-props-to-a-component)
+* **props** are a way of passing data between a parent component and its children
+* anything can be a prop: single values, arrays, objects, functions, and other components
+* data passes one-way and is *immutable* -- the child cannot change props
+	* if you find yourself needing to change the prop values, what you really should be using is **state**
+	* recall that external **props** are different from **state** which is data managed internally by the component itself
+* you can provide **default prop values**
+	```js
+		const Text = ({fontSize = "20px"}) => {
+			return <p style={{fontsize: fontSize}}>Some text I guess</p>
+		}
+	```
+* with typescript, you will need to provide an interface for your props:
+	```js
+		interface Props {
+			title: string,
+			color?: string,
+		}
+		const Text = ({title, color = "black"}: Props) => {
+			return <p style={{color: color}}>{text}</p>
+		}
+	```
+
+## JSX
+* JSX is a syntax extension that allows us to write JS in html-like script -- a declarative syntax to describe what components look like and how they work
+* what's a **declarative syntax**? refresher on imperative vs declarative:
+	* **Imperative**: in JS, you describe a process, with individual steps and logic (modifying variables and calling functions) that describe how you’re going to get to your result
+	* **Declarative**: with JSX and HTML, you just declare the objects and the browser renders them
+	* so, by using JSX, developers don't have to touch or the DOM directly -- they just declare what they want to happen and React takes care of the rest
+* why use it?
+	* opening and closing tags make trees easier to read than function calls or object literals
+	* this html-like syntax makes it easier to define the commonly nested relationships of components
+	* we can combine regular html, css, js and react components all together 
+	* JSX is NOT html though -- it really is just another way of calling js functions
+* a transpiler like Babel transforms JSX into lightweight JS objects. you can see that once we start nesting, the jsx will be much more readable/maintainable
+	```js
+		// Babel transpiles this:
+		<header>
+			<h1 style="color: red">
+				Hello, world!
+			</h1>;
+		</header>
+
+		// is transpiled to this:
+		React.createElement(
+			'header',
+			null,
+			React.createElement(
+				'h1',
+				{ style: { color: 'red' } },
+				'Hello, world!'
+			)
+		);
+	```
+* it is optional -- you could just use plain JS instead. the JSX precompiler will translate your JSX into lightweight JS objects so either way works -- JSX is just easier to read, generally
+
+### Rules for JSX
+* an instance of JSX must have **one single root element** -- you can't have multiple root elements
+	* if you need more than one element in your JSX, wrap them in the **Fragment** component (`<React.Fragment />` or `<></>` for short)
+* within JSX you can drop in JS expressions by wrapping them in `{ }`
+	* An expression is anything that returns a value
+	* you cannot use statements (like if/else, switch)
+	* `{ }` can also contain other pieces of JSX -- JSX can be written anywhere in a component
+	* what's up with `{{ }}`? remember that everything inside of brackets is javascript -- so we're passing in an object to the outer curly brackets
+* rendering lists: use `map`
+	```js
+		<ul>
+			{pizzas.map((pizza) => (
+				<Pizza
+				name={pizza.name}
+				ingredients={pizza.ingredients}
+				price={pizza.price}
+				/>
+			))}
+		</ul>
+	```
+* listening for events: JSX has it's own special syntax for that too -- use `onClick()` or `onChange()` or `onMouseEnter()` (hover)
+	* [docs](https://react.dev/learn/responding-to-events#adding-event-handlers)
+	* by convention, name handlers as `handle{EventName}`
+	```js
+		const handleClick = () => { alert('Hello, world!') }
+		<button onClick={handleClick}>
+			Click me!
+		</button>
+	```
+
+# State
+* state is the internal data store of a component -- it can be changed as the user interacts with the page, or as new data is received. **state is therefore mutable**
+* **updating a component's state causes the component to re-render**
+* state can be comprised of **state variables** or **pieces of state** -- individual pieces of data that each represent some different thing we want to keep track of (ex: notification count, search term, and active tab all track something different)
+* state allows developers to:
+	* update the component view by re-rendering it
+	* persist local variables between renders
+* state applies to an individual component, but we also want to think about the overall state of the application spread across many components
+* so how to manage state?
+	* developers use a practice known as **prop drilling** to pass state down through the component tree: the parent passes state to a child which passes state to its child, etc. this practice is very manual, requiring a lot of code, and can be difficult to debug
+	* to make our lives easier, there are several different solutions for managing state within an application that all have their own use cases
+
+
+## React Hooks
+* Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class
+* things that start with `use` are Hooks: `useState`, `useEffect`, `useReducer`
+* Hooks can only be called at the top-level of your component -- they cannot be called inside loops, conditions, or functions (aside from your component function)
+
+### Setting Component State with useState
+* to set the initial state of a component, use the [`useState` hook](https://react.dev/reference/react/useState#usestate)
+to set the initial value and declare a function to update it
+* `useState` takes an initial value (`initialState`) as an argument (`useState(0)` sets initialValue to 0)
+	* `initialState` can be a function but it will be treated as an initializer function -- it should be pure, take no args, and return a value of any type
+* it returns an array with exactly two elements:
+	* the current state variable (`count`) - during the first render, this will be the same as the `initialState` value
+	* the `set` function that allows you to update the state (`setCount`)
+* the return values of `useState` are typically set using array destructuring and are named `[{name}, {setName}]`
+* the `set` function can pass the next state value directly, or it can pass a function that calculates it from the previous state
+	```js
+		function ResetCount() {
+			setCount(0);
+		}
+		function IncrementCount() {
+			setCount(c => c + 1);
+		}
+	```
+* you can set the state using the current state value, but it's better practice to use a function
+	```js
+		// if you called this twice for some reason, the count would only increment by 1 -- the second call would use the original value of count
+		setCount(count + 1);
+		setCount(count + 1);
+
+		// instead use a function to calculate the next state value - this will increment by 2
+		setCount(c => c + 1);
+		setCount(c => c + 1);
+	```
+
+
+* it is possible to modify state without using the `set` function -- **do not do this**
+* putting that all together:
+```js
+export default function App() {
+	// set count to 0 and declare a function to update it
+	const [count, setCount] = useState(0);
+
+	return (
+		<div>
+			<p>You clicked {count} times</p>
+			<button onClick={() => setCount(count + 1)}>
+				Add 1
+			</button>
+			<button onClick={() => setCount(0)}>
+				Reset Count
+			</button>
+		</div>
+	);
+}
+```
+* some caveats about `useState`:
+	* the initial state is only used during the first render -- subsequent renders will ignore the `initialState` argument
+	* if the new state value is the same as the previous value (as determined by `Object.is` comparison), react will skip rerendering the component and its children
+	* **React batches state updates** -- it updates the screen only after all event handlers have run and called their `set` functions to prevent unnecessary renders. if you need to override this behavior, use `flushSync`
+	* in strict mode, initializer functions and set functions will be called twice
+
+## React Context API
+* supported in React 16.3 or greater
+* Context provides a way to pass data through the component tree without having to pass props down manually at every level (simplified prop drilling)
 * keep context as small as possible -- it's not meant to be global
 * start with component, if that's not enough, use context (second-citizen)
-	- "local global" states
-	- you can have compound components and context makes that nicer -- you can have a context for all the sub-components
-	- nested contexts
+	* "local global" states
+	* you can have compound components and context makes that nicer -- you can have a context for all the sub-components
+	* nested contexts
 * Performer sets context value, Consumer interprets that value and renders
 ```javascript
 const { Provider, Consumer } = React.createContext("");
@@ -53,54 +290,150 @@ const { Provider, Consumer } = React.createContext("");
 </Provider>
 ```
 * learn more from react documentation on context and render props
-	- You Might Not Need Redux
+	* You Might Not Need Redux
 
 
-## D3
-* it's a helper lib
-* cache data models on component state in response to user input
-* "Data Driven Documents"
-	- data is cool! how do we visualize it?
-	- bl.ocks.org
-* many use it frequently
-* d3 is for data manip -- React is for DOM manip
-* manipulating data:
-	- don't use enter, join, select
-	- organize d3 code into component methods that we can call from lifecycle events
-	- do the heavy lifting here -- leave the UI to React
+	* use Context to pass data that could be considered 'global' through multiple levels of components
+		* theme, authenticated user or preferred language could be examples
+	* don't do this just to avoid passing props down -- stick to cases where the data is used on multiple levels
+
+## Redux
+* Redux is an open source js library for managing global application state
+* react contains a mechanism for managing state, but the Redux library is designed specifically to manage and maintain application state alongside other frameworks
+* **key concepts**:
+	* state is stored in a `store`
+	* state is read-only. to modify the store, emit an action
+	* `reducers` are pure functions that take the current state and an action and return a new state
+* Redux is more verbose and more challenging to master -- requires high complexity which the app must leverage to be worth it
+* Redux can run in different environments, is easy to test, and provides good developer tools
+
+
+# Routing
+* client-side routing matches different urls to different UI views
+* this keeps the UI in sync with the current browser URL
+* React relies on third-party packages for routing, the most popular of which is `react-router`
+* for SPA applications, rather than completely reloading/navigating to a new page, the URL changes and javascript updates the view components (DOM)
+* installing react-router:
+	```bash
+		npm i react-router-dom
+		npm i types @types/react-router-dom
+	```
+
+
+# Building an App
+
+## Navigation
+* specify your `BrowserRouter`, `Routes` and `Route` components in the `App` component
+* create a separate Navigation component to hold the nav links (the clicky bits)
+	* use `NavLink` to link to different routes rather than `Link` -- `NavLink` gives you a class of `active` when the link is active so you can style the navbar to show the current page you're on
+* import the Navigation component into each page you want to use it
+	* **really? seems like there should be a better way**
+
+
+## Styling
+* React is unopinionated about how you style your components
+* options include:
+	* inline css: written in the jsx file, scope limited to jsx file
+	* css or sass: defined in an external file, global scope
+	* css modules: defined in an external file, scope limited to component
+	* css-in-js: external file or component file, scope limited to component
+	* utility-first css: defined in jsx, scope limited to jsx file. example: tailwind
+	* or instead of using css, you could use a UI library with prebuilt/prestyled components, such as materialUI, chakraUI, Mantine, etc
+
+### Conditional Styling
+* you can conditionally apply styles to a component by using a ternary operator
+	```js
+		<div style={{ color: isRed ? 'red' : 'blue' }}>
+			Hello, world!
+		</div>
+	```
+* you can also use a function to determine the style
+	```js
+		const getStyle = () => {
+			if (isRed) {
+				return { color: 'red' };
+			} else {
+				return { color: 'blue' };
+			}
+		};
+		<div style={getStyle()}>
+			Hello, world!
+		</div>
+	```
+
+
+
+## Images
+* where do you put them? 
+	* typically you'll have a `public` folder in your project root -- by default, put images there
+	* if you need to import an image in your app code, put it in `src/assets`
+
+
+
+
+# Debugging/Troubleshooting
+* is your page not refreshing after making changes? hard reload -- HMR breaks periodically and this will reset it
+
+
+
+
+
+
+********************************************************************************************************************
+stuff below is old and has not been vetted/reviewed
+
+
+## Basics
+* React.createClass: create a new component (type?)
+* render(method): what we would like our html component to look like
+* ReactDOM.render: renders a React component to a DOM node
+* getInitialState: the way in which you set the initial state of a component
+* getState: a helper method for altering the state of a component
+* props: the data which is passed to the child component from the parent
+* propTypes: allow you to control the presence or types of certain props passed to the child component
+* getDefaultProps: the way in which you set the default props of a component
+* component life cycle:
+	* componentWillMount - fired before component mounts
+	* componentDidMount - fired after component mounts
+	* componentWillReceiveProps - fired whenever there is a change to props
+	* componentWillUnmount - fired before the component will unmount
+* events:
+	* onClick
+	* onSubmit
+	* onChange
 
 
 
 
 ## INTRO TO REACT
 * remember MVC? No? well it stands for Model View Controller
-	- this is a software architecture pattern for implementing UIs
-	- it separates software into three distinct parts with three distinct functions
-	- this is especially popular with GUIs and web design, such as single-page apps
+	* this is a software architecture pattern for implementing UIs
+	* it separates software into three distinct parts with three distinct functions
+	* this is especially popular with GUIs and web design, such as single-page apps
 * React is a JS library for creating UIs -- it is the 'V' in 'MVC’
-	- it is not an MVC framework like Angular
-	- focus is on creating composable user interfaces which present data that changes over time and reacts to the user and to changes in data in real-time
+	* it is not an MVC framework like Angular
+	* focus is on creating composable user interfaces which present data that changes over time and reacts to the user and to changes in data in real-time
 * Imperative vs declarative:
-	- Imperative: in JS, you describe a process, with individual steps and logic (modifying variables and calling functions) that describe how you’re going to get to your result
-	- Declarative: with React and HTML, you just declare the objects and the browser renders them
+	* Imperative: in JS, you describe a process, with individual steps and logic (modifying variables and calling functions) that describe how you’re going to get to your result
+	* Declarative: with React and HTML, you just declare the objects and the browser renders them
 * React is inherently dynamic -- when data changes, React updates the altered components
-	- whenever something is changed, the 'render' method is called
-	- the current call of 'render' is diffed with the previous call so that only the necessary changes are made to the DOM
-	- what does 'render' actually return? a lightweight description of what the DOM should look like
-	- This makes it much easier to keep your data model in sync with the UI
+	* whenever something is changed, the 'render' method is called
+	* the current call of 'render' is diffed with the previous call so that only the necessary changes are made to the DOM
+	* what does 'render' actually return? a lightweight description of what the DOM should look like
+	* This makes it much easier to keep your data model in sync with the UI
 * React components are composable, reusable, and encapsulated
-	- think of OOP: all the functions you need to get and set data are within that object. Objects can be manipulated by their parents and can manipulate their children
+	* think of OOP: all the functions you need to get and set data are within that object. Objects can be manipulated by their parents and can manipulate their children
 * React allows you to easily manage the many varied states of typical interface components
 * React doesn't use templates. React uses components instead, because:
-	- JS allows for abstraction
-	- view logic unifies markup, making views easier to extend and maintain
+	* JS allows for abstraction
+	* view logic unifies markup, making views easier to extend and maintain
 * React code is great for team development -- the code is readable and maintainable
 * cons:
-	- React is not supported by any browser below IE8
-	- unless your website has a lot of dynamic elements, the overhead of React won't pay off.
+	* React is not supported by any browser below IE8
+	* unless your website has a lot of dynamic elements, the overhead of React won't pay off.
 * What files/filestructure do you need to start off with?
-	- Html and css files
-	- In a subfolder (probably) you would/might include:
+	* Html and css files
+	* In a subfolder (probably) you would/might include:
 		* react.js - our react library file
 		* react-dom.js - logic for turning react DOM into the real DOM
 		* babel - allows us to convert JSX to JS
@@ -118,41 +451,23 @@ const { Provider, Consumer } = React.createContext("");
    - Notice that our code file ends with the jsx extension to signal to babel that it needs to be compiled. This would not normally be done for production (it would be precompiled)
    - The ‘div’ tag serves as a blank container -- we’re going to use react to stuff it full of whatever we want.
 
-## REACT VIRTUAL DOM
-* The React DOM is a lightweight representation of the real thing
-* The real DOM is updated as little as possible, as rearranging it comes at a high performance cost
-* using ReactDOM we add rendered components to our page
-* React keeps tabs on the previous virtual DOM, so when changes are made, it ‘diffs’ the two DOMs and changes only what is necessary
-* ReactDOM.render takes two args:
-	- the component to render
-	- the DOM node where you want to render the component
-* you usually only have to call ReactDOM.render once because of the parent child relationship of the components: call 'render' on the root (most parent) element and all descendents will be rendered as well
-* these components get added to a virtual DOM, or a lightweight JS representation of the actual DOM
-* this gets you the accessibility of templates with the power of js
-* this also allows React to track differences between the current virtual DOM state and the previous virtual DOM state so that only the necessary elements of the actual DOM are altered (changing the actual DOM is a comparatively slow process).
-* if you want your whole app to be React, you would render the parent component to document.body
 
-## JSX
-an optional syntax extension -- you could just use plain JS instead
-looks similar to XML or HTML
-allows us to write JS in html-like script which gets transformed into lightweight JS objects
-the JSX precompiler will translate your JSX into lightweight JS objects so either way works -- JSX is just easier to read, generally
-Understand that JSX is NOT html though -- it really is just another way of calling js functions
-advantage to using JSX:
-it is a concise syntax for designing tree structures with attributes
-opening and closing tags make trees easier to read than function calls or object literals
-it doesn't alter the semantics of JS
-within JSX you can drop in JS expressions by wrapping them in {}
-An expression is anything that returns a value, as opposed to statements (like if/else statements)
-this allows you to drop react components into the tree
-```html
-<div className="comment">
- <h2 className="commentAuthor">
-{this.props.author}
- </h2>
-{this.props.children}
-</div>
-```
+## D3
+* it's a helper lib
+* cache data models on component state in response to user input
+* "Data Driven Documents"
+	* data is cool! how do we visualize it?
+	* bl.ocks.org
+* many use it frequently
+* d3 is for data manip -- React is for DOM manip
+* manipulating data:
+	* don't use enter, join, select
+	* organize d3 code into component methods that we can call from lifecycle events
+	* do the heavy lifting here -- leave the UI to React
+
+
+
+
 
 ## REACT TOOLS:
 * The DOM generated by react (viewed in the browser developer tools) can be more difficult to understand than your average DOM. install the React DevTools browser extension to get more info in your dev tools (plus a whole new “React” tab)
@@ -164,35 +479,33 @@ this allows you to drop react components into the tree
 * Recommendation: start with just babel and webpack, without using Gulp or Grunt
 
 
-## REDUX
-* Like we mentioned, react contains a mechanism for managing state, but the Redux library is designed specifically to manage and maintain application state alongside other frameworks
 
 ## WEBPACK
 * Used to load modules, minify code and produce a bundle that’s ready for production
 * Common build steps include:
-	- Module loading: look for ‘require’ and ‘import’ statements in the source code to gather those dependencies automatically
-	- Concatenation: combine multiple files into one for more efficient loading
-	- Minification: removal of whitespace and comments to shrink the size of the code
+	* Module loading: look for ‘require’ and ‘import’ statements in the source code to gather those dependencies automatically
+	* Concatenation: combine multiple files into one for more efficient loading
+	* Minification: removal of whitespace and comments to shrink the size of the code
 * installation and setup:
-	- install `webpack-dev-server` globally
-	- install `webpack-dev-server webpack babel-core babel-loader babel-preset-env babel-polyfill` locally.
-	- put all your source files in a source dir (like `src`), set up your config file (below) and then run this from inside the project directory to kick it off:
+	* install `webpack-dev-server` globally
+	* install `webpack-dev-server webpack babel-core babel-loader babel-preset-env babel-polyfill` locally.
+	* put all your source files in a source dir (like `src`), set up your config file (below) and then run this from inside the project directory to kick it off:
 		`webpack-dev-server --content-base src src/main.js`
 * webpack.config.js:
-	- There are many ways to configure webpack, but here are some key features:
+	* There are many ways to configure webpack, but here are some key features:
 		* Entry: the array of files to be run at startup. Dependencies will be built from there
-			- self-contained scripts go here
-			- ex: you might want to run `babel-polyfill` or something and then your `main.js`
+			* self-contained scripts go here
+			* ex: you might want to run `babel-polyfill` or something and then your `main.js`
 		* Output: defines where the application will go once build is performed, when it’s time to deploy. Output is specified by ‘path’ (a directory) and ‘filename’ (the name of the bundled file)
-			- the browser gets the output rather than the source files
+			* the browser gets the output rather than the source files
 		* Module: things that transform your code. `module.loaders` has many properties, but we’re mostly concerned with loaders for now
-			- for example: "run .js files in src/ using babel-loader and use es2015 plugin to transform ES6 to ES5"
+			* for example: "run .js files in src/ using babel-loader and use es2015 plugin to transform ES6 to ES5"
 		* devtool: select options such as `source-map` to display the original source in the browser console (rather than compiled code) for ease of debugging
-	- the webpack.config.js file is just a regular JS file evaluated by node.js
-	- you can do normal things here like `require` and check env variables
-	- webpack's config is placed in the object that the file exports to
+	* the webpack.config.js file is just a regular JS file evaluated by node.js
+	* you can do normal things here like `require` and check env variables
+	* webpack's config is placed in the object that the file exports to
 		* export object is whatever you assign to `module.exports`
-	- BONUS STUFF:
+	* BONUS STUFF:
 		* add something like `'webpack-dev-server/client?http://localhost:8080'` to entry to enable automatic reloading. Then you'll only need to refresh your `webpack-dev-server` process when you change the config file
 		* add the following to your webpack.config.js file to omit passing in the `--content-base` flag when you start the server:
 		```
@@ -201,9 +514,9 @@ this allows you to drop react components into the tree
 			}
 		```
 * make it even better with `package.json`
-	- using `package.json` allows you to record your dependencies for webpack and babel and install them again with `npm install`
-	- you can define a "start" script so you don't even have to type out `webpack-dev-server etc` -- just do `npm start`
-	- see notes on node/npm to find out more
+	* using `package.json` allows you to record your dependencies for webpack and babel and install them again with `npm install`
+	* you can define a "start" script so you don't even have to type out `webpack-dev-server etc` -- just do `npm start`
+	* see notes on node/npm to find out more
 
 
 
@@ -412,33 +725,24 @@ Isomorphic app: code which can be run both on the client and server
 CHANGES AND EVENTS
 o setState: alters a component's data, causes 'render' to be called and
   the DOM is updated
-	- called from a function within a component
+	* called from a function within a component
 o handleChange:
-	- defined within the component
-	- gets called when onChange is called on the component
-	- handleChange calls setState to refresh the DOM with the new data
+	* defined within the component
+	* gets called when onChange is called on the component
+	* handleChange calls setState to refresh the DOM with the new data
 o onChange:
-	- an attribute which will call the specified method every time the
+	* an attribute which will call the specified method every time the
 	  value of it's associated element changes
-	- for example, you may want to call the element's handleChange method
+	* for example, you may want to call the element's handleChange method
 
 UNIVERSAL RENDERING
 o it is cool -- makes your single page app possible without (or with
   fewer) server requests
 o check out
-	- webpack isomorphic tools
-	- redux async connect
-	- react-redux-universal-hot-example
+	* webpack isomorphic tools
+	* redux async connect
+	* react-redux-universal-hot-example
 
 
 
-REACT NATIVE
-looks different -- but it's built on reactJS
-Instead of rendering to DOM elements, native platform-specific interface components are rendered
-writing an app: use command+d to pull up debugging tools
 
-
-NOTES:
-o what is blurring a field?
-o what is interpolation?
-o context feature of React -- wires everything up automatically

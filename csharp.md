@@ -651,6 +651,8 @@ class Program
 		JsonElement userData = root.GetProperty("payload").GetProperty("data").GetProperty("user");
 		User classObject = JsonSerializer.Deserialize<User>(userData.ToString());
 	```
+* if you're using newtonsoft json, the object properties you're deserializing to must have public setters
+* serializing an object? make sure it has a parameterless constructor
 
 
 # Resources

@@ -35,6 +35,7 @@
 		* name that color!
 		* tim corey
 		* educative.io
+		* https://www.codingfont.com/
 	* env: vscode, extensions
 	* dotfiles
 	* fonts

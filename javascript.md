@@ -3,7 +3,21 @@
 ## References
 * [Eloquent Javascript](https://eloquentjavascript.net/)
 
+## Important JS Concepts
+* destructuring object and arrays
+* spread/rest syntax
+* template literals
+* ternaries
+* arrow functions
+* short-circuit and logical operators (`&&`, `||`, `??`)
+* optional chaining (`.?`)
+* mutable array operations vs immutable array operations
+* promises
+* async/await
+
+
 ## Cool Tricks/Gotchas
+* use Quokka.js vscode extension to run js code in the editor
 * use `const` or `let` if possible -- fallback to `var` if necessary
 * [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
 * [`falsy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`, and `document.all`
@@ -38,6 +52,34 @@
 		var copy = JSON.parse(JSON.stringify(original));
 		var copy = structuredClone(original);
 	```
+* to **merge object or arrays** check out `lodash mergeWith()` ([ref](https://www.geeksforgeeks.org/lodash-_-mergewith-method/))
+	* `mergeWith()` with a customizer function can be used to merge objects or arrays with custom logic
+	```js
+		const _ = require("lodash"); 
+		
+		function customizer(obj, src) { 
+			if (_.isArray(obj)) { 
+				return obj.concat(src); 
+			} 
+		} 
+		
+		let object = { 
+			'amit': [{ 'susanta': 20 }, { 'durgam': 40 }] 
+		}; 
+		
+		let other = { 
+			'amit': [{ 'chinmoy': 30 }, { 'kripamoy': 50 }] 
+		}; 
+		
+		console.log(_.mergeWith(object, other, customizer));
+		// output:
+		// { 'amit': [{'susanta': 20 }, { 'durgam': 40}, {'chinmoy': 30}, {'kripamoy': 50 } ]} 
+	```
+	* the customizer is important to be able to combine arrays which are not seen as the same objects by default -- merging the below objects using `merge()` or `mergeWith()` without the customizer function would result in 
+	```js
+		{ 'amit': [{'chinmoy': 30, 'susanta': 20 }, { 'durgam': 40, 'kripamoy': 50 }] }
+	```
+* **sort an array**: `sort` mutates in place so you can use spread syntax or `splice` to create a copy, or if it is supported, use `toSorted` (2023)
 * attaching js to html: import script in body (after DOM is loaded) unless there's a good reason to put it in document head
 * is js asynchronous? not really, but it behaves like it thanks to web/browser API and promises which handle events concurrent to the main call stack and emit callback events that are eventually pushed back on to the main call stack. priority of execution is as follows:
 	1. synchronous events (`console.log("hello world")`)
@@ -249,7 +291,7 @@
 * destructuring arrays:
 	```javascript
 		let carIds = [1, 2, 5];
-		let [car1, car2, car3] = carIds;    // this is the destructuring of the array
+		let [car1, car2, car3] = carIds;    // destructure the array
 		console.log(car1, car2, car3);      // 1 2 5
 		// with rest parameter syntax
 		let fruits = ["apple", "pear", "orange", "kiwi"];
@@ -265,10 +307,17 @@
 * destructuring objects has a different syntax than destructuring arrays:
 	```javascript
 		let car = { id: 500, style: 'convertible' };
-		let { id, style } = car;
+		let { id, style } = car;			// destructure the object
 		console.log(id, style);             // 500, 'convertible'
 	```
-
+* this seems dangerous. what happens if you destructure an array or object that is empty?
+	* you can check if the array/object is empty/null before destructuring
+	* you can specify a default 
+	```js
+		let carIds = [];
+		let [car1 = 1, car2 = 2, car3 = 3] = carIds;
+		console.log(car1, car2, car3);      // 1 2 3
+	```
 
 
 ## Regular Expressions
@@ -353,9 +402,9 @@
 	```
 
 
-
 # Variables
-* variables should be declared using `var`, `const` or `let` keywords. always declare your variables, but we'll talk about undeclared variables anyway
+* variables should be declared using `const` or `let` keywords whenever possible. use `var` as a last resort
+* always declare your variables, but we'll talk about undeclared variables anyway
 * variables are typically camelCase or snake-case and cannot start with a number
 * variables can be declared and assigned on the same line
 	```javascript
@@ -531,6 +580,66 @@
 * use the `hasOwnProperty` method to check that the prop belongs to the object and is not inherited
 
 
+# Arrays
+* fun fact: arrays are objects (typeof returns 'object')
+* some array methods create copies of the array, while others mutate the original array
+	* `map`, `filter`, and `reduce` return a new array without altering the original
+	* `sort`, `reverse`, `splice`, `pop`, `push`, `shift`, `unshift` alter the original array
+* `map` is used to create a new array that transforms each element in the source array
+	```javascript
+		var values = [1, 2, 3, 4, 5];
+		var double = values.map(x => x * 2);
+		console.log(double); // [2, 4, 6, 8, 10]
+	```
+* `filter` is used to create a new array that contains only elements that satisfy a given condition
+	```javascript
+		var values = [1, 2, 3, 4, 5];
+		var evens = values.filter(x => x % 2 === 0);
+		console.log(evens); // [2, 4]
+	```
+* `reduce` is used to create a single new value by combining all elements in the source array
+	```javascript
+		var values = [1, 2, 3, 4, 5];
+		var sum = values.reduce((acc, val) => acc + val, 0);
+		console.log(sum); // 15
+	```
+* `sort` will sort the array in place and return the sorted array
+	* sort works by default on strings
+	```javascript
+		var names = [ 'Susannah', 'Fred', 'Toby', 'Gina', 'Anne'];
+		names.sort(); // [ 'Anne', 'Fred', 'Gina', 'Susannah', 'Toby' ]
+	```
+	* if you want to sort an array of numbers, you'll need to provide a comparison function
+	```javascript
+		var values = [3, 1, 2, 5, 4];
+		values.sort((a, b) => a - b); // ascending - reverse a and b to sort in descending order
+		console.log(values); // [1, 2, 3, 4, 5]
+		// create a new sorted array:
+		var sorted = [...values].sort((a, b) => a - b);
+		// or using slice:
+		var sorted = values.slice().sort((a, b) => a - b);
+		// as of 2023 you can now use toSorted:
+		var sorted = values.toSorted((a, b) => a - b);
+	```
+
+
+# Functions
+* you can use `arrow functions` or `function expressions` to declare a function
+	```js
+		// the standard function declaration
+		function add(a, b) {
+			return a + b;
+		}
+
+		// as an arrow function (function expression)
+		const add = (a, b) => a + b;
+
+		// as an arrow function with a block -- note `return` is required
+		const add = (a, b) => {
+			return a + b;
+		}
+	```
+
 # Strings And String Methods
 o can be demarcated with '' or ""
 o you can use an escape character to express ' within a '' block or to
@@ -657,26 +766,9 @@ o you can use += to concatenate strings
 
 
 
-# Operators And Loops
-## Conditions
-* there is a ternary shorthand for an `if-then-else` statement. It can be used in places where a regular if-else block cannot (inside a condition or method parameter)
-	```javascript
-	// standard 'if' block:
-	if (name === "Dave") {
-		alert("Hey, I know you!");
-	} else {
-		alert("I don't know you, man");
-	}
-	// or use ternary:
-	function getFee(isMember) {
-		return (isMember ? "$2.00" : "$4.00");
-	}
+# Operators And Expressions
 
-	// make the string uppercase or lowercase depending on the flag
-	var str = caseFlag ? str.toUpperCase() : str.toLowerCase();
-	```
-
-## Comparisons
+## Equality
 * js has two ways of testing **equality**: `==` and `===`
 * **strict equality** `===` means both type and value must be the same
 	```javascript
@@ -690,6 +782,52 @@ o you can use += to concatenate strings
 		7 == '7';               // true -- '7' converts to integer 7
 		false == 0;             // true -- 0 converts to false, they are both 'falsy' values
 	```
+
+## Logical Operators
+* `!` is the logical NOT operator and can be doubled up to convert a non-boolean value to a boolean
+* `&&` or `logical AND` will evaluate both operands and return true if both operands are true
+* `||` or `logical OR` will evaluate the right operand only if the first is falsy and return true if either is true
+* `??` or `nullish coalescing operator` evaluates the right hand side operand when the left hand side operand is `null` or `undefined`
+	```javascript
+		let x = null;
+		let y = x ?? 5; // 5
+	```
+* `.?` or `optional chaining` operator only evaluates the right hand side operand if the left hand side operand is not `null` or `undefined` -- avoid null reference errors
+	```javascript
+		let x = null;
+		let y = x?.name; // undefined
+	```javascript
+		let x = null;
+		let y = x?.name; // undefined
+	```
+* putting them together:
+	```js
+		const goodreadsReviews = book.reviews.goodreads?.reviewsCount ?? 0;
+		const librarythingReviews = book.reviews.librarything?.reviewsCount ?? 0;
+		const totalReviews = goodreadsReviews + librarythingReviews;
+	```
+
+
+## If-Then-Else
+* there is a `ternary` shorthand for an `if-then-else` statement. It can be used in places where a regular if-else block cannot (inside a condition or method parameter)
+	```javascript
+	// standard 'if' block:
+	if (name === "Dave") {
+		alert("Hey, I know you!");
+	} else {
+		alert("I don't know you, man");
+	}
+	// or use ternary:
+	function getFee(isMember) {
+		return (isMember ? "$2.00" : "$4.00");
+	}
+	// make the string uppercase or lowercase depending on the flag
+	var str = caseFlag ? str.toUpperCase() : str.toLowerCase();
+	```
+* ternaries can be compounded as much as you like but can become less readable
+
+
+# Iterations
 
 ## For Loops
 * using a `for` loop to iterate through items in an array:
@@ -723,7 +861,7 @@ o you can use += to concatenate strings
 			{name: "Mark", age: 20},
 		];
 
-		map.forEach( item => (console.log(item.name + " is " + item.age + " years old.")));
+		map.forEach(item => (console.log(item.name + " is " + item.age + " years old.")));
 	```
 * `while`
 	```javascript
@@ -732,6 +870,51 @@ o you can use += to concatenate strings
 			counter++;
 		}
 	```
+
+# Asynchronous Behavior
+* a `promise` is a placeholder for a value that will be available in the future
+* `async` and `await` are used to handle promises -- they are syntactic sugar used to make async behavior look more like sync behavior and they use promises under the hood
+* both promises and async/await provide async non-blocking code execution with options for error handling
+* the difference between promises and async/await is the **execution context**
+	* the code after a promise continues to execute while the promise is pending -- when the promise resolves, the callback function is added to the microtask queue (job queue) and processed
+	* when an async function calls `await`, the function is paused and the execution context is saved -- when the promise resolves, the function is resumed and the value is returned
+
+```javascript
+	const url = 'https://jsonplaceholder.typicode.com/todos';
+
+	// using promises
+	fetch(url)
+		.then(res => res.json())
+		.then(data => console.log(data))
+
+	console.log("this will log before data");
+
+	// using async/await
+	async function getTodos() {
+		const res = await fetch(url);
+		const data = await res.json();
+		console.log(data);
+		return data;
+	}
+	var data = getTodos();
+	console.log("this will still log before data");
+	data.then(data => console.log(data)); // but this will log the data when we have it
+```
+
+## Promises
+* a `promise` is an object that represents the eventual completion (or failure) of an asynchronous operation, and its resulting value
+* when the async operation of a promise completes, it will either be fulfilled with a value or rejected with an error
+* the states of a promise are:
+	* `pending` - initial state, neither fulfilled nor rejected
+	* `fulfilled` - meaning that the operation completed successfully
+	* `rejected` - meaning that the operation failed
+
+## Async/Await
+* `async` is used to declare an asynchronous function
+* `await` is used to pause the execution of an async function until a promise is settled
+* `await` can only be used inside an `async` function
+
+
 
 
 # The Document Object Model (DOM)
