@@ -14,6 +14,8 @@
 * [tutorial](https://docs.aws.amazon.com/AmazonS3/latest/userguide/HostingWebsiteOnS3Setup.html) for configuring a simple static website on S3
 * [configuring a website with a custom domain](https://docs.aws.amazon.com/AmazonS3/latest/userguide/website-hosting-custom-domain-walkthrough.html)
 * [Cognito Identity Provider](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html)
+* [EventBridge Scheduler](https://docs.aws.amazon.com/eventbridge/latest/userguide/using-eventbridge-scheduler.html)
+* [Pricing Calculator](https://calculator.aws/#/)
 
 ## What is AWS?
 * like azure and google cloud, the AWS ecosystem provides many options for IaaS and PaaS
@@ -46,6 +48,16 @@
 ## Analytics
 * Athena: run queries on S3 data
 * ETL Services
+
+## EventBridge
+* EventBridge is a serverless event bus that makes it easy to connect applications together using data from your own applications, integrated SaaS applications, and AWS services
+* there are various products within EventBridge
+* **EventBridge**: event bus
+* **EventBridge Scheduler**: set cron jobs
+
+## SNS
+* [aws sns](https://aws.amazon.com/sns/) is a pub/sub service for A2A (app to app) and A2P (app to person) notifications
+
 
 ## Management Tools
 * **Cloud Watch** provides application monitoring and logging
