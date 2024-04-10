@@ -1,4 +1,13 @@
-# .NET Overview
+# .NET 
+
+## References
+* [configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0)
+* [writing custom middleware](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-7.0)
+* [keep your secrets safe](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows)
+* [routing](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing)
+
+
+## Overview
 * .NET is a developer platform made up of tools, programming languages, and libraries for building many different types of applications
 * The base platform provides components that apply to all different types of apps and multiple languages, including basic libraries (strings etc), editors, and the C#, F# and Visual Basic programming languages
 * all .NET programs are compiled into a CIL (Common Intermediate Language) that is then translated to machine code and executed
@@ -151,7 +160,7 @@
 
 ## MVC
 * **model**: the data model that is ultimately displayed in the view. model is responsible for communicating with the db
-* **view**: the UI of the app, consisting of HTML, CSS and JS. displays the data sourced from the model by calling the controllerc
+* **view**: the UI of the app, consisting of HTML, CSS and JS. displays the data sourced from the model by calling the controller
 * **controller**: a layer between the view and the model; keeps secret stuff in the model hidden
 
 ### Models
@@ -169,6 +178,39 @@
 	* `IActionResult`: contract to represent the result of an action method. the default implementation of `IActionResult` is `ActionResult`
 	* `Task<>` represents an operation that executes asynchronously
 	* `Task<IActionResult>` returns results from action methods asynchronously
+
+### Routing 
+* [general routing documentation](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing)
+* apps can configure routing in many ways: controllers, razor pages, signalR, gRPC, healthchecks, lambdas and delegates
+* the order in which you call `UseRouting`, `UseEndpoints` and `UseAuthorization` matters
+
+### Controller Routing
+* [controller routing documentation](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/routing)
+* middlewares are used to route requests to the appropriate controller and action method
+* there are two ways of routing requests: **conventional** and **attribute routing**
+
+#### Conventional Routing
+* the default routing method
+* uses a pattern to match route to controllers/actions
+* routes are defined in the `Startup.cs` file
+* this routing method is used for controllers and views
+* the default route template `{controller=Home}/{action=Index}/{id?}` will match all of the following:
+	```
+		/Home/Index/17
+		/Home/Index
+		/Home
+		/
+	```
+* a convenience method is provided to set this common default:
+	```csharp
+		app.MapDefaultControllerRoute();
+	```
+#### Attribute Routing
+* explicit matching for route to action method
+* routing is defined by placing attributes on the controller class or by individual action methods
+* this routing method is used for REST APIs
+
+
 
 ## Client vs Server Side Rendering
 * [docs](https://learn.microsoft.com/en-us/aspnet/core/tutorials/choose-web-ui?view=aspnetcore-6.0)
@@ -200,12 +242,6 @@
 # Nuget Packages
 * Rider and VS have built in package restoration processes but you can use `dotnet` and `nuget` clis to manage packages as well -- it is preferred to use the `dotnet` cli over `nuget` when your project uses `PackageReferences` in the csproj files, rather than the obsolescing `packages.config`
 * check out Central Package Management if  you're working with a newer project
-
-
-# References
-* [configuration](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-7.0)
-* [writing custom middleware](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-7.0)
-* [keep your secrets safe](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows)
 
 
 # .NET CLI
@@ -264,7 +300,7 @@ dotnet sln add folder1/folder2/myapp
 ## MANAGE PACKAGES
 
 # install package to the project in pwd
-dotnet add package Newtonsoft.Json
+dotnet add MyProject.csproj package Newtonsoft.Json
 
 # uninstall package
 dotnet remove [project] package Newtonsoft.Json
