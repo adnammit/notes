@@ -2,6 +2,7 @@
 
 ## Overview
 * React is a JS library for creating UIs
+* SPA (single page applications) are the most common use case for React -- the url changes which maps to different components/views on the same page (no reloading)
 * unlike Angular, data flows only one way in React: from parent to child. this prevents side-effects and is more predictable
 * React is declarative: you describe what you want to happen and React takes care of the rest. think of the UI as a function of the state over time -- as the state changes, the UI changes -- you don't have to manage the UI, React will change it for you as the state changes
 * React is unopinionated about how you style your components - it provides the structure (the DOM), but you still get to style it
@@ -13,33 +14,41 @@
 	* vscode extensions: prettier, eslint
 	* node v18+
 	* [chrome devtools extension](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+* [managing state](https://react.dev/learn/managing-state)
+* [react-router](https://v5.reactrouter.com/web/guides/quick-start)
 
 ### Quick Start
 Create a React typescript app with Vite build tool, react router and prettier:
 ```bash
 	npm create vite@latest my-cool-app -- --template react-ts
 	cd my-cool-app
+	npm i
 	npm i react-router-dom
 	npm i -D @types/react-router-dom
 	npm i -D prettier eslint-config-prettier
 ```
 
 ## Best Practices, Tips and Tricks
-* `StrictMode`: you can and should wrap your `App` component in `StrictMode` to help catch common bugs, look for outdated things, etc
+* `StrictMode`: you can and should wrap your `App` component in `StrictMode` to help catch common bugs, look for outdated things, etc. strict mode calls your render logic twice to check for badly handled side effects
 * for styling your app, use one of these (in order of "weight"): css modules, tailwind, UI library (like material)
-* use a Vite build unless you have a specific use case to warrant a full framework like Next.js or Gatsby
-	* example (see [docs](https://vitejs.dev/guide/#scaffolding-your-first-vite-project))
-	```bash
-		npm create vite@latest my-react-app -- --template react-ts
-	```
-* components should be defined as functions, not classes
-* when setting state, use a callback function rather than the current state value:
+* use a Vite build unless you have a specific use case to warrant a full framework like Next.js or Gatsby (see [docs](https://vitejs.dev/guide/#scaffolding-your-first-vite-project))
+* use **functional components**, not **class components** (classes should be defined as functions, not classes)
+* use **map** to render an array of components
+* **react fragments** (`<></>`) solve the single root element problem without adding elements to the DOM
+* when setting state, use a callback function rather than referencing the current state value:
 	```js
 		// instead of
 		setCount(count + 1);
 		// do this
 		setCount(c => c + 1);
 	```	
+* only use state when data is changing that is reflected in the UI -- changing state causes a re-render, so using state for everything is needlessly expensive
+* use **controlled elements** to track your form inputs in React state
+* if you need a **side effect** (like loading data), you can do it in one of two places: in an **event handler** or in a **lifecycle event** using `useEffect`
+* router
+	* use **declarative routing** with react-router -- that is, use the provided components like `Router`, `Route`, `Link`, etc to define your routes, rather than defining them in a router class
+	* preference to use `NavLink` over `Link` as the former indicates tacks on an `active` attribute
+
 
 ## Implementation Options
 * in the simplest "pure" vanilla js implementation, you can import react scripts into an html file ([template](https://gist.githubusercontent.com/gaearon/0275b1e1518599bbeafcde4722e79ed1/raw/db72dcbf3384ee1708c4a07d3be79860db04bff0/example.html))
@@ -60,7 +69,8 @@ Create a React typescript app with Vite build tool, react router and prettier:
 * **lifecycle methods**: methods that are called at different points in the lifecycle of a component. class-based components use lifecycle methods, but functional components can acheive similar functionality using React Hooks like `useEffect`
 * **hooks**: a feature added in React 16.8 that allows you to use state and other React features previously only available to class components in functional components. these include `useState`, `useEffect`, `useContext`, and `useReducer`
 * **router**: in SPAs, the page is never reloaded -- instead we rely on urls mapped to different views (routes). when a user clicks on something, JS is used to update the DOM and modify the view appearance. react-router is a popular library for managing client-side routing
-* **state**: the internal data store of a component. Context API and Redux are used to manage state
+* **state**: the internal data store of a component. hooks, Context API and Redux are used to manage state
+* **side effects** are any interactions between a React component and the world outside the component (data fetching, setting up subscriptions, setting up timers, manually accessing the DOM, etc). render logic should *not* contain side effects
 
 
 ## React Virtual DOM
@@ -81,7 +91,20 @@ Create a React typescript app with Vite build tool, react router and prettier:
 ## Data Overview: Props, State, Context, and Hooks
 * it's heckin' confusing trying to keep all the ways of managing data in React straight, so here's a rundown
 * **props** are data that is sent one-way from parent to the child component. props are immutable.
-* **state** is the internal data of a component that is updated by the component's logic. state is mutable.
+* **state** is the internal data of a component that is updated by the component's logic. state is mutable. state is managed using hooks, Context API or Redux
+* a parent component can pass its own **state** as a **prop** to a child component
+	* when the parent's state changes, the parent will re-render
+	* this will also trigger the child component to re-render with the new prop value
+	* when a child component is aware of state via props provided from a parent's state, it is called **lifting state up**
+
+
+## Side Effects
+* **side effects** are any interactions between a React component and the world outside the component (data fetching, setting up subscriptions, setting up timers, manually accessing the DOM, etc). render logic should *not* contain side effects, so we can use the `useEffect` hook to manage side effects
+* there are two places where we can use side effects:
+	* **event handlers**: the user clicks on something -> fetch data; a form is submitted -> save data, etc
+	* **on lifecycle events**: when the component mounts, re-renders or unmounts; done by using the `useEffect` hook
+* when we use `useEffect` what we're really concerned with is **synchronization** -- keeping the component synchronized with some external source of data
+* it is preferable to handle your effects inside event handlers wherever possible
 
 
 # Components, Props and JSX
@@ -94,21 +117,17 @@ Create a React typescript app with Vite build tool, react router and prettier:
 
 ### Component Lifecycle
 There are several different phases in the lifecycle of a compenent that a developer can "hook" into
-
 * **mount**
 	* component instance is created and rendered for the first time
 	* fresh state and props are created
-
 * **re-render**
 	* state changes
 	* props change
 	* parent re-renders
 	* context changes
-
 * **unmount**
 	* component instance is destroyed and removed
 	* state and props are destroyed
-
 
 
 ## Props
@@ -118,6 +137,7 @@ There are several different phases in the lifecycle of a compenent that a develo
 * data passes one-way and is *immutable* -- the child cannot change props
 	* if you find yourself needing to change the prop values, what you really should be using is **state**
 	* recall that external **props** are different from **state** which is data managed internally by the component itself
+* props may come from the state of the parent component -- so when the state changes, the new value is passed down as a prop and the child component is re-rendered
 * you can provide **default prop values**
 	```js
 		const Text = ({fontSize = "20px"}) => {
@@ -206,9 +226,24 @@ There are several different phases in the lifecycle of a compenent that a develo
 	* update the component view by re-rendering it
 	* persist local variables between renders
 * state applies to an individual component, but we also want to think about the overall state of the application spread across many components
-* so how to manage state?
-	* developers use a practice known as **prop drilling** to pass state down through the component tree: the parent passes state to a child which passes state to its child, etc. this practice is very manual, requiring a lot of code, and can be difficult to debug
+* **when should we use state?**
+	* use state whenever there is something the component should keep track of over time -- data that will change at some point
+	* if something in the component is dynamic, create a piece of state related to that thing and update state when that thing should change
+	* if you want to change the way a component looks or the data it displays, update the correlating state variable
+	* usually you would do this in an **event handler**
+	* ex: open/close a modal 
+* **when to not use state?**
+	* only use state when that data triggers a change in the UI -- remember that changing state causes a re-render, which is costly. 
+* **how do we manage state?**
+	* developers use a practice known as **prop drilling** to pass state down through the component tree
+		* the parent passes state to a child which passes state to its child, etc
+		* data may pass through multiple layers of components that don't need the data before reaching the component that does
+		* this practice is very manual, requiring a lot of code, and can be difficult to debug
+		* similar to **lifting state up** by passing state from a parent to a child as props
 	* to make our lives easier, there are several different solutions for managing state within an application that all have their own use cases
+		* **react hooks** are the most common way to manage state in a functional component
+		* **context API** can provide state to child components without using props or prop drilling
+		* **redux** is a state management library that can be used to manage state across the entire application
 
 
 ## React Hooks
@@ -216,7 +251,13 @@ There are several different phases in the lifecycle of a compenent that a develo
 * things that start with `use` are Hooks: `useState`, `useEffect`, `useReducer`
 * Hooks can only be called at the top-level of your component -- they cannot be called inside loops, conditions, or functions (aside from your component function)
 
-### Setting Component State with useState
+### Hooks Cheat Sheet
+* **useState**: adds state to a functional component
+* **useEffect**: runs after every render, handles side effects -- good for data fetching, synchronization after data changes
+* **useReducer**: an alternative to `useState` -- good for managing state objects that contain multiple sub-values
+
+
+### Setting State with useState
 * to set the initial state of a component, use the [`useState` hook](https://react.dev/reference/react/useState#usestate)
 to set the initial value and declare a function to update it
 * `useState` takes an initial value (`initialState`) as an argument (`useState(0)` sets initialValue to 0)
@@ -244,8 +285,6 @@ to set the initial value and declare a function to update it
 		setCount(c => c + 1);
 		setCount(c => c + 1);
 	```
-
-
 * it is possible to modify state without using the `set` function -- **do not do this**
 * putting that all together:
 ```js
@@ -256,7 +295,7 @@ export default function App() {
 	return (
 		<div>
 			<p>You clicked {count} times</p>
-			<button onClick={() => setCount(count + 1)}>
+			<button onClick={() => setCount(c => c + 1)}>
 				Add 1
 			</button>
 			<button onClick={() => setCount(0)}>
@@ -272,6 +311,59 @@ export default function App() {
 	* **React batches state updates** -- it updates the screen only after all event handlers have run and called their `set` functions to prevent unnecessary renders. if you need to override this behavior, use `flushSync`
 	* in strict mode, initializer functions and set functions will be called twice
 
+### Setting State with useEffect
+* use `useEffect` when some data changes and you need to update something else, or when you need to fetch data
+	* when a user performs some action, that might cause something else to change
+	* when you render a component, you may want to load some async data -- for example, fetch some data from an api to display in your component
+* you may want to `fetch` the data in your component function and then store the result in state, but that's a terrible idea -- the component function is the **render logic** and whenever the state is updated, the render logic is called... and then the component is re-rendered, the render logic is called, the state is updated, the component is re-rendered, etc -- you've basically created an infinite loop
+* that's where the `useEffect` hook comes in -- `useEffect` is a hook that allows you to perform side effects in your function components that execute after the component renders
+* `useEffect` takes two arguments:
+	* the first argument is a function that performs the side effect -- this function fetches the data and then sets state
+	* the second argument the **dependency list** -- if any of the dependencies change, the side effect will run again
+	```js
+		export default function App() {
+			const [data, setData] = useState(null);
+
+			async function fetchData() {
+				const res = await fetch('https://api.example.com/data');
+				const data = await res.json();
+				setData(data);
+			}
+			useEffect(() => {
+				fetchData();
+			}, []); // [] -> empty dependency list, the effect will only run once
+
+			// then we can also update our data with a click or other input event
+			function handleClick() {
+				fetchData();
+			}
+		}
+	```
+#### The useEffect Dependency Array
+* when an empty dependency list is provided, the effect will run once after each time the component renders
+* so by default (with no dependencies), effects run after every render
+* if dependencies are provided, **React will execute the effect only when those dependencies change**
+* **every state variable and prop used inside the effect must be included in the dependency array**
+* here is an example of an effect behaving like a computed property -- whenever the title or userRating changes, the effect will run
+	```js
+		const title = props.movie.Title;
+		const [userRating, setUserRating ] = useState('');
+
+		useEffect(() => {
+			if (!title) return;
+			document.title = `${title} ${userRating && `(Rated ${userRating})`}`;
+			return () => {
+				document.title = 'React App';
+			};
+		}, [title, userRating]);
+	
+	```
+
+### Setting State with useReducer
+
+
+
+
 ## React Context API
 * supported in React 16.3 or greater
 * Context provides a way to pass data through the component tree without having to pass props down manually at every level (simplified prop drilling)
@@ -280,7 +372,7 @@ export default function App() {
 	* "local global" states
 	* you can have compound components and context makes that nicer -- you can have a context for all the sub-components
 	* nested contexts
-* Performer sets context value, Consumer interprets that value and renders
+* Provider sets context value, Consumer interprets that value and renders
 ```javascript
 const { Provider, Consumer } = React.createContext("");
 <Provider value="Pat">
@@ -291,8 +383,6 @@ const { Provider, Consumer } = React.createContext("");
 ```
 * learn more from react documentation on context and render props
 	* You Might Not Need Redux
-
-
 	* use Context to pass data that could be considered 'global' through multiple levels of components
 		* theme, authenticated user or preferred language could be examples
 	* don't do this just to avoid passing props down -- stick to cases where the data is used on multiple levels
@@ -313,12 +403,51 @@ const { Provider, Consumer } = React.createContext("");
 * this keeps the UI in sync with the current browser URL
 * React relies on third-party packages for routing, the most popular of which is `react-router`
 * for SPA applications, rather than completely reloading/navigating to a new page, the URL changes and javascript updates the view components (DOM)
+* when a user clicks a link, `react-router` changes the url, which triggers a DOM update
 * installing react-router:
 	```bash
 		npm i react-router-dom
 		npm i types @types/react-router-dom
 	```
+* there are two ways to define routes:
+	* **static routing**: what you're used to -- define routes in a configuration file to map routes to components
+	* **declarative route definitions**: use components provided by `react-router-dom` to define our routes right in the JSX, such as `BrowserRouter`, `Route`, and `Link`
+	* as of React Router v4, declarative/dynamic routing is preferred ([source](https://v5.reactrouter.com/web/guides/philosophy))
 
+## "State" in the URL
+* why would you put data in the URL vs in the component state?
+	* by putting info in the url, you can bookmark a page and return to it later or share it
+	* easy way to share global state **with all components** in the app
+	* pass data from one page to the next page
+* what would you put in the url? resource identifiers of course, also view-specific things like open/closed panels, currently selected item, sorting order, applied filters, etc
+* by putting "stately" information in the URL, you can share the URL with someone else and they will see the same thing you do
+* for example, the url `https://example.com/bookings?city=paris&startdate=20240704&enddate=20240708` could show all available bookings for your trip, and you could share this link with others
+* url components: given this url: `www.example.com/app/cities/lisbon?lat=38.7223&long=-9.1393`
+	* `www.example.com` is the base url
+	* `app/cities` is the **path** that maps to a component
+	* `lisbon` is a **parameter** that customizes the component view/data
+	* `lat` and `long` are **query parameters**/`lat=38.7223&long=-9.1393` is the **query string**
+
+## Route Parameters
+* route parameters are dynamic parts of the URL that can be used to identify what is displayed on the page. for example, `/cities/:cityName` would match `/cities/paris` and `/cities/london`
+* to access route parameters, use the `useParams` hook
+	```js
+		// in router: 
+		<Route path="/cities/:cityName" element={<City />} />
+		// in City component:
+		import { useParams } from 'react-router-dom';
+		const { cityName } = useParams();
+	```
+
+## Query Parameters
+* query parameters are used to pass data to a route
+
+	```js
+		// in component
+		import { useSearchParams } from 'react-router-dom';
+		const [searchParams, setSearchParams] = useSearchParams();
+		const cityName = searchParams.get('cityName');
+	```
 
 # Building an App
 
@@ -369,10 +498,48 @@ const { Provider, Consumer } = React.createContext("");
 	* if you need to import an image in your app code, put it in `src/assets`
 
 
+## Forms
+* in a typical form, the DOM elements would control and manage the state of the form
+* that makes it really hard for React to know the value of the form elements
+* so instead, we use **controlled elements** -- the form elements are controlled by React so the rest of the application knows what the value of the form elements are
+* **controlled elements** are simply form elements whose value is mapped to a state variable with an event listener that calls the set function and sets it to the value of the event target (which is our input element)
+	```js
+		const [name, setName] = useState('');
+		<input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+	```
 
 
 # Debugging/Troubleshooting
 * is your page not refreshing after making changes? hard reload -- HMR breaks periodically and this will reset it
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

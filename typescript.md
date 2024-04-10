@@ -292,6 +292,14 @@
 * you can also write your own **type definition file** and add it to the "include" section of your `tsconfig.json`
 
 
+# Importing And Exporting
+* aliasing an import
+	```typescript
+		import { ZipCodeValidator as ZCV } from './ZipCodeValidator';
+		// aliasing a default:
+		import { default as ItemComponent } from './Item';
+	```
+
 
 # Troubleshooting
 

@@ -16,3 +16,8 @@
 	*  Vite supports rollup plugins
 	*  writing your own is not too hard
 	*  SSR plugins
+
+
+## Rollup
+* Vite uses the module bundler Rollup
+* [Rollup configuration](https://rollupjs.org/configuration-options)
