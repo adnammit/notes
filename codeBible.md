@@ -83,7 +83,7 @@
 		* it's not just about avoiding expense/problems down the line: a well-designed system will allow features to be created more and more rapidly -- saving time/money in the future
 * **inheritance**
 	* **polymorphism**: providing a single interface to different types. in OOP, you may have an abstract base class `Vehicle` from which `Car`, `Bicycle` and `Motorcycle` are descended
-	* **abstract** classes serve as the **base** class blueprint for **derived** classes and may implement virtual methods that must be overridden by the implementing base class
+	* **abstract** classes serve as the **base** class blueprint for **derived** classes and may implement virtual methods that can be overridden by the implementing base class
 	* you cannot create an instance of an abstract class but you can implement functionality that will be shared by inheriting classes
 	* abstract classes cannot be static
 * **abstract data type**: a logical, conceptual description of an interface (what it does)

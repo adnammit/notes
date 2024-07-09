@@ -3,7 +3,7 @@
 ## Resources
 * [docs](https://tailwindcss.com/docs/installation)
 * install the vscode Tailwind CSS intellisense extension to help with class name suggestions
-* use the [tailwind prettier extension](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort/organize your class names
+* use the [tailwind prettier plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort/organize your class names
 
 ## Overview
 * tailwind is a css framework packed with utility classes (like `flex`, `text-center`, etc) that can be used right in your html/jsx markup

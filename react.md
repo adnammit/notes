@@ -18,6 +18,8 @@
 * [react-router](https://v5.reactrouter.com/web/guides/quick-start)
 
 ### Quick Start
+I should probably create a boilerplate for this, eh?
+
 Create a React typescript app with Vite build tool, react router and prettier:
 ```bash
 	npm create vite@latest my-cool-app -- --template react-ts
@@ -27,6 +29,28 @@ Create a React typescript app with Vite build tool, react router and prettier:
 	npm i -D @types/react-router-dom
 	npm i -D prettier eslint-config-prettier
 ```
+Add `prettier` to your `.eslintrc.cjs` "extends" array
+```js
+	module.exports = {
+		extends: [
+			...
+			"prettier",
+		],
+	};
+```
+Add a prettier.config.js file 
+```js
+	export default {
+		singleQuote: true,
+	};
+```
+Add `.vscode/settings.json`
+```json
+	{
+		"editor.formatOnSave": true,
+	}
+```
+
 
 ## Best Practices, Tips and Tricks
 * `StrictMode`: you can and should wrap your `App` component in `StrictMode` to help catch common bugs, look for outdated things, etc. strict mode calls your render logic twice to check for badly handled side effects
@@ -46,9 +70,10 @@ Create a React typescript app with Vite build tool, react router and prettier:
 * use **controlled elements** to track your form inputs in React state
 * if you need a **side effect** (like loading data), you can do it in one of two places: in an **event handler** or in a **lifecycle event** using `useEffect`
 * router
-	* use **declarative routing** with react-router -- that is, use the provided components like `Router`, `Route`, `Link`, etc to define your routes, rather than defining them in a router class
+	* you can use **declarative routing** with react-router -- that is, use the provided components like `Router`, `Route`, `Link`, etc to define your routes
+	* or you can use **imperative routing** if you need to load or submit data linked to navigation (look at `createBrowserRouter`)
 	* preference to use `NavLink` over `Link` as the former indicates tacks on an `active` attribute
-
+	* use `react-router` and loaders to "render-as-you-fetch"
 
 ## Implementation Options
 * in the simplest "pure" vanilla js implementation, you can import react scripts into an html file ([template](https://gist.githubusercontent.com/gaearon/0275b1e1518599bbeafcde4722e79ed1/raw/db72dcbf3384ee1708c4a07d3be79860db04bff0/example.html))
@@ -409,8 +434,9 @@ const { Provider, Consumer } = React.createContext("");
 		npm i react-router-dom
 		npm i types @types/react-router-dom
 	```
+* there are actually [different kinds of routers you can use](https://reactrouter.com/en/main/routers/picking-a-router) but web projects should use `createBrowserRouter`
 * there are two ways to define routes:
-	* **static routing**: what you're used to -- define routes in a configuration file to map routes to components
+	* **static routing**: what you're used to -- define routes in a configuration file to map routes to components. allows you to specify loaders and actions
 	* **declarative route definitions**: use components provided by `react-router-dom` to define our routes right in the JSX, such as `BrowserRouter`, `Route`, and `Link`
 	* as of React Router v4, declarative/dynamic routing is preferred ([source](https://v5.reactrouter.com/web/guides/philosophy))
 
@@ -429,6 +455,7 @@ const { Provider, Consumer } = React.createContext("");
 	* `lat` and `long` are **query parameters**/`lat=38.7223&long=-9.1393` is the **query string**
 
 ## Route Parameters
+* **dynamic segments** are placeholders that are parsed as parameters or query params (`/cities/:cityName`)
 * route parameters are dynamic parts of the URL that can be used to identify what is displayed on the page. for example, `/cities/:cityName` would match `/cities/paris` and `/cities/london`
 * to access route parameters, use the `useParams` hook
 	```js
@@ -449,7 +476,49 @@ const { Provider, Consumer } = React.createContext("");
 		const cityName = searchParams.get('cityName');
 	```
 
+# Fetching Data
+There are several patterns for fetching data that depend on the use case
+* **fetching as you render**: use `react-router` and loaders to load the required data as the component renders
+	* use this if the data that needs to be fetched is bound to the route, i.e. if the current route and parameters are enough to form the request for the data (given route `/products?id=123`, you know you need to load data for product 123)
+* **fetching data on mount**: use `useEffect` to fetch data when the component mounts
+* **fetching data on user interaction**: use an event handler to fetch data when the user interacts with the component
+
+
+
+
 # Building an App
+
+## Planning Your Application
+
+### Structuring Your Project
+* one common way of organizing within your `/src` directory. let's think of a menu app
+	* **features**: components that represent a concept or business entity
+		* one sub-folder for each feature that contains jsx, css, hooks, etc
+		* ex: User, Menu, Cart, Order
+		* these features have sub-components like MenuItem, OrderLine, etc and data can be shared within each "domain" (i.e. Menu)
+	* **pages**: components that represent a page in your app
+		* ex: Home, Login/Signup, Menu, Cart, New Order, Order Detail
+	* **ui**: presentational shared components
+		* ex: Button, Input, Modal, Spinner
+	* **services**: functions that interact with the outside world
+		* ex: api, auth, storage
+	* **utils**: stateless helper functions
+		* ex: date, string, number
+
+### State Management
+* again for our menu app, we can organize our state needs like so:
+	* User: Global remote state (fetched from API)
+	* Menu: Global remote state (fetched from API)
+	* Cart: Global UI state (just stored in app)
+	* Order: Global remote state (fetched from API)
+* **Remote State Management**: 
+	* use react router to **"render-as-you-fetch"** -- this isn't really state management, but it supports remote state management
+	* **ReactQuery** is another option
+* **UI State Management**
+	* use Hooks or Context API for simple state management cases
+	* you may choose to use **Redux** for global state management, but it's not necessary for most apps
+
+
 
 ## Navigation
 * specify your `BrowserRouter`, `Routes` and `Route` components in the `App` component

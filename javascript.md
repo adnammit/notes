@@ -16,7 +16,7 @@
 * async/await
 
 
-## Cool Tricks/Gotchas
+## Cool Tricks/Gotchas/Best Practices
 * use Quokka.js vscode extension to run js code in the editor
 * use `const` or `let` if possible -- fallback to `var` if necessary
 * [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
@@ -29,12 +29,18 @@
 		let isValid = !!(list && list.name && list.name.trim()); // assigns a boolean
 		let name = list && list.name && list.name.trim(); // assigns a string
 	```
-* use **short circuit evaluation** for variable assignment when you want to assign to the first non-null/empty value. the last value will be assigned even if it's empty/null so it's important to put a default value at the end if you need some value
+* use **short circuit evaluation** for variable assignment when you want to assign to the first non-null/empty value
+	* the last value will be assigned even if it's empty/null so it's important to put a default value at the end if you need some value
 	```js
-	var a;
-	var b = "";
-	var c = null;
-	var d = a || b || c || "hello"; // d == "hello"
+		var a;
+		var b = "";
+		var c = null;
+		var d = a || b || c || "hello"; // d == "hello"
+	```
+	* you can use either nullish coalescing (`??`) or logical OR (`||`) for this -- `||` is looser as it checks for falsy values so `0` and `""` will evaluate to false
+	```js
+		let name = "" || "default name"; // "default name"
+		let name = "" ?? "default name"; // ""
 	```
 * **copying data**: TL;DR: use `structuredClone` for deep copies
 	* [comparison of all options](https://web.dev/articles/structured-clone)

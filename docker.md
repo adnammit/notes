@@ -403,8 +403,9 @@ docker push /docker101tutorial
 
 ## Instructions
 * **FROM**: the first instruction - determines the base image and creates the first layer
-* **WORKDIR**: define the working directory in which the subsequent instructions will be run within the container. multiple workdir instructions can be made and must be relative to the previous workdir instruction
-* **ENV**: set a default env var. this can be overridden with the `-e` switch
+* **WORKDIR**: define the working directory in which the subsequent instructions will be run within the container. multiple workdir instructions can be made. if the path doesn't exist it will be created
+* **ARG**: declare a variable with an optional default value. the value can be passed in with the invoking `docker build` command
+* **ENV**: set a default env var -- such as setting `NODE_ENV_SOME_VAR`. this can be overridden with the `-e` switch
 * **COPY**: copies a file from the build context to a destination within the image
 * **RUN**: executes a given command on top of the current image and creates a new layer by committing the result
 * **CMD**: set default command. there can only be one CMD per dockerfile, if there are more, only the last one executes. can be overridden when the container is run

@@ -45,7 +45,6 @@
 * Standard can also be used to "bridge" between things like Xamarin, Mono and Unity
 * Standard will eventually be obsolesced once we no longer need to cross the bridge -- since the new .NET 5+ will be cross-platform compatible, mobile etc, we won't need to translate anymore
 
-
 ## .NET/.NET Core
 * an open-source, cross-platform reimagination of the common layer below all languages -- the basis of Core is the CLR Core
 * this strips a lot of backwards compatibility for things we don't need anymore -- this fresh start allows for much greater performance
@@ -55,7 +54,27 @@
 * confusingly, we skipped Core 4 and what would be Core 5 is now known as just .NET 5 🙄 going forward, we just refer to ".NET 6" rather than ".NET Core 6" but you still may see "Core" in contexts like "ASP.NET Core 6"
 * Core can be used with Docker, and it includes command line tools for local development and continuous integration
 
-### .NET Core => .NET6+
+## ASP.NET
+* ASP == "Active Server Pages"
+* ASP.NET extends the .NET platform with tools and libraries specifically for building server-side web apps, including MVC apps and APIs
+* includes
+	* request processing framework
+	* Razor web page templating
+	* common web pattern libraries like MVC
+	* authentication system
+	* editor extensions for working with web pages
+
+## XAMARIN/MONO
+* .NET implementations for mobile OS
+
+## ENTITY
+* object-database mapper
+* abstraction layer that maps model classes to a database, reducing the amount of code that needs to be written
+* friendly with SSMS, MySQL, psql, SQLite and more
+
+# Updates
+
+## .NET Core => .NET6+
 * C# 10+ allows for the omission of the program class and the `Main` method -- whether you use them or not is up to you if your app doesn't take command line args
 * C# 10+ now supports **top-level statements**
 	* [see here](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements)
@@ -98,25 +117,6 @@
 	* if you have multiple package sources, you will get a `NU1507` warning to alert you to vulnerabilities in package supply chains. To safeguard your code against attacks, use [Package Source Mapping](https://youtu.be/G6P38Dn69Ro)
 
 
-## ASP.NET
-* ASP == "Active Server Pages"
-* ASP.NET extends the .NET platform with tools and libraries specifically for building server-side web apps, including MVC apps and APIs
-* includes
-	* request processing framework
-	* Razor web page templating
-	* common web pattern libraries like MVC
-	* authentication system
-	* editor extensions for working with web pages
-
-## XAMARIN/MONO
-* .NET implementations for mobile OS
-
-## ENTITY
-* object-database mapper
-* abstraction layer that maps model classes to a database, reducing the amount of code that needs to be written
-* friendly with SSMS, MySQL, psql, SQLite and more
-
-
 # Creating a Project
 
 ## Project Folder Structure
@@ -127,7 +127,7 @@
 	* `appsettings.json`: connection and app-specific settings, globally scoped variables. env-specific settings files can be created, such as `appsettings.Development.json`
 	* `MyProject.csproj`: an XML file
 
-## Build an Application
+## App Builder
 * you specify in the `Program.cs` how the application is built and configured -- that depends based on what kind of application you are creating, but generally it will be some kind of ASP.NET with some kind of web service/interface
 * as of .NET6+ it is preferred to use `WebApplication.CreateBuilder()`
 * [the history of building an application and Generic Host vs WebApplicationBuilder](https://andrewlock.net/exploring-dotnet-6-part-2-comparing-webapplicationbuilder-to-the-generic-host/)
@@ -142,7 +142,6 @@
 	* custom providers
 	* directory files
 	* in-memory .NET objects
-* for many apps, there is an *app* and a *host* which hosts the app. both can be configured, some things can be configured in either place. generally only necessary configuration should be done in the host and all else in the app
 * technically you can add `appsettings.json` to both host and app configuration, but Config set in ConfigureHostConfiguration flows to the app's config. The last config provider to set a value (in either method) on a key wins
 
 ### App Configuration
@@ -158,10 +157,21 @@
 
 # Concepts
 
-## MVC
-* **model**: the data model that is ultimately displayed in the view. model is responsible for communicating with the db
-* **view**: the UI of the app, consisting of HTML, CSS and JS. displays the data sourced from the model by calling the controller
-* **controller**: a layer between the view and the model; keeps secret stuff in the model hidden
+## MVC and MVVM Design Patterns
+* terms
+	* **model**: the data model that is ultimately displayed in the view. model is responsible for communicating with the db
+	* **view**: the UI of the app, consisting of HTML, CSS and JS. displays the data sourced from the model by calling the controller
+	* **controller**: a layer between the view and the model; keeps secret stuff in the model hidden
+* **MVC** is a design pattern that separates an application into three main components: Model, View, and Controller
+	* **ASP.NET Core MVC** uses the MVC pattern to build web applications
+* **MVVM** is a design pattern that separates an application into three main components: Model, View, and ViewModel
+	* supports two-way data binding between the view and the viewmodel
+	* **ASP.NET Core Blazor** and **ASP.NET Razor Pages** use the MVVM pattern to build web applications
+
+### Razor
+* at its simplest, Razor is a syntax for embedding C# code into HTML via the **Razor templating engine** 
+* Razor templating is used in ASP.NET Core to create dynamic web pages using the MVC design pattern
+* **Razor Pages** is a different thing -- using the MVVM pattern, controller classes are not used
 
 ### Models
 * model classes consist of the data properties as well as setters and getters
@@ -179,7 +189,7 @@
 	* `Task<>` represents an operation that executes asynchronously
 	* `Task<IActionResult>` returns results from action methods asynchronously
 
-### Routing 
+## Routing
 * [general routing documentation](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing)
 * apps can configure routing in many ways: controllers, razor pages, signalR, gRPC, healthchecks, lambdas and delegates
 * the order in which you call `UseRouting`, `UseEndpoints` and `UseAuthorization` matters
@@ -217,6 +227,8 @@
 
 
 ## Dependency Injection
+* [.NET DI general reference](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)
+* [ASP.NET Core DI](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)
 * DI is a built-in part of the Core framework
 * services/dependencies are registered in a service container: `IServiceProvider`
 * services are registered on app start up and appended to an `IServiceCollection`
@@ -225,11 +237,11 @@
 * for MVC controllers
 	* services may be injected into the controller constructor as with other class instance
 	* alternatively, if the service is only used in one or some action methods, the [`FromServices` attribute](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-6.0#action-injection-with-fromservices) may be used instead
-
+* multiple constructors: when a class has multiple constructors, the service provider has logic for which constructor to use. it will use the constructor with the most parameters that are all DI-resolvable -- that is, the constructor with the most arguments where all of them have themselves been registered in the service collection
 
 ## Scopes
 * the method used to register a service indicates the scope (lifetime) of an instance
-* **transient**: a new instance will be created every time it is requested
+* **transient**: a new instance will be created every time it is requested from the service container
 	* used for lightweight operations with very little or no state
 	* ex: httpclient: you get a fresh one each time because your request is (probably) different
 * **scoped**: a new instance is created for each scope (each server request)

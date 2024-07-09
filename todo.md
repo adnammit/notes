@@ -1,5 +1,6 @@
 # TODO
 * **SDK vs Runtime**
+* check out jsdoc to document your components
 * write a bash func that replaces `git push`
 	* check to see if on branch `main` or `master`
 	* if so, force confirm, else just do it
