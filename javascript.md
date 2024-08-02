@@ -1,7 +1,9 @@
 # Javascript
 
-## References
+## References & Resources
 * [Eloquent Javascript](https://eloquentjavascript.net/)
+* [The Complete JS Course](https://broadlume.udemy.com/course/the-complete-javascript-course)
+* [JSON Placeholder](https://jsonplaceholder.typicode.com/): easy to use fake data API for testing and prototyping
 
 ## Important JS Concepts
 * destructuring object and arrays
@@ -15,9 +17,19 @@
 * promises
 * async/await
 
+## Stuff To Understand Better
+* chunking
+* modules
+* module federation
+* bundling
+* rollups
+* SSR
+
 
 ## Cool Tricks/Gotchas/Best Practices
-* use Quokka.js vscode extension to run js code in the editor
+* developer tools:
+	* use Quokka.js vscode extension to run js code in the editor
+	* use [**live-server**](https://github.com/ritwickdey/vscode-live-server) vscode extension or command line to easily run your html/js with hot reloading -- nice for actually viewing a website
 * use `const` or `let` if possible -- fallback to `var` if necessary
 * [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
 * [`falsy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`, and `document.all`
@@ -44,7 +56,7 @@
 	```
 * **copying data**: TL;DR: use `structuredClone` for deep copies
 	* [comparison of all options](https://web.dev/articles/structured-clone)
-	* for **shallow copies** use `Object.assign(obj, copy)` to create a copy of `obj` -- it copies values but not references, so the copy will be linked to any nested objects in the original
+	* for **shallow copies** use `Object.assign({}, obj)` to create a copy of `obj` -- it copies values but not references, so the copy will be linked to any nested objects in the original
 	* you can also use spread syntax for a **shallow copy** 
 	* for **deep copies** of objects and arrays you can use `JSON` or `structuredClone`
 		* `JSON` is more widely supported, but cannot handle cyclical data structures or built in types like `Date`, `Map`, `Set` etc
@@ -101,7 +113,6 @@
 	* use `shift` over `splice` to remove the first element of an array
 
 ## Background
-* ECMA2015 == ES6
 * js ecosystem: javascript is most commonly run in browsers, but it can also be used in native apps
 	* Electron: framework for building native apps using js, html, css etc
 	* Cordova
@@ -126,7 +137,10 @@
 				alert("Here's an important message");
 				</script>
 			* js code is usually inserted just before the close of the head tag and just before the close of the body tag. this allows the html to be interpreted and displayed before we execute our js
-
+* js flavors:
+	* **ES5** (ECMA2015) is the standard version of js that is supported by all browsers
+	* **ES6** is the latest version of js and is supported by most modern browsers
+	* **CommonJS** is a project to standardize server-side js -- it is used by node.js. it has a unique import/require syntax for modules that cannot be used in the browser
 
 # Language Features
 
@@ -587,7 +601,7 @@
 
 
 # Arrays
-* fun fact: arrays are objects (typeof returns 'object')
+* fun fact: arrays are objects (typeof returns `object`)
 * some array methods create copies of the array, while others mutate the original array
 	* `map`, `filter`, and `reduce` return a new array without altering the original
 	* `sort`, `reverse`, `splice`, `pop`, `push`, `shift`, `unshift` alter the original array
@@ -647,19 +661,20 @@
 	```
 
 # Strings And String Methods
-o can be demarcated with '' or ""
-o you can use an escape character to express ' within a '' block or to
-  express " within a "" block.
-	  var quotation = "\"Elementary, my dear Watson.\" --Sherlock Holmes";
-o whitespace
-o concatenation: + symbol
+* can be demarcated with '' or ""
+* you can use an escape character to express ' within a '' block or to express " within a "" block.
+	```js
+		var quotation = "\"Elementary, my dear Watson.\" --Sherlock Holmes";
+	```
+* whitespace
+* concatenation: + symbol
 	var name = prompt("What is your name?");
 	alert("Hello, " + name);
-o you can use += to concatenate strings
-	message += " Thanks for stopping by!";
-	* this technique can be used to build up large blocks of text in a
-	  more readable way than using a million concatenation operators
-
+* you can use += to concatenate strings
+	```js
+		message += " Thanks for stopping by!";
+	```
+* this technique can be used to build up large blocks of text in a more readable way than using a million concatenation operators
 * none of these things seem to actually alter the value of `str` -- they just return values which you could of course store as variables or use to alter the value of `str`
 * str length is just a prop of a string object:
 	` var len = str.length;`
@@ -984,4 +999,167 @@ o you can use += to concatenate strings
 		var child = document.getElementById("replace_me");
 		child.parentNode.replaceChild(para, child); // args: (new_elem, discarded_elem)
 	```
+
+
+# Modules
+* rather than writing all your js in one script file, you can break it up into modules: smaller, reusable building blocks that can be combined to create a complex application
+* you can also import third party modules via package managers like npm
+* a module is usually a single standalone file, but not necessarily -- however it is structured, it should be a reusable piece of code that encapsulates implementation details and related functionality (a unit of code) 
+* there have been several different ways of writing modules, but ES6 provides an easy way to write modules
+* modules can **import** code from other modules -- these are the module **dependencies**
+* whatever we **export** out of a module is referred to as the **public API**
+* as of ES2022, you can use the `await` keyword outside of async functions -- this is a **top level await** and is only available in modules (`script type="module"`)
+	* note that top-level await (awaiting outside of an async function) is blocking, which may or may not be what you want
+	* note that if you import a module with top-level await, the importing module will be blocked while the imported module is loading
+	* therefore top-level await needs to be used with care as it will block execution within the module itself and in all its dependents
+
+## Historical Module Patterns
+* regardless of which js version you're using, the goal of modules is to encapsulate functionality and expose a public API
+
+### Module Pattern
+* before ES6, modules were written in the **module pattern** which used an **IIFE** (immediately invoked function expression) to create a closure and encapsulate the module's code
+	* this method uses **closures** to create private variables and functions that are not accessible from outside the module
+* this pattern creates issues with bundling and namespace pollution
+	```js
+		const shoppingCart = (function() {
+			const cart = [];
+			const shippingCost = 10; // private, not exposed
+			const addToCart = function(product, quantity) {
+				cart.push({ product, quantity });
+			};
+			return { cart, addToCart };
+		})();
+	```
+
+### CommonJS
+* **CommonJS** is a module system used in Node.js
+* originally npm was only intended to be used by Node.js on the server, so many npm packages are written in CommonJS (side note: npm packages are either written for ES (browser) or CommonJS (Node), or even hybrid)
+* CommonJS syntax can't be executed in the browser, but it's ubiquitous on the server. it will probably eventually be replaced by the ES6 module style, but not quickly, so you'll need to know how CommonJS do
+	```js
+		// export:
+		export.addToCart = function(product, quantity) {
+			cart.push({ product, quantity });
+			console.log(`${quantity} ${product} added to cart`);
+		};
+
+		// how to import:
+		const { addToCart } = require('./shoppingCart.js');
+	```
+
+## Modules vs Scripts
+* **variables**: in scripts, all top-level variables are global, but in modules, they are local to the module -- they must be explicitly exported to be available outside the module
+* **strict mode**: modules are always in strict mode -- scripts are in "sloppy" mode by default
+* **this**: in scripts, `this` refers to the global object (`window`), but in modules, `this` is `undefined`
+* **import/export**: modules can import and export code, but scripts cannot
+* **html usage**: modules are loaded with the `type="module"` attribute in the script tag, but scripts are not
+* **file download**: whether they're imported in another module or in html, modules are fetched asynchronously. scripts are fetched synchronously (blocking) unless the async attribute is used on the script tag
+
+## Importing
+* the `import` statement is used to import functions, objects or primitives that have been exported from an external module
+* there are four basic steps here: 
+	* **parse** the importing file
+	* **download** the imported module
+	* **link** the exports from the imported module to the importing file
+	* **execute** the code in the importing file
+* in order to run our `index.js` file, first it is **parsed** to see what needs to be imported
+	* import statements are **hoisted** to the top of the file -- all parsing must be done before any code is executed. imports cannot be done inside functions or conditionals -- they must be known at build time. you can write your import statements anywhere in the file, but they will be hoisted to the top, so that's typically where they are written
+	* modules are **imported synchronously** due to top-level (static) imports which makes all imports known before execution. this makes bundling and dead-code elimination possible
+* once our file has been parsed and all the imports synchronously known, the imports are asynchronously downloaded
+* exports from dependencies are **linked** to the importing file -- the file that uses the imported code does not copy the code, it references it: this allows for code reuse keeps the code DRY
+* after the imports are downloaded, the code is executed: first the imported code is executed, then the consuming code is executed
+
+## Exporting
+* a **named export** is a way to export multiple values from a module -- you can pick and choose which values you want to import
+	* named exports can be made as part of the declaration or separately
+	```js
+		// named export as part of the declaration
+		export const cart = [];
+		export const shippingCost = 10;
+
+		// named export separately
+		const cart = [];
+		const shippingCost = 10;
+		export { cart, shippingCost };
+
+		// importing a named export:
+		import { addToCart, totalPrice } from './shoppingCart.js';
+	```
+	* imports and exports can be renamed:
+	```js
+		// renaming an import/export:
+		import { shippingCost as costToShip } from './shoppingCart.js';
+
+		// renaming an export:
+		export { cart, shippingCost as sc };
+	```
+* **namespace objects** are objects that contain all the exports from a module -- you can import the entire module as a single object that then behaves like a class with methods and properties. use a wildcard import statement to create one:
+	```js
+		import * as ShoppingCart from './shoppingCart.js';
+		console.log(ShoppingCart.cart);
+	```
+* a **default export** is a way to export a single value from a module -- you can import it with any name you want
+	```js
+		// declaring default export with no name
+		export default function (product, quantity) {
+			// code
+		}
+
+		// importing in another file: give the import any name you wish
+		import add from './shoppingCart.js';
+	```
+	* you can only default import once per file, but you can have a default and named export in the same file. note this is not desireable, but it is possible
+	```js
+		import add, { shippingCost as costToShip } from './shoppingCart.js';
+	```
+* note that because module imports/exports are live connections, if you import an object such as an array and modify it, you will see the live changes made to it within the consuming code (i.e. you can just reference your imported `cart.length` rather than needing to import a function that gets the cart count)
+	* **so what happens when a module is shared between multiple files?** 
+
+
+# Building Javascript
+* we write code in a modular, easy to manage way, but we need to optimize the code to be consumed by the browser. **building** takes development-centric code and makes it production-ready
+* the **build** consists of two steps: **bundling** and **transpiling/polyfilling**
+	* **bundling** is the process of combining multiple files/modules into a single file and optimizing it by removing unused code, minifying it, etc
+	* **transpiling/polyfilling** is the process of converting modern js code into a backwards-compatible ES5 version
+* bundling is done with a **build tool** like webpack, vite or parcel
+* transpilation is done with a **transpiler** like babel
+* though modern browsers can manage multiple modules, it's still better to bundle for performance reasons in addition to being backwards compatible
+
+## Webpack vs Vite
+* **webpack** is well-established and has a large ecosystem of plugins and loaders -- it's a bit more complex to set up and configure, but it's very powerful
+* **vite** is a newer build tool that is faster and simpler to set up -- it's great for small to medium-sized projects, but it's not as powerful as webpack
+
+## Bundling
+* **bundling** is the process of combining multiple files/modules into a single file and optimizing it by removing unused code, minifying it, etc
+
+### Entry Points
+* **entry point**: the file where the bundling process starts -- usually `main.js` or `index.js`
+* build tools will start building a dependency graph from the entry point file
+* SPAs typically have a single entry point, but multi-page apps may have multiple entry points
+* types of entry points:
+	* **single entry points** are the default and are used for SPAs
+	<!-- * **dynamic entry points** are used for code splitting -- the entry point is determined at runtime -->
+	* **"scalable" entry points**: in webpack, object syntax is used to define multiple entry points along with any dependencies
+	* **multi-main entry points** combines multiple dependent files together into one "chunk"
+* webpack recommends one entry point per HTML file, but there are other ways of defining entry points. see [webpack entrypoint docs](https://webpack.js.org/concepts/entry-points/) and [this](https://bundlers.tooling.report/code-splitting/multi-entry/#webpack) for more info
+
+
+## Transpiling
+* **Babel** is the most common transpiler -- it converts modern js code into a backwards-compatible ES5 version
+* many build tools come with Babel built in, but you can also use it as a standalone tool
+* Babel accepts plugins and presets to customize the transpilation process
+	* you could use an ES3 plugin to transpile to ES3
+	* you could use a preset for react or typescript
+* not everything can be transpiled -- transpilation is fairly simple replacement for things like simply changing `const` to `var`. more complex features will need to be **polyfilled**
+
+## Polyfill
+* a **polyfill** is a piece of code that provides modern functionality on older browsers that do not natively support it
+* polyfills are more complex than transpilation operations, including features that are truly new like `Promise` or `fetch`
+* when you build your code, you'll see that rather than replacing your code (like changing `const foo` to `var foo`), there are definitions for the missing functions and behaviors added to your code -- the polyfill will add a definition for `Array.prototype.find`
+* Babel used to handle polyfills, but now it's recommended to use a separate tool like `core-js` for polyfills
+* when importing `core-js` you'll want to just import what you need, such as `core-js/stable`. you may want to further cherry pick what you need by only importing `core-js/stable/array/find` for example
+* to polyfill async functions, you'll need to import `regenerator-runtime/runtime` as well
+
+## Production Build
+* for a production build, your code will be minified and bundled
+* the `<script type="module">` tag you used before could change to a regular `<script>` tag
 

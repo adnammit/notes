@@ -234,22 +234,31 @@
 * services are registered on app start up and appended to an `IServiceCollection`
 * once all the services are added, `BuildServiceProvider` creates the service container which supplies the dependencies
 * the container *injects* the service to the constructor of the class where it's needed -- it is responsible for creating an instance of that dependency and disposing of it when it's no longer needed
-* for MVC controllers
+* MVC controllers:
+	* see [DI into ASP.NET Core Controllers](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-8.0)
 	* services may be injected into the controller constructor as with other class instance
-	* alternatively, if the service is only used in one or some action methods, the [`FromServices` attribute](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/dependency-injection?view=aspnetcore-6.0#action-injection-with-fromservices) may be used instead
-* multiple constructors: when a class has multiple constructors, the service provider has logic for which constructor to use. it will use the constructor with the most parameters that are all DI-resolvable -- that is, the constructor with the most arguments where all of them have themselves been registered in the service collection
+	* alternatively, if the service is only used in one or some action methods, the `FromServices` or the `FromKeyedServices` attributes may be used instead
 
-## Scopes
+## Service Lifetimes
 * the method used to register a service indicates the scope (lifetime) of an instance
 * **transient**: a new instance will be created every time it is requested from the service container
 	* used for lightweight operations with very little or no state
+	* for apps that process requests, instances are disposed of at the end of the request
 	* ex: httpclient: you get a fresh one each time because your request is (probably) different
 * **scoped**: a new instance is created for each scope (each server request)
 	* used when some amount of state is needed throughout a request
+	* for apps that process requests, instances are disposed of at the end of the request
 	* ex: sql connection
-* **singleton**: a single instance will be created
-	* must be memory tight and efficient as it's used everywhere for a long time (leaks build up)
+* **singleton**: a single instance will be created for the application lifetime
+	* must be memory tight and efficient as it's used everywhere for a long time (leaks build up) -- often used in stateless services
+	* created the first time they are requested - the instance is reused throughout the rest of the application lifetime
+	* do not dispose of singletons -- they'll be disposed of automatically when service provider is disposed of at app shutdown
 	* ex: logger, memory cache
+
+## DI Gotchas
+* resolving a service from another service with a longer lifetime throws an exception
+* multiple constructors: when a class has multiple constructors, the service provider has logic for which constructor to use. it will use the constructor with the most parameters that are all DI-resolvable -- that is, the constructor with the most arguments where all of them have themselves been registered in the service collection
+
 
 # Nuget Packages
 * Rider and VS have built in package restoration processes but you can use `dotnet` and `nuget` clis to manage packages as well -- it is preferred to use the `dotnet` cli over `nuget` when your project uses `PackageReferences` in the csproj files, rather than the obsolescing `packages.config`

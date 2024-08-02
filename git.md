@@ -369,6 +369,22 @@ git diff f3..hotfix			# make sure you didn't forget anything
 git push
 ```
 
+### "Reset" One Branch To Another
+* when working locally, you can rewrite history and hard reset your feature to another
+* however, you should never do this on shared branches -- for instance, if you have discrepencies between `main` and `staging` and you need to make `staging` just like `main`, how do you do that without rewriting `staging`'s history?
+* [SO to the rescue](https://stackoverflow.com/a/54889409) -- basically you're going to start on the branch you want to keep the changes from (`main`) and use that as a base to recreate the branch you want to reset (`staging`)
+```bash
+# first check out main in a detached state so you can mess around with it
+git co --detach main		
+# this is where the magic happens ✨ use the 'ours' merge strategy to merge staging into main, keeping all changes from main							
+git merge -s ours staging -m "reset staging to main"
+# recreate the staging branch from your current commit history
+git branch -f staging
+# push your changes to make them take effect -- you should not need to force bc this branch should have the same commit history as remote, plus your new "reset" commit
+git push origin staging
+```
+
+
 ### Fixup
 * sometimes you may need to fix an old commit. `fixup` followed by `autosquash` can help (you can also use `--squash` which will allow you to edit the commit message)
 * note that this should **not** be performed on commits that have already been merged/pushed for other devs to modify. this should only be performed on code strictly under your own control

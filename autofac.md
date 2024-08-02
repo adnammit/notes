@@ -5,7 +5,7 @@
 * AutoFac provides IoC/dependency injection similar to .NET's built in DI (`Microsoft.Extensions.DependencyInjection` or MEDI) but with some extra features. see [why AutoFac](https://www.mattburkedev.com/why-autofac/) for lots of good examples for how you'd use these features
 	* tagged lifetime scopes
 	* service metadata/assembly scanning
-	* define named/keyed variants of a service
+	* define named/keyed variants of a service -- keyed services are part of native .NET as of .NET 8
 	* resolving factory function 
 	* lazy instantiation
 
@@ -41,5 +41,5 @@
 
 ### Resolving Services in ASP.NET Core
 * [AutoFac integration with ASP.NET Core](https://autofac.readthedocs.io/en/latest/integration/aspnetcore.html#id6)
-* DI is managed by ASP.NET Core -- controller classes are provided with the services you configure in startup
+* in this case, DI is managed by ASP.NET Core rather than autofac -- controller classes are provided with the services you configure in startup. *autofac is still used to manage registration etc, but the actual injection/scopes are handled by ASP.NET*
 
