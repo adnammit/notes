@@ -5,13 +5,15 @@
 * [id and access tokens](https://auth0.com/blog/id-token-access-token-what-is-the-difference)
 * [scopes](https://auth0.com/docs/get-started/apis/scopes)
 * [jwt.io](https://jwt.io/)
+* [pretty good article on auth, access control, and permissions](https://dev.to/wasp/permissions-access-control-in-web-apps-j6b)
 * [crash course in OAuth/OIDC from IdentityServer Founder](https://youtu.be/Ps8ep-glDfc)
 * **START HERE** https://vimeo.com/113604459 12:42
 
 
 ## Key Concepts
-* **authentication**: the process of verifying the identity of a user
-* **authorization**: the process of determining whether a user is allowed to perform a given action
+* **access control**: a higher level concept of controlling who can do what by using authZ, authN, and permissions
+* **authentication**: (authN) the process of verifying the identity of a user
+* **authorization**: (authZ) the process of determining whether a user is allowed to perform a given action
 * **federated identity**: the ability to share identity information across multiple systems using a single set of credentials
 * **public vs confidential clients**: a confidential client is an application which is able to securely store credentials like a client id and client secret. a public client is an application which is not able to securely store credentials, such as apps running in a browser or on mobile
 * **service provider/client**: the application that the user is trying to access/the app that initiates the authentication process. maybe the same thing, maybe not
@@ -326,4 +328,22 @@ What happens when the user tries to access another SSO-integration application, 
 * client_id is for the app, not user
 
 
+
+## Permissions
+* **permissions** are the rules that determine what a user can and cannot do in an application
+* generally default to denying access and then additively grant access
+* common approaches to permissions include **role-based access control (RBAC)** and **attribute-based access control (ABAC)**
+* RBAC is typically easier to implement, but it can be less flexible
+
+### Role-Based Access Control (RBAC)
+* **role-based access control** is a method of restricting network access based on the permissions assigned to roles, which are then assigned to individual users within an enterprise
+* roles are created for various job functions in an organization and permissions to perform certain operations are assigned to specific roles: for example, `admin`, `user`, `guest`, `moderator`, etc
+* users are then assigned to roles and acquire the permissions assigned to that role
+* an important distinction when using RBAC is to still always check the permission, not the role -- that is, if you're trying to delete an article, don't check if the user has admin role -- get the user's role, then get the role's permissions, then check if those permissions include `delete_article`
+	```
+	user -> role -> permissions
+	```
+
+### Attribute-Based Access Control (ABAC)
+* **attribute-based access control** is a method of restricting access to resources based on the attributes of the user, the resource, and the environment
 

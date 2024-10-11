@@ -67,6 +67,7 @@
 	* **integration tests**: the second layer: how do the units integrate with the rest of the code? requires a pre-prod environment to run. ex: (maybe) postman test to check that mods to a service still work
 	* **end-to-end tests**: the top of the pyramid: does the whole application work? what is the user experience? feature and regression testing are usually e2e tests
 * **transpilation**: transpilers are source-to-source compilers -- they take code written in one source language and convert it to another source language (e.g. Babel might transpile ES6+ to ES5)
+* **tree-shaking**: a process that removes unused code from a bundle to reduce the size of your code. builders such as vite and webpack can tree-shake your code by only including code that is imported, starting with the entry point and working out through its dependencies
 * **value object**: a class whose equality is determined by its value rather than its identity. value objects are immutable. compare to entities
 * **vertical scaling** means adding more power to the server: more RAM, more CPU etc. this works in a pinch, but is limited in how far you can scale and the impact of a server going out is great
 * **write-through cache**: a storage method in which data is written into the cache and corresponding main memory location at the same time. cache sits between db and application - all operations pass through cache tier so anything retrieved from or updated to the db is stored in the cache. this is a nice compliment to **lazy loading**

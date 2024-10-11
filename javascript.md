@@ -1013,10 +1013,18 @@
 	* note that if you import a module with top-level await, the importing module will be blocked while the imported module is loading
 	* therefore top-level await needs to be used with care as it will block execution within the module itself and in all its dependents
 
-## Historical Module Patterns
-* regardless of which js version you're using, the goal of modules is to encapsulate functionality and expose a public API
+## Module Formats
+* regardless of which js version/module pattern you're using, the goal of modules is to encapsulate functionality and expose a public API
+* there are several module formats:
+	* **IIFE** (immediately invoked function expression) - used before ES6
+	* **CommonJS** - used server-side in Node.js
+	* **AMD** (Asynchronous Module Definition) - used in RequireJS
+	* **UMD** (Universal Module Definition) - a module format that works in both CommonJS and AMD
+	* **ESM** (ECMAScript Modules) - the current preferred standard for modules in js
+* transpilers like Babel can convert ES6 modules to CommonJS or AMD and vice versa
 
-### Module Pattern
+
+### IIFE
 * before ES6, modules were written in the **module pattern** which used an **IIFE** (immediately invoked function expression) to create a closure and encapsulate the module's code
 	* this method uses **closures** to create private variables and functions that are not accessible from outside the module
 * this pattern creates issues with bundling and namespace pollution
@@ -1033,6 +1041,7 @@
 
 ### CommonJS
 * **CommonJS** is a module system used in Node.js
+* cjs uses `requre` to import modules and `module.exports` to export them
 * originally npm was only intended to be used by Node.js on the server, so many npm packages are written in CommonJS (side note: npm packages are either written for ES (browser) or CommonJS (Node), or even hybrid)
 * CommonJS syntax can't be executed in the browser, but it's ubiquitous on the server. it will probably eventually be replaced by the ES6 module style, but not quickly, so you'll need to know how CommonJS do
 	```js
@@ -1045,6 +1054,23 @@
 		// how to import:
 		const { addToCart } = require('./shoppingCart.js');
 	```
+
+### AMD
+* **AMD** (Asynchronous Module Definition) loads modules asynchronously, which is useful for the browser -- it is sort of the front end equivalent of CommonJS
+* AMD uses `define` to define modules and `require` to import them
+
+### UMD
+* **UMD** (Universal Module Definition) is a module format that works in both front and backend
+* UMD is more a pattern to configure several different module systems
+* UMD works everywhere and is usually the fallback module when ESM doesn't work
+
+### ESM
+* **ESM** (ECMAScript Modules) is the current standard for modules in js
+* ESM is built into the language and is supported in all modern browsers using ES6 module syntax: `import` and `export`
+* better optimization using tree-shaking
+
+
+
 
 ## Modules vs Scripts
 * **variables**: in scripts, all top-level variables are global, but in modules, they are local to the module -- they must be explicitly exported to be available outside the module
@@ -1123,6 +1149,9 @@
 * bundling is done with a **build tool** like webpack, vite or parcel
 * transpilation is done with a **transpiler** like babel
 * though modern browsers can manage multiple modules, it's still better to bundle for performance reasons in addition to being backwards compatible
+* **code splitting** is a technique used to split your code into smaller chunks that can be loaded on demand -- this can improve performance by reducing the amount of code that needs to be loaded initially
+* **preloading** is a technique used to load resources before they are needed -- this can improve performance by reducing the time it takes to load resources when they are needed
+
 
 ## Webpack vs Vite
 * **webpack** is well-established and has a large ecosystem of plugins and loaders -- it's a bit more complex to set up and configure, but it's very powerful
@@ -1137,7 +1166,6 @@
 * SPAs typically have a single entry point, but multi-page apps may have multiple entry points
 * types of entry points:
 	* **single entry points** are the default and are used for SPAs
-	<!-- * **dynamic entry points** are used for code splitting -- the entry point is determined at runtime -->
 	* **"scalable" entry points**: in webpack, object syntax is used to define multiple entry points along with any dependencies
 	* **multi-main entry points** combines multiple dependent files together into one "chunk"
 * webpack recommends one entry point per HTML file, but there are other ways of defining entry points. see [webpack entrypoint docs](https://webpack.js.org/concepts/entry-points/) and [this](https://bundlers.tooling.report/code-splitting/multi-entry/#webpack) for more info
@@ -1158,6 +1186,10 @@
 * Babel used to handle polyfills, but now it's recommended to use a separate tool like `core-js` for polyfills
 * when importing `core-js` you'll want to just import what you need, such as `core-js/stable`. you may want to further cherry pick what you need by only importing `core-js/stable/array/find` for example
 * to polyfill async functions, you'll need to import `regenerator-runtime/runtime` as well
+* `modulepreload` is a way to tell the browser to preload a module before it's needed
+	* this can improve performance by reducing the time it takes to load resources when they are needed by loading them in parallel
+	* however this is not well supported yet so polyfilling can be used to provide this functionality
+	* read more about [polyfilling modulepreload](https://guybedford.com/es-module-preloading-integrity#modulepreload-polyfill)
 
 ## Production Build
 * for a production build, your code will be minified and bundled

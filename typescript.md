@@ -19,7 +19,7 @@
 	* `unknown` is a type-safe alternative to `any`
 * in a similar spirit, use strict in your tsconfig file to keep yourself honest
 * use `let` and `const` where appropriate -- don't overuse `var` which is global when declared outside functions and can be unknowingly redeclared
-* coming from C#, you will want to use interfaces but you should probably be using a type alias instead -- see Type Aliases vs Interfaces above
+* coming from C#, you will want to use interfaces but you should probably be using a type alias instead -- see Type Aliases vs Interfaces
 
 
 # What The Hey Is It
@@ -280,7 +280,20 @@
 * abstract classes can contain concrete methods and/or abstract methods
 * abstract methods *must* be implemented in derived classes
 * access modifiers for abstract classes and methods are optional
-*
+
+
+## Type Declaration Files
+* [TS Documentation](https://www.typescriptlang.org/docs/handbook/2/type-declarations.html)
+* type declaration files are used to provide types for js libraries that don't have types
+* these files have a `.d.ts` extension and only contain type information - they don't contain any executable code
+* TypeScript includes declaration files for all the standardized built-in APIs available in js runtimes
+	* things like `window` and `document` come from DOM APIs
+	* built-in types like `string` and `function`
+	* top-level names like `Math` and `Object` 
+* many third-party libraries also include type declaration files -- these are either:
+	* included in the npm package (usually this is the case)
+	* external type definitions via [**DefinitelyTyped**](https://github.com/DefinitelyTyped/DefinitelyTyped/) -- you can install them separately with `npm install @types/{library-name}`
+* in the rare case that a library doesn't have any typing, you can write your own declaration files
 
 
 # Modules

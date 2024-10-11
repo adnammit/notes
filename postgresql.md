@@ -1,12 +1,11 @@
 # PostgreSQL
 
 ## Resources
+* [Getting started](https://www.postgresqltutorial.com/)
+* [How to seed a Postgres DB on a dev environment](https://hub.qovery.com/guides/tutorial/data-seeding-in-postgres/)
+* [Running stuff via psql vs script](https://stackoverflow.com/a/8208821)
 
-[Getting started](https://www.postgresqltutorial.com/)
-
-[How to seed a Postgres DB on a dev environment](https://hub.qovery.com/guides/tutorial/data-seeding-in-postgres/)
-
-[Running stuff via psql vs script](https://stackoverflow.com/a/8208821)
+# Basics
 
 ## PostgreSQL Flavors And Integrations
 
@@ -38,15 +37,20 @@
 * `numeric` is used to declare decimals. decimals are defined by precision (number of digits) and scale (places after the decimal), e.g. `numeric(5,2)` will store a decimal like `123.45`
 * other types include monetary, geometric for storing points
 
+## SQL Server vs postgresql
+* in SQL Server, you use statements like `using [dbname]` to switch databases - in postgresql, each connection is to a single database so the db will depend on the connection
+
+
+
+# PSQL
 
 ## Running PostgreSQL Locally:
 From your local CLI type:
 ```bash
 	psql -d <dbname> -U <username>
-	\c foo;    // connect to database foo
+	\c foo;    # connect to database foo
 ```
 Data is in `~/Library/Application Support/Postgres[version]/var` by default.
-
 
 To have launchd start postgresql at login:
 ```bash

@@ -523,6 +523,13 @@ git submodule add https://bitbucket.org/jaredw/awesomelibrary
 # commit the submodule
 git add .gitmodules awesomelibrary/ && git commit -m "added submodule"
 
+# by default, submodule folders are empty when a parent is cloned. fetch the files with:
+#	- this will fetch the submodule at the commmit that is checked in to the parent repo, not necessarily latest
+#	- --recursive will fetch all the submodule's submodules, if any
+git submodule update --init [--recursive]
+# set the submodule to it's latest commit, regardless of what's checked into the parent
+git submodule update --remote [--recursive]
+
 ```
 
 ## Gotchas

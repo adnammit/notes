@@ -59,6 +59,10 @@
 	# install a specific version of a given package
 	npm i [package]@[version]
 
+	# UPDATE
+	# update all packages in the local project -- follow with `npm i`
+	npx npm-check-updates -u
+
 	# MANAGEMENT
 	# clear cache
 	npm cache clean

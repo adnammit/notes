@@ -264,7 +264,6 @@
 * Rider and VS have built in package restoration processes but you can use `dotnet` and `nuget` clis to manage packages as well -- it is preferred to use the `dotnet` cli over `nuget` when your project uses `PackageReferences` in the csproj files, rather than the obsolescing `packages.config`
 * check out Central Package Management if  you're working with a newer project
 
-
 # .NET CLI
 The `dotnet` cli is included when you install an SDK
 
@@ -331,5 +330,7 @@ dotnet restore
 
 # specify package source
 dotnet add package CCI.Communications.Client -s https://www.myprivatesource.com/api/v2/
+# specify csproj to add package to with version:
+dotnet add ToDo.csproj package Microsoft.Azure.DocumentDB.Core -v 1.0.0
 ```
 
