@@ -37,6 +37,7 @@
 		* tim corey
 		* educative.io
 		* https://www.codingfont.com/
+		* https://github.com/git-tips/tips
 	* env: vscode, extensions
 	* dotfiles
 	* fonts
