@@ -120,7 +120,7 @@ sudo apt-get autoremove	remove any dependencies that are no longer needed
 
 
 
-```
+```sh
 cd                              use '$ cd -' to cd into the previous directory
 
 !!                              repeat the last command

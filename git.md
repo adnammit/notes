@@ -61,87 +61,85 @@
 ## Cheat Sheet
 ```bash
 # REPOS AND BRANCHING
-man git-<command>               man for command
-git help foo                    get help for git command foo
-git init                        initialize new repository
-git clone <repo address>        fetch a repository you don’t yet have from remote
-git remote -v                   lists remote origins your repo knows about
-git remote show origin          show repo’s url
-git remote set-url origin <url> set url (esp if switching between ssh and https)
-git checkout                    switch between branches you already have
-git checkout -                  check out the last branch you were on
-git checkout -b foo <branch>    make a new branch called foo <from branch> and switch to it
-git co <branch>                 when there exists a remote `origin/<branch>`, check out a local copy and set to track.
-git co --track origin/<branch>  check out remote branch foo and set your local to track to it
-																alternative to just `git co <branch>` if you have multiple remotes of the same name
-git branch [-a]                 view branch info (-a: all repos, not just local)
-git br -avv                     view all branches and the remote they are tracking to
-git branch -r                   view remote branches
-git branch -d foo               delete branch that you’re done with
-git branch -D foo               force remove w/out merging
-git status                      show current state of your repo
+man git-<command>				# man for command
+git help foo					# get help for git command foo
+git init						# initialize new repository
+git clone <repo address>		# fetch a repository you don’t yet have from remote
+git remote -v					# lists remote origins your repo knows about
+git remote show origin			# show repo’s url
+git remote set-url origin <url>	# set url (esp if switching between ssh and https)
+git checkout					# switch between branches you already have
+git checkout -					# check out the last branch you were on
+git checkout -b foo <branch>	# make a new branch called foo <from branch> and switch to it
+git co <branch>					# when there exists a remote `origin/<branch>`, check out a local copy and set to track.
+git co --track origin/<branch>	# check out remote branch foo and set your local to track to it - alternative to just `git co <branch>` if you have multiple remotes of the same name
+git branch [-a]					# view branch info (-a: all repos, not just local)
+git br -avv						# view all branches and the remote they are tracking to
+git branch -r					# view remote branches
+git branch -d foo				# delete branch that you’re done with
+git branch -D foo				# force remove w/out merging
+git status						# show current state of your repo
 
 # COMMITS
-git rev-parse HEAD              show hash of HEAD (or whatever branch)
-git merge-base foo bar          get the last common commit between two branches
-git show <hash>                 take a look at the changes in the commit before cherry-picking, etc
+git rev-parse HEAD				# show hash of HEAD (or whatever branch)
+git merge-base foo bar			# get the last common commit between two branches
+git show <hash>					# take a look at the changes in the commit before cherry-picking, etc
 
 # WORKING WITH AN EXISTING REPO
-git fetch                       get other people’s checked-in changes w/out merging into yours
-git pull		                fetch + merge
-git push                        push all committed files to the remote repository
-git push -u origin main       push and set tracking info for your branch to push/pull from origin
-git push origin --delete foo    remove branch foo from remote if it has been pushed to origin
+git fetch						# get other people’s checked-in changes w/out merging into yours
+git pull						# fetch + merge
+git push						# push all committed files to the remote repository
+git push -u origin main			# push and set tracking info for your branch to push/pull from origin
+git push origin --delete foo	# remove branch foo from remote if it has been pushed to origin
 git push --force --verbose --dry-run
 
 # MERGING & REBASING
-git merge foo                   merge foo into your current branch
-git merge --squash foo          merge foo into your current branch with one commit
-git merge --no-ff foo           merge foo into your current branch with one commit but retain history
-git cherry-pick <hash>          take changes in the hash commit and apply to the current branch.
-																generates a new commit for the current branch
-git cherry-pick A^..B           cherry pick a range of commits from and including A to B
-git rebase main               pull changes from main into current branch and replay branch commits on top
-git rebase --skip main        avoid conflicts between your own commits as they are being applied
+git merge foo					# merge foo into your current branch
+git merge --squash foo			# merge foo into your current branch with one commit
+git merge --no-ff foo			# merge foo into your current branch with one commit but retain history
+git cherry-pick <hash>			# take changes in the hash commit and apply to the current branch - generates a new commit for the current branch
+git cherry-pick A^..B			# cherry pick a range of commits from and including A to B
+git rebase main					# pull changes from main into current branch and replay branch commits on top
+git rebase --skip main			# avoid conflicts between your own commits as they are being applied
 
 # WORKING WITH FILES
-git add foo                     add foo to files to be committed
-git add .                       stage all files in current dir and subdirs for commit
-git add -A                      add entire working branch to stage
-git add -p -- foo.txt           interactively add just certain lines of a filename to the stage
-git co bar.txt                  checkout file from HEAD, discarding changes
-git co main bar.txt           checkout file from another branch, overwriting curr branch changes
-git co HEAD -- */*.config       check out everything matching filename foo from HEAD
-git reset                       reset HEAD to specified state (unstage changes). does not alter files
-git reset --hard main         reset HEAD and make files identical to main
-git clean                       remove untracked files from the current working dir
-git clean -n                    show which files would be removed
-git clean -f                    remove untracked files (not dirs)
-git rm foo                      remove local and remove remote on next push
-git rm --cached foo.txt         retain local and remove remote on next push - this will delete foo.txt for others who pull
+git add foo						# add foo to files to be committed
+git add .						# stage all files in current dir and subdirs for commit
+git add -A						# add entire working branch to stage
+git add -p -- foo.txt			# interactively add just certain lines of a filename to the stage
+git co bar.txt					# checkout file from HEAD, discarding changes
+git co main bar.txt				# checkout file from another branch, overwriting curr branch changes
+git co HEAD -- */*.config		# check out everything matching filename foo from HEAD
+git reset						# reset HEAD to specified state (unstage changes). does not alter files
+git reset --hard main			# reset HEAD and make files identical to main
+git clean						# remove untracked files from the current working dir
+git clean -n					# show which files would be removed
+git clean -f					# remove untracked files (not dirs)
+git rm foo						# remove local and remove remote on next push
+git rm --cached foo.txt			# retain local and remove remote on next push - this will delete foo.txt for others who pull
 
 # VIEWING HISTORY
-git show -B -w <hash>           show changes that were made for a commit, ignoring whitespace
-git show HEAD~:./dir/file       show output of the file in dir/ as of last commit before HEAD
-git log --follow foo.txt        see commit history of file
-git log --follow -p foo.txt     see commit history and patch diff (code changes) of file
-git log --first-parent main   see commits made to main
-git log --author="Alex"         see commits made by Alex (regex can be used for the name)
-git log --first-parent          see commits for current branch and then parent and its commits
-git grep -I <pattern>           search files for pattern (-I excludes binaries)
-git grep <pattern> -- *.h *.cpp grep through only .h and .cpp files
-git diff                        show all changes made (but not necessarily added)
-git diff --cached               show diff of staged, uncommitted changes
-git diff main -- foo.txt      diff between your file (staged or not) and the version in main
-git diff --name-status A..B     name and status of files that differ between branch A and head of B
-git diff --name-status A...B    name and status of files that differ between branches A and B since they diverged
-git diff main..               view diff between main and current unstaged changes
-git diff -B -w --shortstat A..B just list num of files changed, insertions and deletions between commits
-git rev-list --all | xargs git grep <expression>    search history for an expression
-git log -S 'Needle' -p                              another way to search history to see when a string was added or removed, with patch
-git log -S 'Needle' --source --all                  search all branches
+git show -B -w <hash>								# show changes that were made for a commit, ignoring whitespace
+git show HEAD~:./dir/file							# show output of the file in dir/ as of last commit before HEAD
+git log --follow foo.txt							# see commit history of file
+git log --follow -p foo.txt							# see commit history and patch diff (code changes) of file
+git log --first-parent main							# see commits made to main
+git log --author="Alex"								# see commits made by Alex (regex can be used for the name)
+git log --first-parent								# see commits for current branch and then parent and its commits
+git grep -I <pattern>								# search files for pattern (-I excludes binaries)
+git grep <pattern> -- *.h *.cpp						# grep through only .h and .cpp files
+git diff											# show all changes made (but not necessarily added)
+git diff --cached									# show diff of staged, uncommitted changes
+git diff main -- foo.txt							# diff between your file (staged or not) and the version in main
+git diff --name-status A..B							# name and status of files that differ between branch A and head of B
+git diff --name-status A...B						# name and status of files that differ between branches A and B since they diverged
+git diff main..										# view diff between main and current unstaged changes
+git diff -B -w --shortstat A..B						# just list num of files changed, insertions and deletions between commits
+git rev-list --all | xargs git grep <expression>								search history for an expression
+git log -S 'Needle' -p									another way to search history to see when a string was added or removed, with patch
+git log -S 'Needle' --source --all								search all branches
 																										or search with regex:
-git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all
+git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all		search all branches with regex
 
 git commit                      prep files to be committed
 git commit foo                  revert to commit foo
@@ -157,8 +155,8 @@ git remote prune origin         delete all stale remote tracking branches under 
 git update-ref -d refs/remotes/origin/<branch_thats_barfing>
 
 # CLEAN UP FILES
-git clean -n -d                 see which files would be removed
-git clean -f -d                 remove all untracked files that are not in .gitignore
+git clean -n -d                 see which files/dirs would be removed
+git clean -f -d                 remove all untracked files that are not in .gitignore, including dirs
 
 # REMOVE IGNORED FILES (reset to a "just cloned" state)
 git status --ignored			# see what's ignored

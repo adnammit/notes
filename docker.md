@@ -152,6 +152,19 @@ docker push hello
 
 ```
 
+
+# Tips and Tricks
+* devcontainer won't start, `end of JSON input` error
+	* ex: 
+		```
+		Run in container: cat '/home/node/.vscode-server/bin/695af097c7bd098fbf017ce3ac85e09bbc5dda06/product.json'
+		[2023-06-21T14:31:44.451Z] SyntaxError: Unexpected end of JSON input
+		```
+	* your computer crashed and your install is corrupted - see:
+	* https://github.com/microsoft/vscode-remote-release/issues/8624
+
+
+
 # Overview
 * check out [this course](https://www.educative.io/courses/docker-for-developers)
 

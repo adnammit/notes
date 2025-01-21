@@ -813,7 +813,7 @@
 		let x = null;
 		let y = x ?? 5; // 5
 	```
-* `.?` or `optional chaining` operator only evaluates the right hand side operand if the left hand side operand is not `null` or `undefined` -- avoid null reference errors
+* `?.` or `optional chaining` operator only evaluates the right hand side operand if the left hand side operand is not `null` or `undefined` -- avoid null reference errors
 	```javascript
 		let x = null;
 		let y = x?.name; // undefined

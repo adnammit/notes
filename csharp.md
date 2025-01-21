@@ -610,7 +610,7 @@ class Program
 * LINQ can be used on its own on IEnumerables, or paired with an ORM like Entity
 * there are different ways of writing a LINQ statement:
 	* **query syntax**: written like a SQL query
-	* **method syntax**: can be written with LambdaExpressions
+	* **method syntax**: can be written with LambdaExpressions. also referred to as **fluent syntax**
 	* **dynamic LINQ**: a third-party library that allows you to write your LINQ queries as strings
 	* **comprehension syntax**: a combination of query and method syntax
 	```csharp
@@ -619,7 +619,7 @@ class Program
 		where s.Contains("Tutorials") 
 		select s;
 
-	// LINQ Method Syntax
+	// LINQ Method/Fluent Syntax
 	var result = stringList.Where(s => s.Contains("Tutorials"));
 
 	// dynamic LINQ

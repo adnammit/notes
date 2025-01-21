@@ -1,6 +1,3 @@
-### EM DATABASE PROJECT
-* look in the `PostDeployment` scripts to see what the new db is being populated with, or to add new data
-
 # FORMATTING AND STYLE GUIDELINES FOR SQL
 
 Independent clauses are at the same level
