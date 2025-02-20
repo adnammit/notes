@@ -30,7 +30,7 @@
 * developer tools:
 	* use Quokka.js vscode extension to run js code in the editor
 	* use [**live-server**](https://github.com/ritwickdey/vscode-live-server) vscode extension or command line to easily run your html/js with hot reloading -- nice for actually viewing a website
-* use `const` or `let` if possible -- fallback to `var` if necessary
+* use `const` or `let` if possible -- do not use `var`
 * [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
 * [`falsy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`, and `document.all`
 * use `!!` to cast a non-boolean to a boolean -- particularly if you need to assign a boolean based on the truthiness of another value:
@@ -145,7 +145,7 @@
 # Language Features
 
 ## Basics
-* statements are semicolon-terminated
+* statements should be semicolon-terminated, though they usually don't need to be. best practice to always use semicolons anyway.
 * comments:
 	```javascript
 	// single line comment
@@ -423,7 +423,7 @@
 
 
 # Variables
-* variables should be declared using `const` or `let` keywords whenever possible. use `var` as a last resort
+* variables should be declared using `const` or `let` keywords whenever possible. do not use `var`
 * always declare your variables, but we'll talk about undeclared variables anyway
 * variables are typically camelCase or snake-case and cannot start with a number
 * variables can be declared and assigned on the same line
@@ -436,6 +436,22 @@
 		var price = 5, quantity = 291;
 		var total = price * quantity;
 	```
+
+## Scope, This, and Global
+* before we talk about variables, let's talk about their context
+* simply, `this` refers to an object. `this` can refer to a specific object (like an instance or an event) or the global object depending on the context:
+	* in an object method, `this` refers to the object
+	* in an event, `this` refers to the element that received the event
+	* in a function, `this` refers to the global object - note that in strict mode, `this` is `undefined`
+	* methods like `call()`, `apply()` and `bind()` can refer `this` to any object
+* js can be run in the browser or on the server - depending on the environment, the execution context (global `this`) will change:
+	* in the browser, the global object is accessible via `window`, `self`, or `frames`
+	* in nodejs you must use `global` to access the global object
+	* in Web Workers you must use `self` to access the global object
+* because of these differences, it can be hard to write code that is used on the front and backend. to make this easier, use `globalThis` which is a standard way to access the global object in any environment
+* so in the browser `this`, `globalThis`, `window`, `self` and `frames` all refer to the same object
+
+
 
 ## Variables Keywords
 * in ES6 we got all the variable types
@@ -577,7 +593,6 @@
 		* useful for unobtrusive event handling
 	* why not use them?
 		* it's a bit easier to introduce syntax errors -- complex ones can be difficult to navigate
-
 * objects can be declared using brace notation:
 	```javascript
 		var person = {
@@ -598,7 +613,6 @@
 		console.log(person['firstname']+" is "+person['age']); //'Jeremy is 58'
 	```
 * use the `hasOwnProperty` method to check that the prop belongs to the object and is not inherited
-
 
 # Arrays
 * fun fact: arrays are objects (typeof returns `object`)
@@ -1041,7 +1055,7 @@
 
 ### CommonJS
 * **CommonJS** is a module system used in Node.js
-* cjs uses `requre` to import modules and `module.exports` to export them
+* cjs uses `require` to import modules and `module.exports` to export them
 * originally npm was only intended to be used by Node.js on the server, so many npm packages are written in CommonJS (side note: npm packages are either written for ES (browser) or CommonJS (Node), or even hybrid)
 * CommonJS syntax can't be executed in the browser, but it's ubiquitous on the server. it will probably eventually be replaced by the ES6 module style, but not quickly, so you'll need to know how CommonJS do
 	```js
@@ -1075,7 +1089,7 @@
 ## Modules vs Scripts
 * **variables**: in scripts, all top-level variables are global, but in modules, they are local to the module -- they must be explicitly exported to be available outside the module
 * **strict mode**: modules are always in strict mode -- scripts are in "sloppy" mode by default
-* **this**: in scripts, `this` refers to the global object (`window`), but in modules, `this` is `undefined`
+* **this**: in browser scripts, `this` refers to the global object (`window`), but in modules, `this` is `undefined`
 * **import/export**: modules can import and export code, but scripts cannot
 * **html usage**: modules are loaded with the `type="module"` attribute in the script tag, but scripts are not
 * **file download**: whether they're imported in another module or in html, modules are fetched asynchronously. scripts are fetched synchronously (blocking) unless the async attribute is used on the script tag
