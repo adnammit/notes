@@ -284,8 +284,8 @@
 
 
 ## Tools
-* **Linter**: analyzes code for potential errors
-* **Beautifier**: restructures the source code to make indentations and whitespace consistent throughout
+* **Linter**: (like eslint) analyzes code for potential errors
+* **Beautifier**: (like prettier) restructures the source code to make indentations and whitespace consistent throughout
 
 # Responsive Web Design
 * there are a wide array of screen sizes and devices that access web content

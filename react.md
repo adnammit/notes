@@ -52,6 +52,20 @@ Add `.vscode/settings.json`
 ```
 
 
+## Thinking in React
+Steps in the process for designing a React app (steps 3 and 4 are essentially **state management**):
+1. break the desired UI into **components** with an established component tree. think about reusability
+2. build a **static** version in React without state
+3. think about **state**:
+	* when to use state
+	* types of state (global vs local)
+	* where to place each piece of state
+4. establish a **data flow** - identify:
+	* one-way data flow
+	* child-to-parent communication
+	* accessing global state
+
+
 ## Best Practices, Tips and Tricks
 * `StrictMode`: you can and should wrap your `App` component in `StrictMode` to help catch common bugs, look for outdated things, etc. strict mode calls your render logic twice to check for badly handled side effects
 * for styling your app, use one of these (in order of "weight"): css modules, tailwind, UI library (like material)

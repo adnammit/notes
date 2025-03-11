@@ -2,11 +2,18 @@
 
 ## Notes on AWS Config for amandaryman.com
 * domain is registered with DomainCheap, hosting through AWS
+* aws login:
+	* use Root user email address to log in
 * the simple core website is a static S3 bucket
 * your front end apps (cowpoke lounge, upnext) are on amplify and map to subdomains of your site (i.e. upnext.amandaryman.com)
+	* these are actually pretty easy to manage/create a new one
+	* go to amplify -> create a new app
+	* it will walk you through adding a repo/deployment branch
+	* once you're done, you can add a custom domain through amplify: Overview > Custom domains > Add domain
+* traffic is configured through [Route 53](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones?region=us-east-1#ListRecordSets/Z021739422TSA26V29ZT2)
+* uses CloudFront CDN
 * RDS database instances to support your apps
-* traffic is configured through Route 53 with CloudFront CDN
-* routing for amplify subdomains is configured through Amplify > Domain Management
+
 
 
 
