@@ -31,6 +31,8 @@
 	* use Quokka.js vscode extension to run js code in the editor
 	* use [**live-server**](https://github.com/ritwickdey/vscode-live-server) vscode extension or command line to easily run your html/js with hot reloading -- nice for actually viewing a website
 * use `const` or `let` if possible -- do not use `var`
+* use strict comparison (`===` and `!==`) -- **WHY? WHEN?**
+* no named parameters in js functions - use object literals and destructuring
 * [`truthy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are anything that is not falsy
 * [`falsy values`](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) are `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`, and `document.all`
 * use `!!` to cast a non-boolean to a boolean -- particularly if you need to assign a boolean based on the truthiness of another value:
@@ -111,6 +113,7 @@
 	* add css to the console to make your logs stand out: `console.log("%cHello World", "color: blue; font-size: 20px; border: solid;")`
 * **array manipulation**
 	* use `shift` over `splice` to remove the first element of an array
+* **iteration**: use `for-of` to iterate arrays, use `for-in` to iterate objects
 
 ## Background
 * js ecosystem: javascript is most commonly run in browsers, but it can also be used in native apps
@@ -275,7 +278,36 @@
 	* for two identical objects, they will fail comparison of either type.
 	* if two objects share the same reference (they point to the same object) then they are equivalent via both loose and strict comparison
 
-## Rest Parameters And Spread Syntax
+
+## Functions
+
+### Arguments
+* you can provide **default values** for function arguments - aka **optional arguments**
+	```javascript
+		function makeArray(x = 1, y = 2) {
+			return [ x, y ];
+		}
+		console.log(makeArray()); // [1, 2]
+		console.log(makeArray(5)); // [5, 2]
+		console.log(makeArray(5, 10)); // [5, 10]
+		console.log(makeArray(undefined, 10)); // [1, 10]
+	```
+	* unlike C#, optional arguments do not need to be listed last - they can be listed in any order
+* there is no concept of **named arguments** in JS, but you can accomplish the same thing using **object literals** and **destructuring**
+	* this allows you to pass arguments in any order
+	* it also allows you to use default values, in any order
+	```javascript
+		function createProduct({ name, price, inStock = true, description }) {
+			// do something
+		}
+		createProduct({
+			name: 'Widget',
+			price: 9.99,
+			description: 'A useful widget'
+		});
+	```
+
+### Rest Parameters And Spread Syntax
 * `rest parameters` allow functions to store multiple arguments in a single array
 * you can use rest parameters in tandem with normal parameters, but the rest param must come last.
 	* this is how "rest parameters" got their name -- they're the "rest" of the parameters
@@ -567,7 +599,7 @@
 		```
 	* `for` can be used to iterate through the properties of an object
 		```javascript
-			for ( var propName in student) {
+			for (const propName in student) {
 				console.log(propName); // lists the properties
 				console.log(student[propName]); // lists the value of prop
 			}
@@ -655,6 +687,33 @@
 		// as of 2023 you can now use toSorted:
 		var sorted = values.toSorted((a, b) => a - b);
 	```
+
+# Iteration
+* `iterables`: objects that can be iterated over
+* iterables include: arrays, string, set, map, NodeList
+* of the many ways of iterating over things, `for-of` can always be used with an iterable
+
+
+## Object Iteration
+* objects are not iterables, but they can be iterated
+* use `for-in` to iterate over an object
+
+## Iterable Iteration
+* [you have options](https://stackoverflow.com/a/9329476)
+* `for-in` loop: tl;dr: don't use it, there are better options
+* `for-of`
+	* this is your best bet (ES2015+) - it's readable and async-friendly
+	* `continue` will move to the next iteration of the loop
+	* `break` will break out of the loop completely
+* `forEach`:
+	* this is also a good readable option, but it doesn't work with async/await
+	* cannot be broken out of - you must throw an exception to break execution, so only use it when you really want to do x for every item in the array
+* `for` loop
+	* this is the most flexible option, but it's not as readable
+	* `continue` will move to the next iteration of the loop
+	* `break` will break out of the loop completely
+* `map`: good if you're using the return value, otherwise don't use it just to iterate
+
 
 
 # Functions
