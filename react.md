@@ -105,7 +105,7 @@ Steps in the process for designing a React app (steps 3 and 4 are essentially **
 * **JSX**: JavaScript XML: the react templating language which allows you to write html-like code in your js files which is transpiled to js
 * **virtual dom**: a lightweight JS representation of the actual DOM used to determine which components in the actual DOM should be updated, greatly reducing DOM updates
 * **props**: the data which is passed to the child component from the parent
-* **lifecycle methods**: methods that are called at different points in the lifecycle of a component. class-based components use lifecycle methods, but functional components can acheive similar functionality using React Hooks like `useEffect`
+* **lifecycle methods**: methods that are called at different points in the lifecycle of a component. class-based components use lifecycle methods, but functional components can achieve similar functionality using React Hooks like `useEffect`
 * **hooks**: a feature added in React 16.8 that allows you to use state and other React features previously only available to class components in functional components. these include `useState`, `useEffect`, `useContext`, and `useReducer`
 * **router**: in SPAs, the page is never reloaded -- instead we rely on urls mapped to different views (routes). when a user clicks on something, JS is used to update the DOM and modify the view appearance. react-router is a popular library for managing client-side routing
 * **state**: the internal data store of a component. hooks, Context API and Redux are used to manage state

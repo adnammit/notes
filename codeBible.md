@@ -11,6 +11,7 @@
 * **availability**: high availability means the system remains in operation at all times
 * **Big O**: a type of Asymptotic notation that describes how quickly runtime grows relative to the input as the input gets arbitrarily large; worst case effort: "this program takes at most x amount of time"
 * **blocking/non-blocking**: somewhat synonymous w/ synchronous/asychronous processes but not quite. One of the challenges of isomorphic design: server is blocking, client isn't
+* **blue-green deployments**: a method of deploying in which we have an existing (blue) instance of an application. to release a new (green) version, we create a new identical environment and deploy the new version there. once the new version is up and running, we switch traffic from the blue environment to the green environment. this allows for easy rollback if something goes wrong, as we can just switch back to the blue environment. this is a good way to minimize downtime and ensure that users are not affected by deployment issues but requires more overhead and a more complex deployment process
 * **boxing and unboxing**: converting a value type to a reference type and vice versa (respectively). considered bad practice
 * **bundling**: the process of combining multiple files into a single file
 * **CAP theorem**: a distributed system cannot simultaneously be consistent, available, and partition tolerant -- you must choose two of the three given your use case

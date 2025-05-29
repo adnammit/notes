@@ -1,11 +1,12 @@
 # Home Server
 
 ## TODO
-* have an expansion plan
-* how to connect to tv? ethernet (w switch?)? wifi? hdmi?
+* have an expansion plan -- starting with mirrored vdevs, so you can add more mirrored vdevs later
 * cache drive?
-* Optical drive?
+* optical drive?
 * Energy monitoring: PGE avg cost is $0.16/kwh
+	* home server: $0.73/week - $3.16/month
+	* PC and desk setup: $8.44/month
 
 ## Concepts
 * **JBOD**: "just a bunch of discs" - basically what you do on your pc. nothing is backed up, and you get 100% of your space. do this for your pc when important stuff is backed up on the cloud, but don't do this for nas
@@ -26,6 +27,8 @@
 * [adding backports](https://backports.debian.org/Instructions/) (not-yet-supported packages)
 	* updated smartctl to 7.4 bc i needed the new 'farm' feature to check those bogus seagate disks
 * setting up [fancontrol](https://wiki.joeplaa.com/tutorials/how-to-install-and-configure-fancontrol-pc)
+* you'll want to make sure proxmox is regularly updated but there are issues if you're not a paid customer - see [this video](https://youtu.be/5AumO9AKKB0?si=3h8AR_b2BB5ySuid) for a workaround for ` command 'apt-get update' failed: exit code 100`
+
 
 ### Quick Commands
 ```sh
@@ -34,7 +37,13 @@ smartctl -a /dev/sd{a,b}
 
 # check seagate farm data
 smartctl -l farm /dev/sd{a,b}
+
+# bad amazon hdds, bad!
+smartctl -l farm /dev/sda > seagate_farm_output_ZA1JXA4Z.txt
+smartctl -l farm /dev/sdb > seagate_farm_output_ZA1JX8VA.txt
 ```
+
+
 
 ## NAS
 * OS: OMV or TrueNAS scale

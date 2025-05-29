@@ -29,8 +29,9 @@
 ## Code-First Mapping
 * [resource](https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/data-annotations)
 * EF will infer much of the mapping between your objects and the database schema, but you can also use **attributes** or **fluent API** to configure the mapping
-* using attributes is the most common way to configure mapping
-* Fluent API is a way to configure the mapping using imperative code, rather than attributes
+	* using attributes is the most common way to configure mapping
+	* Fluent API is a way to configure the mapping using imperative code, rather than attributes. you can do everything with Fluent API that you can do with attributes and more
+	* [attributes vs FluentAPI](https://stackoverflow.com/questions/5354900/entity-framework-code-first-advantages-and-disadvantages-of-fluent-api-vs-data)
 * however you do it, your columns/properties should explicitly be either nullable or non-nullable
 	* if you have a non-nullable column in your db that is represented by a non-nullable property in your class, you can use the `Required` attribute
 

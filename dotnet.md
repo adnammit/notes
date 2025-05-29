@@ -240,6 +240,7 @@
 	* alternatively, if the service is only used in one or some action methods, the `FromServices` or the `FromKeyedServices` attributes may be used instead
 
 ## Service Lifetimes
+* [read more about service lifetimes](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes)
 * the method used to register a service indicates the scope (lifetime) of an instance
 * **transient**: a new instance will be created every time it is requested from the service container
 	* used for lightweight operations with very little or no state
