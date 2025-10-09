@@ -31,6 +31,26 @@
 	* other platforms use 'workers' -- multiple instances of the same process which all work on different tasks
 	* but Node.js is just one super-efficient worker that does what it can do as soon as it can
 
+## Node Version Manager (NVM)
+* first let's talk about `nvm`, the package manager for your package manager
+* download and install nvm -- then you can install, uninstall and use different versions of node more flexibly
+```sh
+	# view downloaded versions
+	nvm ls/list                 
+	# view versions available to download
+	nvm ls-remote               
+	# install a specific version
+	nvm install 10.5.0          
+	# install the latest version
+	nvm install latest          
+	# you gotta say "use" if you actually want to use it -- just installing won't work
+	nvm use 10.5.0              
+	# set as default
+	nvm alias default 10.5.0    
+	# see what's available and select lts version if desired
+	nvm list available			
+```
+
 ## Getting Started
 * you can run node code that's saved as a .js file by typing:
 	`$ node app.js`

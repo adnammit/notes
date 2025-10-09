@@ -83,6 +83,10 @@ Steps in the process for designing a React app (steps 3 and 4 are essentially **
 * only use state when data is changing that is reflected in the UI -- changing state causes a re-render, so using state for everything is needlessly expensive
 * use **controlled elements** to track your form inputs in React state
 * if you need a **side effect** (like loading data), you can do it in one of two places: in an **event handler** or in a **lifecycle event** using `useEffect`
+* **dependency array** magic (for `useEffect`):
+	* empty array: the effect will run only once after the initial render
+	* no array: the effect will run after every render
+	* specific values: the effect will run after the initial render and then only when the specified values change
 * router
 	* you can use **declarative routing** with react-router -- that is, use the provided components like `Router`, `Route`, `Link`, etc to define your routes
 	* or you can use **imperative routing** if you need to load or submit data linked to navigation (look at `createBrowserRouter`)
@@ -106,7 +110,7 @@ Steps in the process for designing a React app (steps 3 and 4 are essentially **
 * **virtual dom**: a lightweight JS representation of the actual DOM used to determine which components in the actual DOM should be updated, greatly reducing DOM updates
 * **props**: the data which is passed to the child component from the parent
 * **lifecycle methods**: methods that are called at different points in the lifecycle of a component. class-based components use lifecycle methods, but functional components can achieve similar functionality using React Hooks like `useEffect`
-* **hooks**: a feature added in React 16.8 that allows you to use state and other React features previously only available to class components in functional components. these include `useState`, `useEffect`, `useContext`, and `useReducer`
+* **hooks**: a feature added in React 16.8 that allows you to use state and other React features previously only available to class components in functional components. these include `useState`, `useEffect`, `useContext`, `useMemo` and `useReducer`
 * **router**: in SPAs, the page is never reloaded -- instead we rely on urls mapped to different views (routes). when a user clicks on something, JS is used to update the DOM and modify the view appearance. react-router is a popular library for managing client-side routing
 * **state**: the internal data store of a component. hooks, Context API and Redux are used to manage state
 * **side effects** are any interactions between a React component and the world outside the component (data fetching, setting up subscriptions, setting up timers, manually accessing the DOM, etc). render logic should *not* contain side effects
@@ -293,6 +297,7 @@ There are several different phases in the lifecycle of a compenent that a develo
 ### Hooks Cheat Sheet
 * **useState**: adds state to a functional component
 * **useEffect**: runs after every render, handles side effects -- good for data fetching, synchronization after data changes
+* **useMemo**: memoizes a value to optimize performance by preventing expensive calculations on every render - it only recomputes the memoized value when one of the dependencies has changed
 * **useReducer**: an alternative to `useState` -- good for managing state objects that contain multiple sub-values
 
 
@@ -354,10 +359,11 @@ export default function App() {
 * use `useEffect` when some data changes and you need to update something else, or when you need to fetch data
 	* when a user performs some action, that might cause something else to change
 	* when you render a component, you may want to load some async data -- for example, fetch some data from an api to display in your component
+* `useEffect` fires after the component renders
 * you may want to `fetch` the data in your component function and then store the result in state, but that's a terrible idea -- the component function is the **render logic** and whenever the state is updated, the render logic is called... and then the component is re-rendered, the render logic is called, the state is updated, the component is re-rendered, etc -- you've basically created an infinite loop
 * that's where the `useEffect` hook comes in -- `useEffect` is a hook that allows you to perform side effects in your function components that execute after the component renders
 * `useEffect` takes two arguments:
-	* the first argument is a function that performs the side effect -- this function fetches the data and then sets state
+	* the first argument is a **callback function** that performs the side effect -- this function fetches the data and then sets state
 	* the second argument the **dependency list** -- if any of the dependencies change, the side effect will run again
 	```js
 		export default function App() {
@@ -378,10 +384,11 @@ export default function App() {
 			}
 		}
 	```
+
 #### The useEffect Dependency Array
-* when an empty dependency list is provided, the effect will run once after each time the component renders
-* so by default (with no dependencies), effects run after every render
-* if dependencies are provided, **React will execute the effect only when those dependencies change**
+* when an *empty* dependency array is provided, the effect will run only once after the initial render
+* when *no* dependency array is provided, the effect will run after every render
+* if dependencies are provided, React will execute the effect once after initial render and then only when those dependencies change
 * **every state variable and prop used inside the effect must be included in the dependency array**
 * here is an example of an effect behaving like a computed property -- whenever the title or userRating changes, the effect will run
 	```js
@@ -396,6 +403,18 @@ export default function App() {
 			};
 		}, [title, userRating]);
 	
+	```
+
+### useMemo
+* **useMemo** is used when a calculation is expensive and should only be made when specific dependencies change
+* the value returned by `useMemo` is **memoized**, meaning it will only be recomputed when one of its dependencies has changed - otherwise the previously calculated and cached value will be used
+* unlike `useEffect`, `useMemo`:
+	* returns a value (`useEffect` returns no value aside from optional cleanup function)
+	* occurs during render, rather than after
+* like other hooks, `useMemo` accepts a function and an array of dependencies
+	```js
+		const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+		const filterTodos = () => {}; // some expensive filtering function
 	```
 
 ### Setting State with useReducer
@@ -435,6 +454,16 @@ const { Provider, Consumer } = React.createContext("");
 	* `reducers` are pure functions that take the current state and an action and return a new state
 * Redux is more verbose and more challenging to master -- requires high complexity which the app must leverage to be worth it
 * Redux can run in different environments, is easy to test, and provides good developer tools
+* React allows you to write your own hooks - Redux includes some built-in hooks
+
+### Redux Hooks
+* [redux hooks](https://react-redux.js.org/api/hooks)
+* **useSelector**: allows you to extract data from the Redux store state
+	* the `useSelector` hook takes a function as an argument. This function receives the entire Redux store state and returns the part of the state that you want to access
+	* the selector is run whenever the component renders, unless its reference hasn't changed
+	* uses strict comparison
+* **useDispatch**: returns a reference to the dispatch function from the Redux store
+* **useStore**: returns a reference to the Redux store itself
 
 
 # Routing

@@ -9,6 +9,29 @@ x display and positioning
 * **selector**
 * **property name/value**
 
+
+
+# Tips and Tricks
+* [height and width](https://www.joshwcomeau.com/css/height-enigma/)
+	* width and height are calculated opposite of each other: width is set by looking at how wide the parent is, height is set by looking at how tall the children are
+	* setting height to 100% or 50% cannot be done unless the parent has a defined height (in px, rem)
+	* nested percentages can be used as long as the topmost parent has a defined height
+	* if you're using `width: 100%` you should probably actually be using `width: auto`
+* `box-sizing`
+	* by default, the width and height you set for an element is just for the content area. padding and border are added to that, making the actual rendered size of the element larger than what you specified
+	* using `box-sizing: border-box;` makes it so that the width and height you specify includes padding and border, making it easier to work with
+	* it's common to set all elements to use border-box with this code:
+	```css
+		* {
+			box-sizing: border-box;
+		}
+	```
+* take up all remaining height: you want a child element to take up all the remaining height of its parent
+	* use flexbox or grid layout to achieve this
+	* for example, set the parent to `display: flex; flex-direction: column;` and the child to `flex-grow: 1;`
+
+
+
 ## BASIC PRINCIPLES
 
 ### SELECTORS
@@ -118,7 +141,7 @@ x display and positioning
 	- font size and list-related styles tend to inherit
 
 
-## SIZING AND POSITIONING ELEMENTS
+## SIZING
 
 ### FONT SIZE
 * `pixels`: an absolute measurement that is always the same size, regardless of screen size
@@ -134,6 +157,11 @@ x display and positioning
 * to deal with various sizes of view screens, we can use `min-width` and `min-height` to specify the smallest possible dimensions an element should be rendered as
 * likewise, you might not want your element to be too large, so you can use `max-width` and `max-height`
 * if your interior content is too big for the `max-width` you've specified, it can spill outside the box
+
+
+### Flexbox
+* flexbox is a layout mode in CSS3 designed to provide a more efficient way to lay out, align
+* 
 
 ### BOX MODEL
 * understanding the box model is key to understanding how internet layout do

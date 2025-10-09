@@ -4,26 +4,6 @@
 	* for browser applications, this meant importing each individual script via tags in html, in the correct order according to their dependencies
 	* when the version changed, we had to go through and change the version number in each script tag
 
-## Node Version Manager (NVM)
-* first let's talk about `nvm`, the package manager for your package manager
-* download and install nvm -- then you can install, uninstall and use different versions of npm more flexibly
-```sh
-	# view downloaded versions
-	nvm ls/list                 
-	# view versions available to download
-	nvm ls-remote               
-	# install a specific version
-	nvm install 10.5.0          
-	# install the latest version
-	nvm install latest          
-	# you gotta say "use" if you actually want to use it -- just installing won't work
-	nvm use 10.5.0              
-	# set as default
-	nvm alias default 10.5.0    
-	# see what's available and select lts version if desired
-	nvm list available			
-```
-
 ## Node Package Execute (NPX)
 * `npx` is a tool that comes with npm 5.2+ and higher
 * npx allows you to run node packages without installing them globally, so instead of doing `npm install -g create-react-app` and then `create-react-app my-app`, you can just do `npx create-react-app my-app`

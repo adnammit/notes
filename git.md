@@ -369,12 +369,12 @@ git push
 
 ### "Reset" One Branch To Another
 * when working locally, you can rewrite history and hard reset your feature to another
-* however, you should never do this on shared branches -- for instance, if you have discrepencies between `main` and `staging` and you need to make `staging` just like `main`, how do you do that without rewriting `staging`'s history?
+* however, you should never do this on shared branches -- for instance, if you have discrepancies between `main` and `staging` and you need to make `staging` just like `main`, how do you do that without rewriting `staging`'s history?
 * [SO to the rescue](https://stackoverflow.com/a/54889409) -- basically you're going to start on the branch you want to keep the changes from (`main`) and use that as a base to recreate the branch you want to reset (`staging`)
 ```bash
 # first check out main in a detached state so you can mess around with it
-git co --detach main		
-# this is where the magic happens ✨ use the 'ours' merge strategy to merge staging into main, keeping all changes from main							
+git co --detach main
+# this is where the magic happens ✨ use the 'ours' merge strategy to merge staging into main, keeping all changes from main
 git merge -s ours staging -m "reset staging to main"
 # recreate the staging branch from your current commit history
 git branch -f staging

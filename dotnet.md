@@ -271,7 +271,7 @@ The `dotnet` cli is included when you install an SDK
 ```sh
 ## QUICK START SLN WITH .NET7 CONSOLE APP:
 mkdir HelloDotnet7 && cd $_
-dotnet new sln
+dotnet new sln --name MySolution
 dotnet new console --framework net7.0 -o HelloConsole
 dotnet sln add HelloConsole/HelloConsole.csproj
 dotnet new gitignore
@@ -308,6 +308,8 @@ dotnet new gitignore
 # use the old Program `Main()` method, don't use top-level statements
 dotnet new console --use-program-main
 
+# add a reference to another project
+dotnet add reference ../MyOtherProject/MyOtherProject.csproj
 
 ## SOLUTIONS: https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln
 dotnet new sln [--name MySolution]

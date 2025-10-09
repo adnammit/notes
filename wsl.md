@@ -67,6 +67,9 @@ ubuntu config --default-user <username>
 * WSL will hog your memory (`vmmemWSL` in task manager) -- kill the process when not in use:
 ```pwsh
 	wsl --shutdown
+
+	# restart
+	wsl
 ```
 * Modify your [WSL config file](https://learn.microsoft.com/en-us/windows/wsl/wsl-config) to manage many things including limiting the amount of memory allotted for WSL
 

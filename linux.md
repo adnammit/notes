@@ -27,4 +27,15 @@ php -i
 /var/log/httpd/error_log
 # ubuntu error logs
 /var/log/apache2/error.log
+
+
+# SERVICES
+# view all service enabled/disabled status (will it restart on server boot)
+sudo systemctl list-unit-files --type=service
+# enable a service
+sudo systemctl enable <service_name>
+# view service status (is it running)
+sudo systemctl list-units --type=service
+sudo systemctl status <service_name>
+
 ```

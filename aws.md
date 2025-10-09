@@ -15,8 +15,6 @@
 * RDS database instances to support your apps
 
 
-
-
 ## Reference
 * [tutorial](https://docs.aws.amazon.com/AmazonS3/latest/userguide/HostingWebsiteOnS3Setup.html) for configuring a simple static website on S3
 * [configuring a website with a custom domain](https://docs.aws.amazon.com/AmazonS3/latest/userguide/website-hosting-custom-domain-walkthrough.html)
@@ -130,6 +128,61 @@ node dist/index.js
 ```
 
 
+
+
+# IAM
+* There are two general entities you'll need to manage for your services in aws: **roles** and **policies** (also **users**?)
+* **roles** are a set of permissions that can be assumed by a user or service
+* **policies** may be **inline** (attached to a single user) or **managed** (can be attached to multiple users)
+* policies may need to be managed rather than inline in certain conditions, such as a policy that allows a user to assume a role
+
+
+# RDS
+
+## Management
+* when working with relational dbs managed by aws, you can use special `rdsadmin` procs to manage the db such as [bringing it back online](https://stackoverflow.com/a/12200909)
+
+
+
+# AWS Development and Infrastructure (CDK, SAM, CloudFormation)
+* these are all tools for managing AWS infrastructure as code
+* AWS CLI is the command line interface for managing AWS services
+* **CDK** is the Cloud Development Kit, a framework for defining cloud infrastructure using programming languages
+* **CloudFormation** is a service that allows you to define your AWS infrastructure as code
+* **SAM** is the Serverless Application Model, a framework for building serverless applications
+
+## AWS CDK
+* using the CDK, you can define your AWS infrastructure using programming languages like TypeScript, Python, Java, and C#, so you can write your code as classes and methods which are used to generate a CloudFormation template - this is typically higher level and easier to use than writing raw CloudFormation templates
+
+## SAM
+* [Hello World with SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-getting-started-hello-world.html)
+* like the CDK, SAM uses CloudFormation under the hood (a SAM template is very similar to a CloudFormation template), but it is higher level and easier to use
+
+
+### SAM Setup with .NET
+* install .NET 8 SDK and runtime
+* [install aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
+* [configure aws sso](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-configure)
+	* running the `aws configure sso` wizard will create a profile in your `~/.aws/config` file ([more about config files](https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-files.html))
+    * the credentials requested in the `aws configure sso` wizard can be found in the AWS Access Portal
+	* the new profile should be called "root" - this will match the profile value in `aws-lambda-tools-defaults.json`
+* [install AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+* [install .NET Lambda Global CLI](https://docs.aws.amazon.com/lambda/latest/dg/csharp-package-cli.html) (installing `Amazon.Lambda.Templates` is not needed)
+* add the VS Code AWS Toolkit Extension
+
+### Quickstart
+```sh
+	# login - using profile flag if different from default
+	aws sso login --profile root
+
+	# build and deploy with params
+	sam build && sam deploy --profile root \ 
+        --parameter-overrides DatabaseSecretArn={db_secret_arn}
+
+	# check a secret value
+	aws secretsmanager get-secret-value --secret-id {secret_arn}
+```
+
 # CodeDeploy
 * you can use CodeDeploy to automate deployments into EC2, Lambda, Fargate, or on-prem servers
 * for example, you'd set up a EC2 instance with CodeDeploy agent installed
@@ -153,9 +206,3 @@ sudo service codedeploy-agent status
 # it should be running, but if it's not:
 sudo service codedeploy-agent start
 ```
-
-
-# RDS
-
-## Management
-* when working with relational dbs managed by aws, you can use special `rdsadmin` procs to manage the db such as [bringing it back online](https://stackoverflow.com/a/12200909)
