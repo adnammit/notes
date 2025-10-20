@@ -246,17 +246,6 @@ ssh root@<your-server-ip>
 	* ARR suite
 
 
-* **eval all this stuff**
-* configure a shared drive/shared drive user in ovm
-* plex should be unprivileged and it won't be able to access the plex drive
-* gpt vs zfs vs smb (partition vs filesystem vs sharing)
-* does it make any sense to partition drives for mirroring? - probably not
-* what about caching?
-* does this make sense:
-	* one pool with one mirrored vdev, 2 discs
-	* when mirroring, why have more than one vdev per pool? doesn't that put the pool at risk?
-
-
 ## Proxmox Setup Notes
 * [PVE Mods](https://github.com/Meliox/PVE-mods)
 * installed:
@@ -309,34 +298,27 @@ cd tank && ls # lists datasets
 
 
 ## SMB Setup
-* [proxmox and smb share setup](https://www.youtube.com/watch?v=qmSizZUbCOA)
+* [proxmox and smb share setup](https://www.youtube.com/watch?v=qmSizZUbCOA) and [github documentation](https://github.com/TechHutTV/homelab/blob/main/storage/README.md)
 * rather than using a nas OS like TrueNAS or OMV, you can set up a simple smb share on proxmox itself
 * users
 	* created non-login `smbuser` for samba access, pw = wifi
 	* created media user/group for dataset access on both host and container - see below
 * after creating the container, updating the packages, and installing samba, do the following config. at a high level:
 	* you're going to create a user/group called media on the host and on each container
-	* the host uid/gid will be 10100, and the container uid/gid will be 1000
+	* the host uid/gid will be 101000, and the container uid/gid will be 1000
 	* then you'll set ownership of the zfs datasets to the media user/group, and set permissions so that the media user/group can read/write
 ```sh
 # on proxmox host, modify /etc/pve/lxc/{container_id}.conf to bind the zfs dataset to the lxc mount point:
 mp0: /tank/downloads,mp=/mnt/downloads
-# in the container conf file, you'll also want to map the users/groups we're creating:
-lxc.idmap: u 0 100000 1000
-lxc.idmap: g 0 100000 1000
-lxc.idmap: u 1000 1000 1
-lxc.idmap: g 1000 1000 1
-lxc.idmap: u 1001 101001 64535
-lxc.idmap: g 1001 101001 64535
 
 # then create a user/group on the proxmox host with specific uid/gid to be used across all containers that need to access the data:
 groupadd -g 101000 media
 useradd -u 101000 -g 101000 -M -s /usr/sbin/nologin media
 
 # on proxmox host, set ownership on datasets to the media user/group
-chown -R 101000:101000 /tank/downloads /tank/media /tank/shared
+chown -R 101000:101000 /tank/downloads /tank/media /tank/nas
 
-# inside the lxc container, create a user for samba:
+# inside the samba lxc container, create a user for samba:
 sudo useradd -M -s /usr/sbin/nologin smbuser
 sudo smbpasswd -a smbuser
 
@@ -359,6 +341,7 @@ useradd -u 1000 -g 1000 -M -s /usr/sbin/nologin media
 
 
 ## OMV Setup
+* **actually i'm not using omv rn, just using a smb server with zfs native on proxmox**
 * install omv in a proxmox vm
 * specs:
 	* run on startup
@@ -390,27 +373,45 @@ useradd -u 1000 -g 1000 -M -s /usr/sbin/nologin media
 * for **write** access, see [this video](https://youtu.be/CFhlg6qbi5M?si=ZmBlhKkvnV_U8d_0)
 
 
-
 ## OpenWRT Setup
 * [YT OpenWRT setup guide](https://www.youtube.com/watch?v=3mPbrunpjpk)
-
+* precursor for setting up the ARR suite
+* get config from https://www.expressvpn.com/activation-setup
+	* select the region and download Linux OpenVPN config
+	* get username/pw from same page 
+	* add a few key lines:
+		```sh
+		dhcp-option DNS 10.0.0.241
+		dhcp-option DNS 10.0.0.243	
+		auth-user-pass /etc/openvpn/expressvpnseattle.auth
+		# then in box below add username on first line, pw on second line
+		```
+	* and in the /etc/pve/lxc/{container_id}.conf file for the openwrt lxc, add:
+		```sh
+		net0: name=eth0,bridge=vmbr0,hwaddr=XX:XX:XX:XX:XX:XX,ip=dhcp,type=vethunprivileged: 1
+		lxc.cgroup2.devices.allow: c10:200 rwm
+		lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+		```
+* once you start the vpn, test that it's working:
+	* set up a new container with the network device set to vmbr1
+	* run `ping google.com` to test for connection
+	* run `curl ifconfig.co` to check your IP address - it should be the same as when you connect to the same region using your regular client (or at least the same region)
 
 
 
 
 ## TODO
 * setup and install
-	* finish setting up omv with shared drive (smb)
-	* add some test files to omv shared drive
-	* set up plex or jellyfin
-	* configure network mounts so plex/jellyfin can access omv shared drive
+	* you got plex up but check out emby
 	* install a firewall. under the firewall, install:
 		* install sonarr, radarr, prowlarr (centralized indexing), lidarr (subtitles), overseerr (explore and request new media)
 		* install qbittorrent or deluge
 		* [guide to set up ARR suite and torrent client with OpenWRT](https://www.youtube.com/watch?v=g24pD3gA_wA)
 	* Tautulli - monitor plex usage
 	* immich
+* since you omitted the NAS, figure out backups or whatever
 * add bash config to proxmox
 * have an expansion plan -- starting with mirrored vdevs, so you can add more mirrored vdevs later
 * cache drive?
 * optical drive?
+* when mirroring, why have more than one vdev per pool? doesn't that put the pool at risk?
